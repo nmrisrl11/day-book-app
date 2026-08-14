@@ -14,7 +14,7 @@ export function Footer() {
 					</a>
 				</span>
 				<a
-					href="https://github.com/nusu/daybook"
+					href="https://github.com/nmrisrl11/day-book-app"
 					target="_blank"
 					rel="noopener noreferrer"
 					className="inline-flex items-center gap-1.5 transition-colors hover:text-slate-800 dark:hover:text-slate-200"

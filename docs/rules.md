@@ -173,7 +173,7 @@ Use the following naming conventions consistently:
 - Do not use inline styles.
 - Do not introduce external UI/component libraries.
 - Follow the project's existing design system and component patterns.
-- Refer to `brand-guidelines.md` for visual and branding requirements.
+- Refer to `docs/brand-guidelines.md` for visual and branding requirements.
 
 ## HTML & Accessibility
 
@@ -194,11 +194,60 @@ Use the following naming conventions consistently:
 - Keep components focused on presentation and interaction.
 - Keep reusable business logic outside of UI components when appropriate.
 
+## Data Management
+
+- User-managed birthday data must not be stored as static constants.
+- Keep user birthday records separate from static application configuration.
+- Maintain a single source of truth for user birthday records.
+- Do not duplicate birthday records across components or sections.
+- Keep data persistence logic separate from presentation components.
+- Keep data validation separate from presentation components when practical.
+- Keep data transformation and birthday calculations in reusable helpers.
+- Reuse shared TypeScript types for birthday records and related data structures.
+- All birthday-related views must derive their information from the same birthday data source.
+- Do not hardcode user-created birthday records inside UI components.
+
 ### Constants
 
 - When creating a static list of items or configuration data, define it in the `constants/` folder and import it where needed.
 - Do not duplicate the same static data across multiple components.
 - Keep static application data separate from UI components.
+- Use constants for static application data such as:
+	- Birthday greetings
+	- Month definitions
+	- Default settings
+	- Application configuration
+- Do not store user-managed birthday records in the `constants/` folder.
+- User-created birthday records must use the application's data persistence layer.
+
+### Persistence
+
+- Keep local data persistence logic separate from UI components.
+- User-managed birthday records must persist between application sessions.
+- Validate data before saving it.
+- Validate imported JSON before modifying existing data.
+- Do not silently overwrite valid user data with invalid imported data.
+- Keep the persisted data format consistent with the documented data model.
+- Prefer simple, reliable persistence approaches that fit the existing application architecture.
+- Do not introduce a backend or remote database unless explicitly instructed.
+
+### Import & Export
+
+- Import and export functionality must use the documented birthday data model.
+- Exported birthday data should be portable and understandable.
+- Imported data must be validated before it is persisted.
+- Handle malformed or incompatible JSON safely.
+- Do not silently discard invalid records.
+- Do not silently overwrite existing data when an import contains conflicts.
+- Keep import/export logic separate from UI components.
+
+### Application Settings
+
+- User-adjustable settings must be persisted locally when required by `docs/instructions.md`.
+- Keep application settings separate from birthday records.
+- Use shared types for settings.
+- Provide sensible defaults for settings.
+- Do not hardcode user preferences into individual components.
 
 ### Helpers
 
@@ -230,11 +279,11 @@ Use the following naming conventions consistently:
 
 ## Project Instructions
 
-- Follow all requirements defined in `instructions.md`.
-- Follow all applicable requirements in `brand-guidelines.md`.
+- Follow all requirements defined in `docs/instructions.md`.
+- Follow all applicable requirements in `docs/brand-guidelines.md`.
 - Follow all rules defined in this file.
 - When instructions conflict, prioritize the most specific requirement for the current task.
-- Do not ignore requirements from `instructions.md` or `brand-guidelines.md` unless they directly conflict with a higher-priority system or project requirement.
+- Do not ignore requirements from `docs/instructions.md` or `docs/brand-guidelines.md` unless they directly conflict with a higher-priority system or project requirement.
 
 ## Before Completing a Task
 

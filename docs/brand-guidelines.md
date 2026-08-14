@@ -172,7 +172,103 @@ Interactive elements should provide clear visual feedback for:
 
 ---
 
-# 7. Spacing & Layout
+# 7. Application Screens & States
+
+As Day Book evolves into a user-managed birthday application, new screens and interactions must maintain the same visual identity as the main birthday dashboard.
+
+This includes:
+
+- Birthday management screens
+- Add birthday forms
+- Edit birthday forms
+- Settings
+- Import/export interfaces
+- Confirmation dialogs
+- Empty states
+- Validation states
+- Error states
+- Success feedback
+- Loading states
+
+These interfaces should feel like a natural extension of Day Book rather than a separate administrative application.
+
+## Management UI
+
+The birthday management experience should remain:
+
+- Personal
+- Friendly
+- Clean
+- Lightweight
+- Easy to understand
+
+Avoid making the management experience look like a traditional enterprise dashboard or data-management system.
+
+The user should feel like they are organizing their personal birthday book rather than managing a database.
+
+## Forms
+
+Add and edit forms should:
+
+- Have clear visual hierarchy.
+- Use comfortable spacing.
+- Have clear labels.
+- Make required fields obvious.
+- Provide friendly validation feedback.
+- Use the Day Book typography and component styling.
+- Work naturally on mobile devices.
+
+Forms should feel approachable and simple rather than technical.
+
+## Settings
+
+The Settings interface should remain lightweight and focused.
+
+Group related preferences logically.
+
+Avoid unnecessary configuration options.
+
+Settings should feel like personal preferences rather than system administration.
+
+## Empty States
+
+Empty states should feel intentional and welcoming.
+
+Avoid generic messages such as:
+
+- "No data found"
+- "No records available"
+
+Prefer messaging that fits the friendly and personal Day Book personality.
+
+Empty states should provide a clear next action where appropriate.
+
+## Error & Validation States
+
+Errors should be:
+
+- Clear
+- Helpful
+- Friendly
+- Easy to understand
+
+Avoid technical error messages when communicating with users.
+
+Technical details should not unnecessarily dominate the interface.
+
+## Import & Export
+
+Import and export interfaces should communicate that the user's birthday data belongs to them.
+
+The experience should feel simple and trustworthy.
+
+Clearly communicate actions that may modify existing data.
+
+Avoid making data management feel intimidating or overly technical.
+
+---
+
+# 8. Spacing & Layout
 
 The layout should feel spacious and breathable.
 
@@ -190,7 +286,7 @@ The birthday information should always remain the primary focus of the page.
 
 ---
 
-# 8. Imagery & Avatars
+# 9. Imagery & Avatars
 
 Birthday celebrants should be represented using friendly and visually interesting avatars.
 
@@ -212,7 +308,7 @@ The avatar system should be visually compatible with both light and dark themes.
 
 ---
 
-# 9. Responsive Visual Design
+# 10. Responsive Visual Design
 
 Day Book should provide a consistent visual experience across:
 
@@ -233,7 +329,7 @@ On smaller screens:
 
 ---
 
-# 10. Footer & Attribution
+# 11. Footer & Attribution
 
 The application should include a small footer area positioned at the **bottom-left corner** of the page.
 
@@ -269,7 +365,7 @@ The footer should:
 
 ---
 
-# 11. Overall Design Direction
+# 12. Overall Design Direction
 
 The final Day Book experience should feel like a **personal, stylish birthday dashboard** rather than a generic calendar application.
 
