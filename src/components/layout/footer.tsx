@@ -1,6 +1,6 @@
 export function Footer() {
 	return (
-		<footer className="mt-8 flex w-full items-center justify-between pb-4 text-sm text-muted-foreground">
+		<footer className="text-muted-foreground mt-auto flex w-full items-center justify-between pt-8 pb-4 text-sm">
 			<div className="flex flex-col gap-1">
 				<span>
 					Developed by:{" "}

@@ -38,9 +38,9 @@ export function MonthlyBirthdayModal({
 
 	return (
 		<Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-			<DialogContent className="flex max-h-[85vh] flex-col gap-0 rounded-2xl border-border/50 bg-background/95 p-0 shadow-2xl backdrop-blur-md sm:max-w-md">
+			<DialogContent className="border-border/50 bg-background/95 flex max-h-[85vh] flex-col gap-0 rounded-2xl p-0 shadow-2xl backdrop-blur-md sm:max-w-md">
 				<DialogHeader className="border-b border-slate-100 p-6 pb-4">
-					<DialogTitle className="font-sans text-2xl font-bold tracking-wide text-foreground uppercase">
+					<DialogTitle className="text-foreground font-sans text-2xl font-bold tracking-wide uppercase">
 						{monthName}
 					</DialogTitle>
 					<DialogDescription className="text-muted-foreground">
@@ -52,20 +52,20 @@ export function MonthlyBirthdayModal({
 
 				<ScrollArea className="flex-1 px-6 py-4">
 					{birthdays.length === 0 ? (
-						<div className="py-12 text-center text-muted-foreground italic">
+						<div className="text-muted-foreground py-12 text-center italic">
 							No birthdays to celebrate in {monthName}.
 						</div>
 					) : (
 						<div className="flex flex-col gap-6">
 							{dateGroups.map(([date, celebrants]) => (
 								<div key={date} className="flex flex-col gap-3">
-									<h4 className="sticky top-0 z-10 bg-background/95 py-1 text-sm font-bold tracking-widest text-muted-foreground uppercase">
+									<h4 className="bg-background/95 text-muted-foreground sticky top-0 z-10 py-1 text-sm font-bold tracking-widest uppercase">
 										{date}
 									</h4>
 									<div className="flex flex-col gap-4 p-3">
 										{celebrants.map((celebrant) => (
 											<div key={celebrant.id} className="flex items-center gap-4">
-												<div className="rounded-full bg-muted p-1 ring-1 ring-border">
+												<div className="bg-muted ring-border rounded-full p-1 ring-1">
 													{celebrant.avatar ? (
 														<img
 															src={celebrant.avatar}
@@ -78,7 +78,7 @@ export function MonthlyBirthdayModal({
 														</div>
 													)}
 												</div>
-												<span className="text-lg font-semibold text-foreground">
+												<span className="text-foreground text-lg font-semibold">
 													{celebrant.name}
 												</span>
 											</div>

@@ -44,7 +44,7 @@ export function BirthdaysSection({ birthdaysByMonth }: BirthdaysSectionProps) {
 
 	return (
 		<div className="flex w-full flex-col gap-6">
-			<h2 className="px-2 text-xl font-bold tracking-tight text-foreground uppercase md:text-2xl">
+			<h2 className="text-foreground px-2 text-xl font-bold tracking-tight uppercase md:text-2xl">
 				Birthdays
 			</h2>
 

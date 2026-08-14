@@ -21,17 +21,17 @@ export function MonthCard({ monthName, monthIndex, birthdays, onClick }: MonthCa
 			onClick={() => onClick(monthIndex)}
 			className="group flex w-full flex-col gap-2 rounded-2xl text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
 		>
-			<span className="pl-2 font-bold tracking-widest text-foreground uppercase transition-colors group-hover:text-neutral-700">
+			<span className="text-foreground pl-2 font-bold tracking-widest uppercase transition-colors group-hover:text-neutral-700">
 				{monthName}
 			</span>
 
-			<div className="flex h-14 w-full items-center rounded-2xl border border-border bg-muted/50 px-3 transition-colors group-hover:bg-muted">
+			<div className="border-border bg-muted/50 group-hover:bg-muted flex h-14 w-full items-center rounded-2xl border px-3 transition-colors">
 				{hasBirthdays ? (
 					<div className="flex -space-x-3">
 						{displayBirthdays.map((celebrant) => (
 							<div
 								key={celebrant.id}
-								className="z-10 h-8 w-8 rounded-full bg-background ring-2 ring-border"
+								className="bg-background ring-border z-10 h-8 w-8 rounded-full ring-2"
 							>
 								{celebrant.avatar ? (
 									<img
@@ -47,13 +47,13 @@ export function MonthCard({ monthName, monthIndex, birthdays, onClick }: MonthCa
 							</div>
 						))}
 						{remainingCount > 0 && (
-							<div className="z-20 flex h-8 w-8 items-center justify-center rounded-full bg-muted pl-1 text-xs font-bold text-muted-foreground ring-2 ring-border">
+							<div className="bg-muted text-muted-foreground ring-border z-20 flex h-8 w-8 items-center justify-center rounded-full pl-1 text-xs font-bold ring-2">
 								+{remainingCount}
 							</div>
 						)}
 					</div>
 				) : (
-					<span className="px-1 text-sm font-medium text-muted-foreground italic">
+					<span className="text-muted-foreground px-1 text-sm font-medium italic">
 						No birthdays
 					</span>
 				)}

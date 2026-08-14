@@ -2,7 +2,7 @@
 
 ## 1. Project Overview
 
-Build **Day Book**, a local-first birthday tracker that helps users keep track of family and friends' birthdays so they never forget one again.
+Build **DayBook**, a local-first birthday tracker that helps users keep track of family and friends' birthdays so they never forget one again.
 
 The application should allow users to:
 
@@ -20,7 +20,7 @@ The application should allow users to:
 
 The application should provide a clear, celebratory, personal, and responsive experience across desktop, tablet, and mobile devices.
 
-Day Book is currently a **local-first application**. It does not require a backend, user account, authentication system, or cloud database for this phase.
+DayBook is currently a **local-first application**. It does not require a backend, user account, authentication system, or cloud database for this phase.
 
 Refer to the sections below for the required page structure, features, interactions, data behavior, and implementation expectations.
 
@@ -83,7 +83,7 @@ Do not replace the prototype's visual direction with a generic dashboard, admin 
 
 # 3. Application Model
 
-Day Book is a **local-first birthday management application**.
+DayBook is a **local-first birthday management application**.
 
 Birthday records are no longer static application constants.
 
@@ -167,7 +167,7 @@ The empty state should:
 
 - Explain that no birthdays have been added yet.
 - Provide an obvious action to add a birthday.
-- Maintain the Day Book visual identity.
+- Maintain the DayBook visual identity.
 - Work well on desktop and mobile.
 - Avoid looking like an error or broken application.
 
@@ -260,7 +260,7 @@ Each birthday item should clearly display:
 
 The layout should remain clean and compact without feeling like a generic administrative interface.
 
-The management screen should follow the Day Book visual identity.
+The management screen should follow the DayBook visual identity.
 
 ---
 
@@ -297,13 +297,13 @@ Deleting a record should:
 
 The deletion experience should prevent accidental deletion where appropriate.
 
-The confirmation interaction should remain consistent with the Day Book visual language.
+The confirmation interaction should remain consistent with the DayBook visual language.
 
 ---
 
 # 12. Import & Export
 
-Day Book should support exporting and importing birthday data as JSON.
+DayBook should support exporting and importing birthday data as JSON.
 
 This allows users to manually move their birthday data between devices.
 
@@ -315,14 +315,14 @@ The exported data should:
 
 - Follow the documented birthday data model.
 - Contain only the data necessary to restore birthday records.
-- Be portable between compatible Day Book installations.
+- Be portable between compatible DayBook installations.
 - Be easy to understand and inspect.
 
 Export should not require a backend or external service.
 
 ## Import
 
-Users should be able to import a previously exported Day Book JSON file.
+Users should be able to import a previously exported DayBook JSON file.
 
 The application should:
 
@@ -377,7 +377,7 @@ The default value should provide a useful experience without making the section 
 
 # 15. Theme Setting
 
-Day Book should support:
+DayBook should support:
 
 - Light mode
 - Dark mode
@@ -388,7 +388,7 @@ Changing the theme should update the application without requiring a page reload
 
 Both themes must follow `docs/brand-guidelines.md`.
 
-The light and dark themes should feel like the same Day Book product rather than two unrelated designs.
+The light and dark themes should feel like the same DayBook product rather than two unrelated designs.
 
 ---
 
@@ -536,7 +536,7 @@ The monthly view should display:
 If a month has no birthdays:
 
 - Clearly communicate that there are no birthdays for that month.
-- Maintain the Day Book visual identity.
+- Maintain the DayBook visual identity.
 - Do not display a broken-looking or empty interface.
 
 ## Multiple Birthdays
@@ -578,7 +578,7 @@ The application must be mobile-first and fully responsive.
 - Make long lists scrollable.
 - Do not rely on hover interactions for important functionality.
 
-All screens must remain visually consistent with the Day Book brand.
+All screens must remain visually consistent with the DayBook brand.
 
 ---
 

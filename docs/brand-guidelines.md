@@ -1,8 +1,8 @@
-# Day Book — Brand Guidelines
+# DayBook — Brand Guidelines
 
 ## 1. Brand Overview
 
-**Brand Name:** Day Book
+**Brand Name:** DayBook
 
 **Page Title:** DayBook - What's my birthday?
 
@@ -11,7 +11,7 @@ A stylish, lightweight birthday tracker for keeping track of family and friends'
 
 ### Brand Personality
 
-Day Book should feel:
+DayBook should feel:
 
 - Warm
 - Friendly
@@ -53,7 +53,7 @@ Headings should feel prominent and expressive, while supporting text should rema
 
 # 3. Color & Theme
 
-Day Book should support both **Light Mode** and **Dark Mode**.
+DayBook should support both **Light Mode** and **Dark Mode**.
 
 Both themes should feel like part of the same brand rather than looking like completely different designs.
 
@@ -129,7 +129,7 @@ The overall goal is:
 
 # 5. Celebratory Visual Language
 
-Day Book is a birthday-focused application, so the design should have a subtle sense of celebration.
+DayBook is a birthday-focused application, so the design should have a subtle sense of celebration.
 
 Use celebratory elements thoughtfully, such as:
 
@@ -174,7 +174,7 @@ Interactive elements should provide clear visual feedback for:
 
 # 7. Application Screens & States
 
-As Day Book evolves into a user-managed birthday application, new screens and interactions must maintain the same visual identity as the main birthday dashboard.
+As DayBook evolves into a user-managed birthday application, new screens and interactions must maintain the same visual identity as the main birthday dashboard.
 
 This includes:
 
@@ -190,7 +190,7 @@ This includes:
 - Success feedback
 - Loading states
 
-These interfaces should feel like a natural extension of Day Book rather than a separate administrative application.
+These interfaces should feel like a natural extension of DayBook rather than a separate administrative application.
 
 ## Management UI
 
@@ -215,7 +215,7 @@ Add and edit forms should:
 - Have clear labels.
 - Make required fields obvious.
 - Provide friendly validation feedback.
-- Use the Day Book typography and component styling.
+- Use the DayBook typography and component styling.
 - Work naturally on mobile devices.
 
 Forms should feel approachable and simple rather than technical.
@@ -239,7 +239,7 @@ Avoid generic messages such as:
 - "No data found"
 - "No records available"
 
-Prefer messaging that fits the friendly and personal Day Book personality.
+Prefer messaging that fits the friendly and personal DayBook personality.
 
 Empty states should provide a clear next action where appropriate.
 
@@ -310,7 +310,7 @@ The avatar system should be visually compatible with both light and dark themes.
 
 # 10. Responsive Visual Design
 
-Day Book should provide a consistent visual experience across:
+DayBook should provide a consistent visual experience across:
 
 - Desktop
 - Tablet
@@ -367,7 +367,7 @@ The footer should:
 
 # 12. Overall Design Direction
 
-The final Day Book experience should feel like a **personal, stylish birthday dashboard** rather than a generic calendar application.
+The final DayBook experience should feel like a **personal, stylish birthday dashboard** rather than a generic calendar application.
 
 The visual hierarchy should generally be:
 
@@ -391,4 +391,4 @@ Avoid:
 - Childish birthday graphics
 - Unnecessary decorative elements
 
-The goal is a **modern, warm, and memorable birthday experience** that feels distinctly like Day Book.
+The goal is a **modern, warm, and memorable birthday experience** that feels distinctly like DayBook.

@@ -3,22 +3,45 @@ import { HappyBirthdaySection } from "./components/happy-birthday/happy-birthday
 import { Footer } from "./components/layout/footer";
 import { PageLayout } from "./components/layout/page-layout";
 import { UpcomingBirthdaysSection } from "./components/upcoming-birthdays/upcoming-birthdays-section";
-import { BIRTHDAYS } from "./constants/birthdays";
 import { useBirthdayData } from "./hooks/use-birthday-data";
+import { DayBookProvider, useDayBook } from "./context/day-book-context";
+import { BirthdayManagementScreen } from "./components/management/birthday-management-screen";
+import { useState } from "react";
+import { EmptyState } from "./components/empty-state";
 
-function App() {
-	const { todayCelebrants, upcomingBirthdays, birthdaysByMonth, currentDate } =
-		useBirthdayData(BIRTHDAYS);
+function Dashboard() {
+	const { todayCelebrants, upcomingBirthdays, birthdaysByMonth, currentDate } = useBirthdayData();
+	const { birthdays } = useDayBook();
+
+	if (birthdays.length === 0) {
+		return <EmptyState />;
+	}
 
 	return (
-		<PageLayout>
-			<div className="flex w-full flex-col items-center gap-16">
-				<HappyBirthdaySection celebrants={todayCelebrants} currentDate={currentDate} />
-				<UpcomingBirthdaysSection upcomingBirthdays={upcomingBirthdays} currentDate={currentDate} />
-				<BirthdaysSection birthdaysByMonth={birthdaysByMonth} />
-			</div>
+		<div className="flex w-full flex-col items-center gap-16">
+			<HappyBirthdaySection celebrants={todayCelebrants} currentDate={currentDate} />
+			<UpcomingBirthdaysSection upcomingBirthdays={upcomingBirthdays} currentDate={currentDate} />
+			<BirthdaysSection birthdaysByMonth={birthdaysByMonth} />
+		</div>
+	);
+}
+
+function MainApp() {
+	const [currentView, setCurrentView] = useState<"dashboard" | "management">("dashboard");
+
+	return (
+		<PageLayout currentView={currentView} setCurrentView={setCurrentView}>
+			{currentView === "dashboard" ? <Dashboard /> : <BirthdayManagementScreen />}
 			<Footer />
 		</PageLayout>
+	);
+}
+
+function App() {
+	return (
+		<DayBookProvider>
+			<MainApp />
+		</DayBookProvider>
 	);
 }
 

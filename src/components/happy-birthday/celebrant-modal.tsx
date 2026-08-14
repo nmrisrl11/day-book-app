@@ -36,7 +36,7 @@ export function CelebrantModal({ celebrant, isOpen, onClose, currentDate }: Cele
 
 	return (
 		<Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-			<DialogContent className="rounded-2xl border-border/50 bg-background/90 shadow-2xl backdrop-blur-md sm:max-w-md">
+			<DialogContent className="border-border/50 bg-background/90 rounded-2xl shadow-2xl backdrop-blur-md sm:max-w-md">
 				<DialogHeader className="flex flex-col items-center space-y-3 py-6 text-center">
 					<div className="relative">
 						<div className="absolute inset-0 rounded-full bg-blue-500/20 blur-2xl" />
@@ -45,7 +45,7 @@ export function CelebrantModal({ celebrant, isOpen, onClose, currentDate }: Cele
 							<PartyHat className="h-full w-full" />
 						</div>
 
-						<div className="relative z-10 rounded-full bg-background p-2 shadow-sm ring-1 ring-border">
+						<div className="bg-background ring-border relative z-10 rounded-full p-2 shadow-sm ring-1">
 							{celebrant.avatar ? (
 								<img
 									src={celebrant.avatar}
@@ -60,27 +60,27 @@ export function CelebrantModal({ celebrant, isOpen, onClose, currentDate }: Cele
 						</div>
 					</div>
 
-					<DialogTitle className="font-sans text-2xl font-bold text-foreground">
+					<DialogTitle className="text-foreground font-sans text-2xl font-bold">
 						{celebrant.name}
 					</DialogTitle>
 
 					<DialogDescription asChild>
-						<div className="mt-2 flex flex-col items-center gap-4 text-muted-foreground">
+						<div className="text-muted-foreground mt-2 flex flex-col items-center gap-4">
 							<div className="flex flex-wrap items-center justify-center gap-3">
-								<Badge variant="secondary" className="text-sm font-bold p-3">
+								<Badge variant="secondary" className="p-3 text-sm font-bold">
 									<CalendarIcon data-icon="inline-start" />
 									{formattedDate}
 								</Badge>
 
 								{age !== null && (
-									<Badge variant="destructive" className="text-sm font-bold p-3">
+									<Badge variant="destructive" className="p-3 text-sm font-bold">
 										<GiftIcon data-icon="inline-start" />
 										Turning {age}
 									</Badge>
 								)}
 							</div>
 
-							<p className="text-base leading-relaxed text-secondary-foreground italic">
+							<p className="text-secondary-foreground text-base leading-relaxed italic">
 								"{greeting}"
 							</p>
 						</div>

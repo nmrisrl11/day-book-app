@@ -213,10 +213,10 @@ Use the following naming conventions consistently:
 - Do not duplicate the same static data across multiple components.
 - Keep static application data separate from UI components.
 - Use constants for static application data such as:
-	- Birthday greetings
-	- Month definitions
-	- Default settings
-	- Application configuration
+  - Birthday greetings
+  - Month definitions
+  - Default settings
+  - Application configuration
 - Do not store user-managed birthday records in the `constants/` folder.
 - User-created birthday records must use the application's data persistence layer.
 

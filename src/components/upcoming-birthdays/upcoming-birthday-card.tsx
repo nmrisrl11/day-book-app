@@ -13,8 +13,8 @@ export function UpcomingBirthdayCard({ celebrant, currentDate }: UpcomingBirthda
 	const formattedDate = formatBirthdayDisplay(celebrant.birthday);
 
 	return (
-		<div className="flex min-w-40 snap-center flex-col items-center rounded-3xl border border-border bg-card p-6 shadow-sm md:min-w-45">
-			<div className="relative -mt-12 mb-4 rounded-full bg-background p-1 shadow-sm ring-1 ring-border">
+		<div className="border-border bg-card flex min-w-40 snap-center flex-col items-center rounded-3xl border p-6 shadow-sm md:min-w-45">
+			<div className="bg-background ring-border relative -mt-12 mb-4 rounded-full p-1 shadow-sm ring-1">
 				{celebrant.avatar ? (
 					<img
 						draggable={false}
@@ -30,15 +30,18 @@ export function UpcomingBirthdayCard({ celebrant, currentDate }: UpcomingBirthda
 			</div>
 
 			<div className="flex w-full flex-col items-center gap-1 text-center">
-				<h3 className="line-clamp-1 text-lg leading-tight font-bold text-foreground">
+				<h3 className="text-foreground line-clamp-1 text-lg leading-tight font-bold">
 					{celebrant.name}
 				</h3>
-				<span className="text-sm font-medium text-muted-foreground">
-					{formattedDate}
-				</span>
+				<span className="text-muted-foreground text-sm font-medium">{formattedDate}</span>
 
 				{age !== null && (
-					<Badge variant="secondary" className="mt-1 px-2 py-0.5 font-semibold text-muted-foreground">{age} years old</Badge>
+					<Badge
+						variant="secondary"
+						className="text-muted-foreground mt-1 px-2 py-0.5 font-semibold"
+					>
+						{age} years old
+					</Badge>
 				)}
 			</div>
 		</div>
