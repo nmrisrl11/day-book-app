@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
 	Dialog,
 	DialogContent,
@@ -12,6 +12,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useDayBook } from "@/context/day-book-context";
 import type { Birthday } from "@/types/birthday";
+import Avvvatars from "avvvatars-react";
+import { CameraIcon, Trash2Icon } from "lucide-react";
 
 interface BirthdayFormModalProps {
 	open: boolean;
@@ -24,20 +26,64 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 
 	const [name, setName] = useState("");
 	const [date, setDate] = useState("");
+	const [avatar, setAvatar] = useState<string | undefined>(undefined);
 	const [error, setError] = useState("");
+	const fileInputRef = useRef<HTMLInputElement>(null);
 
 	useEffect(() => {
 		if (open) {
 			if (birthday) {
 				setName(birthday.name);
 				setDate(birthday.birthday);
+				setAvatar(birthday.avatar);
 			} else {
 				setName("");
 				setDate("");
+				setAvatar(undefined);
 			}
 			setError("");
 		}
 	}, [open, birthday]);
+
+	const handleAvatarClick = () => {
+		fileInputRef.current?.click();
+	};
+
+	const handleRemoveAvatar = (e: React.MouseEvent) => {
+		e.stopPropagation();
+		setAvatar(undefined);
+	};
+
+	const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const file = e.target.files?.[0];
+		if (!file) return;
+
+		// Validate type
+		const validTypes = ["image/jpeg", "image/jpg", "image/png"];
+		if (!validTypes.includes(file.type)) {
+			setError("Only JPEG and PNG images are allowed.");
+			return;
+		}
+
+		// Validate size (max 2MB)
+		const maxSize = 2 * 1024 * 1024; // 2MB
+		if (file.size > maxSize) {
+			setError("Image size must be less than 2MB.");
+			return;
+		}
+
+		const reader = new FileReader();
+		reader.onload = (event) => {
+			if (event.target?.result) {
+				setAvatar(event.target.result as string);
+				setError(""); // Clear any previous error
+			}
+		};
+		reader.onerror = () => {
+			setError("Failed to read the file.");
+		};
+		reader.readAsDataURL(file);
+	};
 
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
@@ -74,9 +120,9 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 		}
 
 		if (birthday) {
-			editBirthday({ ...birthday, name: trimmedName, birthday: date });
+			editBirthday({ ...birthday, name: trimmedName, birthday: date, avatar });
 		} else {
-			addBirthday({ name: trimmedName, birthday: date });
+			addBirthday({ name: trimmedName, birthday: date, avatar });
 		}
 
 		onOpenChange(false);
@@ -93,6 +139,50 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 				</DialogHeader>
 
 				<form id="birthday-form" onSubmit={handleSubmit} className="flex flex-col gap-4 py-4">
+					<div className="flex flex-col items-center justify-center mb-2">
+						<div 
+							className="relative group cursor-pointer flex items-center justify-center w-24 h-24 rounded-full border-2 border-dashed border-border hover:border-primary/50 transition-colors overflow-hidden"
+							onClick={handleAvatarClick}
+						>
+							{avatar ? (
+								<img src={avatar} alt="Avatar preview" className="w-full h-full object-cover" />
+							) : name.trim().length > 0 ? (
+								<div className="[&>svg]:w-24 [&>svg]:h-24">
+									<Avvvatars value={name.trim()} style="shape" size={96} />
+								</div>
+							) : (
+								<div className="flex flex-col items-center justify-center text-muted-foreground">
+									<CameraIcon className="w-8 h-8 opacity-50" />
+								</div>
+							)}
+							
+							{/* Hover overlay for changing image */}
+							<div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+								<CameraIcon className="w-6 h-6 text-white mb-1" />
+								<span className="text-white text-[10px] font-medium uppercase tracking-wider">Change</span>
+							</div>
+						</div>
+						
+						{avatar && (
+							<Button 
+								variant="ghost" 
+								size="sm" 
+								className="mt-2 h-7 text-xs text-destructive hover:text-destructive hover:bg-destructive/10" 
+								onClick={handleRemoveAvatar}
+							>
+								<Trash2Icon className="w-3 h-3 mr-1.5" />
+								Remove
+							</Button>
+						)}
+						<Input 
+							type="file" 
+							accept="image/jpeg, image/jpg, image/png" 
+							className="hidden" 
+							ref={fileInputRef} 
+							onChange={handleFileChange} 
+						/>
+					</div>
+
 					<div className="flex flex-col gap-2">
 						<Label htmlFor="name">Name</Label>
 						<Input

@@ -28,8 +28,14 @@ export function parseImportedBirthdays(fileText: string): Birthday[] {
 			if (typeof item.name !== "string" || !item.name) return false;
 			if (typeof item.birthday !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(item.birthday))
 				return false;
+			if (item.avatar !== undefined && typeof item.avatar !== "string") return false;
 			return true;
-		}) as Birthday[];
+		}).map((item: any) => ({
+			id: item.id,
+			name: item.name,
+			birthday: item.birthday,
+			avatar: item.avatar,
+		})) as Birthday[];
 
 		if (validBirthdays.length === 0 && parsed.length > 0) {
 			throw new Error("No valid birthday records found in the imported file.");
