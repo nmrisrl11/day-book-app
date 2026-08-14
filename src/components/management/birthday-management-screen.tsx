@@ -5,6 +5,7 @@ import { BirthdayFormModal } from "./birthday-form-modal";
 import { DeleteConfirmationModal } from "./delete-confirmation-modal";
 import type { Birthday } from "@/types/birthday";
 import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { PlusIcon } from "lucide-react";
 
 export function BirthdayManagementScreen() {
@@ -61,16 +62,18 @@ export function BirthdayManagementScreen() {
 					</div>
 				</div>
 			) : (
-				<div className="flex max-h-[60vh] flex-col gap-3 overflow-y-auto pr-2">
-					{birthdays.map((birthday) => (
-						<BirthdayListItem
-							key={birthday.id}
-							birthday={birthday}
-							onEdit={() => handleEdit(birthday)}
-							onDelete={() => handleDeleteClick(birthday)}
-						/>
-					))}
-				</div>
+				<ScrollArea className="h-[60vh] pr-4">
+					<div className="flex flex-col gap-3 pb-8">
+						{birthdays.map((birthday) => (
+							<BirthdayListItem
+								key={birthday.id}
+								birthday={birthday}
+								onEdit={() => handleEdit(birthday)}
+								onDelete={() => handleDeleteClick(birthday)}
+							/>
+						))}
+					</div>
+				</ScrollArea>
 			)}
 
 			<BirthdayFormModal

@@ -8,6 +8,7 @@ interface DayBookContextType {
 	addBirthday: (birthday: Omit<Birthday, "id">) => void;
 	editBirthday: (birthday: Birthday) => void;
 	deleteBirthday: (id: string) => void;
+	deleteAllBirthdays: () => void;
 	updateSettings: (settings: Partial<Settings>) => void;
 	importData: (data: Birthday[]) => void;
 }
@@ -68,6 +69,10 @@ export function DayBookProvider({ children }: { children: React.ReactNode }) {
 		setBirthdays((prev) => prev.filter((b) => b.id !== id));
 	};
 
+	const deleteAllBirthdays = () => {
+		setBirthdays([]);
+	};
+
 	const updateSettings = (newSettings: Partial<Settings>) => {
 		setSettings((prev) => ({ ...prev, ...newSettings }));
 	};
@@ -85,6 +90,7 @@ export function DayBookProvider({ children }: { children: React.ReactNode }) {
 				addBirthday,
 				editBirthday,
 				deleteBirthday,
+				deleteAllBirthdays,
 				updateSettings,
 				importData,
 			}}

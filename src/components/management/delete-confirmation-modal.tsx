@@ -20,16 +20,27 @@ export function DeleteConfirmationModal({
 	onOpenChange,
 	onConfirm,
 	birthdayName,
-}: DeleteConfirmationModalProps) {
+	isDeleteAll = false,
+}: DeleteConfirmationModalProps & { isDeleteAll?: boolean }) {
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
 			<DialogContent>
 				<DialogHeader>
-					<DialogTitle>Delete Birthday</DialogTitle>
+					<DialogTitle>{isDeleteAll ? "Delete All Birthdays" : "Delete Birthday"}</DialogTitle>
 					<DialogDescription>
-						Are you sure you want to delete the birthday for{" "}
-						<span className="text-foreground font-semibold">{birthdayName}</span>? This action
-						cannot be undone.
+						{isDeleteAll ? (
+							<>
+								Are you sure you want to delete{" "}
+								<span className="text-foreground font-semibold">ALL</span> birthdays? This action
+								cannot be undone.
+							</>
+						) : (
+							<>
+								Are you sure you want to delete the birthday for{" "}
+								<span className="text-foreground font-semibold">{birthdayName}</span>? This action
+								cannot be undone.
+							</>
+						)}
 					</DialogDescription>
 				</DialogHeader>
 				<DialogFooter>
