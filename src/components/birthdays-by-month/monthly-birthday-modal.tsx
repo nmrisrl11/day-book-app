@@ -38,8 +38,8 @@ export function MonthlyBirthdayModal({
 
 	return (
 		<Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-			<DialogContent className="border-border/50 bg-background/95 flex max-h-[85vh] flex-col gap-0 rounded-2xl p-0 shadow-2xl backdrop-blur-md sm:max-w-md">
-				<DialogHeader className="border-b border-slate-100 p-6 pb-4">
+			<DialogContent className="border-border/50 bg-background/95 rounded-2xl shadow-2xl backdrop-blur-md sm:max-w-md">
+				<DialogHeader className="border-b border-slate-100 p-0 pb-4">
 					<DialogTitle className="text-foreground font-sans text-2xl font-bold tracking-wide uppercase">
 						{monthName}
 					</DialogTitle>
@@ -50,7 +50,7 @@ export function MonthlyBirthdayModal({
 					</DialogDescription>
 				</DialogHeader>
 
-				<ScrollArea className="flex-1 px-6 py-4">
+				<ScrollArea className="max-h-[60vh] pr-4">
 					{birthdays.length === 0 ? (
 						<div className="text-muted-foreground py-12 text-center italic">
 							No birthdays to celebrate in {monthName}.

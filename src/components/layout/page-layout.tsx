@@ -28,7 +28,7 @@ export function PageLayout({ children, currentView, setCurrentView }: PageLayout
 							size="sm"
 							onClick={() => setCurrentView("management")}
 						>
-							<BookUser className="mr-2 h-4 w-4" />
+							<BookUser className="h-4 w-4 sm:mr-2" />
 							<span className="hidden sm:inline">Birthdays</span>
 						</Button>
 						<Button
