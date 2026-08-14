@@ -28,7 +28,15 @@ export function parseImportedBirthdays(fileText: string): Birthday[] {
 			if (typeof item.name !== "string" || !item.name) return false;
 			if (typeof item.birthday !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(item.birthday))
 				return false;
-			if (item.avatar !== undefined && typeof item.avatar !== "string") return false;
+			if (item.avatar !== undefined) {
+				if (typeof item.avatar !== "string") return false;
+				if (!item.avatar.startsWith("data:image/jpeg;base64,") && !item.avatar.startsWith("data:image/png;base64,")) {
+					return false;
+				}
+				// Enforce 2MB limit (roughly 2.66MB in base64, size = length * 0.75)
+				const sizeInBytes = item.avatar.length * 0.75;
+				if (sizeInBytes > 2 * 1024 * 1024) return false;
+			}
 			return true;
 		}).map((item: any) => ({
 			id: item.id,

@@ -52,6 +52,9 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 	const handleRemoveAvatar = (e: React.MouseEvent) => {
 		e.stopPropagation();
 		setAvatar(undefined);
+		if (fileInputRef.current) {
+			fileInputRef.current.value = "";
+		}
 	};
 
 	const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -75,8 +78,31 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 		const reader = new FileReader();
 		reader.onload = (event) => {
 			if (event.target?.result) {
-				setAvatar(event.target.result as string);
-				setError(""); // Clear any previous error
+				const img = new Image();
+				img.onload = () => {
+					const canvas = document.createElement("canvas");
+					const MAX_SIZE = 400;
+					let width = img.width;
+					let height = img.height;
+
+					if (width > height && width > MAX_SIZE) {
+						height *= MAX_SIZE / width;
+						width = MAX_SIZE;
+					} else if (height > MAX_SIZE) {
+						width *= MAX_SIZE / height;
+						height = MAX_SIZE;
+					}
+
+					canvas.width = width;
+					canvas.height = height;
+					const ctx = canvas.getContext("2d");
+					ctx?.drawImage(img, 0, 0, width, height);
+
+					const dataUrl = canvas.toDataURL("image/jpeg", 0.7);
+					setAvatar(dataUrl);
+					setError("");
+				};
+				img.src = event.target.result as string;
 			}
 		};
 		reader.onerror = () => {
@@ -140,8 +166,10 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 
 				<form id="birthday-form" onSubmit={handleSubmit} className="flex flex-col gap-4 py-4">
 					<div className="flex flex-col items-center justify-center mb-2">
-						<div 
-							className="relative group cursor-pointer flex items-center justify-center w-24 h-24 rounded-full border-2 border-dashed border-border hover:border-primary/50 transition-colors overflow-hidden"
+						<button 
+							type="button"
+							aria-label="Change avatar"
+							className="relative group cursor-pointer flex items-center justify-center w-24 h-24 rounded-full border-2 border-dashed border-border hover:border-primary/50 transition-colors overflow-hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
 							onClick={handleAvatarClick}
 						>
 							{avatar ? (
@@ -161,10 +189,11 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 								<CameraIcon className="w-6 h-6 text-white mb-1" />
 								<span className="text-white text-[10px] font-medium uppercase tracking-wider">Change</span>
 							</div>
-						</div>
+						</button>
 						
 						{avatar && (
 							<Button 
+								type="button"
 								variant="ghost" 
 								size="sm" 
 								className="mt-2 h-7 text-xs text-destructive hover:text-destructive hover:bg-destructive/10" 
