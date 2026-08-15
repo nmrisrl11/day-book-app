@@ -1,18 +1,18 @@
-import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useDayBook } from "@/context/day-book-context";
-import { Edit2Icon, PlusIcon, Trash2Icon, XIcon, CheckIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { CheckIcon, Edit2Icon, PlusIcon, Trash2Icon, XIcon } from "lucide-react";
+import { useState } from "react";
 
 export function FloatingMessagesManager() {
 	const { settings, updateSettings } = useDayBook();
 	const messages = settings.floatingMessages || [];
 	const [newMessage, setNewMessage] = useState("");
 	const [error, setError] = useState("");
-	
+
 	// Edit state
 	const [editingIndex, setEditingIndex] = useState<number | null>(null);
 	const [editText, setEditText] = useState("");
@@ -42,6 +42,8 @@ export function FloatingMessagesManager() {
 			setError("You must have at least one floating message.");
 			return;
 		}
+		setEditingIndex(null);
+		setEditText("");
 		const newMessages = messages.filter((_, i) => i !== index);
 		updateSettings({ floatingMessages: newMessages });
 		setError("");
@@ -86,8 +88,8 @@ export function FloatingMessagesManager() {
 			<div className="flex flex-col gap-1">
 				<Label className="text-base font-medium">Floating Messages</Label>
 				<p className="text-muted-foreground text-sm">
-					Manage the messages that float across the screen when someone has a birthday. 
-					(Tip: You can use emojis with your system keyboard: Win + . or Cmd + Ctrl + Space)
+					Manage the messages that float across the screen when someone has a birthday. (Tip: You
+					can use emojis with your system keyboard: Win + . or Cmd + Ctrl + Space)
 				</p>
 			</div>
 
@@ -95,10 +97,10 @@ export function FloatingMessagesManager() {
 				{messages.map((msg, index) => (
 					<div key={index} className="flex items-center">
 						{editingIndex === index ? (
-							<div className="flex items-center gap-1 rounded-full border border-primary/50 bg-background pl-3 pr-1 py-1 shadow-sm transition-all focus-within:ring-2 focus-within:ring-ring">
+							<div className="border-primary/50 bg-background focus-within:ring-ring flex items-center gap-1 rounded-full border py-1 pr-1 pl-3 shadow-sm transition-all focus-within:ring-2">
 								<Input
 									autoFocus
-									className="h-6 w-32 border-0 px-0 py-0 text-sm focus-visible:ring-0 shadow-none bg-transparent"
+									className="h-6 w-32 border-0 bg-transparent px-0 py-0 text-sm shadow-none focus-visible:ring-0"
 									value={editText}
 									onChange={(e) => setEditText(e.target.value)}
 									onKeyDown={(e) => {
@@ -107,19 +109,19 @@ export function FloatingMessagesManager() {
 									}}
 								/>
 								<div className="flex shrink-0">
-									<Button 
-										size="icon" 
-										variant="ghost" 
-										className="h-6 w-6 text-green-600 hover:text-green-700 hover:bg-green-100/50 dark:hover:bg-green-900/30 rounded-full" 
+									<Button
+										size="icon"
+										variant="ghost"
+										className="h-6 w-6 rounded-full text-green-600 hover:bg-green-100/50 hover:text-green-700 dark:hover:bg-green-900/30"
 										onClick={() => saveEdit(index)}
 										aria-label="Save"
 									>
 										<CheckIcon className="h-3.5 w-3.5" />
 									</Button>
-									<Button 
-										size="icon" 
-										variant="ghost" 
-										className="h-6 w-6 text-muted-foreground rounded-full" 
+									<Button
+										size="icon"
+										variant="ghost"
+										className="text-muted-foreground h-6 w-6 rounded-full"
 										onClick={cancelEdit}
 										aria-label="Cancel"
 									>
@@ -128,24 +130,27 @@ export function FloatingMessagesManager() {
 								</div>
 							</div>
 						) : (
-							<Badge variant="secondary" className="pl-3 pr-1 py-1 h-8 gap-1 text-sm bg-secondary/80 hover:bg-secondary">
+							<Badge
+								variant="secondary"
+								className="bg-secondary/80 hover:bg-secondary h-8 gap-1 py-1 pr-1 pl-3 text-sm"
+							>
 								<span>{msg}</span>
-								<div className="flex ml-1 shrink-0">
-									<Button 
-										size="icon" 
-										variant="ghost" 
-										className="h-6 w-6 rounded-full hover:bg-black/10 dark:hover:bg-white/10" 
+								<div className="ml-1 flex shrink-0">
+									<Button
+										size="icon"
+										variant="ghost"
+										className="h-6 w-6 rounded-full hover:bg-black/10 dark:hover:bg-white/10"
 										onClick={() => startEdit(index, msg)}
 										aria-label="Edit"
 									>
 										<Edit2Icon className="h-3 w-3" />
 									</Button>
-									<Button 
-										size="icon" 
-										variant="ghost" 
+									<Button
+										size="icon"
+										variant="ghost"
 										className={cn(
-											"h-6 w-6 rounded-full hover:bg-destructive/20 hover:text-destructive",
-											messages.length <= 1 && "opacity-50 cursor-not-allowed"
+											"hover:bg-destructive/20 hover:text-destructive h-6 w-6 rounded-full",
+											messages.length <= 1 && "cursor-not-allowed opacity-50",
 										)}
 										onClick={() => handleDelete(index)}
 										disabled={messages.length <= 1}
@@ -160,7 +165,7 @@ export function FloatingMessagesManager() {
 				))}
 			</div>
 
-			<div className="flex flex-col gap-2 pt-2 border-t mt-2">
+			<div className="mt-2 flex flex-col gap-2 border-t pt-2">
 				{messages.length < 10 ? (
 					<div className="flex items-center gap-2">
 						<Input
@@ -185,10 +190,8 @@ export function FloatingMessagesManager() {
 						Maximum of 10 messages reached.
 					</p>
 				)}
-				
-				{error && (
-					<p className="text-destructive text-sm font-medium">{error}</p>
-				)}
+
+				{error && <p className="text-destructive text-sm font-medium">{error}</p>}
 			</div>
 		</div>
 	);
