@@ -22,6 +22,9 @@ const ThemeSection = lazy(() =>
 const DisplaySettingsSection = lazy(() =>
 	import("./display-settings-section").then((m) => ({ default: m.DisplaySettingsSection })),
 );
+const AvatarSettingsSection = lazy(() =>
+	import("./avatar-settings-section").then((m) => ({ default: m.AvatarSettingsSection })),
+);
 const DataManagementSection = lazy(() =>
 	import("./data-management-section").then((m) => ({ default: m.DataManagementSection })),
 );
@@ -64,6 +67,7 @@ export function SettingsScreen() {
 			<div className="border-border bg-card flex flex-col gap-8 rounded-xl border p-6 shadow-sm">
 				<Suspense fallback={<div className="bg-muted h-20 animate-pulse rounded-xl"></div>}>
 					<ThemeSection />
+					<AvatarSettingsSection />
 					<DisplaySettingsSection />
 				</Suspense>
 

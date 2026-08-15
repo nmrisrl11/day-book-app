@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { UserAvatar } from "@/components/user-avatar";
 import {
 	Dialog,
 	DialogContent,
@@ -13,7 +14,7 @@ import { birthdaySchema, type BirthdayFormData } from "@/schema/birthday-schema"
 import { useDayBookStore } from "@/store/day-book-store";
 import type { Birthday } from "@/types/birthday";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Avvvatars from "avvvatars-react";
+
 import { CameraIcon, Trash2Icon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -34,7 +35,7 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 		defaultValues: {
 			name: "",
 			birthday: "",
-			avatar: undefined,
+			avatar: "",
 		},
 	});
 
@@ -49,6 +50,7 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 
 	const avatar = watch("avatar");
 	const name = watch("name");
+	const date = watch("birthday");
 
 	useEffect(() => {
 		if (open) {
@@ -56,13 +58,13 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 				reset({
 					name: birthday.name,
 					birthday: birthday.birthday,
-					avatar: birthday.avatar,
+					avatar: birthday.avatar || "",
 				});
 			} else {
 				reset({
 					name: "",
 					birthday: "",
-					avatar: undefined,
+					avatar: "",
 				});
 			}
 			setGeneralError("");
@@ -75,7 +77,7 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 
 	const handleRemoveAvatar = (e: React.MouseEvent) => {
 		e.stopPropagation();
-		setValue("avatar", undefined, { shouldValidate: true });
+		setValue("avatar", "", { shouldValidate: true });
 		if (fileInputRef.current) {
 			fileInputRef.current.value = "";
 		}
@@ -136,12 +138,27 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 	};
 
 	const onSubmit = (data: BirthdayFormData) => {
+		const finalData = { ...data, avatar: data.avatar || undefined };
 		if (birthday) {
-			editBirthday({ ...birthday, ...data });
+			editBirthday({ ...birthday, ...finalData });
 		} else {
-			addBirthday(data);
+			addBirthday(finalData);
 		}
 		onOpenChange(false);
+	};
+
+	const avatarSettings = useDayBookStore((state) => state.settings.avatarSettings) || {
+		allowCustomUploads: true,
+	};
+
+	// Create a dummy Birthday object for previewing the avatar.
+	// The preview will use the selected generated-avatar library when custom uploads are disabled,
+	// or the currently selected avatar string if it exists.
+	const previewBirthday: Birthday = {
+		id: "preview",
+		name: name || "Jane Doe",
+		birthday: date || "2000-01-01",
+		avatar: avatar,
 	};
 
 	return (
@@ -160,60 +177,85 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 					className="flex flex-col gap-4 py-4"
 				>
 					<div className="mb-2 flex flex-col items-center justify-center">
-						<button
-							type="button"
-							aria-label="Change avatar"
-							className="group border-border hover:border-primary/50 focus-visible:ring-ring relative flex h-24 w-24 cursor-pointer items-center justify-center overflow-hidden rounded-full border-2 border-dashed transition-colors focus:outline-none focus-visible:ring-2"
-							onClick={handleAvatarClick}
-						>
-							{avatar ? (
-								<img
-									src={avatar}
-									alt="Avatar preview"
-									title="Avatar preview"
-									className="h-full w-full object-cover"
+						{avatarSettings.allowCustomUploads ? (
+							<>
+								<button
+									type="button"
+									aria-label="Change avatar"
+									className="group border-border hover:border-primary/50 focus-visible:ring-ring relative flex h-24 w-24 cursor-pointer items-center justify-center overflow-hidden rounded-full border-2 border-dashed transition-colors focus:outline-none focus-visible:ring-2"
+									onClick={handleAvatarClick}
+								>
+									{avatar ? (
+										<img
+											src={avatar}
+											alt="Avatar preview"
+											title="Avatar preview"
+											className="h-full w-full object-cover"
+										/>
+									) : name?.trim().length > 0 ? (
+										<div className="h-24 w-24 [&>svg]:h-24 [&>svg]:w-24">
+											<UserAvatar birthday={previewBirthday} size={96} className="h-full w-full" />
+										</div>
+									) : (
+										<div className="text-muted-foreground flex flex-col items-center justify-center">
+											<CameraIcon className="h-8 w-8 opacity-50" />
+										</div>
+									)}
+
+									{/* Hover overlay for changing image */}
+									<div className="absolute inset-0 flex flex-col items-center justify-center bg-black/40 opacity-0 transition-opacity group-hover:opacity-100">
+										<CameraIcon className="mb-1 h-6 w-6 text-white" />
+										<span className="text-[10px] font-medium tracking-wider text-white uppercase">
+											Change
+										</span>
+									</div>
+								</button>
+
+								{avatar && (
+									<Button
+										type="button"
+										variant="ghost"
+										size="sm"
+										className="text-destructive hover:text-destructive hover:bg-destructive/10 mt-2 h-7 text-xs"
+										onClick={handleRemoveAvatar}
+									>
+										<Trash2Icon className="mr-1.5 h-3 w-3" />
+										Remove
+									</Button>
+								)}
+								<Input
+									id="avatar-upload"
+									name="avatar-upload"
+									type="file"
+									accept="image/jpeg, image/jpg, image/png"
+									className="hidden"
+									ref={fileInputRef}
+									onChange={handleFileChange}
+									aria-label="Upload Avatar"
 								/>
-							) : name?.trim().length > 0 ? (
-								<div className="[&>svg]:h-24 [&>svg]:w-24">
-									<Avvvatars value={name.trim()} style="shape" size={96} />
-								</div>
-							) : (
-								<div className="text-muted-foreground flex flex-col items-center justify-center">
-									<CameraIcon className="h-8 w-8 opacity-50" />
-								</div>
-							)}
-
-							{/* Hover overlay for changing image */}
-							<div className="absolute inset-0 flex flex-col items-center justify-center bg-black/40 opacity-0 transition-opacity group-hover:opacity-100">
-								<CameraIcon className="mb-1 h-6 w-6 text-white" />
-								<span className="text-[10px] font-medium tracking-wider text-white uppercase">
-									Change
-								</span>
+							</>
+						) : (
+							<div className="flex flex-col items-center justify-center">
+								<UserAvatar birthday={previewBirthday} size={96} />
+								{avatar && (
+									<Button
+										type="button"
+										variant="ghost"
+										size="sm"
+										className="text-destructive hover:text-destructive hover:bg-destructive/10 mt-2 h-7 text-xs"
+										onClick={handleRemoveAvatar}
+									>
+										<Trash2Icon className="mr-1.5 h-3 w-3" />
+										Remove
+									</Button>
+								)}
+								<p className="text-muted-foreground mt-3 max-w-62.5 text-center text-xs">
+									{avatar
+										? "Custom profile image uploads are disabled. You can still remove your existing image."
+										: "Custom profile images are disabled. This generated avatar will be used instead."}
+								</p>
 							</div>
-						</button>
-
-						{avatar && (
-							<Button
-								type="button"
-								variant="ghost"
-								size="sm"
-								className="text-destructive hover:text-destructive hover:bg-destructive/10 mt-2 h-7 text-xs"
-								onClick={handleRemoveAvatar}
-							>
-								<Trash2Icon className="mr-1.5 h-3 w-3" />
-								Remove
-							</Button>
 						)}
-						<Input
-							id="avatar-upload"
-							name="avatar-upload"
-							type="file"
-							accept="image/jpeg, image/jpg, image/png"
-							className="hidden"
-							ref={fileInputRef}
-							onChange={handleFileChange}
-							aria-label="Upload Avatar"
-						/>
 					</div>
 
 					<div className="flex flex-col gap-2">

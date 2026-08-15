@@ -1,5 +1,5 @@
 import { useDayBookStore } from "@/store/day-book-store";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 interface FloatingMessage {
 	id: number;
@@ -9,17 +9,17 @@ interface FloatingMessage {
 }
 
 export function FloatingMessages({ enabled }: { enabled: boolean }) {
-	const { settings } = useDayBookStore();
+	const floatingMessagesSetting = useDayBookStore((state) => state.settings.floatingMessages);
 	const [messages, setMessages] = useState<FloatingMessage[]>([]);
+	const messageId = useRef(0);
 
 	useEffect(() => {
 		if (!enabled) return;
 		const floatingMessages =
-			settings.floatingMessages && settings.floatingMessages.length > 0
-				? settings.floatingMessages
+			floatingMessagesSetting && floatingMessagesSetting.length > 0
+				? floatingMessagesSetting
 				: ["Happy Birthday! 🎂"]; // safe fallback
 
-		let messageId = 0;
 		const interval = setInterval(() => {
 			const text = floatingMessages[Math.floor(Math.random() * floatingMessages.length)];
 			// Keep messages within the center 60% to avoid edge overflow on mobile
@@ -27,7 +27,7 @@ export function FloatingMessages({ enabled }: { enabled: boolean }) {
 			const delay = Math.random() * 0.5;
 
 			const newMessage: FloatingMessage = {
-				id: messageId++,
+				id: messageId.current++,
 				text,
 				left,
 				delay,
@@ -42,7 +42,7 @@ export function FloatingMessages({ enabled }: { enabled: boolean }) {
 		}, 3500); // New message every 3.5s on average
 
 		return () => clearInterval(interval);
-	}, [enabled]);
+	}, [enabled, floatingMessagesSetting]);
 
 	if (!enabled) return null;
 

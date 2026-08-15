@@ -1,6 +1,6 @@
 import { PartyHat } from "@/components/ui/party-hat";
 import type { Birthday } from "@/types/birthday";
-import Avvvatars from "avvvatars-react";
+import { UserAvatar } from "@/components/user-avatar";
 import { CakeIcon, SparklesIcon, StarIcon } from "lucide-react";
 
 interface CelebrantDisplayProps {
@@ -25,19 +25,7 @@ export function CelebrantDisplay({ celebrant, onClick }: CelebrantDisplayProps) 
 				</div>
 
 				<div className="bg-card ring-border relative z-10 rounded-full p-2 shadow-lg ring-1 transition-transform duration-300 group-hover:scale-105">
-					{celebrant.avatar ? (
-						<img
-							draggable={false}
-							src={celebrant.avatar}
-							alt=""
-							fetchPriority="high"
-							className="h-32 w-32 rounded-full object-cover md:h-40 md:w-40"
-						/>
-					) : (
-						<div className="[&>svg]:h-32 [&>svg]:w-32 md:[&>svg]:h-40 md:[&>svg]:w-40">
-							<Avvvatars value={celebrant.name} style="shape" size={160} />
-						</div>
-					)}
+					<UserAvatar birthday={celebrant} size={160} className="h-32 w-32 md:h-40 md:w-40" />
 				</div>
 			</div>
 

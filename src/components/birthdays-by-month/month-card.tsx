@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import type { Birthday } from "@/types/birthday";
-import Avvvatars from "avvvatars-react";
+import { UserAvatar } from "@/components/user-avatar";
 import { CalendarHeart } from "lucide-react";
 
 interface MonthCardProps {
@@ -52,18 +52,7 @@ export function MonthCard({ monthName, monthIndex, birthdays, onClick }: MonthCa
 								key={celebrant.id}
 								className="bg-background ring-border z-10 h-8 w-8 rounded-full ring-2"
 							>
-								{celebrant.avatar ? (
-									<img
-										src={celebrant.avatar}
-										alt={`${celebrant.name}'s avatar`}
-										title={celebrant.name}
-										className="h-full w-full rounded-full object-cover"
-									/>
-								) : (
-									<div className="[&>svg]:h-8 [&>svg]:w-8">
-										<Avvvatars value={celebrant.name} style="shape" size={32} />
-									</div>
-								)}
+								<UserAvatar birthday={celebrant} size={32} className="h-full w-full" />
 							</div>
 						))}
 						{remainingCount > 0 && (

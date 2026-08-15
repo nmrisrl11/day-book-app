@@ -1,3 +1,4 @@
+import { BORING_AVATARS_DEFAULT_COLORS } from "@/constants/default-colors";
 import { FLOATING_MESSAGES } from "@/constants/floating-messages";
 import { GREETINGS } from "@/constants/greetings";
 import type { Birthday } from "@/types/birthday";
@@ -10,6 +11,13 @@ export const defaultSettings: Settings = {
 	theme: "light",
 	floatingMessages: FLOATING_MESSAGES,
 	greetings: GREETINGS,
+	avatarSettings: {
+		allowCustomUploads: true,
+		defaultLibrary: "avvvatars",
+		avvvatarsStyle: "shape",
+		boringAvatarsVariant: "beam",
+		boringAvatarsColors: BORING_AVATARS_DEFAULT_COLORS,
+	},
 };
 
 interface DayBookState {
@@ -75,6 +83,19 @@ export const useDayBookStore = create<DayBookState>()(
 		}),
 		{
 			name: "daybook-storage",
+			version: 1,
+			merge: (persistedState: any, currentState) => ({
+				...currentState,
+				...persistedState,
+				settings: {
+					...defaultSettings,
+					...(persistedState?.settings || {}),
+					avatarSettings: {
+						...defaultSettings.avatarSettings,
+						...(persistedState?.settings?.avatarSettings || {}),
+					},
+				},
+			}),
 		},
 	),
 );

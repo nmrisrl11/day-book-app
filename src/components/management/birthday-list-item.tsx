@@ -1,7 +1,7 @@
 import type { Birthday } from "@/types/birthday";
 import { Button } from "@/components/ui/button";
 import { Edit2Icon, Trash2Icon } from "lucide-react";
-import Avvvatars from "avvvatars-react";
+import { UserAvatar } from "@/components/user-avatar";
 
 interface BirthdayListItemProps {
 	birthday: Birthday;
@@ -25,18 +25,7 @@ export function BirthdayListItem({ birthday, onEdit, onDelete }: BirthdayListIte
 		<div className="border-border bg-card flex items-center justify-between rounded-xl border p-4 shadow-sm">
 			<div className="flex items-center gap-4">
 				<div className="ring-border h-10 w-10 shrink-0 overflow-hidden rounded-full shadow-sm ring-1">
-					{birthday.avatar ? (
-						<img
-							src={birthday.avatar}
-							alt={birthday.name}
-							title={birthday.name}
-							className="h-full w-full object-cover"
-						/>
-					) : (
-						<div className="[&>svg]:h-10 [&>svg]:w-10">
-							<Avvvatars value={birthday.name} style="shape" size={40} />
-						</div>
-					)}
+					<UserAvatar birthday={birthday} size={40} className="h-full w-full" />
 				</div>
 				<div className="flex flex-col">
 					<span className="text-foreground font-semibold">{birthday.name}</span>
