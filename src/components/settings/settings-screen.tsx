@@ -8,6 +8,7 @@ import { DownloadIcon, UploadIcon, MoonIcon, SunIcon, ArrowLeft } from "lucide-r
 import { DeleteConfirmationModal } from "../management/delete-confirmation-modal";
 import { useNavigate } from "react-router-dom";
 import { FloatingMessagesManager } from "./floating-messages-manager";
+import { GreetingsManager } from "./greetings-manager";
 
 export function SettingsScreen() {
 	const { settings, updateSettings, birthdays, importData, deleteAllBirthdays } = useDayBook();
@@ -119,6 +120,8 @@ export function SettingsScreen() {
 				</div>
 
 				<FloatingMessagesManager />
+
+				<GreetingsManager />
 
 				{/* Data Management Section */}
 				<div className="flex flex-col gap-3">

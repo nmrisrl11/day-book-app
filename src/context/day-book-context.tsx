@@ -1,3 +1,4 @@
+import { GREETINGS } from "@/constants/greetings";
 import type { Birthday } from "@/types/birthday";
 import type { Settings } from "@/types/settings";
 import React, { createContext, useContext, useEffect, useState } from "react";
@@ -24,6 +25,7 @@ const defaultSettings: Settings = {
 		"Have a blast! 🎉",
 		"Celebrate! 🥳",
 	],
+	greetings: GREETINGS,
 };
 
 const DayBookContext = createContext<DayBookContextType | undefined>(undefined);

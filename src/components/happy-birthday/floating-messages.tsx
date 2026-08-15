@@ -14,9 +14,10 @@ export function FloatingMessages({ enabled }: { enabled: boolean }) {
 
 	useEffect(() => {
 		if (!enabled) return;
-		const floatingMessages = settings.floatingMessages && settings.floatingMessages.length > 0
-			? settings.floatingMessages
-			: ["Happy Birthday! 🎂"]; // safe fallback
+		const floatingMessages =
+			settings.floatingMessages && settings.floatingMessages.length > 0
+				? settings.floatingMessages
+				: ["Happy Birthday! 🎂"]; // safe fallback
 
 		let messageId = 0;
 		const interval = setInterval(() => {

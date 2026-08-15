@@ -5,15 +5,15 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { lazy, Suspense } from "react";
 
 const Dashboard = lazy(() =>
-	import("./components/dashboard/dashboard").then((m) => ({ default: m.Dashboard }))
+	import("./components/dashboard/dashboard").then((m) => ({ default: m.Dashboard })),
 );
 const BirthdayManagementScreen = lazy(() =>
 	import("./components/management/birthday-management-screen").then((m) => ({
 		default: m.BirthdayManagementScreen,
-	}))
+	})),
 );
 const SettingsScreen = lazy(() =>
-	import("./components/settings/settings-screen").then((m) => ({ default: m.SettingsScreen }))
+	import("./components/settings/settings-screen").then((m) => ({ default: m.SettingsScreen })),
 );
 
 function MainApp() {

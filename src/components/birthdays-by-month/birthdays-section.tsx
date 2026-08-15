@@ -3,7 +3,9 @@ import type { Birthday } from "@/types/birthday";
 import { lazy, Suspense, useState } from "react";
 import { MonthCard } from "./month-card";
 
-const MonthlyBirthdayModal = lazy(() => import("./monthly-birthday-modal").then(m => ({ default: m.MonthlyBirthdayModal })));
+const MonthlyBirthdayModal = lazy(() =>
+	import("./monthly-birthday-modal").then((m) => ({ default: m.MonthlyBirthdayModal })),
+);
 
 interface BirthdaysSectionProps {
 	birthdaysByMonth: Record<number, Birthday[]>;
