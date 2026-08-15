@@ -1,9 +1,10 @@
 import { useDayBook } from "@/context/day-book-context";
 import { parseImportedBirthdays } from "@/helpers/import-export";
 import { PlusIcon, UploadIcon } from "lucide-react";
-import { useState } from "react";
-import { BirthdayFormModal } from "./management/birthday-form-modal";
+import { lazy, Suspense, useState } from "react";
 import { Button } from "./ui/button";
+
+const BirthdayFormModal = lazy(() => import("./management/birthday-form-modal").then(m => ({ default: m.BirthdayFormModal })));
 
 export function EmptyState() {
 	const [formModalOpen, setFormModalOpen] = useState(false);
@@ -64,7 +65,11 @@ export function EmptyState() {
 				</Button>
 			</div>
 
-			<BirthdayFormModal open={formModalOpen} onOpenChange={setFormModalOpen} birthday={null} />
+			{formModalOpen && (
+				<Suspense fallback={null}>
+					<BirthdayFormModal open={formModalOpen} onOpenChange={setFormModalOpen} birthday={null} />
+				</Suspense>
+			)}
 		</div>
 	);
 }

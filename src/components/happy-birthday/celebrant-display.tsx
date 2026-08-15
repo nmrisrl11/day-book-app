@@ -30,6 +30,7 @@ export function CelebrantDisplay({ celebrant, onClick }: CelebrantDisplayProps) 
 							draggable={false}
 							src={celebrant.avatar}
 							alt=""
+							fetchPriority="high"
 							className="h-32 w-32 rounded-full object-cover md:h-40 md:w-40"
 						/>
 					) : (
