@@ -39,6 +39,7 @@ export function MonthCard({ monthName, monthIndex, birthdays, onClick }: MonthCa
 						title="Current Month"
 					>
 						<CalendarHeart className="h-3.5 w-3.5" />
+						<span className="sr-only">Current month</span>
 					</div>
 				)}
 			</div>

@@ -12,7 +12,7 @@ export function Footer() {
 							target="_blank"
 							rel="noopener noreferrer"
 						>
-							<GithubIcon className="mr-1 h-4 w-4" />
+							<GithubIcon aria-hidden="true" className="mr-1 h-4 w-4" />
 							GitHub Repository
 						</a>
 					</Button>
