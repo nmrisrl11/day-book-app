@@ -1,5 +1,4 @@
 import { useEffect, useRef } from "react";
-import confetti from "canvas-confetti";
 
 export function useConfetti(enabled: boolean) {
 	const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -11,55 +10,61 @@ export function useConfetti(enabled: boolean) {
 		const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 		if (prefersReducedMotion) return;
 
-		// Helper to fire a subtle burst of confetti
-		const fireConfetti = () => {
-			const duration = 3000;
-			const animationEnd = Date.now() + duration;
-			const defaults = {
-				startVelocity: 25,
-				spread: 360,
-				ticks: 60,
-				zIndex: 50,
+		let active = true;
+
+		import("canvas-confetti").then(({ default: confetti }) => {
+			if (!active) return;
+
+			// Helper to fire a subtle burst of confetti
+			const fireConfetti = () => {
+				const duration = 3000;
+				const animationEnd = Date.now() + duration;
+				const defaults = {
+					startVelocity: 25,
+					spread: 360,
+					ticks: 60,
+					zIndex: 50,
+				};
+
+				const interval: any = setInterval(function () {
+					const timeLeft = animationEnd - Date.now();
+
+					if (timeLeft <= 0) {
+						return clearInterval(interval);
+					}
+
+					const particleCount = 20 * (timeLeft / duration);
+					// since particles fall down, start a bit higher than random
+					confetti({
+						...defaults,
+						particleCount,
+						origin: { x: Math.random(), y: Math.random() - 0.2 },
+						colors: ["#3b82f6", "#ec4899", "#f59e0b", "#10b981"],
+						disableForReducedMotion: true,
+					});
+				}, 250);
 			};
 
-			const interval: any = setInterval(function () {
-				const timeLeft = animationEnd - Date.now();
+			// Fire immediately once if there are celebrants
+			fireConfetti();
 
-				if (timeLeft <= 0) {
-					return clearInterval(interval);
-				}
+			// Then schedule occasional random confetti (every 10 - 25 seconds)
+			const scheduleNext = () => {
+				const nextTime = Math.random() * 15000 + 10000;
+				timeoutRef.current = setTimeout(() => {
+					fireConfetti();
+					scheduleNext();
+				}, nextTime);
+			};
 
-				const particleCount = 20 * (timeLeft / duration);
-				// since particles fall down, start a bit higher than random
-				confetti({
-					...defaults,
-					particleCount,
-					origin: { x: Math.random(), y: Math.random() - 0.2 },
-					colors: ["#3b82f6", "#ec4899", "#f59e0b", "#10b981"],
-					disableForReducedMotion: true,
-				});
-			}, 250);
-		};
-
-		// Fire immediately once if there are celebrants
-		fireConfetti();
-
-		// Then schedule occasional random confetti (every 10 - 25 seconds)
-		const scheduleNext = () => {
-			const nextTime = Math.random() * 15000 + 10000;
-			timeoutRef.current = setTimeout(() => {
-				fireConfetti();
-				scheduleNext();
-			}, nextTime);
-		};
-
-		scheduleNext();
+			scheduleNext();
+		});
 
 		return () => {
+			active = false;
 			if (timeoutRef.current) {
 				clearTimeout(timeoutRef.current);
 			}
-			confetti.reset();
 		};
 	}, [enabled]);
 }
