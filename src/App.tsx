@@ -1,8 +1,8 @@
+import { lazy, Suspense } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Footer } from "./components/layout/footer";
 import { PageLayout } from "./components/layout/page-layout";
 import { DayBookProvider } from "./context/day-book-context";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { lazy, Suspense } from "react";
 
 const Dashboard = lazy(() =>
 	import("./components/dashboard/dashboard").then((m) => ({ default: m.Dashboard })),

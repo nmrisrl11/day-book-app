@@ -1,0 +1,35 @@
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useDayBook } from "@/context/day-book-context";
+
+export function DisplaySettingsSection() {
+	const { settings, updateSettings } = useDayBook();
+
+	const handleUpcomingCountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const val = e.target.valueAsNumber;
+		if (Number.isInteger(val) && val >= 1 && val <= 10) {
+			updateSettings({ upcomingCount: val });
+		}
+	};
+
+	return (
+		<div className="flex flex-col gap-3">
+			<Label htmlFor="upcoming-count" className="text-base">
+				Upcoming Birthdays Display Count
+			</Label>
+			<p className="text-muted-foreground text-sm">
+				Choose how many upcoming birthdays to show on the dashboard.
+			</p>
+			<Input
+				id="upcoming-count"
+				name="upcoming-count"
+				type="number"
+				min={1}
+				max={10}
+				step="1"
+				value={settings.upcomingCount}
+				onChange={handleUpcomingCountChange}
+			/>
+		</div>
+	);
+}

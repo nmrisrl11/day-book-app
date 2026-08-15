@@ -14,7 +14,7 @@ interface DayBookContextType {
 	importData: (data: Birthday[]) => void;
 }
 
-const defaultSettings: Settings = {
+export const defaultSettings: Settings = {
 	upcomingCount: 5,
 	theme: "light",
 	floatingMessages: [
@@ -62,6 +62,21 @@ export function DayBookProvider({ children }: { children: React.ReactNode }) {
 		root.classList.remove("light", "dark");
 		root.classList.add(settings.theme);
 	}, [settings]);
+
+	useEffect(() => {
+		const handleKeyDown = (e: KeyboardEvent) => {
+			if (e.repeat) return;
+			if (e.altKey && e.key.toLowerCase() === "t") {
+				e.preventDefault();
+				setSettings((prev) => ({
+					...prev,
+					theme: prev.theme === "light" ? "dark" : "light",
+				}));
+			}
+		};
+		window.addEventListener("keydown", handleKeyDown);
+		return () => window.removeEventListener("keydown", handleKeyDown);
+	}, []);
 
 	const addBirthday = (birthday: Omit<Birthday, "id">) => {
 		const newBirthday: Birthday = {

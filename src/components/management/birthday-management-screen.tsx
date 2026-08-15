@@ -141,7 +141,7 @@ export function BirthdayManagementScreen() {
 						</div>
 						<div className="flex gap-2">
 							<Select value={monthFilter} onValueChange={setMonthFilter}>
-								<SelectTrigger className="bg-background w-32.5">
+								<SelectTrigger className="bg-background w-32.5" aria-label="Filter by month">
 									<SelectValue placeholder="Month" />
 								</SelectTrigger>
 								<SelectContent position="popper">
@@ -154,7 +154,7 @@ export function BirthdayManagementScreen() {
 								</SelectContent>
 							</Select>
 							<Select value={sortOption} onValueChange={setSortOption}>
-								<SelectTrigger className="bg-background w-40">
+								<SelectTrigger className="bg-background w-40" aria-label="Sort birthdays">
 									<SelectValue placeholder="Sort by" />
 								</SelectTrigger>
 								<SelectContent position="popper">
