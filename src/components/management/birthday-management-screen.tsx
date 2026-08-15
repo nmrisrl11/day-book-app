@@ -9,7 +9,7 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import { FULL_MONTHS } from "@/constants/months";
-import { useDayBook } from "@/context/day-book-context";
+import { useDayBookStore } from "@/store/day-book-store";
 import type { Birthday } from "@/types/birthday";
 import { PlusIcon, SearchIcon } from "lucide-react";
 import { useMemo, useState } from "react";
@@ -18,7 +18,7 @@ import { BirthdayListItem } from "./birthday-list-item";
 import { DeleteConfirmationModal } from "./delete-confirmation-modal";
 
 export function BirthdayManagementScreen() {
-	const { birthdays, deleteBirthday } = useDayBook();
+	const { birthdays, deleteBirthday } = useDayBookStore();
 
 	const [formModalOpen, setFormModalOpen] = useState(false);
 	const [editingBirthday, setEditingBirthday] = useState<Birthday | null>(null);

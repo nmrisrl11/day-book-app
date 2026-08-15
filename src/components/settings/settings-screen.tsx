@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { useDayBook } from "@/context/day-book-context";
+import { useDayBookStore } from "@/store/day-book-store";
 import { exportBirthdays } from "@/helpers/import-export";
 import { ArrowLeft } from "lucide-react";
 import { lazy, Suspense, useState } from "react";
@@ -30,7 +30,7 @@ const DangerZoneSection = lazy(() =>
 );
 
 export function SettingsScreen() {
-	const { birthdays, deleteAllBirthdays } = useDayBook();
+	const { birthdays, deleteAllBirthdays } = useDayBookStore();
 	const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 	const navigate = useNavigate();
 

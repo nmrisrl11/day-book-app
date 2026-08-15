@@ -1,9 +1,9 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useDayBook } from "@/context/day-book-context";
+import { useDayBookStore } from "@/store/day-book-store";
 
 export function DisplaySettingsSection() {
-	const { settings, updateSettings } = useDayBook();
+	const { settings, updateSettings } = useDayBookStore();
 
 	const handleUpcomingCountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const val = e.target.valueAsNumber;

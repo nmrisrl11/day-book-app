@@ -1,13 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { defaultSettings, useDayBook } from "@/context/day-book-context";
 import { cn } from "@/lib/utils";
+import { defaultSettings, useDayBookStore } from "@/store/day-book-store";
 import { CheckIcon, Edit2Icon, PlusIcon, RotateCcwIcon, Trash2Icon, XIcon } from "lucide-react";
 import { useRef, useState } from "react";
 
 export function GreetingsManager() {
-	const { settings, updateSettings } = useDayBook();
+	const { settings, updateSettings } = useDayBookStore();
 	const greetings = settings.greetings || [];
 	const [newGreeting, setNewGreeting] = useState("");
 	const [error, setError] = useState("");

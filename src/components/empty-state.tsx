@@ -1,5 +1,5 @@
-import { useDayBook } from "@/context/day-book-context";
 import { parseImportedBirthdays } from "@/helpers/import-export";
+import { useDayBookStore } from "@/store/day-book-store";
 import { PlusIcon, UploadIcon } from "lucide-react";
 import { lazy, Suspense, useState } from "react";
 import { Button } from "./ui/button";
@@ -10,7 +10,7 @@ const BirthdayFormModal = lazy(() =>
 
 export function EmptyState() {
 	const [formModalOpen, setFormModalOpen] = useState(false);
-	const { importData } = useDayBook();
+	const { importData } = useDayBookStore();
 
 	const handleImportClick = () => {
 		const input = document.createElement("input");

@@ -1,4 +1,4 @@
-import { useDayBook } from "@/context/day-book-context";
+import { useDayBookStore } from "@/store/day-book-store";
 import { useEffect, useState } from "react";
 
 interface FloatingMessage {
@@ -9,7 +9,7 @@ interface FloatingMessage {
 }
 
 export function FloatingMessages({ enabled }: { enabled: boolean }) {
-	const { settings } = useDayBook();
+	const { settings } = useDayBookStore();
 	const [messages, setMessages] = useState<FloatingMessage[]>([]);
 
 	useEffect(() => {
