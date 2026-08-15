@@ -1,13 +1,13 @@
 import { BirthdaysSection } from "@/components/birthdays-by-month/birthdays-section";
+import { EmptyState } from "@/components/empty-state";
 import { HappyBirthdaySection } from "@/components/happy-birthday/happy-birthday-section";
 import { UpcomingBirthdaysSection } from "@/components/upcoming-birthdays/upcoming-birthdays-section";
 import { useBirthdayData } from "@/hooks/use-birthday-data";
-import { useDayBook } from "@/context/day-book-context";
-import { EmptyState } from "@/components/empty-state";
+import { useDayBookStore } from "@/store/day-book-store";
 
 export function Dashboard() {
 	const { todayCelebrants, upcomingBirthdays, birthdaysByMonth, currentDate } = useBirthdayData();
-	const { birthdays } = useDayBook();
+	const { birthdays } = useDayBookStore();
 
 	if (birthdays.length === 0) {
 		return <EmptyState />;

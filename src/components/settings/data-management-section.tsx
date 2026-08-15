@@ -1,12 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useDayBook } from "@/context/day-book-context";
 import { exportBirthdays, parseImportedBirthdays } from "@/helpers/import-export";
+import { useDayBookStore } from "@/store/day-book-store";
 import { DownloadIcon, UploadIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 export function DataManagementSection() {
-	const { birthdays, importData } = useDayBook();
+	const { birthdays, importData } = useDayBookStore();
 	const fileInputRef = useRef<HTMLInputElement>(null);
 	const [importError, setImportError] = useState("");
 

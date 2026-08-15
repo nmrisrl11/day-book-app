@@ -1,19 +1,22 @@
-import { useState, useEffect, useRef } from "react";
+import { Button } from "@/components/ui/button";
 import {
 	Dialog,
 	DialogContent,
-	DialogHeader,
-	DialogTitle,
 	DialogDescription,
 	DialogFooter,
+	DialogHeader,
+	DialogTitle,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useDayBook } from "@/context/day-book-context";
+import { birthdaySchema, type BirthdayFormData } from "@/schema/birthday-schema";
+import { useDayBookStore } from "@/store/day-book-store";
 import type { Birthday } from "@/types/birthday";
+import { zodResolver } from "@hookform/resolvers/zod";
 import Avvvatars from "avvvatars-react";
 import { CameraIcon, Trash2Icon } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { useForm } from "react-hook-form";
 
 interface BirthdayFormModalProps {
 	open: boolean;
@@ -22,28 +25,49 @@ interface BirthdayFormModalProps {
 }
 
 export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayFormModalProps) {
-	const { addBirthday, editBirthday } = useDayBook();
-
-	const [name, setName] = useState("");
-	const [date, setDate] = useState("");
-	const [avatar, setAvatar] = useState<string | undefined>(undefined);
-	const [error, setError] = useState("");
+	const { addBirthday, editBirthday } = useDayBookStore();
+	const [generalError, setGeneralError] = useState("");
 	const fileInputRef = useRef<HTMLInputElement>(null);
+
+	const form = useForm<BirthdayFormData>({
+		resolver: zodResolver(birthdaySchema),
+		defaultValues: {
+			name: "",
+			birthday: "",
+			avatar: undefined,
+		},
+	});
+
+	const {
+		register,
+		handleSubmit,
+		setValue,
+		watch,
+		reset,
+		formState: { errors },
+	} = form;
+
+	const avatar = watch("avatar");
+	const name = watch("name");
 
 	useEffect(() => {
 		if (open) {
 			if (birthday) {
-				setName(birthday.name);
-				setDate(birthday.birthday);
-				setAvatar(birthday.avatar);
+				reset({
+					name: birthday.name,
+					birthday: birthday.birthday,
+					avatar: birthday.avatar,
+				});
 			} else {
-				setName("");
-				setDate("");
-				setAvatar(undefined);
+				reset({
+					name: "",
+					birthday: "",
+					avatar: undefined,
+				});
 			}
-			setError("");
+			setGeneralError("");
 		}
-	}, [open, birthday]);
+	}, [open, birthday, reset]);
 
 	const handleAvatarClick = () => {
 		fileInputRef.current?.click();
@@ -51,7 +75,7 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 
 	const handleRemoveAvatar = (e: React.MouseEvent) => {
 		e.stopPropagation();
-		setAvatar(undefined);
+		setValue("avatar", undefined, { shouldValidate: true });
 		if (fileInputRef.current) {
 			fileInputRef.current.value = "";
 		}
@@ -64,14 +88,14 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 		// Validate type
 		const validTypes = ["image/jpeg", "image/jpg", "image/png"];
 		if (!validTypes.includes(file.type)) {
-			setError("Only JPEG and PNG images are allowed.");
+			setGeneralError("Only JPEG and PNG images are allowed.");
 			return;
 		}
 
 		// Validate size (max 2MB)
 		const maxSize = 2 * 1024 * 1024; // 2MB
 		if (file.size > maxSize) {
-			setError("Image size must be less than 2MB.");
+			setGeneralError("Image size must be less than 2MB.");
 			return;
 		}
 
@@ -99,58 +123,24 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 					ctx?.drawImage(img, 0, 0, width, height);
 
 					const dataUrl = canvas.toDataURL("image/jpeg", 0.7);
-					setAvatar(dataUrl);
-					setError("");
+					setValue("avatar", dataUrl, { shouldValidate: true });
+					setGeneralError("");
 				};
 				img.src = event.target.result as string;
 			}
 		};
 		reader.onerror = () => {
-			setError("Failed to read the file.");
+			setGeneralError("Failed to read the file.");
 		};
 		reader.readAsDataURL(file);
 	};
 
-	const handleSubmit = (e: React.FormEvent) => {
-		e.preventDefault();
-
-		const trimmedName = name.trim();
-
-		if (!trimmedName) {
-			setError("Name is required.");
-			return;
-		}
-		if (trimmedName.length < 2) {
-			setError("Name must be at least 2 characters.");
-			return;
-		}
-		if (trimmedName.length > 50) {
-			setError("Name must be less than 50 characters.");
-			return;
-		}
-		if (!/^[a-zA-Z\s]+$/.test(trimmedName)) {
-			setError("Name can only contain letters and spaces.");
-			return;
-		}
-
-		if (!date) {
-			setError("Birthday is required.");
-			return;
-		}
-
-		// Basic validation for YYYY-MM-DD
-		const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
-		if (!dateRegex.test(date)) {
-			setError("Invalid date format.");
-			return;
-		}
-
+	const onSubmit = (data: BirthdayFormData) => {
 		if (birthday) {
-			editBirthday({ ...birthday, name: trimmedName, birthday: date, avatar });
+			editBirthday({ ...birthday, ...data });
 		} else {
-			addBirthday({ name: trimmedName, birthday: date, avatar });
+			addBirthday(data);
 		}
-
 		onOpenChange(false);
 	};
 
@@ -164,7 +154,11 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 					</DialogDescription>
 				</DialogHeader>
 
-				<form id="birthday-form" onSubmit={handleSubmit} className="flex flex-col gap-4 py-4">
+				<form
+					id="birthday-form"
+					onSubmit={handleSubmit(onSubmit)}
+					className="flex flex-col gap-4 py-4"
+				>
 					<div className="mb-2 flex flex-col items-center justify-center">
 						<button
 							type="button"
@@ -179,7 +173,7 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 									title="Avatar preview"
 									className="h-full w-full object-cover"
 								/>
-							) : name.trim().length > 0 ? (
+							) : name?.trim().length > 0 ? (
 								<div className="[&>svg]:h-24 [&>svg]:w-24">
 									<Avvvatars value={name.trim()} style="shape" size={96} />
 								</div>
@@ -224,37 +218,32 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 
 					<div className="flex flex-col gap-2">
 						<Label htmlFor="name">Name</Label>
-						<Input
-							id="name"
-							name="name"
-							value={name}
-							onChange={(e) => {
-								const val = e.target.value;
-								// Only allow letters and spaces, or empty string
-								if (/^[a-zA-Z\s]*$/.test(val)) {
-									setName(val);
-								}
-							}}
-							placeholder="e.g. John Doe"
-							autoComplete="off"
-						/>
+						<Input id="name" {...register("name")} placeholder="e.g. John Doe" autoComplete="off" />
+						{errors.name && (
+							<p className="text-destructive text-sm font-medium" role="alert">
+								{errors.name.message}
+							</p>
+						)}
 					</div>
 
 					<div className="flex flex-col gap-2">
 						<Label htmlFor="birthday">Birthday</Label>
 						<Input
 							id="birthday"
-							name="birthday"
 							type="date"
-							value={date}
-							onChange={(e) => setDate(e.target.value)}
+							{...register("birthday")}
 							className="dark:scheme-dark"
 						/>
+						{errors.birthday && (
+							<p className="text-destructive text-sm font-medium" role="alert">
+								{errors.birthday.message}
+							</p>
+						)}
 					</div>
 
-					{error && (
+					{generalError && (
 						<p className="text-destructive text-sm font-medium" role="alert">
-							{error}
+							{generalError}
 						</p>
 					)}
 				</form>

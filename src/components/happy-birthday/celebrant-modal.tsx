@@ -6,8 +6,8 @@ import {
 	DialogTitle,
 } from "@/components/ui/dialog";
 import { PartyHat } from "@/components/ui/party-hat";
-import { useDayBook } from "@/context/day-book-context";
 import { calculateAge, formatBirthdayDisplay } from "@/helpers/birthday-utils";
+import { useDayBookStore } from "@/store/day-book-store";
 import { type Birthday } from "@/types/birthday";
 import Avvvatars from "avvvatars-react";
 import { CalendarIcon, GiftIcon } from "lucide-react";
@@ -22,7 +22,7 @@ interface CelebrantModalProps {
 }
 
 export function CelebrantModal({ celebrant, isOpen, onClose, currentDate }: CelebrantModalProps) {
-	const { settings } = useDayBook();
+	const { settings } = useDayBookStore();
 
 	// Randomly select a greeting when the modal opens
 	const greeting = useMemo(() => {

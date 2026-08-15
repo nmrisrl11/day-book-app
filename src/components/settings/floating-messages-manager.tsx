@@ -2,14 +2,14 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { defaultSettings, useDayBook } from "@/context/day-book-context";
 import { cn } from "@/lib/utils";
+import { defaultSettings, useDayBookStore } from "@/store/day-book-store";
 import { CheckIcon, Edit2Icon, PlusIcon, RotateCcwIcon, Trash2Icon, XIcon } from "lucide-react";
 import { useState } from "react";
 import { Kbd } from "../ui/kbd";
 
 export function FloatingMessagesManager() {
-	const { settings, updateSettings } = useDayBook();
+	const { settings, updateSettings } = useDayBookStore();
 	const messages = settings.floatingMessages || [];
 	const [newMessage, setNewMessage] = useState("");
 	const [error, setError] = useState("");

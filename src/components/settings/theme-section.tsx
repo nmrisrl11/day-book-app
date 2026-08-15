@@ -1,10 +1,10 @@
 import { Button } from "@/components/ui/button";
-import { useDayBook } from "@/context/day-book-context";
+import { useDayBookStore } from "@/store/day-book-store";
 import { MoonIcon, SunIcon } from "lucide-react";
 import { Kbd } from "../ui/kbd";
 
 export function ThemeSection() {
-	const { settings, updateSettings } = useDayBook();
+	const { settings, updateSettings } = useDayBookStore();
 
 	return (
 		<div className="flex flex-col gap-3">

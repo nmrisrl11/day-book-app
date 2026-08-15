@@ -1,13 +1,13 @@
-import { useMemo } from "react";
 import {
-	getUpcomingBirthdays,
-	getTodayCelebrants,
 	getBirthdaysByMonth,
+	getTodayCelebrants,
+	getUpcomingBirthdays,
 } from "@/helpers/birthday-utils";
-import { useDayBook } from "@/context/day-book-context";
+import { useDayBookStore } from "@/store/day-book-store";
+import { useMemo } from "react";
 
 export function useBirthdayData() {
-	const { birthdays, settings } = useDayBook();
+	const { birthdays, settings } = useDayBookStore();
 
 	return useMemo(() => {
 		const now = new Date();
