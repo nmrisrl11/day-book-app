@@ -8,7 +8,7 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { formatBirthdayDisplay } from "@/helpers/birthday-utils";
 import type { Birthday } from "@/types/birthday";
-import Avvvatars from "avvvatars-react";
+import { UserAvatar } from "@/components/user-avatar";
 
 interface MonthlyBirthdayModalProps {
 	monthName: string;
@@ -66,18 +66,7 @@ export function MonthlyBirthdayModal({
 										{celebrants.map((celebrant) => (
 											<div key={celebrant.id} className="flex items-center gap-4">
 												<div className="bg-muted ring-border rounded-full p-1 ring-1">
-													{celebrant.avatar ? (
-														<img
-															draggable={false}
-															src={celebrant.avatar}
-															alt=""
-															className="h-12 w-12 rounded-full object-cover"
-														/>
-													) : (
-														<div className="[&>svg]:h-12 [&>svg]:w-12">
-															<Avvvatars value={celebrant.name} style="shape" size={48} />
-														</div>
-													)}
+													<UserAvatar birthday={celebrant} size={48} className="h-12 w-12" />
 												</div>
 												<span className="text-foreground text-lg font-semibold">
 													{celebrant.name}

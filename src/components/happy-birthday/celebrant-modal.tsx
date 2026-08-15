@@ -9,7 +9,7 @@ import { PartyHat } from "@/components/ui/party-hat";
 import { calculateAge, formatBirthdayDisplay } from "@/helpers/birthday-utils";
 import { useDayBookStore } from "@/store/day-book-store";
 import { type Birthday } from "@/types/birthday";
-import Avvvatars from "avvvatars-react";
+import { UserAvatar } from "@/components/user-avatar";
 import { CalendarIcon, GiftIcon } from "lucide-react";
 import { useMemo } from "react";
 import { Badge } from "../ui/badge";
@@ -52,18 +52,7 @@ export function CelebrantModal({ celebrant, isOpen, onClose, currentDate }: Cele
 						</div>
 
 						<div className="bg-background ring-border relative z-10 rounded-full p-2 shadow-sm ring-1">
-							{celebrant.avatar ? (
-								<img
-									draggable={false}
-									src={celebrant.avatar}
-									alt=""
-									className="h-24 w-24 rounded-full object-cover"
-								/>
-							) : (
-								<div className="[&>svg]:h-24 [&>svg]:w-24">
-									<Avvvatars value={celebrant.name} style="shape" size={96} />
-								</div>
-							)}
+							<UserAvatar birthday={celebrant} size={96} className="h-24 w-24" />
 						</div>
 					</div>
 
