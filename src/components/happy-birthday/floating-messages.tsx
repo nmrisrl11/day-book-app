@@ -1,13 +1,5 @@
+import { useDayBook } from "@/context/day-book-context";
 import { useEffect, useState } from "react";
-
-const MESSAGES = [
-	"Happy Birthday! 🎂",
-	"Make a wish! 🌟",
-	"Party time! 🎈",
-	"Cheers! 🥂",
-	"Have a blast! 🎉",
-	"Celebrate! 🥳",
-];
 
 interface FloatingMessage {
 	id: number;
@@ -17,14 +9,18 @@ interface FloatingMessage {
 }
 
 export function FloatingMessages({ enabled }: { enabled: boolean }) {
+	const { settings } = useDayBook();
 	const [messages, setMessages] = useState<FloatingMessage[]>([]);
 
 	useEffect(() => {
 		if (!enabled) return;
+		const floatingMessages = settings.floatingMessages && settings.floatingMessages.length > 0
+			? settings.floatingMessages
+			: ["Happy Birthday! 🎂"]; // safe fallback
 
 		let messageId = 0;
 		const interval = setInterval(() => {
-			const text = MESSAGES[Math.floor(Math.random() * MESSAGES.length)];
+			const text = floatingMessages[Math.floor(Math.random() * floatingMessages.length)];
 			// Keep messages within the center 60% to avoid edge overflow on mobile
 			const left = 15 + Math.random() * 55;
 			const delay = Math.random() * 0.5;

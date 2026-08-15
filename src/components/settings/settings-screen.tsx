@@ -7,6 +7,7 @@ import { exportBirthdays, parseImportedBirthdays } from "@/helpers/import-export
 import { DownloadIcon, UploadIcon, MoonIcon, SunIcon, ArrowLeft } from "lucide-react";
 import { DeleteConfirmationModal } from "../management/delete-confirmation-modal";
 import { useNavigate } from "react-router-dom";
+import { FloatingMessagesManager } from "./floating-messages-manager";
 
 export function SettingsScreen() {
 	const { settings, updateSettings, birthdays, importData, deleteAllBirthdays } = useDayBook();
@@ -116,6 +117,8 @@ export function SettingsScreen() {
 						onChange={handleUpcomingCountChange}
 					/>
 				</div>
+
+				<FloatingMessagesManager />
 
 				{/* Data Management Section */}
 				<div className="flex flex-col gap-3">

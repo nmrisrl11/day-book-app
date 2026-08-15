@@ -16,6 +16,14 @@ interface DayBookContextType {
 const defaultSettings: Settings = {
 	upcomingCount: 5,
 	theme: "light",
+	floatingMessages: [
+		"Happy Birthday! 🎂",
+		"Make a wish! 🌟",
+		"Party time! 🎈",
+		"Cheers! 🥂",
+		"Have a blast! 🎉",
+		"Celebrate! 🥳",
+	],
 };
 
 const DayBookContext = createContext<DayBookContextType | undefined>(undefined);
