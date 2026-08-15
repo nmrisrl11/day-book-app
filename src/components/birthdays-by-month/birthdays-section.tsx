@@ -1,8 +1,9 @@
 import { FULL_MONTHS, MONTHS } from "@/constants/months";
 import type { Birthday } from "@/types/birthday";
-import { useState } from "react";
+import { lazy, Suspense, useState } from "react";
 import { MonthCard } from "./month-card";
-import { MonthlyBirthdayModal } from "./monthly-birthday-modal";
+
+const MonthlyBirthdayModal = lazy(() => import("./monthly-birthday-modal").then(m => ({ default: m.MonthlyBirthdayModal })));
 
 interface BirthdaysSectionProps {
 	birthdaysByMonth: Record<number, Birthday[]>;
@@ -31,12 +32,16 @@ export function BirthdaysSection({ birthdaysByMonth }: BirthdaysSectionProps) {
 				))}
 			</div>
 
-			<MonthlyBirthdayModal
-				monthName={selectedMonthIndex !== null ? FULL_MONTHS[selectedMonthIndex] : ""}
-				birthdays={selectedMonthIndex !== null ? birthdaysByMonth[selectedMonthIndex] || [] : []}
-				isOpen={selectedMonthIndex !== null}
-				onClose={handleClose}
-			/>
+			{selectedMonthIndex !== null && (
+				<Suspense fallback={null}>
+					<MonthlyBirthdayModal
+						monthName={FULL_MONTHS[selectedMonthIndex]}
+						birthdays={birthdaysByMonth[selectedMonthIndex] || []}
+						isOpen={true}
+						onClose={handleClose}
+					/>
+				</Suspense>
+			)}
 		</div>
 	);
 }

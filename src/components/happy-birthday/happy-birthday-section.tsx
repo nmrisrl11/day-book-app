@@ -3,10 +3,11 @@ import { useConfetti } from "@/hooks/use-confetti";
 import { cn } from "@/lib/utils";
 import type { Birthday } from "@/types/birthday";
 import { StarIcon } from "lucide-react";
-import { useState } from "react";
+import { lazy, Suspense, useState } from "react";
 import { CelebrantDisplay } from "./celebrant-display";
-import { CelebrantModal } from "./celebrant-modal";
 import { FloatingMessages } from "./floating-messages";
+
+const CelebrantModal = lazy(() => import("./celebrant-modal").then(m => ({ default: m.CelebrantModal })));
 
 interface HappyBirthdaySectionProps {
 	celebrants: Birthday[];
@@ -67,12 +68,16 @@ export function HappyBirthdaySection({ celebrants, currentDate }: HappyBirthdayS
 				))}
 			</div>
 
-			<CelebrantModal
-				celebrant={selectedCelebrant}
-				isOpen={!!selectedCelebrant}
-				onClose={() => setSelectedCelebrant(null)}
-				currentDate={currentDate}
-			/>
+			{!!selectedCelebrant && (
+				<Suspense fallback={null}>
+					<CelebrantModal
+						celebrant={selectedCelebrant}
+						isOpen={!!selectedCelebrant}
+						onClose={() => setSelectedCelebrant(null)}
+						currentDate={currentDate}
+					/>
+				</Suspense>
+			)}
 		</div>
 	);
 }

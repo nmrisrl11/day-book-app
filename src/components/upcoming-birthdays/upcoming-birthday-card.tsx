@@ -21,6 +21,7 @@ export function UpcomingBirthdayCard({ celebrant, currentDate }: UpcomingBirthda
 						src={celebrant.avatar}
 						alt={celebrant.name}
 						title={celebrant.name}
+						fetchPriority="high"
 						className="h-16 w-16 rounded-full object-cover md:h-20 md:w-20"
 					/>
 				) : (
