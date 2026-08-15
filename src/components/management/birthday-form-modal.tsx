@@ -173,7 +173,12 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 							onClick={handleAvatarClick}
 						>
 							{avatar ? (
-								<img src={avatar} alt="Avatar preview" className="h-full w-full object-cover" />
+								<img
+									src={avatar}
+									alt="Avatar preview"
+									title="Avatar preview"
+									className="h-full w-full object-cover"
+								/>
 							) : name.trim().length > 0 ? (
 								<div className="[&>svg]:h-24 [&>svg]:w-24">
 									<Avvvatars value={name.trim()} style="shape" size={96} />
@@ -206,11 +211,14 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 							</Button>
 						)}
 						<Input
+							id="avatar-upload"
+							name="avatar-upload"
 							type="file"
 							accept="image/jpeg, image/jpg, image/png"
 							className="hidden"
 							ref={fileInputRef}
 							onChange={handleFileChange}
+							aria-label="Upload Avatar"
 						/>
 					</div>
 
@@ -218,6 +226,7 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 						<Label htmlFor="name">Name</Label>
 						<Input
 							id="name"
+							name="name"
 							value={name}
 							onChange={(e) => {
 								const val = e.target.value;
@@ -235,6 +244,7 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 						<Label htmlFor="birthday">Birthday</Label>
 						<Input
 							id="birthday"
+							name="birthday"
 							type="date"
 							value={date}
 							onChange={(e) => setDate(e.target.value)}

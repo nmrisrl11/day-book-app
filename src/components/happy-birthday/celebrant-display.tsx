@@ -27,8 +27,10 @@ export function CelebrantDisplay({ celebrant, onClick }: CelebrantDisplayProps) 
 				<div className="bg-card ring-border relative z-10 rounded-full p-2 shadow-lg ring-1 transition-transform duration-300 group-hover:scale-105">
 					{celebrant.avatar ? (
 						<img
+							draggable={false}
 							src={celebrant.avatar}
-							alt={celebrant.name}
+							alt={`${celebrant.name}'s avatar`}
+							title={celebrant.name}
 							className="h-32 w-32 rounded-full object-cover md:h-40 md:w-40"
 						/>
 					) : (

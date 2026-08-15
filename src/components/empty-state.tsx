@@ -3,11 +3,9 @@ import { parseImportedBirthdays } from "@/helpers/import-export";
 import { PlusIcon, UploadIcon } from "lucide-react";
 import { useState } from "react";
 import { BirthdayFormModal } from "./management/birthday-form-modal";
-import { SettingsModal } from "./settings/settings-modal";
 import { Button } from "./ui/button";
 
 export function EmptyState() {
-	const [settingsOpen, setSettingsOpen] = useState(false);
 	const [formModalOpen, setFormModalOpen] = useState(false);
 	const { importData } = useDayBook();
 
@@ -66,7 +64,6 @@ export function EmptyState() {
 				</Button>
 			</div>
 
-			<SettingsModal open={settingsOpen} onOpenChange={setSettingsOpen} />
 			<BirthdayFormModal open={formModalOpen} onOpenChange={setFormModalOpen} birthday={null} />
 		</div>
 	);

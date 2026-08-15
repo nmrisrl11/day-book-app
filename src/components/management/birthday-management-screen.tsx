@@ -1,13 +1,6 @@
-import { useState, useMemo } from "react";
-import { useDayBook } from "@/context/day-book-context";
-import { BirthdayListItem } from "./birthday-list-item";
-import { BirthdayFormModal } from "./birthday-form-modal";
-import { DeleteConfirmationModal } from "./delete-confirmation-modal";
-import type { Birthday } from "@/types/birthday";
 import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { PlusIcon, SearchIcon } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import {
 	Select,
 	SelectContent,
@@ -15,6 +8,14 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
+import { FULL_MONTHS } from "@/constants/months";
+import { useDayBook } from "@/context/day-book-context";
+import type { Birthday } from "@/types/birthday";
+import { PlusIcon, SearchIcon } from "lucide-react";
+import { useMemo, useState } from "react";
+import { BirthdayFormModal } from "./birthday-form-modal";
+import { BirthdayListItem } from "./birthday-list-item";
+import { DeleteConfirmationModal } from "./delete-confirmation-modal";
 
 export function BirthdayManagementScreen() {
 	const { birthdays, deleteBirthday } = useDayBook();
@@ -129,10 +130,13 @@ export function BirthdayManagementScreen() {
 						<div className="relative flex-1">
 							<SearchIcon className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
 							<Input
+								id="search-birthdays"
+								name="search-birthdays"
 								placeholder="Search by name..."
 								className="bg-background pl-9"
 								value={searchQuery}
 								onChange={(e) => setSearchQuery(e.target.value)}
+								aria-label="Search by name"
 							/>
 						</div>
 						<div className="flex gap-2">
@@ -140,27 +144,20 @@ export function BirthdayManagementScreen() {
 								<SelectTrigger className="bg-background w-32.5">
 									<SelectValue placeholder="Month" />
 								</SelectTrigger>
-								<SelectContent>
+								<SelectContent position="popper">
 									<SelectItem value="all">All Months</SelectItem>
-									<SelectItem value="1">January</SelectItem>
-									<SelectItem value="2">February</SelectItem>
-									<SelectItem value="3">March</SelectItem>
-									<SelectItem value="4">April</SelectItem>
-									<SelectItem value="5">May</SelectItem>
-									<SelectItem value="6">June</SelectItem>
-									<SelectItem value="7">July</SelectItem>
-									<SelectItem value="8">August</SelectItem>
-									<SelectItem value="9">September</SelectItem>
-									<SelectItem value="10">October</SelectItem>
-									<SelectItem value="11">November</SelectItem>
-									<SelectItem value="12">December</SelectItem>
+									{FULL_MONTHS.map((month, index) => (
+										<SelectItem key={month} value={(index + 1).toString()}>
+											{month}
+										</SelectItem>
+									))}
 								</SelectContent>
 							</Select>
 							<Select value={sortOption} onValueChange={setSortOption}>
 								<SelectTrigger className="bg-background w-40">
 									<SelectValue placeholder="Sort by" />
 								</SelectTrigger>
-								<SelectContent>
+								<SelectContent position="popper">
 									<SelectItem value="upcoming">Upcoming First</SelectItem>
 									<SelectItem value="name-asc">Name (A-Z)</SelectItem>
 									<SelectItem value="name-desc">Name (Z-A)</SelectItem>
