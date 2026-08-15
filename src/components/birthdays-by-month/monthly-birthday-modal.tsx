@@ -68,8 +68,9 @@ export function MonthlyBirthdayModal({
 												<div className="bg-muted ring-border rounded-full p-1 ring-1">
 													{celebrant.avatar ? (
 														<img
+															draggable={false}
 															src={celebrant.avatar}
-															alt={celebrant.name}
+															alt=""
 															className="h-12 w-12 rounded-full object-cover"
 														/>
 													) : (

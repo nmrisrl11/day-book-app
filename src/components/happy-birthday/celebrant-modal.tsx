@@ -48,8 +48,9 @@ export function CelebrantModal({ celebrant, isOpen, onClose, currentDate }: Cele
 						<div className="bg-background ring-border relative z-10 rounded-full p-2 shadow-sm ring-1">
 							{celebrant.avatar ? (
 								<img
+									draggable={false}
 									src={celebrant.avatar}
-									alt={celebrant.name}
+									alt=""
 									className="h-24 w-24 rounded-full object-cover"
 								/>
 							) : (

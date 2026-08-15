@@ -6,8 +6,9 @@ import { UpcomingBirthdaysSection } from "./components/upcoming-birthdays/upcomi
 import { useBirthdayData } from "./hooks/use-birthday-data";
 import { DayBookProvider, useDayBook } from "./context/day-book-context";
 import { BirthdayManagementScreen } from "./components/management/birthday-management-screen";
-import { useState } from "react";
+import { SettingsScreen } from "./components/settings/settings-screen";
 import { EmptyState } from "./components/empty-state";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function Dashboard() {
 	const { todayCelebrants, upcomingBirthdays, birthdaysByMonth, currentDate } = useBirthdayData();
@@ -27,13 +28,17 @@ function Dashboard() {
 }
 
 function MainApp() {
-	const [currentView, setCurrentView] = useState<"dashboard" | "management">("dashboard");
-
 	return (
-		<PageLayout currentView={currentView} setCurrentView={setCurrentView}>
-			{currentView === "dashboard" ? <Dashboard /> : <BirthdayManagementScreen />}
-			<Footer />
-		</PageLayout>
+		<BrowserRouter>
+			<PageLayout>
+				<Routes>
+					<Route path="/" element={<Dashboard />} />
+					<Route path="/manage" element={<BirthdayManagementScreen />} />
+					<Route path="/settings" element={<SettingsScreen />} />
+				</Routes>
+				<Footer />
+			</PageLayout>
+		</BrowserRouter>
 	);
 }
 

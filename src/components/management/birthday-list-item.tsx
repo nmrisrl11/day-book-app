@@ -26,7 +26,12 @@ export function BirthdayListItem({ birthday, onEdit, onDelete }: BirthdayListIte
 			<div className="flex items-center gap-4">
 				<div className="ring-border h-10 w-10 shrink-0 overflow-hidden rounded-full shadow-sm ring-1">
 					{birthday.avatar ? (
-						<img src={birthday.avatar} alt={birthday.name} className="h-full w-full object-cover" />
+						<img
+							src={birthday.avatar}
+							alt={birthday.name}
+							title={birthday.name}
+							className="h-full w-full object-cover"
+						/>
 					) : (
 						<div className="[&>svg]:h-10 [&>svg]:w-10">
 							<Avvvatars value={birthday.name} style="shape" size={40} />

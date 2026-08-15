@@ -11,6 +11,7 @@ export function Footer() {
 							href="https://github.com/nmrisrl11/day-book-app"
 							target="_blank"
 							rel="noopener noreferrer"
+							title="View GitHub Repository"
 						>
 							<GithubIcon aria-hidden="true" className="mr-1 h-4 w-4" />
 							GitHub Repository
@@ -24,6 +25,7 @@ export function Footer() {
 						href="https://www.nmrisrl.dev/"
 						target="_blank"
 						rel="noopener noreferrer"
+						title="Visit Developer's Website"
 						className="ml-1 font-medium transition-colors hover:text-slate-800 dark:hover:text-slate-200"
 					>
 						Nomer with ☕

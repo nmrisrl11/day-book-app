@@ -1,37 +1,8 @@
+import { FULL_MONTHS, MONTHS } from "@/constants/months";
 import type { Birthday } from "@/types/birthday";
 import { useState } from "react";
 import { MonthCard } from "./month-card";
 import { MonthlyBirthdayModal } from "./monthly-birthday-modal";
-
-const MONTHS = [
-	"Jan",
-	"Feb",
-	"Mar",
-	"Apr",
-	"May",
-	"June",
-	"Jul",
-	"Aug",
-	"Sep",
-	"Oct",
-	"Nov",
-	"Dec",
-];
-
-const FULL_MONTHS = [
-	"January",
-	"February",
-	"March",
-	"April",
-	"May",
-	"June",
-	"July",
-	"August",
-	"September",
-	"October",
-	"November",
-	"December",
-];
 
 interface BirthdaysSectionProps {
 	birthdaysByMonth: Record<number, Birthday[]>;

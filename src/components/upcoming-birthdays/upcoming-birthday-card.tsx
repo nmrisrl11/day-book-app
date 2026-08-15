@@ -20,6 +20,7 @@ export function UpcomingBirthdayCard({ celebrant, currentDate }: UpcomingBirthda
 						draggable={false}
 						src={celebrant.avatar}
 						alt={celebrant.name}
+						title={celebrant.name}
 						className="h-16 w-16 rounded-full object-cover md:h-20 md:w-20"
 					/>
 				) : (

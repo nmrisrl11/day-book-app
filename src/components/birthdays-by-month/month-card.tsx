@@ -55,7 +55,8 @@ export function MonthCard({ monthName, monthIndex, birthdays, onClick }: MonthCa
 								{celebrant.avatar ? (
 									<img
 										src={celebrant.avatar}
-										alt={celebrant.name}
+										alt={`${celebrant.name}'s avatar`}
+										title={celebrant.name}
 										className="h-full w-full rounded-full object-cover"
 									/>
 								) : (
