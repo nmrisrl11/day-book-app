@@ -252,7 +252,11 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 						/>
 					</div>
 
-					{error && <p className="text-destructive text-sm font-medium">{error}</p>}
+					{error && (
+						<p className="text-destructive text-sm font-medium" role="alert">
+							{error}
+						</p>
+					)}
 				</form>
 
 				<DialogFooter>

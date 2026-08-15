@@ -2,10 +2,11 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useDayBook } from "@/context/day-book-context";
+import { defaultSettings, useDayBook } from "@/context/day-book-context";
 import { cn } from "@/lib/utils";
-import { CheckIcon, Edit2Icon, PlusIcon, Trash2Icon, XIcon } from "lucide-react";
+import { CheckIcon, Edit2Icon, PlusIcon, RotateCcwIcon, Trash2Icon, XIcon } from "lucide-react";
 import { useState } from "react";
+import { Kbd } from "../ui/kbd";
 
 export function FloatingMessagesManager() {
 	const { settings, updateSettings } = useDayBook();
@@ -13,14 +14,17 @@ export function FloatingMessagesManager() {
 	const [newMessage, setNewMessage] = useState("");
 	const [error, setError] = useState("");
 
-	// Edit state
 	const [editingIndex, setEditingIndex] = useState<number | null>(null);
 	const [editText, setEditText] = useState("");
 
 	const handleAdd = () => {
 		const trimmed = newMessage.trim();
-		if (!trimmed) {
-			setError("Message cannot be empty.");
+		if (trimmed.length < 2) {
+			setError("Message must be at least 2 characters.");
+			return;
+		}
+		if (trimmed.length > 50) {
+			setError("Message cannot exceed 50 characters.");
 			return;
 		}
 		if (messages.includes(trimmed)) {
@@ -38,15 +42,17 @@ export function FloatingMessagesManager() {
 	};
 
 	const handleDelete = (index: number) => {
-		if (messages.length <= 1) {
-			setError("You must have at least one floating message.");
-			return;
-		}
 		setEditingIndex(null);
 		setEditText("");
 		const newMessages = messages.filter((_, i) => i !== index);
 		updateSettings({ floatingMessages: newMessages });
 		setError("");
+	};
+
+	const handleClearAll = () => {
+		updateSettings({ floatingMessages: [] });
+		setError("");
+		setEditingIndex(null);
 	};
 
 	const startEdit = (index: number, currentText: string) => {
@@ -63,8 +69,12 @@ export function FloatingMessagesManager() {
 
 	const saveEdit = (index: number) => {
 		const trimmed = editText.trim();
-		if (!trimmed) {
-			setError("Message cannot be empty.");
+		if (trimmed.length < 2) {
+			setError("Message must be at least 2 characters.");
+			return;
+		}
+		if (trimmed.length > 50) {
+			setError("Message cannot exceed 50 characters.");
 			return;
 		}
 		// If it's the exact same text, just cancel edit
@@ -83,13 +93,47 @@ export function FloatingMessagesManager() {
 		cancelEdit();
 	};
 
+	const handleRestoreDefaults = () => {
+		if (defaultSettings.floatingMessages) {
+			updateSettings({ floatingMessages: defaultSettings.floatingMessages });
+			setError("");
+			setEditingIndex(null);
+		}
+	};
+
 	return (
 		<div className="flex flex-col gap-4">
 			<div className="flex flex-col gap-1">
-				<Label className="text-base font-medium">Floating Messages</Label>
+				<div className="flex items-center justify-between">
+					<h3 className="text-base font-medium">Floating Messages</h3>
+					<div className="flex gap-2">
+						<Button
+							variant="ghost"
+							size="sm"
+							className="text-muted-foreground hover:text-foreground h-8 text-xs"
+							onClick={handleRestoreDefaults}
+							aria-label="Restore default floating messages"
+						>
+							<RotateCcwIcon className="h-3 w-3 sm:mr-1.5" />
+							<span className="hidden sm:inline">Restore Defaults</span>
+						</Button>
+						<Button
+							variant="ghost"
+							size="sm"
+							className="text-destructive hover:bg-destructive/10 hover:text-destructive h-8 text-xs"
+							onClick={handleClearAll}
+							disabled={messages.length === 0}
+							aria-label="Clear all floating messages"
+						>
+							<Trash2Icon className="h-3 w-3 sm:mr-1.5" />
+							<span className="hidden sm:inline">Clear All</span>
+						</Button>
+					</div>
+				</div>
 				<p className="text-muted-foreground text-sm">
-					Manage the messages that float across the screen when someone has a birthday. (Tip: You
-					can use emojis with your system keyboard: Win + . or Cmd + Ctrl + Space)
+					Manage the messages that float across the screen when someone has a birthday. <br />(
+					<span className="font-bold">Tip:</span> You can use emojis with your system keyboard:{" "}
+					<Kbd>Win + .</Kbd> or <Kbd>Cmd + Ctrl + Space</Kbd>)
 				</p>
 			</div>
 
@@ -100,6 +144,8 @@ export function FloatingMessagesManager() {
 							<div className="border-primary/50 bg-background focus-within:ring-ring flex items-center gap-1 rounded-full border py-1 pr-1 pl-3 shadow-sm transition-all focus-within:ring-2">
 								<Input
 									autoFocus
+									maxLength={50}
+									id={`edit-floating-msg-${index}`}
 									className="h-6 w-32 border-0 bg-transparent px-0 py-0 text-sm shadow-none focus-visible:ring-0"
 									value={editText}
 									onChange={(e) => setEditText(e.target.value)}
@@ -141,7 +187,7 @@ export function FloatingMessagesManager() {
 										variant="ghost"
 										className="h-6 w-6 rounded-full hover:bg-black/10 dark:hover:bg-white/10"
 										onClick={() => startEdit(index, msg)}
-										aria-label="Edit"
+										aria-label={`Edit floating message: ${msg.substring(0, 20)}`}
 									>
 										<Edit2Icon className="h-3 w-3" />
 									</Button>
@@ -154,7 +200,7 @@ export function FloatingMessagesManager() {
 										)}
 										onClick={() => handleDelete(index)}
 										disabled={messages.length <= 1}
-										aria-label="Delete"
+										aria-label={`Delete floating message: ${msg.substring(0, 20)}`}
 									>
 										<Trash2Icon className="h-3 w-3" />
 									</Button>
@@ -167,31 +213,40 @@ export function FloatingMessagesManager() {
 
 			<div className="mt-2 flex flex-col gap-2 border-t pt-2">
 				{messages.length < 10 ? (
-					<div className="flex items-center gap-2">
-						<Input
-							placeholder="Add a new message... (e.g. Happy Birthday! 🎂)"
-							value={newMessage}
-							onChange={(e) => {
-								setNewMessage(e.target.value);
-								if (error) setError("");
-							}}
-							onKeyDown={(e) => {
-								if (e.key === "Enter") handleAdd();
-							}}
-							className="max-w-sm"
-						/>
-						<Button onClick={handleAdd} size="sm">
-							<PlusIcon className="mr-1 h-4 w-4" />
-							Add
-						</Button>
+					<div className="flex flex-col gap-2">
+						<Label htmlFor="new-floating-message" className="text-sm font-medium">
+							Add New Message
+						</Label>
+						<div className="flex items-center gap-2">
+							<Input
+								id="new-floating-message"
+								maxLength={50}
+								placeholder="Add a new message... (min 2, max 50 chars)"
+								value={newMessage}
+								onChange={(e) => {
+									setNewMessage(e.target.value);
+									if (error) setError("");
+								}}
+								onKeyDown={(e) => {
+									if (e.key === "Enter") handleAdd();
+								}}
+								className="max-w-sm"
+							/>
+							<Button onClick={handleAdd} size="sm" aria-label="Add floating message">
+								<PlusIcon className="mr-1 h-4 w-4" />
+								Add
+							</Button>
+						</div>
 					</div>
 				) : (
-					<p className="text-sm font-medium text-amber-600 dark:text-amber-400">
-						Maximum of 10 messages reached.
-					</p>
+					<p className="text-sm font-medium text-amber-600">Maximum of 10 messages reached.</p>
 				)}
 
-				{error && <p className="text-destructive text-sm font-medium">{error}</p>}
+				{error && (
+					<p className="text-destructive text-sm font-medium" role="alert">
+						{error}
+					</p>
+				)}
 			</div>
 		</div>
 	);
