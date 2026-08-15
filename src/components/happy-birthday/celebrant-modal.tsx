@@ -6,7 +6,7 @@ import {
 	DialogTitle,
 } from "@/components/ui/dialog";
 import { PartyHat } from "@/components/ui/party-hat";
-import { GREETINGS } from "@/constants/greetings";
+import { useDayBook } from "@/context/day-book-context";
 import { calculateAge, formatBirthdayDisplay } from "@/helpers/birthday-utils";
 import { type Birthday } from "@/types/birthday";
 import Avvvatars from "avvvatars-react";
@@ -22,12 +22,18 @@ interface CelebrantModalProps {
 }
 
 export function CelebrantModal({ celebrant, isOpen, onClose, currentDate }: CelebrantModalProps) {
+	const { settings } = useDayBook();
+
 	// Randomly select a greeting when the modal opens
 	const greeting = useMemo(() => {
 		if (!celebrant) return "";
-		const randomIndex = Math.floor(Math.random() * GREETINGS.length);
-		return GREETINGS[randomIndex];
-	}, [celebrant]); // Re-roll greeting if a new celebrant is opened
+		const greetingsList =
+			settings.greetings && settings.greetings.length > 0
+				? settings.greetings
+				: ["Happy Birthday!"];
+		const randomIndex = Math.floor(Math.random() * greetingsList.length);
+		return greetingsList[randomIndex];
+	}, [celebrant, settings.greetings]); // Re-roll greeting if a new celebrant is opened
 
 	if (!celebrant) return null;
 

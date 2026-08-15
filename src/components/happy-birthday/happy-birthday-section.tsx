@@ -7,7 +7,9 @@ import { lazy, Suspense, useState } from "react";
 import { CelebrantDisplay } from "./celebrant-display";
 import { FloatingMessages } from "./floating-messages";
 
-const CelebrantModal = lazy(() => import("./celebrant-modal").then(m => ({ default: m.CelebrantModal })));
+const CelebrantModal = lazy(() =>
+	import("./celebrant-modal").then((m) => ({ default: m.CelebrantModal })),
+);
 
 interface HappyBirthdaySectionProps {
 	celebrants: Birthday[];

@@ -4,7 +4,9 @@ import { PlusIcon, UploadIcon } from "lucide-react";
 import { lazy, Suspense, useState } from "react";
 import { Button } from "./ui/button";
 
-const BirthdayFormModal = lazy(() => import("./management/birthday-form-modal").then(m => ({ default: m.BirthdayFormModal })));
+const BirthdayFormModal = lazy(() =>
+	import("./management/birthday-form-modal").then((m) => ({ default: m.BirthdayFormModal })),
+);
 
 export function EmptyState() {
 	const [formModalOpen, setFormModalOpen] = useState(false);
