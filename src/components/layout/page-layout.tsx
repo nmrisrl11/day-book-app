@@ -45,13 +45,18 @@ export function PageLayout({ children }: PageLayoutProps) {
 								asChild
 								title={item.name}
 							>
-								<Link to={item.path} title={item.name}>
+								<Link
+									to={item.path}
+									title={item.name}
+									aria-label={item.name}
+									aria-current={isActive ? "page" : undefined}
+								>
 									<Icon />
 								</Link>
 							</Button>
 						) : (
 							<Button key={item.path} variant={isActive ? "secondary" : "ghost"} size="sm" asChild>
-								<Link to={item.path} title={item.name}>
+								<Link to={item.path} title={item.name} aria-current={isActive ? "page" : undefined}>
 									<Icon className="h-4 w-4 sm:mr-2" />
 									<span className="hidden sm:inline">{item.name}</span>
 								</Link>

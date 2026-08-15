@@ -50,8 +50,7 @@ export function CelebrantModal({ celebrant, isOpen, onClose, currentDate }: Cele
 								<img
 									draggable={false}
 									src={celebrant.avatar}
-									alt={`${celebrant.name}'s avatar`}
-									title={celebrant.name}
+									alt=""
 									className="h-24 w-24 rounded-full object-cover"
 								/>
 							) : (

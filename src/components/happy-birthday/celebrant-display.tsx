@@ -29,8 +29,7 @@ export function CelebrantDisplay({ celebrant, onClick }: CelebrantDisplayProps) 
 						<img
 							draggable={false}
 							src={celebrant.avatar}
-							alt={`${celebrant.name}'s avatar`}
-							title={celebrant.name}
+							alt=""
 							className="h-32 w-32 rounded-full object-cover md:h-40 md:w-40"
 						/>
 					) : (

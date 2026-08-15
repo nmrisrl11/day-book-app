@@ -21,8 +21,8 @@ export function SettingsScreen() {
 	};
 
 	const handleUpcomingCountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const val = parseInt(e.target.value, 10);
-		if (!isNaN(val) && val >= 1 && val <= 10) {
+		const val = e.target.valueAsNumber;
+		if (Number.isInteger(val) && val >= 1 && val <= 10) {
 			updateSettings({ upcomingCount: val });
 		}
 	};
@@ -58,7 +58,13 @@ export function SettingsScreen() {
 	return (
 		<div className="animate-in fade-in slide-in-from-bottom-4 mx-auto flex w-full max-w-2xl flex-col gap-6 pb-12 duration-500">
 			<div className="flex items-center gap-4">
-				<Button variant="ghost" size="icon" onClick={() => navigate(-1)} className="shrink-0">
+				<Button
+					variant="ghost"
+					size="icon"
+					onClick={() => navigate(-1)}
+					className="shrink-0"
+					aria-label="Go back"
+				>
 					<ArrowLeft className="h-5 w-5" />
 				</Button>
 				<div>
@@ -105,6 +111,7 @@ export function SettingsScreen() {
 						type="number"
 						min={1}
 						max={10}
+						step="1"
 						value={settings.upcomingCount}
 						onChange={handleUpcomingCountChange}
 					/>

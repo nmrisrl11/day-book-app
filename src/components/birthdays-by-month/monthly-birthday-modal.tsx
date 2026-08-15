@@ -70,8 +70,7 @@ export function MonthlyBirthdayModal({
 														<img
 															draggable={false}
 															src={celebrant.avatar}
-															alt={`${celebrant.name}'s avatar`}
-															title={celebrant.name}
+															alt=""
 															className="h-12 w-12 rounded-full object-cover"
 														/>
 													) : (
