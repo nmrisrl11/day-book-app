@@ -4,13 +4,14 @@ import { Textarea } from "@/components/ui/textarea";
 import { defaultSettings, useDayBook } from "@/context/day-book-context";
 import { cn } from "@/lib/utils";
 import { CheckIcon, Edit2Icon, PlusIcon, RotateCcwIcon, Trash2Icon, XIcon } from "lucide-react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 export function GreetingsManager() {
 	const { settings, updateSettings } = useDayBook();
 	const greetings = settings.greetings || [];
 	const [newGreeting, setNewGreeting] = useState("");
 	const [error, setError] = useState("");
+	const newGreetingRef = useRef<HTMLTextAreaElement>(null);
 
 	// Edit state
 	const [editingIndex, setEditingIndex] = useState<number | null>(null);
@@ -38,6 +39,10 @@ export function GreetingsManager() {
 		updateSettings({ greetings: [...greetings, trimmed] });
 		setNewGreeting("");
 		setError("");
+		if (newGreetingRef.current) {
+			newGreetingRef.current.style.height = "auto";
+			newGreetingRef.current.style.overflowY = "hidden";
+		}
 	};
 
 	const handleDelete = (index: number) => {
@@ -226,6 +231,7 @@ export function GreetingsManager() {
 							Add New Greeting
 						</Label>
 						<Textarea
+							ref={newGreetingRef}
 							id="new-greeting"
 							maxLength={200}
 							placeholder="Write a warm birthday wish (min 2, max 200 characters)..."
@@ -240,9 +246,6 @@ export function GreetingsManager() {
 								if (e.key === "Enter" && !e.shiftKey) {
 									e.preventDefault();
 									handleAdd();
-									// Reset height after adding
-									e.currentTarget.style.height = "auto";
-									e.currentTarget.style.overflowY = "hidden";
 								}
 							}}
 							className="max-h-32 min-h-12 resize-none overflow-hidden text-sm"

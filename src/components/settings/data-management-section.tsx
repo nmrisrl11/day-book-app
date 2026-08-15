@@ -3,12 +3,23 @@ import { Input } from "@/components/ui/input";
 import { useDayBook } from "@/context/day-book-context";
 import { exportBirthdays, parseImportedBirthdays } from "@/helpers/import-export";
 import { DownloadIcon, UploadIcon } from "lucide-react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export function DataManagementSection() {
 	const { birthdays, importData } = useDayBook();
 	const fileInputRef = useRef<HTMLInputElement>(null);
 	const [importError, setImportError] = useState("");
+
+	const birthdaysRef = useRef(birthdays);
+	birthdaysRef.current = birthdays;
+
+	const isMounted = useRef(true);
+	useEffect(() => {
+		isMounted.current = true;
+		return () => {
+			isMounted.current = false;
+		};
+	}, []);
 
 	const handleExport = () => {
 		exportBirthdays(birthdays);
@@ -25,6 +36,11 @@ export function DataManagementSection() {
 
 		try {
 			const text = await file.text();
+
+			if (!isMounted.current || birthdaysRef.current.length !== 0) {
+				return;
+			}
+
 			const importedBirthdays = parseImportedBirthdays(text);
 			importData(importedBirthdays);
 		} catch (err) {

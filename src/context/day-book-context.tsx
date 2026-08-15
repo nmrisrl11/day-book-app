@@ -65,6 +65,7 @@ export function DayBookProvider({ children }: { children: React.ReactNode }) {
 
 	useEffect(() => {
 		const handleKeyDown = (e: KeyboardEvent) => {
+			if (e.repeat) return;
 			if (e.altKey && e.key.toLowerCase() === "t") {
 				e.preventDefault();
 				setSettings((prev) => ({
