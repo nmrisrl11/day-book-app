@@ -165,50 +165,52 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 				</DialogHeader>
 
 				<form id="birthday-form" onSubmit={handleSubmit} className="flex flex-col gap-4 py-4">
-					<div className="flex flex-col items-center justify-center mb-2">
-						<button 
+					<div className="mb-2 flex flex-col items-center justify-center">
+						<button
 							type="button"
 							aria-label="Change avatar"
-							className="relative group cursor-pointer flex items-center justify-center w-24 h-24 rounded-full border-2 border-dashed border-border hover:border-primary/50 transition-colors overflow-hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+							className="group border-border hover:border-primary/50 focus-visible:ring-ring relative flex h-24 w-24 cursor-pointer items-center justify-center overflow-hidden rounded-full border-2 border-dashed transition-colors focus:outline-none focus-visible:ring-2"
 							onClick={handleAvatarClick}
 						>
 							{avatar ? (
-								<img src={avatar} alt="Avatar preview" className="w-full h-full object-cover" />
+								<img src={avatar} alt="Avatar preview" className="h-full w-full object-cover" />
 							) : name.trim().length > 0 ? (
-								<div className="[&>svg]:w-24 [&>svg]:h-24">
+								<div className="[&>svg]:h-24 [&>svg]:w-24">
 									<Avvvatars value={name.trim()} style="shape" size={96} />
 								</div>
 							) : (
-								<div className="flex flex-col items-center justify-center text-muted-foreground">
-									<CameraIcon className="w-8 h-8 opacity-50" />
+								<div className="text-muted-foreground flex flex-col items-center justify-center">
+									<CameraIcon className="h-8 w-8 opacity-50" />
 								</div>
 							)}
-							
+
 							{/* Hover overlay for changing image */}
-							<div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-								<CameraIcon className="w-6 h-6 text-white mb-1" />
-								<span className="text-white text-[10px] font-medium uppercase tracking-wider">Change</span>
+							<div className="absolute inset-0 flex flex-col items-center justify-center bg-black/40 opacity-0 transition-opacity group-hover:opacity-100">
+								<CameraIcon className="mb-1 h-6 w-6 text-white" />
+								<span className="text-[10px] font-medium tracking-wider text-white uppercase">
+									Change
+								</span>
 							</div>
 						</button>
-						
+
 						{avatar && (
-							<Button 
+							<Button
 								type="button"
-								variant="ghost" 
-								size="sm" 
-								className="mt-2 h-7 text-xs text-destructive hover:text-destructive hover:bg-destructive/10" 
+								variant="ghost"
+								size="sm"
+								className="text-destructive hover:text-destructive hover:bg-destructive/10 mt-2 h-7 text-xs"
 								onClick={handleRemoveAvatar}
 							>
-								<Trash2Icon className="w-3 h-3 mr-1.5" />
+								<Trash2Icon className="mr-1.5 h-3 w-3" />
 								Remove
 							</Button>
 						)}
-						<Input 
-							type="file" 
-							accept="image/jpeg, image/jpg, image/png" 
-							className="hidden" 
-							ref={fileInputRef} 
-							onChange={handleFileChange} 
+						<Input
+							type="file"
+							accept="image/jpeg, image/jpg, image/png"
+							className="hidden"
+							ref={fileInputRef}
+							onChange={handleFileChange}
 						/>
 					</div>
 

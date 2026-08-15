@@ -1,5 +1,7 @@
+import { cn } from "@/lib/utils";
 import type { Birthday } from "@/types/birthday";
 import Avvvatars from "avvvatars-react";
+import { CalendarHeart } from "lucide-react";
 
 interface MonthCardProps {
 	monthName: string;
@@ -10,6 +12,7 @@ interface MonthCardProps {
 
 export function MonthCard({ monthName, monthIndex, birthdays, onClick }: MonthCardProps) {
 	const hasBirthdays = birthdays.length > 0;
+	const isCurrentMonth = new Date().getMonth() === monthIndex;
 
 	// Show up to 3 avatars, plus a counter for the rest
 	const displayLimit = 3;
@@ -21,11 +24,26 @@ export function MonthCard({ monthName, monthIndex, birthdays, onClick }: MonthCa
 			onClick={() => onClick(monthIndex)}
 			className="group flex w-full flex-col gap-2 rounded-2xl text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
 		>
-			<span className="text-foreground pl-2 font-bold tracking-widest uppercase transition-colors group-hover:text-neutral-700">
-				{monthName}
-			</span>
+			<div className="flex items-center gap-2 pl-2">
+				<span
+					className={cn(
+						"group-hover:text-foreground font-bold tracking-widest text-neutral-700 uppercase transition-colors",
+						isCurrentMonth && "text-primary",
+					)}
+				>
+					{monthName}
+				</span>
+				{isCurrentMonth && (
+					<div
+						className="ring-border flex h-6 w-6 items-center justify-center rounded-full bg-linear-to-br from-orange-300 to-red-500 text-white ring-2"
+						title="Current Month"
+					>
+						<CalendarHeart className="h-3.5 w-3.5" />
+					</div>
+				)}
+			</div>
 
-			<div className="border-border bg-muted/50 group-hover:bg-muted flex h-14 w-full items-center rounded-2xl border px-3 transition-colors">
+			<div className="border-border bg-muted/50 group-hover:bg-muted flex h-14 w-full items-center rounded-2xl border px-3 transition-all">
 				{hasBirthdays ? (
 					<div className="flex -space-x-3">
 						{displayBirthdays.map((celebrant) => (
@@ -47,7 +65,7 @@ export function MonthCard({ monthName, monthIndex, birthdays, onClick }: MonthCa
 							</div>
 						))}
 						{remainingCount > 0 && (
-							<div className="bg-muted text-muted-foreground ring-border z-20 flex h-8 w-8 items-center justify-center rounded-full pl-1 text-xs font-bold ring-2">
+							<div className="bg-muted text-muted-foreground ring-border z-20 flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold ring-2">
 								+{remainingCount}
 							</div>
 						)}

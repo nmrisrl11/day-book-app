@@ -16,10 +16,15 @@ export function PageLayout({ children, currentView, setCurrentView }: PageLayout
 		<div className="bg-background text-foreground relative flex min-h-screen flex-col overflow-x-hidden font-sans">
 			<header className="relative z-20 mx-auto flex w-full max-w-4xl items-center justify-between p-4 md:px-4 md:py-6">
 				<div
-					className="flex cursor-pointer items-center gap-2 text-xl font-bold tracking-tight"
+					className="group flex cursor-pointer items-center gap-2"
 					onClick={() => setCurrentView?.("dashboard")}
 				>
-					<span className="text-primary text-2xl">🎉</span> DayBook
+					<img
+						src="/logo.png"
+						alt="DayBook Logo"
+						className="h-12 object-contain drop-shadow-sm transition-transform duration-200 group-hover:scale-105"
+					/>
+					<span className="text-primary hidden text-2xl font-bold sm:inline">DayBook</span>
 				</div>
 				{setCurrentView && (
 					<div className="flex items-center gap-2">
