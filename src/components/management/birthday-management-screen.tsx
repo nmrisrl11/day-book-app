@@ -127,17 +127,17 @@ export function BirthdayManagementScreen() {
 				<div className="flex flex-col gap-4">
 					<div className="flex flex-col gap-3 sm:flex-row sm:items-center">
 						<div className="relative flex-1">
-							<SearchIcon className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+							<SearchIcon className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
 							<Input
 								placeholder="Search by name..."
-								className="pl-9 bg-background"
+								className="bg-background pl-9"
 								value={searchQuery}
 								onChange={(e) => setSearchQuery(e.target.value)}
 							/>
 						</div>
 						<div className="flex gap-2">
 							<Select value={monthFilter} onValueChange={setMonthFilter}>
-								<SelectTrigger className="w-32.5 bg-background">
+								<SelectTrigger className="bg-background w-32.5">
 									<SelectValue placeholder="Month" />
 								</SelectTrigger>
 								<SelectContent>
@@ -157,7 +157,7 @@ export function BirthdayManagementScreen() {
 								</SelectContent>
 							</Select>
 							<Select value={sortOption} onValueChange={setSortOption}>
-								<SelectTrigger className="w-40 bg-background">
+								<SelectTrigger className="bg-background w-40">
 									<SelectValue placeholder="Sort by" />
 								</SelectTrigger>
 								<SelectContent>
@@ -173,7 +173,7 @@ export function BirthdayManagementScreen() {
 
 					<ScrollArea className="h-[55vh] pr-4">
 						{filteredAndSortedBirthdays.length === 0 ? (
-							<div className="py-12 text-center text-muted-foreground italic">
+							<div className="text-muted-foreground py-12 text-center italic">
 								No birthdays found matching your criteria.
 							</div>
 						) : (

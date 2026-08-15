@@ -22,28 +22,40 @@ export function parseImportedBirthdays(fileText: string): Birthday[] {
 		}
 
 		// Basic schema validation
-		const validBirthdays = parsed.filter((item) => {
-			if (typeof item !== "object" || item === null) return false;
-			if (typeof item.id !== "string" || !item.id) return false;
-			if (typeof item.name !== "string" || !item.name) return false;
-			if (typeof item.birthday !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(item.birthday))
-				return false;
-			if (item.avatar !== undefined) {
-				if (typeof item.avatar !== "string") return false;
-				if (!item.avatar.startsWith("data:image/jpeg;base64,") && !item.avatar.startsWith("data:image/png;base64,")) {
+		const validBirthdays = parsed
+			.filter((item) => {
+				if (typeof item !== "object" || item === null) return false;
+				if (typeof item.id !== "string" || !item.id) return false;
+				if (typeof item.name !== "string" || !item.name) return false;
+				if (typeof item.birthday !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(item.birthday)) {
 					return false;
 				}
-				// Enforce 2MB limit (roughly 2.66MB in base64, size = length * 0.75)
-				const sizeInBytes = item.avatar.length * 0.75;
-				if (sizeInBytes > 2 * 1024 * 1024) return false;
-			}
-			return true;
-		}).map((item: any) => ({
-			id: item.id,
-			name: item.name,
-			birthday: item.birthday,
-			avatar: item.avatar,
-		})) as Birthday[];
+				const dateObj = new Date(item.birthday);
+				if (isNaN(dateObj.getTime()) || dateObj.toISOString().split("T")[0] !== item.birthday) {
+					return false;
+				}
+				if (item.avatar !== undefined) {
+					if (typeof item.avatar !== "string") return false;
+					if (
+						!item.avatar.startsWith("data:image/jpeg;base64,") &&
+						!item.avatar.startsWith("data:image/png;base64,")
+					) {
+						return false;
+					}
+					// Enforce 2MB limit
+					const base64Part = item.avatar.split(",")[1] || "";
+					const paddingCount = (base64Part.match(/=+$/) || [""])[0].length;
+					const sizeInBytes = base64Part.length * 0.75 - paddingCount;
+					if (sizeInBytes > 2 * 1024 * 1024) return false;
+				}
+				return true;
+			})
+			.map((item: any) => ({
+				id: item.id,
+				name: item.name,
+				birthday: item.birthday,
+				avatar: item.avatar,
+			})) as Birthday[];
 
 		if (validBirthdays.length === 0 && parsed.length > 0) {
 			throw new Error("No valid birthday records found in the imported file.");
