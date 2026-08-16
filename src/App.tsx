@@ -1,3 +1,4 @@
+import { bind, setEnabled, setVolume } from "cuelume";
 import { lazy, Suspense, useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Footer } from "./components/layout/footer";
@@ -18,12 +19,25 @@ const SettingsScreen = lazy(() =>
 
 function App() {
 	const settings = useDayBookStore((state) => state.settings);
+	const soundSettings = settings.soundSettings;
 
 	useEffect(() => {
 		const root = window.document.documentElement;
 		root.classList.remove("light", "dark");
 		root.classList.add(settings.theme);
 	}, [settings.theme]);
+
+	// Initialize cuelume and sync volume/enabled state
+	useEffect(() => {
+		bind();
+	}, []);
+
+	useEffect(() => {
+		if (soundSettings) {
+			setEnabled(soundSettings.enabled);
+			setVolume(soundSettings.volume);
+		}
+	}, [soundSettings?.enabled, soundSettings?.volume]);
 
 	useEffect(() => {
 		const handleKeyDown = (e: KeyboardEvent) => {

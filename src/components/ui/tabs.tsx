@@ -1,6 +1,7 @@
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { Tabs as TabsPrimitive } from "radix-ui";
+import { useDayBookStore } from "@/store/day-book-store";
 
 import { cn } from "@/lib/utils";
 
@@ -52,6 +53,10 @@ function TabsList({
 }
 
 function TabsTrigger({ className, ...props }: React.ComponentProps<typeof TabsPrimitive.Trigger>) {
+	const toggleSound = useDayBookStore(
+		(state) => state.settings.soundSettings?.mappings.toggle || "toggle",
+	);
+
 	return (
 		<TabsPrimitive.Trigger
 			data-slot="tabs-trigger"
@@ -62,6 +67,7 @@ function TabsTrigger({ className, ...props }: React.ComponentProps<typeof TabsPr
 				"after:bg-foreground after:absolute after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-[-5px] group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:left-0 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100",
 				className,
 			)}
+			data-cuelume-toggle={toggleSound}
 			{...props}
 		/>
 	);

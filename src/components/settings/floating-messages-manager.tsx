@@ -4,9 +4,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 import { defaultSettings, useDayBookStore } from "@/store/day-book-store";
-import { CheckIcon, Edit2Icon, PlusIcon, RotateCcwIcon, Trash2Icon, XIcon } from "lucide-react";
+import { CheckIcon, Edit2Icon, PlusIcon, Trash2Icon, XIcon } from "lucide-react";
 import { useState } from "react";
 import { Kbd } from "../ui/kbd";
+import { RestoreDefaultsButton } from "./restore-defaults-button";
 
 export function FloatingMessagesManager() {
 	const { settings, updateSettings } = useDayBookStore();
@@ -107,16 +108,10 @@ export function FloatingMessagesManager() {
 				<div className="flex items-center justify-between">
 					<h3 className="text-base font-medium">Floating Messages</h3>
 					<div className="flex gap-2">
-						<Button
-							variant="ghost"
-							size="sm"
-							className="text-muted-foreground hover:text-foreground h-8 text-xs"
+						<RestoreDefaultsButton
 							onClick={handleRestoreDefaults}
-							aria-label="Restore default floating messages"
-						>
-							<RotateCcwIcon className="h-3 w-3 sm:mr-1.5" />
-							<span className="hidden sm:inline">Restore Defaults</span>
-						</Button>
+							ariaLabel="Restore default floating messages"
+						/>
 						<Button
 							variant="ghost"
 							size="sm"

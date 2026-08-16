@@ -15,7 +15,8 @@ import { useDayBookStore } from "@/store/day-book-store";
 import type { AvatarLibrary, AvvvatarsStyle, BoringAvatarsVariant } from "@/types/settings";
 import Avvvatars from "avvvatars-react";
 import BoringAvatar from "boring-avatars";
-import { RotateCcw, Dices } from "lucide-react";
+import { DicesIcon } from "lucide-react";
+import { RestoreDefaultsButton } from "./restore-defaults-button";
 
 export function AvatarSettingsSection() {
 	const { settings, updateSettings } = useDayBookStore();
@@ -87,16 +88,10 @@ export function AvatarSettingsSection() {
 									Choose which library generates avatars when no custom image is available.
 								</span>
 							</div>
-							<Button
-								variant="ghost"
-								size="sm"
+							<RestoreDefaultsButton
 								onClick={handleRestoreDefaults}
-								className="shrink-0 px-2 md:px-3"
-								aria-label="Restore avatar defaults"
-							>
-								<RotateCcw className="h-4 w-4 md:mr-2" />
-								<span className="hidden md:inline">Restore</span>
-							</Button>
+								ariaLabel="Restore avatar defaults"
+							/>
 						</div>
 						<Select value={avatarSettings.defaultLibrary} onValueChange={handleLibraryChange}>
 							<SelectTrigger className="w-full">
@@ -193,7 +188,7 @@ export function AvatarSettingsSection() {
 									<Button
 										variant="ghost"
 										size="sm"
-										className="h-8 shrink-0 px-2 text-xs md:px-3"
+										className="h-8 text-xs"
 										aria-label="Randomize palette"
 										onClick={() => {
 											const currentColors = (
@@ -205,7 +200,7 @@ export function AvatarSettingsSection() {
 											});
 										}}
 									>
-										<Dices className="h-4 w-4 md:mr-2" />
+										<DicesIcon className="h-3 w-3 sm:mr-1.5" />
 										<span className="hidden md:inline">Randomize Palette</span>
 									</Button>
 								</div>

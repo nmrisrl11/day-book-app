@@ -3,7 +3,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { exportBirthdays } from "@/helpers/import-export";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { useDayBookStore } from "@/store/day-book-store";
-import { ArrowLeft, Database, MessageSquare, Paintbrush, UserCircle } from "lucide-react";
+import {
+	ArrowLeftIcon,
+	DatabaseIcon,
+	MessageSquareIcon,
+	PaintbrushIcon,
+	UserCircleIcon,
+	Volume2Icon,
+} from "lucide-react";
 import { lazy, Suspense, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -33,6 +40,9 @@ const DataManagementSection = lazy(() =>
 const DangerZoneSection = lazy(() =>
 	import("./danger-zone-section").then((m) => ({ default: m.DangerZoneSection })),
 );
+const SoundSettingsSection = lazy(() =>
+	import("./sound-settings-section").then((m) => ({ default: m.SoundSettingsSection })),
+);
 
 export function SettingsScreen() {
 	const { birthdays, deleteAllBirthdays } = useDayBookStore();
@@ -50,14 +60,15 @@ export function SettingsScreen() {
 	};
 
 	const tabs = [
-		{ id: "appearance", label: "Appearance", icon: Paintbrush },
-		{ id: "avatar", label: "Avatar", icon: UserCircle },
+		{ id: "appearance", label: "Appearance", icon: PaintbrushIcon },
+		{ id: "avatar", label: "Avatar", icon: UserCircleIcon },
 		{
 			id: "messages",
 			label: "Messages & Greetings",
-			icon: MessageSquare,
+			icon: MessageSquareIcon,
 		},
-		{ id: "data", label: "Data Management", icon: Database },
+		{ id: "sounds", label: "Sound & Feedback", icon: Volume2Icon },
+		{ id: "data", label: "Data Management", icon: DatabaseIcon },
 	];
 
 	return (
@@ -70,7 +81,7 @@ export function SettingsScreen() {
 					className="shrink-0"
 					aria-label="Go back"
 				>
-					<ArrowLeft className="h-5 w-5" />
+					<ArrowLeftIcon className="h-5 w-5" />
 				</Button>
 				<div>
 					<h2 className="text-2xl font-bold tracking-tight">Settings</h2>
@@ -122,7 +133,7 @@ export function SettingsScreen() {
 										</>
 									) : (
 										<div className="flex flex-col items-center justify-center py-12 text-center">
-											<MessageSquare className="text-muted-foreground/50 mb-4 h-12 w-12" />
+											<MessageSquareIcon className="text-muted-foreground/50 mb-4 h-12 w-12" />
 											<h3 className="text-foreground mb-2 text-lg font-semibold">
 												No Birthdays Added
 											</h3>
@@ -135,6 +146,9 @@ export function SettingsScreen() {
 											</Button>
 										</div>
 									)}
+								</TabsContent>
+								<TabsContent value="sounds">
+									<SoundSettingsSection />
 								</TabsContent>
 								<TabsContent value="data" className="space-y-8">
 									<DataManagementSection />

@@ -1,12 +1,12 @@
+import { Button } from "@/components/ui/button";
 import {
 	Dialog,
 	DialogContent,
-	DialogHeader,
-	DialogTitle,
 	DialogDescription,
 	DialogFooter,
+	DialogHeader,
+	DialogTitle,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 import { DownloadIcon } from "lucide-react";
 
 interface DeleteConfirmationModalProps {
@@ -47,27 +47,33 @@ export function DeleteConfirmationModal({
 						)}
 					</DialogDescription>
 				</DialogHeader>
-				<DialogFooter className="flex-col gap-2 sm:flex-row">
-					<div className="flex flex-1 gap-2">
+				<DialogFooter className="w-full flex-col gap-2 sm:flex-row sm:justify-between">
+					<Button
+						variant="destructive"
+						onClick={onConfirm}
+						aria-label="Delete"
+						className="w-full sm:flex-1"
+					>
+						Delete
+					</Button>
+					{isDeleteAll && onExport && (
 						<Button
-							variant="outline"
-							onClick={() => onOpenChange(false)}
-							className="flex-1 sm:flex-none"
+							variant="secondary"
+							onClick={onExport}
+							aria-label="Export Data"
+							className="w-full sm:flex-1"
 						>
-							Cancel
+							<DownloadIcon className="mr-2 h-4 w-4" />
+							Export Data
 						</Button>
-					</div>
-					<div className="flex gap-2">
-						{isDeleteAll && onExport && (
-							<Button variant="secondary" onClick={onExport} aria-label="Export Data">
-								<DownloadIcon className="mr-2 h-4 w-4" />
-								Export Data
-							</Button>
-						)}
-						<Button variant="destructive" onClick={onConfirm} aria-label="Delete">
-							Delete
-						</Button>
-					</div>
+					)}
+					<Button
+						variant="outline"
+						onClick={() => onOpenChange(false)}
+						className="mt-2 w-full sm:mt-0 sm:flex-1"
+					>
+						Cancel
+					</Button>
 				</DialogFooter>
 			</DialogContent>
 		</Dialog>
