@@ -15,7 +15,7 @@ import { useDayBookStore } from "@/store/day-book-store";
 import type { AvatarLibrary, AvvvatarsStyle, BoringAvatarsVariant } from "@/types/settings";
 import Avvvatars from "avvvatars-react";
 import BoringAvatar from "boring-avatars";
-import { RotateCcw } from "lucide-react";
+import { RotateCcw, Dices } from "lucide-react";
 
 export function AvatarSettingsSection() {
 	const { settings, updateSettings } = useDayBookStore();
@@ -56,11 +56,11 @@ export function AvatarSettingsSection() {
 	};
 
 	return (
-		<div className="flex flex-col gap-6">
-			<div className="flex flex-col gap-3 rounded-lg border p-4">
+		<div className="flex flex-col gap-10">
+			<div className="flex flex-col gap-3">
 				<div className="flex items-center justify-between">
 					<div className="flex flex-col gap-1 pr-6">
-						<Label className="text-base font-semibold" htmlFor="allow-custom-uploads">
+						<Label className="text-base font-medium" htmlFor="allow-custom-uploads">
 							Allow Custom Profile Images
 						</Label>
 						<span className="text-muted-foreground text-sm">
@@ -77,19 +77,24 @@ export function AvatarSettingsSection() {
 				</div>
 			</div>
 
-			<div className="flex flex-col gap-6 rounded-lg border p-4 md:flex-row">
+			<div className="flex flex-col gap-6 md:flex-row">
 				<div className="flex flex-1 flex-col gap-4">
-					<div className="flex flex-col gap-2">
-						<div className="flex items-center justify-between">
-							<div className="flex flex-col gap-1">
-								<h3 className="text-base font-semibold">Default Avatar Library</h3>
-								<span className="text-muted-foreground mb-1 text-sm">
+					<div className="flex flex-col gap-3">
+						<div className="flex items-start justify-between">
+							<div className="flex flex-col gap-1 pr-6">
+								<h3 className="text-base font-medium">Default Avatar Library</h3>
+								<span className="text-muted-foreground text-sm">
 									Choose which library generates avatars when no custom image is available.
 								</span>
 							</div>
-							<Button variant="outline" size="sm" onClick={handleRestoreDefaults}>
-								<RotateCcw className="mr-2 h-4 w-4" />
-								Restore
+							<Button
+								variant="ghost"
+								size="sm"
+								onClick={handleRestoreDefaults}
+								className="shrink-0 px-2 md:px-3"
+							>
+								<RotateCcw className="h-4 w-4 md:mr-2" />
+								<span className="hidden md:inline">Restore</span>
 							</Button>
 						</div>
 						<Select value={avatarSettings.defaultLibrary} onValueChange={handleLibraryChange}>
@@ -104,8 +109,8 @@ export function AvatarSettingsSection() {
 					</div>
 
 					{avatarSettings.defaultLibrary === "avvvatars" && (
-						<div className="flex flex-col gap-2">
-							<Label className="font-semibold" htmlFor="avvvatars-style">
+						<div className="flex flex-col gap-3">
+							<Label className="text-sm font-medium" htmlFor="avvvatars-style">
 								Avatar Style
 							</Label>
 							<Select
@@ -119,7 +124,7 @@ export function AvatarSettingsSection() {
 									<SelectItem value="shape">
 										<div className="flex items-center gap-3">
 											<div className="h-6 w-6">
-												<Avvvatars value="Jane Doe" style="shape" size={24} />
+												<Avvvatars value="DayBook" style="shape" size={24} />
 											</div>
 											<span>Shape</span>
 										</div>
@@ -127,7 +132,7 @@ export function AvatarSettingsSection() {
 									<SelectItem value="character">
 										<div className="flex items-center gap-3">
 											<div className="h-6 w-6">
-												<Avvvatars value="Jane Doe" style="character" size={24} />
+												<Avvvatars value="DayBook" style="character" size={24} />
 											</div>
 											<span>Character</span>
 										</div>
@@ -139,8 +144,8 @@ export function AvatarSettingsSection() {
 
 					{avatarSettings.defaultLibrary === "boring-avatars" && (
 						<>
-							<div className="flex flex-col gap-2">
-								<Label className="font-semibold" htmlFor="boring-avatars-variant">
+							<div className="flex flex-col gap-3">
+								<Label className="text-sm font-medium" htmlFor="boring-avatars-variant">
 									Variant
 								</Label>
 								<Select
@@ -166,7 +171,7 @@ export function AvatarSettingsSection() {
 													<div className="flex items-center justify-center overflow-hidden rounded-full [&>svg]:h-full! [&>svg]:w-full!">
 														<BoringAvatar
 															size={24}
-															name="Jane Doe"
+															name="DayBook"
 															variant={variant}
 															colors={
 																avatarSettings.boringAvatarsColors || BORING_AVATARS_DEFAULT_COLORS
@@ -181,22 +186,25 @@ export function AvatarSettingsSection() {
 								</Select>
 							</div>
 
-							<div className="flex flex-col gap-2">
+							<div className="flex flex-col gap-3">
 								<div className="flex items-center justify-between">
-									<p className="text-sm font-semibold">Colors</p>
+									<Label className="text-sm font-medium">Colors</Label>
 									<Button
 										variant="ghost"
 										size="sm"
-										className="h-8 px-2 text-xs"
+										className="h-8 shrink-0 px-2 text-xs md:px-3"
 										onClick={() => {
-											const currentColors = avatarSettings.boringAvatarsColors?.join(",") || "";
+											const currentColors = (
+												avatarSettings.boringAvatarsColors || BORING_AVATARS_DEFAULT_COLORS
+											).join(",");
 											const randomPalette = getRandomPalette(currentColors);
 											updateSettings({
 												avatarSettings: { ...avatarSettings, boringAvatarsColors: randomPalette },
 											});
 										}}
 									>
-										Randomize Palette
+										<Dices className="h-4 w-4 md:mr-2" />
+										<span className="hidden md:inline">Randomize Palette</span>
 									</Button>
 								</div>
 								<div className="flex items-center gap-2">
@@ -231,15 +239,12 @@ export function AvatarSettingsSection() {
 					)}
 				</div>
 
-				<div className="flex min-w-32 shrink-0 flex-col items-center justify-center gap-3 border-t pt-4 md:border-t-0 md:border-l md:pt-0 md:pl-6">
-					<p className="text-muted-foreground text-xs tracking-wider uppercase">Preview</p>
+				<div className="flex min-w-32 shrink-0 flex-col items-center justify-center gap-4 border-t pt-6 md:border-t-0 md:border-l md:pt-0 md:pl-8">
+					<p className="text-muted-foreground text-xs font-semibold tracking-wider uppercase">
+						Preview
+					</p>
 					<div className="bg-muted ring-border rounded-full p-2 shadow-sm ring-1">
-						<UserAvatar
-							// Using 'Jane Doe' so it clearly represents a user
-							birthday={{ name: "Jane Doe" }}
-							size={80}
-							className="h-20 w-20"
-						/>
+						<UserAvatar birthday={{ name: "DayBook" }} size={80} className="h-20 w-20" />
 					</div>
 				</div>
 			</div>

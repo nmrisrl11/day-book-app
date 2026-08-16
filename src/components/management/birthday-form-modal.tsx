@@ -156,7 +156,7 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 	// or the currently selected avatar string if it exists.
 	const previewBirthday: Birthday = {
 		id: "preview",
-		name: name || "Jane Doe",
+		name: name || "DayBook",
 		birthday: date || "2000-01-01",
 		avatar: avatar,
 	};
@@ -260,7 +260,7 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 
 					<div className="flex flex-col gap-2">
 						<Label htmlFor="name">Name</Label>
-						<Input id="name" {...register("name")} placeholder="e.g. John Doe" autoComplete="off" />
+						<Input id="name" {...register("name")} placeholder="e.g. John" autoComplete="off" />
 						{errors.name && (
 							<p className="text-destructive text-sm font-medium" role="alert">
 								{errors.name.message}
