@@ -50,7 +50,7 @@ export function parseImportedBirthdays(fileText: string): Birthday[] {
 				}
 				return true;
 			})
-			.map((item: any) => ({
+			.map((item: Record<string, unknown>) => ({
 				id: item.id,
 				name: item.name,
 				birthday: item.birthday,

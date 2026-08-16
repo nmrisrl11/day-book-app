@@ -12,6 +12,8 @@ import { UserAvatar } from "@/components/user-avatar";
 import { BORING_AVATARS_DEFAULT_COLORS } from "@/constants/default-colors";
 import { useDayBookStore } from "@/store/day-book-store";
 import type { AvatarLibrary, AvvvatarsStyle, BoringAvatarsVariant } from "@/types/settings";
+import Avvvatars from "avvvatars-react";
+import BoringAvatar from "boring-avatars";
 import { RotateCcw } from "lucide-react";
 
 export function AvatarSettingsSection() {
@@ -79,7 +81,7 @@ export function AvatarSettingsSection() {
 					<div className="flex flex-col gap-2">
 						<div className="flex items-center justify-between">
 							<div className="flex flex-col gap-1">
-								<Label className="text-base font-semibold">Default Avatar Library</Label>
+								<h3 className="text-base font-semibold">Default Avatar Library</h3>
 								<span className="text-muted-foreground mb-1 text-sm">
 									Choose which library generates avatars when no custom image is available.
 								</span>
@@ -102,17 +104,33 @@ export function AvatarSettingsSection() {
 
 					{avatarSettings.defaultLibrary === "avvvatars" && (
 						<div className="flex flex-col gap-2">
-							<Label className="font-semibold">Avatar Style</Label>
+							<Label className="font-semibold" htmlFor="avvvatars-style">
+								Avatar Style
+							</Label>
 							<Select
 								value={avatarSettings.avvvatarsStyle}
 								onValueChange={handleAvvvatarsStyleChange}
 							>
-								<SelectTrigger className="w-full">
+								<SelectTrigger className="h-auto w-full py-2" id="avvvatars-style">
 									<SelectValue />
 								</SelectTrigger>
 								<SelectContent position="popper">
-									<SelectItem value="shape">Shape</SelectItem>
-									<SelectItem value="character">Character</SelectItem>
+									<SelectItem value="shape">
+										<div className="flex items-center gap-3">
+											<div className="h-6 w-6">
+												<Avvvatars value="Jane Doe" style="shape" size={24} />
+											</div>
+											<span>Shape</span>
+										</div>
+									</SelectItem>
+									<SelectItem value="character">
+										<div className="flex items-center gap-3">
+											<div className="h-6 w-6">
+												<Avvvatars value="Jane Doe" style="character" size={24} />
+											</div>
+											<span>Character</span>
+										</div>
+									</SelectItem>
 								</SelectContent>
 							</Select>
 						</div>
@@ -121,27 +139,86 @@ export function AvatarSettingsSection() {
 					{avatarSettings.defaultLibrary === "boring-avatars" && (
 						<>
 							<div className="flex flex-col gap-2">
-								<Label className="font-semibold">Variant</Label>
+								<Label className="font-semibold" htmlFor="boring-avatars-variant">
+									Variant
+								</Label>
 								<Select
 									value={avatarSettings.boringAvatarsVariant}
 									onValueChange={handleBoringAvatarsVariantChange}
 								>
-									<SelectTrigger className="w-full">
+									<SelectTrigger className="h-auto w-full py-2" id="boring-avatars-variant">
 										<SelectValue />
 									</SelectTrigger>
 									<SelectContent position="popper">
-										<SelectItem value="marble">Marble</SelectItem>
-										<SelectItem value="beam">Beam</SelectItem>
-										<SelectItem value="pixel">Pixel</SelectItem>
-										<SelectItem value="sunset">Sunset</SelectItem>
-										<SelectItem value="ring">Ring</SelectItem>
-										<SelectItem value="bauhaus">Bauhaus</SelectItem>
+										{(
+											[
+												"marble",
+												"beam",
+												"pixel",
+												"sunset",
+												"ring",
+												"bauhaus",
+											] as BoringAvatarsVariant[]
+										).map((variant) => (
+											<SelectItem key={variant} value={variant}>
+												<div className="flex items-center gap-3">
+													<div className="flex items-center justify-center overflow-hidden rounded-full [&>svg]:h-full! [&>svg]:w-full!">
+														<BoringAvatar
+															size={24}
+															name="Jane Doe"
+															variant={variant}
+															colors={
+																avatarSettings.boringAvatarsColors || BORING_AVATARS_DEFAULT_COLORS
+															}
+														/>
+													</div>
+													<span className="capitalize">{variant}</span>
+												</div>
+											</SelectItem>
+										))}
 									</SelectContent>
 								</Select>
 							</div>
 
 							<div className="flex flex-col gap-2">
-								<Label className="font-semibold">Colors</Label>
+								<div className="flex items-center justify-between">
+									<p className="text-sm font-semibold">Colors</p>
+									<Button
+										variant="ghost"
+										size="sm"
+										className="h-8 px-2 text-xs"
+										onClick={() => {
+											const PREDEFINED_PALETTES = [
+												["#92A1C6", "#146A7C", "#F0AB3D", "#C271B4", "#C20D90"],
+												["#264653", "#2a9d8f", "#e9c46a", "#f4a261", "#e76f51"],
+												["#ffbe0b", "#fb5607", "#ff006e", "#8338ec", "#3a86ff"],
+												["#003049", "#d62828", "#f77f00", "#fcbf49", "#eae2b7"],
+												["#03071e", "#370617", "#6a040f", "#9d0208", "#d00000"],
+												["#cdb4db", "#ffc8dd", "#ffafcc", "#bde0fe", "#a2d2ff"],
+												["#8ecae6", "#219ebc", "#023047", "#ffb703", "#fb8500"],
+												["#0d3b66", "#faf0ca", "#f4d35e", "#ee964b", "#f95738"],
+												["#5f0f40", "#9a031e", "#fb8b24", "#e36414", "#0f4c5c"],
+												["#606c38", "#283618", "#fefae0", "#dda15e", "#bc6c25"],
+											];
+											const currentColors = avatarSettings.boringAvatarsColors?.join(",") || "";
+											let randomPalette =
+												PREDEFINED_PALETTES[Math.floor(Math.random() * PREDEFINED_PALETTES.length)];
+											// Ensure it picks a different one if possible
+											if (randomPalette.join(",") === currentColors) {
+												randomPalette =
+													PREDEFINED_PALETTES[
+														(Math.floor(Math.random() * (PREDEFINED_PALETTES.length - 1)) + 1) %
+															PREDEFINED_PALETTES.length
+													];
+											}
+											updateSettings({
+												avatarSettings: { ...avatarSettings, boringAvatarsColors: randomPalette },
+											});
+										}}
+									>
+										Randomize Palette
+									</Button>
+								</div>
 								<div className="flex items-center gap-2">
 									{(avatarSettings.boringAvatarsColors || BORING_AVATARS_DEFAULT_COLORS).map(
 										(color, index) => (
@@ -175,7 +252,7 @@ export function AvatarSettingsSection() {
 				</div>
 
 				<div className="flex min-w-32 shrink-0 flex-col items-center justify-center gap-3 border-t pt-4 md:border-t-0 md:border-l md:pt-0 md:pl-6">
-					<Label className="text-muted-foreground text-xs tracking-wider uppercase">Preview</Label>
+					<p className="text-muted-foreground text-xs tracking-wider uppercase">Preview</p>
 					<div className="bg-muted ring-border rounded-full p-2 shadow-sm ring-1">
 						<UserAvatar
 							// Using 'Jane Doe' so it clearly represents a user
