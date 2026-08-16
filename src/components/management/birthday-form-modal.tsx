@@ -193,7 +193,7 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 											className="h-full w-full object-cover"
 										/>
 									) : name?.trim().length > 0 ? (
-										<div className="h-24 w-24 [&>svg]:h-24 [&>svg]:w-24">
+										<div className="h-24 w-24">
 											<UserAvatar birthday={previewBirthday} size={96} className="h-full w-full" />
 										</div>
 									) : (

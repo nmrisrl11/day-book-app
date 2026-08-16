@@ -83,19 +83,22 @@ export const useDayBookStore = create<DayBookState>()(
 		}),
 		{
 			name: "daybook-storage",
-			version: 1,
-			merge: (persistedState: any, currentState) => ({
-				...currentState,
-				...persistedState,
-				settings: {
-					...defaultSettings,
-					...(persistedState?.settings || {}),
-					avatarSettings: {
-						...defaultSettings.avatarSettings,
-						...(persistedState?.settings?.avatarSettings || {}),
+			merge: (persistedState: unknown, currentState) => {
+				const state = persistedState as Partial<DayBookState>;
+
+				return {
+					...currentState,
+					...state,
+					settings: {
+						...defaultSettings,
+						...(state?.settings || {}),
+						avatarSettings: {
+							...defaultSettings.avatarSettings,
+							...(state?.settings?.avatarSettings || {}),
+						},
 					},
-				},
-			}),
+				} as DayBookState;
+			},
 		},
 	),
 );

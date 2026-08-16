@@ -46,7 +46,7 @@ export function UserAvatar({ birthday, size = 40, className }: UserAvatarProps) 
 				<BoringAvatar
 					size={size}
 					name={birthday.name}
-					variant={avatarSettings.boringAvatarsVariant as any}
+					variant={avatarSettings.boringAvatarsVariant}
 					colors={avatarSettings.boringAvatarsColors || BORING_AVATARS_DEFAULT_COLORS}
 				/>
 			</div>
@@ -62,7 +62,7 @@ export function UserAvatar({ birthday, size = 40, className }: UserAvatarProps) 
 			)}
 			style={!className?.includes("w-") ? { width: size, height: size } : undefined}
 		>
-			<Avvvatars value={birthday.name} style={avatarSettings.avvvatarsStyle as any} size={size} />
+			<Avvvatars value={birthday.name} style={avatarSettings.avvvatarsStyle} size={size} />
 		</div>
 	);
 }
