@@ -83,6 +83,7 @@ export const useDayBookStore = create<DayBookState>()(
 		}),
 		{
 			name: "daybook-storage",
+			version: 1,
 			merge: (persistedState: unknown, currentState) => {
 				const state = persistedState as Partial<DayBookState>;
 
