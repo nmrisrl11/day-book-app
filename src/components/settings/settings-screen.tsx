@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { exportBirthdays } from "@/helpers/import-export";
-import { cn } from "@/lib/utils";
+import { useMediaQuery } from "@/hooks/use-media-query";
 import { useDayBookStore } from "@/store/day-book-store";
 import { ArrowLeft, Database, MessageSquare, Paintbrush, UserCircle } from "lucide-react";
 import { lazy, Suspense, useState } from "react";
@@ -33,13 +34,11 @@ const DangerZoneSection = lazy(() =>
 	import("./danger-zone-section").then((m) => ({ default: m.DangerZoneSection })),
 );
 
-type TabId = "appearance" | "avatar" | "messages" | "data";
-
 export function SettingsScreen() {
 	const { birthdays, deleteAllBirthdays } = useDayBookStore();
 	const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-	const [activeTab, setActiveTab] = useState<TabId>("appearance");
 	const navigate = useNavigate();
+	const isDesktop = useMediaQuery("(min-width: 768px)");
 
 	const handleConfirmDeleteAll = () => {
 		deleteAllBirthdays();
@@ -79,45 +78,44 @@ export function SettingsScreen() {
 				</div>
 			</div>
 
-			<div className="relative flex flex-col gap-8 md:flex-row">
-				<div className="relative shrink-0 md:sticky md:top-6 md:h-fit md:w-64">
+			<Tabs
+				defaultValue="appearance"
+				orientation={isDesktop ? "vertical" : "horizontal"}
+				className="relative flex flex-col gap-8 md:flex-row"
+			>
+				<div className="relative w-full max-w-full shrink-0 md:sticky md:top-6 md:h-fit md:w-64 md:self-start">
 					<div className="from-background pointer-events-none absolute inset-y-0 left-0 z-10 w-8 bg-linear-to-r to-transparent md:hidden" />
 					<div className="from-background pointer-events-none absolute inset-y-0 right-0 z-10 w-8 bg-linear-to-l to-transparent md:hidden" />
-					<nav className="border-border scrollbar-hide relative flex snap-x gap-2 overflow-x-auto px-4 pb-2 md:flex-col md:border-r md:px-0 md:pr-6 md:pb-0">
+					<TabsList
+						variant="line"
+						className="border-border scrollbar-hide relative flex h-auto w-full snap-x justify-start gap-2 overflow-x-auto overflow-y-hidden px-4 pb-2 md:w-full md:flex-col md:border-r md:px-0 md:pr-6 md:pb-0"
+					>
 						{tabs.map((tab) => (
-							<button
+							<TabsTrigger
 								key={tab.id}
-								onClick={() => setActiveTab(tab.id as TabId)}
-								className={cn(
-									"focus-visible:ring-ring relative flex shrink-0 snap-start items-center gap-3 px-4 py-3 text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:ring-2 md:py-2.5",
-									activeTab === tab.id
-										? "text-foreground font-semibold"
-										: "text-muted-foreground hover:text-foreground hover:bg-secondary/30 rounded-lg",
-								)}
+								value={tab.id}
+								className="relative flex shrink-0 snap-start items-center gap-3 px-4 py-3 text-sm whitespace-nowrap group-data-[orientation=vertical]/tabs:justify-start data-[state=active]:font-semibold md:py-2.5"
 							>
-								{activeTab === tab.id && (
-									<span className="bg-foreground absolute right-4 bottom-0 left-4 h-0.5 rounded-t-full md:top-1 md:right-auto md:bottom-1 md:left-0 md:h-auto md:w-0.5 md:rounded-l-none md:rounded-r-full" />
-								)}
 								<tab.icon className="h-4 w-4" />
 								{tab.label}
-							</button>
+							</TabsTrigger>
 						))}
-					</nav>
+					</TabsList>
 				</div>
 
 				<div className="min-w-0 flex-1">
 					<div className="border-border bg-card flex flex-col gap-8 rounded-xl border p-6 shadow-sm">
 						<Suspense fallback={<div className="bg-muted h-32 animate-pulse rounded-xl"></div>}>
 							<div className="flex flex-col gap-8">
-								{activeTab === "appearance" && (
-									<>
-										<ThemeSection />
-										<DisplaySettingsSection />
-									</>
-								)}
-								{activeTab === "avatar" && <AvatarSettingsSection />}
-								{activeTab === "messages" &&
-									(birthdays.length > 0 ? (
+								<TabsContent value="appearance" className="space-y-8">
+									<ThemeSection />
+									<DisplaySettingsSection />
+								</TabsContent>
+								<TabsContent value="avatar">
+									<AvatarSettingsSection />
+								</TabsContent>
+								<TabsContent value="messages" className="space-y-8">
+									{birthdays.length > 0 ? (
 										<>
 											<FloatingMessagesManager />
 											<GreetingsManager />
@@ -136,20 +134,19 @@ export function SettingsScreen() {
 												Add Birthday
 											</Button>
 										</div>
-									))}
-								{activeTab === "data" && (
-									<>
-										<DataManagementSection />
-										{birthdays.length > 0 && (
-											<DangerZoneSection onDeleteAllClick={() => setDeleteModalOpen(true)} />
-										)}
-									</>
-								)}
+									)}
+								</TabsContent>
+								<TabsContent value="data" className="space-y-8">
+									<DataManagementSection />
+									{birthdays.length > 0 && (
+										<DangerZoneSection onDeleteAllClick={() => setDeleteModalOpen(true)} />
+									)}
+								</TabsContent>
 							</div>
 						</Suspense>
 					</div>
 				</div>
-			</div>
+			</Tabs>
 
 			{deleteModalOpen && (
 				<Suspense fallback={null}>

@@ -92,6 +92,7 @@ export function AvatarSettingsSection() {
 								size="sm"
 								onClick={handleRestoreDefaults}
 								className="shrink-0 px-2 md:px-3"
+								aria-label="Restore avatar defaults"
 							>
 								<RotateCcw className="h-4 w-4 md:mr-2" />
 								<span className="hidden md:inline">Restore</span>
@@ -193,6 +194,7 @@ export function AvatarSettingsSection() {
 										variant="ghost"
 										size="sm"
 										className="h-8 shrink-0 px-2 text-xs md:px-3"
+										aria-label="Randomize palette"
 										onClick={() => {
 											const currentColors = (
 												avatarSettings.boringAvatarsColors || BORING_AVATARS_DEFAULT_COLORS

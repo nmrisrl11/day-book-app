@@ -6,7 +6,7 @@ export function getRandomPalette(currentPaletteStr?: string): string[] {
 	}
 
 	const currentIndex = palettes.findIndex((p) => p.join(",") === currentPaletteStr);
-	
+
 	if (currentIndex === -1) {
 		return palettes[Math.floor(Math.random() * palettes.length)];
 	}
@@ -14,6 +14,6 @@ export function getRandomPalette(currentPaletteStr?: string): string[] {
 	// Pick a random index from the remaining palettes
 	const offset = Math.floor(Math.random() * (palettes.length - 1)) + 1;
 	const newIndex = (currentIndex + offset) % palettes.length;
-	
+
 	return palettes[newIndex];
 }
