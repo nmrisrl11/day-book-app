@@ -40,7 +40,7 @@ export function BirthdayManagementScreen() {
 
 	useEffect(() => {
 		setCurrentPage(1);
-	}, [searchQuery, monthFilter, sortOption, itemsPerPage]);
+	}, [birthdays, searchQuery, monthFilter, sortOption, itemsPerPage]);
 
 	const filteredAndSortedBirthdays = useMemo(() => {
 		let result = [...birthdays];

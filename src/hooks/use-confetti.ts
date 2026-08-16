@@ -3,6 +3,7 @@ import { useEffect, useRef } from "react";
 
 export function useConfetti(enabled: boolean) {
 	const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+	const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 	const animationsEnabled = useDayBookStore((state) => state.settings.animationsEnabled ?? true);
 
 	useEffect(() => {
@@ -26,11 +27,14 @@ export function useConfetti(enabled: boolean) {
 					zIndex: 50,
 				};
 
-				const interval: ReturnType<typeof setInterval> = setInterval(function () {
+				if (intervalRef.current) clearInterval(intervalRef.current);
+
+				intervalRef.current = setInterval(function () {
 					const timeLeft = animationEnd - Date.now();
 
 					if (timeLeft <= 0) {
-						return clearInterval(interval);
+						if (intervalRef.current) clearInterval(intervalRef.current);
+						return;
 					}
 
 					const particleCount = 20 * (timeLeft / duration);
@@ -65,6 +69,9 @@ export function useConfetti(enabled: boolean) {
 			if (timeoutRef.current) {
 				clearTimeout(timeoutRef.current);
 			}
+			if (intervalRef.current) {
+				clearInterval(intervalRef.current);
+			}
 		};
-	}, [enabled]);
+	}, [enabled, animationsEnabled]);
 }
