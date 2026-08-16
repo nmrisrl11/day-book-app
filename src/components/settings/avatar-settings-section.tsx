@@ -10,6 +10,7 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { UserAvatar } from "@/components/user-avatar";
 import { BORING_AVATARS_DEFAULT_COLORS } from "@/constants/default-colors";
+import { getRandomPalette } from "@/helpers/color-palettes";
 import { useDayBookStore } from "@/store/day-book-store";
 import type { AvatarLibrary, AvvvatarsStyle, BoringAvatarsVariant } from "@/types/settings";
 import Avvvatars from "avvvatars-react";
@@ -188,29 +189,8 @@ export function AvatarSettingsSection() {
 										size="sm"
 										className="h-8 px-2 text-xs"
 										onClick={() => {
-											const PREDEFINED_PALETTES = [
-												["#92A1C6", "#146A7C", "#F0AB3D", "#C271B4", "#C20D90"],
-												["#264653", "#2a9d8f", "#e9c46a", "#f4a261", "#e76f51"],
-												["#ffbe0b", "#fb5607", "#ff006e", "#8338ec", "#3a86ff"],
-												["#003049", "#d62828", "#f77f00", "#fcbf49", "#eae2b7"],
-												["#03071e", "#370617", "#6a040f", "#9d0208", "#d00000"],
-												["#cdb4db", "#ffc8dd", "#ffafcc", "#bde0fe", "#a2d2ff"],
-												["#8ecae6", "#219ebc", "#023047", "#ffb703", "#fb8500"],
-												["#0d3b66", "#faf0ca", "#f4d35e", "#ee964b", "#f95738"],
-												["#5f0f40", "#9a031e", "#fb8b24", "#e36414", "#0f4c5c"],
-												["#606c38", "#283618", "#fefae0", "#dda15e", "#bc6c25"],
-											];
 											const currentColors = avatarSettings.boringAvatarsColors?.join(",") || "";
-											let randomPalette =
-												PREDEFINED_PALETTES[Math.floor(Math.random() * PREDEFINED_PALETTES.length)];
-											// Ensure it picks a different one if possible
-											if (randomPalette.join(",") === currentColors) {
-												randomPalette =
-													PREDEFINED_PALETTES[
-														(Math.floor(Math.random() * (PREDEFINED_PALETTES.length - 1)) + 1) %
-															PREDEFINED_PALETTES.length
-													];
-											}
+											const randomPalette = getRandomPalette(currentColors);
 											updateSettings({
 												avatarSettings: { ...avatarSettings, boringAvatarsColors: randomPalette },
 											});

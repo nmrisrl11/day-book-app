@@ -1,6 +1,7 @@
 import { PartyHat } from "@/components/ui/party-hat";
-import type { Birthday } from "@/types/birthday";
 import { UserAvatar } from "@/components/user-avatar";
+import { useMediaQuery } from "@/hooks/use-media-query";
+import type { Birthday } from "@/types/birthday";
 import { CakeIcon, SparklesIcon, StarIcon } from "lucide-react";
 
 interface CelebrantDisplayProps {
@@ -9,6 +10,8 @@ interface CelebrantDisplayProps {
 }
 
 export function CelebrantDisplay({ celebrant, onClick }: CelebrantDisplayProps) {
+	const isDesktop = useMediaQuery("(min-width: 768px)");
+
 	return (
 		<button
 			onClick={() => onClick(celebrant)}
@@ -25,7 +28,11 @@ export function CelebrantDisplay({ celebrant, onClick }: CelebrantDisplayProps) 
 				</div>
 
 				<div className="bg-card ring-border relative z-10 rounded-full p-2 shadow-lg ring-1 transition-transform duration-300 group-hover:scale-105">
-					<UserAvatar birthday={celebrant} size={160} className="h-32 w-32 md:h-40 md:w-40" />
+					<UserAvatar
+						birthday={celebrant}
+						size={isDesktop ? 160 : 128}
+						className="h-32 w-32 md:h-40 md:w-40"
+					/>
 				</div>
 			</div>
 
