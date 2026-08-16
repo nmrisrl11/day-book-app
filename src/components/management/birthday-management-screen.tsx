@@ -11,11 +11,16 @@ import {
 import { FULL_MONTHS } from "@/constants/months";
 import { useDayBookStore } from "@/store/day-book-store";
 import type { Birthday } from "@/types/birthday";
-import { PlusIcon, SearchIcon } from "lucide-react";
-import { useMemo, useState } from "react";
-import { BirthdayFormModal } from "./birthday-form-modal";
+import { ChevronLeft, ChevronRight, MoreHorizontal, PlusIcon, SearchIcon } from "lucide-react";
+import { lazy, Suspense, useEffect, useMemo, useState } from "react";
 import { BirthdayListItem } from "./birthday-list-item";
-import { DeleteConfirmationModal } from "./delete-confirmation-modal";
+
+const BirthdayFormModal = lazy(() =>
+	import("./birthday-form-modal").then((m) => ({ default: m.BirthdayFormModal })),
+);
+const DeleteConfirmationModal = lazy(() =>
+	import("./delete-confirmation-modal").then((m) => ({ default: m.DeleteConfirmationModal })),
+);
 
 export function BirthdayManagementScreen() {
 	const { birthdays, deleteBirthday } = useDayBookStore();
@@ -29,6 +34,13 @@ export function BirthdayManagementScreen() {
 	const [searchQuery, setSearchQuery] = useState("");
 	const [monthFilter, setMonthFilter] = useState("all");
 	const [sortOption, setSortOption] = useState("upcoming");
+
+	const [currentPage, setCurrentPage] = useState(1);
+	const [itemsPerPage, setItemsPerPage] = useState("10");
+
+	useEffect(() => {
+		setCurrentPage(1);
+	}, [birthdays, searchQuery, monthFilter, sortOption, itemsPerPage]);
 
 	const filteredAndSortedBirthdays = useMemo(() => {
 		let result = [...birthdays];
@@ -79,6 +91,46 @@ export function BirthdayManagementScreen() {
 
 		return result;
 	}, [birthdays, searchQuery, monthFilter, sortOption]);
+
+	const totalPages =
+		itemsPerPage === "all"
+			? 1
+			: Math.ceil(filteredAndSortedBirthdays.length / parseInt(itemsPerPage, 10));
+
+	const paginatedBirthdays = useMemo(() => {
+		if (itemsPerPage === "all") return filteredAndSortedBirthdays;
+		const size = parseInt(itemsPerPage, 10);
+		const start = (currentPage - 1) * size;
+		return filteredAndSortedBirthdays.slice(start, start + size);
+	}, [filteredAndSortedBirthdays, currentPage, itemsPerPage]);
+
+	const generatePageNumbers = () => {
+		if (totalPages <= 7) return Array.from({ length: totalPages }, (_, i) => i + 1);
+
+		if (currentPage <= 4) {
+			return [1, 2, 3, 4, 5, "ellipsis-1", totalPages];
+		} else if (currentPage >= totalPages - 3) {
+			return [
+				1,
+				"ellipsis-1",
+				totalPages - 4,
+				totalPages - 3,
+				totalPages - 2,
+				totalPages - 1,
+				totalPages,
+			];
+		} else {
+			return [
+				1,
+				"ellipsis-1",
+				currentPage - 1,
+				currentPage,
+				currentPage + 1,
+				"ellipsis-2",
+				totalPages,
+			];
+		}
+	};
 
 	const handleAdd = () => {
 		setEditingBirthday(null);
@@ -175,7 +227,7 @@ export function BirthdayManagementScreen() {
 							</div>
 						) : (
 							<div className="flex flex-col gap-3 pb-8">
-								{filteredAndSortedBirthdays.map((birthday) => (
+								{paginatedBirthdays.map((birthday) => (
 									<BirthdayListItem
 										key={birthday.id}
 										birthday={birthday}
@@ -186,21 +238,96 @@ export function BirthdayManagementScreen() {
 							</div>
 						)}
 					</ScrollArea>
+
+					{filteredAndSortedBirthdays.length > 0 && (
+						<div className="mt-2 flex flex-col items-center justify-between gap-4 sm:flex-row">
+							<div className="text-muted-foreground flex items-center gap-2 text-sm">
+								<span>Show</span>
+								<Select value={itemsPerPage} onValueChange={setItemsPerPage}>
+									<SelectTrigger className="h-8 w-17.5">
+										<SelectValue placeholder="10" />
+									</SelectTrigger>
+									<SelectContent position="popper">
+										<SelectItem value="10">10</SelectItem>
+										<SelectItem value="20">20</SelectItem>
+										<SelectItem value="50">50</SelectItem>
+										<SelectItem value="all">All</SelectItem>
+									</SelectContent>
+								</Select>
+								<span>items</span>
+							</div>
+
+							{itemsPerPage !== "all" && totalPages > 1 && (
+								<div className="flex items-center gap-1">
+									<Button
+										variant="ghost"
+										size="icon"
+										className="h-8 w-8"
+										onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+										disabled={currentPage === 1}
+										aria-label="Previous page"
+									>
+										<ChevronLeft className="h-4 w-4" />
+									</Button>
+
+									{generatePageNumbers().map((page, idx) => {
+										if (typeof page === "string" && page.startsWith("ellipsis")) {
+											return (
+												<div key={page} className="flex h-8 w-8 items-center justify-center">
+													<MoreHorizontal className="text-muted-foreground h-4 w-4" />
+												</div>
+											);
+										}
+										return (
+											<Button
+												key={idx}
+												variant={currentPage === page ? "default" : "ghost"}
+												size="icon"
+												className="h-8 w-8"
+												onClick={() => setCurrentPage(page as number)}
+											>
+												{page}
+											</Button>
+										);
+									})}
+
+									<Button
+										variant="ghost"
+										size="icon"
+										className="h-8 w-8"
+										onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+										disabled={currentPage === totalPages}
+										aria-label="Next page"
+									>
+										<ChevronRight className="h-4 w-4" />
+									</Button>
+								</div>
+							)}
+						</div>
+					)}
 				</div>
 			)}
 
-			<BirthdayFormModal
-				open={formModalOpen}
-				onOpenChange={setFormModalOpen}
-				birthday={editingBirthday}
-			/>
+			{formModalOpen && (
+				<Suspense fallback={null}>
+					<BirthdayFormModal
+						open={formModalOpen}
+						onOpenChange={setFormModalOpen}
+						birthday={editingBirthday}
+					/>
+				</Suspense>
+			)}
 
-			<DeleteConfirmationModal
-				open={deleteModalOpen}
-				onOpenChange={setDeleteModalOpen}
-				onConfirm={handleConfirmDelete}
-				birthdayName={deletingBirthday?.name}
-			/>
+			{deleteModalOpen && (
+				<Suspense fallback={null}>
+					<DeleteConfirmationModal
+						open={deleteModalOpen}
+						onOpenChange={setDeleteModalOpen}
+						onConfirm={handleConfirmDelete}
+						birthdayName={deletingBirthday?.name}
+					/>
+				</Suspense>
+			)}
 		</div>
 	);
 }

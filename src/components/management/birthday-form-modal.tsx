@@ -15,7 +15,6 @@ import { useDayBookStore } from "@/store/day-book-store";
 import type { Birthday } from "@/types/birthday";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { play } from "cuelume";
-
 import { CameraIcon, Trash2Icon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -308,7 +307,7 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 				</form>
 
 				<DialogFooter>
-					<Button variant="outline" onClick={() => onOpenChange(false)}>
+					<Button variant="ghost" onClick={() => onOpenChange(false)}>
 						Cancel
 					</Button>
 					<Button type="submit" form="birthday-form">
