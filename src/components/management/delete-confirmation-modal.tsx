@@ -28,7 +28,12 @@ export function DeleteConfirmationModal({
 }: DeleteConfirmationModalProps) {
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
-			<DialogContent>
+			<DialogContent
+				onOpenAutoFocus={(e) => {
+					e.preventDefault();
+					document.getElementById("cancel-delete-btn")?.focus();
+				}}
+			>
 				<DialogHeader>
 					<DialogTitle>{isDeleteAll ? "Delete All Birthdays" : "Delete Birthday"}</DialogTitle>
 					<DialogDescription>
@@ -68,6 +73,7 @@ export function DeleteConfirmationModal({
 						</Button>
 					)}
 					<Button
+						id="cancel-delete-btn"
 						variant="outline"
 						onClick={() => onOpenChange(false)}
 						className="mt-2 w-full sm:mt-0 sm:flex-1"

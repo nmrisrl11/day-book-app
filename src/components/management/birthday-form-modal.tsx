@@ -91,6 +91,7 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 		// Validate type
 		const validTypes = ["image/jpeg", "image/jpg", "image/png"];
 		if (!validTypes.includes(file.type)) {
+			onError();
 			setGeneralError("Only JPEG and PNG images are allowed.");
 			return;
 		}
@@ -98,6 +99,7 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 		// Validate size (max 2MB)
 		const maxSize = 2 * 1024 * 1024; // 2MB
 		if (file.size > maxSize) {
+			onError();
 			setGeneralError("Image size must be less than 2MB.");
 			return;
 		}
@@ -133,6 +135,7 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 			}
 		};
 		reader.onerror = () => {
+			onError();
 			setGeneralError("Failed to read the file.");
 		};
 		reader.readAsDataURL(file);

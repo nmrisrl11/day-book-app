@@ -68,12 +68,12 @@ export function SoundSettingsSection() {
 				{/* Global Enable/Disable */}
 				<div className="flex items-center justify-between">
 					<div className="space-y-0.5">
-						<Label className="text-base">Enable Interaction Sounds</Label>
+						<Label htmlFor="interaction-sounds" className="text-base">Enable Interaction Sounds</Label>
 						<p className="text-muted-foreground text-sm">
 							Play audio feedback for buttons, switches, and notifications.
 						</p>
 					</div>
-					<Switch checked={soundSettings.enabled} onCheckedChange={handleEnabledChange} />
+					<Switch id="interaction-sounds" checked={soundSettings.enabled} onCheckedChange={handleEnabledChange} />
 				</div>
 
 				{soundSettings.enabled && (
@@ -81,12 +81,13 @@ export function SoundSettingsSection() {
 						{/* Volume Slider */}
 						<div className="space-y-4">
 							<div className="flex items-center justify-between">
-								<Label className="text-base">Volume</Label>
+								<Label id="volume-label" className="text-base">Volume</Label>
 								<span className="text-muted-foreground text-sm">
 									{Math.round(soundSettings.volume * 100)}%
 								</span>
 							</div>
 							<Slider
+								aria-labelledby="volume-label"
 								min={0}
 								max={1}
 								step={0.01}
