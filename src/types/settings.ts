@@ -1,6 +1,24 @@
 export type AvatarLibrary = "avvvatars" | "boring-avatars";
 export type AvvvatarsStyle = "character" | "shape";
 export type BoringAvatarsVariant = "marble" | "beam" | "pixel" | "sunset" | "ring" | "bauhaus";
+export type SoundName =
+	| "chime"
+	| "sparkle"
+	| "droplet"
+	| "bloom"
+	| "whisper"
+	| "tick"
+	| "press"
+	| "release"
+	| "toggle"
+	| "success"
+	| "error"
+	| "page"
+	| "loading"
+	| "ready"
+	| "pulse"
+	| "scan"
+	| "arrival";
 
 export interface AvatarSettings {
 	allowCustomUploads: boolean;
@@ -10,10 +28,23 @@ export interface AvatarSettings {
 	boringAvatarsColors: string[];
 }
 
+export interface SoundSettings {
+	enabled: boolean;
+	volume: number;
+	mappings: {
+		hover: SoundName;
+		press: SoundName;
+		toggle: SoundName;
+		success: SoundName;
+		error: SoundName;
+	};
+}
+
 export interface Settings {
 	upcomingCount: number;
 	theme: "light" | "dark";
 	floatingMessages?: string[];
 	greetings?: string[];
 	avatarSettings?: AvatarSettings;
+	soundSettings?: SoundSettings;
 }

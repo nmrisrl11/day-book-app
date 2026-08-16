@@ -1,7 +1,7 @@
+import { UserAvatar } from "@/components/user-avatar";
 import { cn } from "@/lib/utils";
 import type { Birthday } from "@/types/birthday";
-import { UserAvatar } from "@/components/user-avatar";
-import { CalendarHeart } from "lucide-react";
+import { CalendarHeartIcon } from "lucide-react";
 
 interface MonthCardProps {
 	monthName: string;
@@ -38,7 +38,7 @@ export function MonthCard({ monthName, monthIndex, birthdays, onClick }: MonthCa
 						className="ring-border flex h-6 w-6 items-center justify-center rounded-full bg-linear-to-br from-orange-300 to-red-500 text-white ring-2"
 						title="Current Month"
 					>
-						<CalendarHeart className="h-3.5 w-3.5" />
+						<CalendarHeartIcon className="h-3.5 w-3.5" />
 						<span className="sr-only">Current month</span>
 					</div>
 				)}

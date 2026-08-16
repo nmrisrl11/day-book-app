@@ -18,6 +18,17 @@ export const defaultSettings: Settings = {
 		boringAvatarsVariant: "beam",
 		boringAvatarsColors: BORING_AVATARS_DEFAULT_COLORS,
 	},
+	soundSettings: {
+		enabled: true,
+		volume: 0.5,
+		mappings: {
+			hover: "tick",
+			press: "pulse",
+			toggle: "toggle",
+			success: "success",
+			error: "error",
+		},
+	},
 };
 
 interface DayBookState {
@@ -95,6 +106,14 @@ export const useDayBookStore = create<DayBookState>()(
 						avatarSettings: {
 							...defaultSettings.avatarSettings,
 							...(state?.settings?.avatarSettings || {}),
+						},
+						soundSettings: {
+							...defaultSettings.soundSettings,
+							...(state?.settings?.soundSettings || {}),
+							mappings: {
+								...defaultSettings.soundSettings?.mappings,
+								...(state?.settings?.soundSettings?.mappings || {}),
+							},
 						},
 					},
 				} as DayBookState;

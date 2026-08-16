@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { BookUser, SettingsIcon } from "lucide-react";
+import { BookUserIcon, SettingsIcon } from "lucide-react";
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 
@@ -8,7 +8,7 @@ interface PageLayoutProps {
 }
 
 const NAV_ITEMS = [
-	{ name: "Birthdays", path: "/manage", icon: BookUser },
+	{ name: "Birthdays", path: "/manage", icon: BookUserIcon },
 	{ name: "Settings", path: "/settings", icon: SettingsIcon, isIcon: true },
 ];
 

@@ -3,8 +3,9 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { defaultSettings, useDayBookStore } from "@/store/day-book-store";
-import { CheckIcon, Edit2Icon, PlusIcon, RotateCcwIcon, Trash2Icon, XIcon } from "lucide-react";
+import { CheckIcon, Edit2Icon, PlusIcon, Trash2Icon, XIcon } from "lucide-react";
 import { useRef, useState } from "react";
+import { RestoreDefaultsButton } from "./restore-defaults-button";
 
 export function GreetingsManager() {
 	const { settings, updateSettings } = useDayBookStore();
@@ -123,16 +124,10 @@ export function GreetingsManager() {
 				<div className="flex items-center justify-between">
 					<h3 className="text-base font-medium">Greetings</h3>
 					<div className="flex gap-2">
-						<Button
-							variant="ghost"
-							size="sm"
-							className="text-muted-foreground hover:text-foreground h-8 text-xs"
+						<RestoreDefaultsButton
 							onClick={handleRestoreDefaults}
-							aria-label="Restore default greetings"
-						>
-							<RotateCcwIcon className="h-3 w-3 sm:mr-1.5" />
-							<span className="hidden sm:inline">Restore Defaults</span>
-						</Button>
+							ariaLabel="Restore default greetings"
+						/>
 						<Button
 							variant="ghost"
 							size="sm"

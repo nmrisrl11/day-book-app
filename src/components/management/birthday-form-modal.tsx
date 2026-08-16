@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { UserAvatar } from "@/components/user-avatar";
 import {
 	Dialog,
 	DialogContent,
@@ -10,10 +9,12 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { UserAvatar } from "@/components/user-avatar";
 import { birthdaySchema, type BirthdayFormData } from "@/schema/birthday-schema";
 import { useDayBookStore } from "@/store/day-book-store";
 import type { Birthday } from "@/types/birthday";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { play } from "cuelume";
 
 import { CameraIcon, Trash2Icon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
@@ -90,6 +91,7 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 		// Validate type
 		const validTypes = ["image/jpeg", "image/jpg", "image/png"];
 		if (!validTypes.includes(file.type)) {
+			onError();
 			setGeneralError("Only JPEG and PNG images are allowed.");
 			return;
 		}
@@ -97,6 +99,7 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 		// Validate size (max 2MB)
 		const maxSize = 2 * 1024 * 1024; // 2MB
 		if (file.size > maxSize) {
+			onError();
 			setGeneralError("Image size must be less than 2MB.");
 			return;
 		}
@@ -132,10 +135,13 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 			}
 		};
 		reader.onerror = () => {
+			onError();
 			setGeneralError("Failed to read the file.");
 		};
 		reader.readAsDataURL(file);
 	};
+
+	const soundSettings = useDayBookStore((state) => state.settings.soundSettings);
 
 	const onSubmit = (data: BirthdayFormData) => {
 		const finalData = { ...data, avatar: data.avatar || undefined };
@@ -144,7 +150,18 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 		} else {
 			addBirthday(finalData);
 		}
+
+		if (soundSettings?.enabled) {
+			play(soundSettings.mappings.success, { volume: soundSettings.volume });
+		}
+
 		onOpenChange(false);
+	};
+
+	const onError = () => {
+		if (soundSettings?.enabled) {
+			play(soundSettings.mappings.error, { volume: soundSettings.volume });
+		}
 	};
 
 	const avatarSettings = useDayBookStore((state) => state.settings.avatarSettings) || {
@@ -173,7 +190,7 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 
 				<form
 					id="birthday-form"
-					onSubmit={handleSubmit(onSubmit)}
+					onSubmit={handleSubmit(onSubmit, onError)}
 					className="flex flex-col gap-4 py-4"
 				>
 					<div className="mb-2 flex flex-col items-center justify-center">
