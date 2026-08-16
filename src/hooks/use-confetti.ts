@@ -1,14 +1,14 @@
+import { useDayBookStore } from "@/store/day-book-store";
 import { useEffect, useRef } from "react";
 
 export function useConfetti(enabled: boolean) {
 	const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+	const animationsEnabled = useDayBookStore((state) => state.settings.animationsEnabled ?? true);
 
 	useEffect(() => {
 		if (!enabled) return;
 
-		// Check for reduced motion preference
-		const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-		if (prefersReducedMotion) return;
+		if (!animationsEnabled) return;
 
 		let active = true;
 

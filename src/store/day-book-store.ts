@@ -29,6 +29,10 @@ export const defaultSettings: Settings = {
 			error: "error",
 		},
 	},
+	animationsEnabled:
+		typeof window !== "undefined"
+			? !window.matchMedia("(prefers-reduced-motion: reduce)").matches
+			: true,
 };
 
 interface DayBookState {

@@ -47,4 +47,5 @@ export interface Settings {
 	greetings?: string[];
 	avatarSettings?: AvatarSettings;
 	soundSettings?: SoundSettings;
+	animationsEnabled?: boolean;
 }

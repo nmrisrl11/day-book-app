@@ -6,10 +6,10 @@ import {
 	DialogTitle,
 } from "@/components/ui/dialog";
 import { PartyHat } from "@/components/ui/party-hat";
+import { UserAvatar } from "@/components/user-avatar";
 import { calculateAge, formatBirthdayDisplay } from "@/helpers/birthday-utils";
 import { useDayBookStore } from "@/store/day-book-store";
 import { type Birthday } from "@/types/birthday";
-import { UserAvatar } from "@/components/user-avatar";
 import { CalendarIcon, GiftIcon } from "lucide-react";
 import { useMemo } from "react";
 import { Badge } from "../ui/badge";
