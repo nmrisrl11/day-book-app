@@ -21,6 +21,7 @@
 		"canvas-confetti": "^1.9.4",
 		"class-variance-authority": "^0.7.1",
 		"clsx": "^2.1.1",
+		"cuelume": "^0.2.2",
 		"date-fns": "^4.4.0",
 		"lucide-react": "^1.31.0",
 		"nice-color-palettes": "^4.0.0",
