@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Logo } from "@/components/ui/logo";
 import { BookUserIcon, SettingsIcon } from "lucide-react";
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
@@ -23,13 +24,7 @@ export function PageLayout({ children }: PageLayoutProps) {
 					className="group focus-visible:ring-primary flex cursor-pointer items-center gap-2 rounded-md p-1 focus:outline-none focus-visible:ring-2"
 					title="Go to Dashboard"
 				>
-					<img
-						src="/logo.png"
-						alt="DayBook Logo"
-						title="DayBook Logo"
-						className="h-12 object-contain drop-shadow-sm transition-transform duration-200 group-hover:scale-105"
-					/>
-					<span className="text-primary hidden text-2xl font-bold sm:inline">DayBook</span>
+					<Logo className="text-foreground h-12 w-auto drop-shadow-sm transition-transform duration-200 group-hover:scale-105" />
 				</Link>
 				<div className="flex items-center gap-2">
 					{NAV_ITEMS.map((item) => {
