@@ -62,35 +62,36 @@ export function DisplaySettingsSection() {
 	};
 
 	return (
-		<div className="flex flex-col gap-8">
-			<div className="flex flex-col gap-3">
-				<div className="flex items-center justify-between">
-					<Label htmlFor="upcoming-count" className="text-base">
-						Upcoming Birthdays Display Count
-					</Label>
-					<RestoreDefaultsButton
-						onClick={() => updateSettings({ upcomingCount: defaultSettings.upcomingCount })}
-						ariaLabel="Restore display defaults"
-					/>
-				</div>
-				<p className="text-muted-foreground text-sm">
-					Choose how many upcoming birthdays to show on the dashboard.
-				</p>
-				<div className="flex items-center gap-4">
-					<Input
-						id="upcoming-count"
-						name="upcoming-count"
-						type="number"
-						min={1}
-						max={10}
-						step="1"
-						value={upcomingDraft}
-						onChange={handleUpcomingCountChange}
-						onBlur={handleUpcomingCountBlur}
-					/>
+		<div className="flex flex-col gap-6">
+			<div className="flex flex-col gap-3 rounded-xl border p-3">
+				<div className="flex flex-col gap-1.5">
+					<div className="flex items-center justify-between">
+						<Label htmlFor="upcoming-count" className="text-base">
+							Upcoming Birthdays Display Count
+						</Label>
+						<RestoreDefaultsButton
+							onClick={() => updateSettings({ upcomingCount: defaultSettings.upcomingCount })}
+							ariaLabel="Restore display defaults"
+						/>
+					</div>
+
+					<p className="text-muted-foreground text-sm">
+						Choose how many upcoming birthdays to show on the dashboard.
+					</p>
 				</div>
 
-				<div className="bg-muted/20 w-full overflow-x-auto rounded-xl mask-[linear-gradient(to_right,transparent,black_5%,black_95%,transparent)] whitespace-nowrap [&::-webkit-scrollbar]:hidden">
+				<Input
+					id="upcoming-count"
+					type="number"
+					min={1}
+					max={10}
+					step="1"
+					value={upcomingDraft}
+					onChange={handleUpcomingCountChange}
+					onBlur={handleUpcomingCountBlur}
+				/>
+
+				<div className="w-full overflow-x-auto rounded-xl mask-[linear-gradient(to_right,transparent,black_5%,black_95%,transparent)] whitespace-nowrap [&::-webkit-scrollbar]:hidden">
 					<div
 						className={`flex w-max space-x-4 p-4 pt-8 pb-4 select-none ${isDragging ? "cursor-grabbing" : "cursor-grab"}`}
 						onMouseDown={onMouseDown}
@@ -120,22 +121,22 @@ export function DisplaySettingsSection() {
 				</div>
 			</div>
 
-			<div className="my-2 border-t" />
-
-			<div className="flex items-center justify-between">
-				<div className="space-y-0.5">
+			<div className="flex flex-col gap-1.5 rounded-xl border p-3">
+				<div className="flex items-center justify-between">
 					<Label className="text-base" htmlFor="enable-animations">
 						Enable Animations & Effects
 					</Label>
-					<p className="text-muted-foreground text-sm">
-						Play confetti and other visual effects. Turn this off if you prefer reduced motion.
-					</p>
+
+					<Switch
+						id="enable-animations"
+						checked={settings.animationsEnabled ?? true}
+						onCheckedChange={(checked) => updateSettings({ animationsEnabled: checked })}
+					/>
 				</div>
-				<Switch
-					id="enable-animations"
-					checked={settings.animationsEnabled ?? true}
-					onCheckedChange={(checked) => updateSettings({ animationsEnabled: checked })}
-				/>
+
+				<p className="text-muted-foreground text-sm">
+					Play confetti and other visual effects. Turn this off if you prefer reduced motion.
+				</p>
 			</div>
 		</div>
 	);

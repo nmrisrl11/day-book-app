@@ -57,42 +57,44 @@ export function AvatarSettingsSection() {
 	};
 
 	return (
-		<div className="flex flex-col gap-10">
-			<div className="flex flex-col gap-3">
+		<div className="flex flex-col gap-6">
+			<div className="flex flex-col gap-1.5 rounded-xl border p-3">
 				<div className="flex items-center justify-between">
-					<div className="flex flex-col gap-1 pr-6">
-						<Label className="text-base font-medium" htmlFor="allow-custom-uploads">
-							Allow Custom Profile Images
-						</Label>
-						<span className="text-muted-foreground text-sm">
-							Enable this if you want to upload your own custom profile images for birthdays. Please
-							note that uploaded images are processed and stored locally in your browser, which may
-							increase the application's storage and memory usage. Enable this only if you need it.
-						</span>
-					</div>
+					<Label className="text-base font-medium" htmlFor="allow-custom-uploads">
+						Allow Custom Profile Images
+					</Label>
 					<Switch
 						id="allow-custom-uploads"
 						checked={avatarSettings.allowCustomUploads}
 						onCheckedChange={handleToggleCustomUploads}
 					/>
 				</div>
+
+				<p className="text-muted-foreground text-sm">
+					Enable this if you want to upload your own custom profile images for birthdays. Please
+					note that uploaded images are processed and stored locally in your browser, which may
+					increase the application's storage and memory usage. Enable this only if you need it.
+				</p>
 			</div>
 
-			<div className="flex flex-col gap-6 md:flex-row">
+			<div className="flex flex-col gap-6 rounded-xl border p-3 md:flex-row">
 				<div className="flex flex-1 flex-col gap-4">
 					<div className="flex flex-col gap-3">
-						<div className="flex items-start justify-between">
-							<div className="flex flex-col gap-1 pr-6">
+						<div className="flex flex-col gap-1.5">
+							<div className="flex items-center justify-between">
 								<h3 className="text-base font-medium">Default Avatar Library</h3>
-								<span className="text-muted-foreground text-sm">
-									Choose which library generates avatars when no custom image is available.
-								</span>
+
+								<RestoreDefaultsButton
+									onClick={handleRestoreDefaults}
+									ariaLabel="Restore avatar defaults"
+								/>
 							</div>
-							<RestoreDefaultsButton
-								onClick={handleRestoreDefaults}
-								ariaLabel="Restore avatar defaults"
-							/>
+
+							<p className="text-muted-foreground text-sm">
+								Choose which library generates avatars when no custom image is available.
+							</p>
 						</div>
+
 						<Select value={avatarSettings.defaultLibrary} onValueChange={handleLibraryChange}>
 							<SelectTrigger className="w-full">
 								<SelectValue />
@@ -184,7 +186,7 @@ export function AvatarSettingsSection() {
 
 							<div className="flex flex-col gap-3">
 								<div className="flex items-center justify-between">
-									<Label className="text-sm font-medium">Colors</Label>
+									<h3 className="text-sm font-medium">Colors</h3>
 									<Button
 										variant="ghost"
 										size="sm"
@@ -204,7 +206,7 @@ export function AvatarSettingsSection() {
 										<span className="hidden md:inline">Randomize Palette</span>
 									</Button>
 								</div>
-								<div className="flex items-center gap-2">
+								<div className="flex items-center gap-2 max-sm:justify-center">
 									{(avatarSettings.boringAvatarsColors || BORING_AVATARS_DEFAULT_COLORS).map(
 										(color, index) => (
 											<div
@@ -236,7 +238,7 @@ export function AvatarSettingsSection() {
 					)}
 				</div>
 
-				<div className="flex min-w-32 shrink-0 flex-col items-center justify-center gap-4 border-t pt-6 md:border-t-0 md:border-l md:pt-0 md:pl-8">
+				<div className="flex min-w-32 shrink-0 flex-col items-center justify-center gap-4 border-t pt-6 md:border-t-0 md:border-l md:pt-0">
 					<p className="text-muted-foreground text-xs font-semibold tracking-wider uppercase">
 						Preview
 					</p>

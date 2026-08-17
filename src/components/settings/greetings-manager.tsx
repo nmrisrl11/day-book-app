@@ -119,8 +119,8 @@ export function GreetingsManager() {
 	};
 
 	return (
-		<div className="flex flex-col gap-4">
-			<div className="flex flex-col gap-1">
+		<div className="flex flex-col gap-3">
+			<div className="flex flex-col gap-1.5">
 				<div className="flex items-center justify-between">
 					<h3 className="text-base font-medium">Greetings</h3>
 					<div className="flex gap-2">
@@ -187,7 +187,7 @@ export function GreetingsManager() {
 								</div>
 							</div>
 						) : (
-							<div className="flex items-center justify-between gap-4">
+							<div className="flex items-center justify-between gap-3">
 								<p className="flex-1 py-1 text-sm leading-relaxed whitespace-pre-wrap">{msg}</p>
 								<div className="flex shrink-0 gap-1">
 									<Button
@@ -219,9 +219,9 @@ export function GreetingsManager() {
 				))}
 			</div>
 
-			<div className="mt-1 flex flex-col gap-3">
+			<div className="flex flex-col gap-3 border-t pt-3">
 				{greetings.length < 10 ? (
-					<div className="flex flex-col gap-2">
+					<div className="flex flex-col gap-3">
 						<Label htmlFor="new-greeting" className="text-sm font-medium">
 							Add New Greeting
 						</Label>

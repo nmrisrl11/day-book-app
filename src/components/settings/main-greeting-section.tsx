@@ -37,8 +37,7 @@ export function MainGreetingSection() {
 	const isCustomText = !MAIN_GREETINGS.includes(greetingSettings.text);
 
 	return (
-		<div className="flex flex-col gap-8">
-			{/* Preview */}
+		<div className="flex flex-col gap-6">
 			<div className="flex flex-col gap-3">
 				<div className="flex items-center justify-between">
 					<h3 className="text-base font-semibold">Live Preview</h3>
@@ -69,7 +68,6 @@ export function MainGreetingSection() {
 			</div>
 
 			<div className="grid gap-6 sm:grid-cols-2">
-				{/* Text Selection */}
 				<div className="flex flex-col gap-3">
 					<Label className="text-base" htmlFor="greeting-text">
 						Greeting Text
@@ -78,7 +76,7 @@ export function MainGreetingSection() {
 						value={isCustomText ? "custom" : greetingSettings.text}
 						onValueChange={(val) => {
 							if (val !== "custom") updateGreeting({ text: val });
-							else updateGreeting({ text: "" }); // Clear to let them type
+							else updateGreeting({ text: "" }); // Clear to let the user type
 						}}
 					>
 						<SelectTrigger id="greeting-text" className="w-full">
@@ -134,7 +132,6 @@ export function MainGreetingSection() {
 					</Select>
 				</div>
 
-				{/* Style Type */}
 				<div className="flex flex-col gap-3">
 					<h3 className="text-base font-medium">Color Style</h3>
 					<RadioGroup
@@ -157,7 +154,6 @@ export function MainGreetingSection() {
 					</RadioGroup>
 				</div>
 
-				{/* Color Controls */}
 				<div className="flex flex-col gap-4 sm:col-span-2">
 					<h3 className="text-base font-medium">Colors</h3>
 					{greetingSettings.type === "solid" ? (

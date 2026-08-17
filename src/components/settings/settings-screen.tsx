@@ -123,7 +123,7 @@ export function SettingsScreen() {
 					<div className="border-border bg-card flex flex-col gap-8 rounded-xl border p-6 shadow-sm">
 						<Suspense fallback={<div className="bg-muted h-32 animate-pulse rounded-xl"></div>}>
 							<div className="flex flex-col gap-8">
-								<TabsContent value="appearance" className="space-y-8">
+								<TabsContent value="appearance" className="space-y-6">
 									<ThemeSection />
 									<DisplaySettingsSection />
 								</TabsContent>
@@ -133,7 +133,7 @@ export function SettingsScreen() {
 								<TabsContent value="avatar">
 									<AvatarSettingsSection />
 								</TabsContent>
-								<TabsContent value="messages" className="space-y-8">
+								<TabsContent value="messages" className="space-y-6">
 									{birthdays.length > 0 ? (
 										<>
 											<FloatingMessagesManager />
@@ -158,7 +158,7 @@ export function SettingsScreen() {
 								<TabsContent value="sounds">
 									<SoundSettingsSection />
 								</TabsContent>
-								<TabsContent value="data" className="space-y-8">
+								<TabsContent value="data" className="space-y-6">
 									<DataManagementSection />
 									{birthdays.length > 0 && (
 										<DangerZoneSection onDeleteAllClick={() => setDeleteModalOpen(true)} />

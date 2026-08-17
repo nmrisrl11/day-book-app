@@ -103,8 +103,8 @@ export function FloatingMessagesManager() {
 	};
 
 	return (
-		<div className="flex flex-col gap-4">
-			<div className="flex flex-col gap-1">
+		<div className="flex flex-col gap-3">
+			<div className="flex flex-col gap-1.5">
 				<div className="flex items-center justify-between">
 					<h3 className="text-base font-medium">Floating Messages</h3>
 					<div className="flex gap-2">
@@ -132,7 +132,7 @@ export function FloatingMessagesManager() {
 				</p>
 			</div>
 
-			<div className="flex flex-wrap gap-2">
+			<div className="flex flex-wrap gap-1.5">
 				{messages.map((msg, index) => (
 					<div key={index} className="flex items-center">
 						{editingIndex === index ? (
@@ -206,13 +206,13 @@ export function FloatingMessagesManager() {
 				))}
 			</div>
 
-			<div className="mt-2 flex flex-col gap-2 border-t pt-2">
+			<div className="flex flex-col gap-3 border-t pt-3">
 				{messages.length < 10 ? (
-					<div className="flex flex-col gap-2">
+					<div className="flex flex-col gap-3">
 						<Label htmlFor="new-floating-message" className="text-sm font-medium">
 							Add New Message
 						</Label>
-						<div className="flex items-center gap-2">
+						<div className="flex items-center gap-3">
 							<Input
 								id="new-floating-message"
 								maxLength={50}
