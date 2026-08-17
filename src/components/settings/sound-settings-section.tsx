@@ -48,48 +48,47 @@ export function SoundSettingsSection() {
 	};
 
 	return (
-		<div className="flex flex-col gap-8">
-			{/* Header */}
-			<div className="flex items-center justify-between">
-				<div>
-					<h3 className="text-lg font-medium">Sounds & Feedback</h3>
-					<p className="text-muted-foreground text-sm">
-						Manage interaction sounds and audio feedback.
-					</p>
-				</div>
-				<RestoreDefaultsButton
-					onClick={handleRestore}
-					title="Restore sound defaults"
-					ariaLabel="Restore sound defaults"
-				/>
-			</div>
-
-			<div className="flex flex-col gap-6">
-				{/* Global Enable/Disable */}
+		<div className="flex flex-col gap-6">
+			<div className="flex flex-col gap-1.5">
 				<div className="flex items-center justify-between">
-					<div className="space-y-0.5">
-						<Label htmlFor="interaction-sounds" className="text-base">
-							Enable Interaction Sounds
-						</Label>
-						<p className="text-muted-foreground text-sm">
-							Play audio feedback for buttons, switches, and notifications.
-						</p>
-					</div>
-					<Switch
-						id="interaction-sounds"
-						checked={soundSettings.enabled}
-						onCheckedChange={handleEnabledChange}
+					<h3 className="text-lg font-medium">Sounds & Feedback</h3>
+
+					<RestoreDefaultsButton
+						onClick={handleRestore}
+						title="Restore sound defaults"
+						ariaLabel="Restore sound defaults"
 					/>
 				</div>
 
+				<p className="text-muted-foreground text-sm">
+					Manage interaction sounds and audio feedback.
+				</p>
+			</div>
+
+			<div className="flex flex-col gap-3">
+				<div className="flex flex-col gap-1.5">
+					<div className="flex items-center justify-between">
+						<Label htmlFor="interaction-sounds" className="text-base">
+							Enable Interaction Sounds
+						</Label>
+
+						<Switch
+							id="interaction-sounds"
+							checked={soundSettings.enabled}
+							onCheckedChange={handleEnabledChange}
+						/>
+					</div>
+
+					<p className="text-muted-foreground text-sm">
+						Play audio feedback for buttons, switches, and notifications.
+					</p>
+				</div>
+
 				{soundSettings.enabled && (
-					<div className="flex flex-col gap-6">
-						{/* Volume Slider */}
-						<div className="space-y-4">
+					<div className="flex flex-col gap-3 rounded-xl border p-3">
+						<div className="space-y-3">
 							<div className="flex items-center justify-between">
-								<Label id="volume-label" className="text-base">
-									Volume
-								</Label>
+								<h3 className="text-base font-medium">Volume</h3>
 								<span className="text-muted-foreground text-sm">
 									{Math.round(soundSettings.volume * 100)}%
 								</span>
@@ -101,16 +100,13 @@ export function SoundSettingsSection() {
 								step={0.01}
 								value={[soundSettings.volume]}
 								onValueChange={handleVolumeChange}
-								className="py-4"
+								className="mb-3"
 							/>
 						</div>
 
-						<div className="my-2 border-t" />
-
-						{/* Custom Mappings */}
-						<div className="space-y-4">
-							<div className="mb-4 space-y-0.5">
-								<Label className="text-base">Sound Customization</Label>
+						<div className="space-y-3">
+							<div className="mb-3 flex flex-col gap-1.5">
+								<h3 className="text-base font-medium">Sound Customization</h3>
 								<p className="text-muted-foreground text-sm">
 									Choose which sound plays for different types of interactions.
 								</p>
@@ -119,7 +115,7 @@ export function SoundSettingsSection() {
 							<div className="grid gap-4 sm:grid-cols-2">
 								{INTERACTION_TYPES.map(({ id, label }) => (
 									<div key={id} className="flex flex-col gap-2">
-										<Label htmlFor={`sound-${id}`} className="text-sm font-medium">
+										<Label htmlFor={`sound-${id}`} className="text-sm">
 											{label}
 										</Label>
 										<Select

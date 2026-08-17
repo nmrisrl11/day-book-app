@@ -6,8 +6,8 @@ interface DangerZoneSectionProps {
 
 export function DangerZoneSection({ onDeleteAllClick }: DangerZoneSectionProps) {
 	return (
-		<div className="border-destructive/20 bg-destructive/5 flex flex-col gap-3 rounded-xl border p-4">
-			<div className="flex flex-col gap-1">
+		<div className="border-destructive/20 bg-destructive/5 flex flex-col gap-3 rounded-xl border p-3">
+			<div className="flex flex-col gap-1.5">
 				<h3 className="text-destructive text-base font-bold">Danger Zone</h3>
 				<p className="text-muted-foreground text-sm">
 					Permanently remove all birthdays. This action cannot be undone.

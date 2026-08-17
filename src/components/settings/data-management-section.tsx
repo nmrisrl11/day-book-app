@@ -57,7 +57,7 @@ export function DataManagementSection() {
 	return (
 		<div className="flex flex-col gap-3">
 			<h3 className="text-base font-medium">Data Management</h3>
-			<div className="flex flex-col gap-2">
+			<div className="flex flex-col gap-3">
 				<Button
 					variant="outline"
 					onClick={handleExport}
@@ -68,7 +68,7 @@ export function DataManagementSection() {
 					Export Birthdays (JSON)
 				</Button>
 
-				<div className="flex flex-col gap-1">
+				<div className="flex flex-col gap-1.5">
 					<Button
 						variant="outline"
 						onClick={handleImportClick}
@@ -80,12 +80,12 @@ export function DataManagementSection() {
 						Import Birthdays (JSON)
 					</Button>
 					{!canImport && (
-						<p className="text-muted-foreground mt-1 text-xs">
+						<p className="text-muted-foreground mt-1.5 text-xs">
 							Import is only available when you have no saved birthdays.
 						</p>
 					)}
 					{importError && (
-						<p className="text-destructive mt-1 text-sm font-medium" role="alert">
+						<p className="text-destructive mt-1.5 text-sm font-medium" role="alert">
 							{importError}
 						</p>
 					)}

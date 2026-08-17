@@ -11,7 +11,7 @@ export function ThemeSection() {
 			<h3 className="flex items-center gap-2 text-base font-medium">
 				Theme <Kbd>Alt + T</Kbd>
 			</h3>
-			<div className="flex gap-2">
+			<div className="flex gap-3">
 				<Button
 					variant={settings.theme === "light" ? "default" : "outline"}
 					onClick={() => updateSettings({ theme: "light" })}
