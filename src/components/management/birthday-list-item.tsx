@@ -2,7 +2,7 @@ import type { Birthday } from "@/types/birthday";
 import { Button } from "@/components/ui/button";
 import { CalendarIcon, Edit2Icon, Trash2Icon } from "lucide-react";
 import { UserAvatar } from "@/components/user-avatar";
-import { useState } from "react";
+import { memo, useState } from "react";
 import { CalendarExportDialog } from "@/components/calendar/calendar-export-dialog";
 
 interface BirthdayListItemProps {
@@ -11,7 +11,11 @@ interface BirthdayListItemProps {
 	onDelete: () => void;
 }
 
-export function BirthdayListItem({ birthday, onEdit, onDelete }: BirthdayListItemProps) {
+export const BirthdayListItem = memo(function BirthdayListItem({
+	birthday,
+	onEdit,
+	onDelete,
+}: BirthdayListItemProps) {
 	const [exportOpen, setExportOpen] = useState(false);
 
 	// Parse the birthday string to display it nicely
@@ -67,4 +71,4 @@ export function BirthdayListItem({ birthday, onEdit, onDelete }: BirthdayListIte
 			)}
 		</>
 	);
-}
+});

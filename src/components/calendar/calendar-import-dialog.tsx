@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { PartyHat } from "@/components/ui/party-hat";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { FULL_MONTHS } from "@/constants/months";
 import { formatBirthdayDisplay } from "@/helpers/birthday-utils";
 import { cn } from "@/lib/utils";
 import { useDayBookStore } from "@/store/day-book-store";
@@ -94,27 +95,12 @@ export function CalendarImportDialog({
 		return month === currentMonth && day === currentDay;
 	};
 
-	const monthNames = [
-		"January",
-		"February",
-		"March",
-		"April",
-		"May",
-		"June",
-		"July",
-		"August",
-		"September",
-		"October",
-		"November",
-		"December",
-	];
-
 	// Group birthdays by month
 	const groupedBirthdays = foundBirthdays.reduce(
 		(acc, curr) => {
 			const [, monthStr] = curr.birthday.split("-");
 			const monthIndex = parseInt(monthStr, 10) - 1;
-			const month = monthNames[monthIndex] || "Unknown";
+			const month = FULL_MONTHS[monthIndex] || "Unknown";
 
 			if (!acc[month]) acc[month] = [];
 			acc[month].push(curr);
@@ -125,7 +111,7 @@ export function CalendarImportDialog({
 
 	// Sort groupedBirthdays by month index
 	const sortedMonthGroups = Object.entries(groupedBirthdays).sort((a, b) => {
-		return monthNames.indexOf(a[0]) - monthNames.indexOf(b[0]);
+		return FULL_MONTHS.indexOf(a[0] as any) - FULL_MONTHS.indexOf(b[0] as any);
 	});
 
 	// Sort birthdays within the month by date

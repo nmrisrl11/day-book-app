@@ -9,6 +9,7 @@ import {
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { INTERACTION_TYPES, SOUND_COLORS } from "@/constants/sounds-settings";
+import { cn } from "@/lib/utils";
 import { defaultSettings, useDayBookStore } from "@/store/day-book-store";
 import { play, sounds, type SoundName } from "cuelume";
 import { RestoreDefaultsButton } from "./restore-defaults-button";
@@ -133,7 +134,7 @@ export function SoundSettingsSection() {
 														onPointerEnter={() => handlePreviewSound(sound)}
 													>
 														<div className="flex items-center gap-2">
-															<div className={`h-2 w-2 rounded-full ${SOUND_COLORS[sound]}`} />
+															<div className={cn("h-2 w-2 rounded-full", SOUND_COLORS[sound])} />
 															<span className="capitalize">{sound}</span>
 														</div>
 													</SelectItem>

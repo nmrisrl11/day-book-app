@@ -1,13 +1,13 @@
+import { CalendarExportDialog } from "@/components/calendar/calendar-export-dialog";
+import { CalendarImportDialog } from "@/components/calendar/calendar-import-dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { exportBirthdays, parseImportedBirthdays } from "@/helpers/import-export";
 import { parseIcsForBirthdays } from "@/helpers/calendar-import";
+import { exportBirthdays, parseImportedBirthdays } from "@/helpers/import-export";
 import { useDayBookStore } from "@/store/day-book-store";
 import type { Birthday } from "@/types/birthday";
 import { CalendarIcon, DownloadIcon, UploadIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { CalendarExportDialog } from "@/components/calendar/calendar-export-dialog";
-import { CalendarImportDialog } from "@/components/calendar/calendar-import-dialog";
 
 export function BirthdaysDataManagement() {
 	const { birthdays, importData } = useDayBookStore();
@@ -21,9 +21,6 @@ export function BirthdaysDataManagement() {
 	const [exportCalendarOpen, setExportCalendarOpen] = useState(false);
 	const [importCalendarOpen, setImportCalendarOpen] = useState(false);
 	const [foundIcsBirthdays, setFoundIcsBirthdays] = useState<Birthday[]>([]);
-
-	const birthdaysRef = useRef(birthdays);
-	birthdaysRef.current = birthdays;
 
 	const isMounted = useRef(true);
 	useEffect(() => {
@@ -50,7 +47,7 @@ export function BirthdaysDataManagement() {
 		try {
 			const text = await file.text();
 
-			if (!isMounted.current || birthdaysRef.current.length !== 0) {
+			if (!isMounted.current || useDayBookStore.getState().birthdays.length !== 0) {
 				return;
 			}
 

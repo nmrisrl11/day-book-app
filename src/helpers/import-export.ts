@@ -1,4 +1,5 @@
 import type { Birthday } from "@/types/birthday";
+import { SettingsSchema } from "@/schema/settings-schema";
 
 export function exportBirthdays(birthdays: Birthday[]) {
 	const dataStr = JSON.stringify(birthdays, null, 2);
@@ -88,7 +89,14 @@ export function parseImportedSettings(fileText: string): any {
 			throw new Error("Settings data must be a JSON object.");
 		}
 
-		return parsed;
+		// Validate against our schema
+		const result = SettingsSchema.safeParse(parsed);
+		if (!result.success) {
+			const errors = result.error.issues.map((e) => `${e.path.join(".")}: ${e.message}`).join(", ");
+			throw new Error(`Validation failed: ${errors}`);
+		}
+
+		return result.data;
 	} catch (error) {
 		throw new Error(error instanceof Error ? error.message : "Invalid JSON file.");
 	}
