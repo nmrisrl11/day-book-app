@@ -1,6 +1,8 @@
 import { PartyHat } from "@/components/ui/party-hat";
+import { DEFAULT_MAIN_GREETING } from "@/constants/main-greeting";
 import { useConfetti } from "@/hooks/use-confetti";
 import { cn } from "@/lib/utils";
+import { defaultSettings, useDayBookStore } from "@/store/day-book-store";
 import type { Birthday } from "@/types/birthday";
 import { StarIcon } from "lucide-react";
 import { lazy, Suspense, useState } from "react";
@@ -18,6 +20,9 @@ interface HappyBirthdaySectionProps {
 
 export function HappyBirthdaySection({ celebrants, currentDate }: HappyBirthdaySectionProps) {
 	const [selectedCelebrant, setSelectedCelebrant] = useState<Birthday | null>(null);
+	const { settings } = useDayBookStore();
+	const greetingSettings = settings.greetingTextSettings || defaultSettings.greetingTextSettings!;
+
 	const hasCelebrants = celebrants.length > 0;
 
 	useConfetti(hasCelebrants);
@@ -50,8 +55,24 @@ export function HappyBirthdaySection({ celebrants, currentDate }: HappyBirthdayS
 					<StarIcon className="h-6 w-6 fill-yellow-400 text-yellow-400 md:h-8 md:w-8" />
 				</div>
 
-				<h1 className="bg-linear-to-br from-pink-500 via-purple-500 to-orange-400 bg-clip-text text-5xl font-extrabold tracking-tight text-transparent drop-shadow-sm md:text-7xl">
-					Happy Birthday!
+				<h1
+					className={cn(
+						"max-w-full px-4 pb-2 text-5xl leading-normal font-extrabold tracking-tight break-all drop-shadow-sm md:text-7xl",
+						greetingSettings.type === "gradient" ? "bg-clip-text text-transparent" : "",
+					)}
+					style={
+						greetingSettings.type === "gradient"
+							? {
+									backgroundImage: `linear-gradient(${
+										greetingSettings.gradient.direction === "random"
+											? `${Math.floor(Math.random() * 360)}deg`
+											: greetingSettings.gradient.direction
+									}, ${greetingSettings.gradient.start}, ${greetingSettings.gradient.end})`,
+								}
+							: { color: greetingSettings.solidColor }
+					}
+				>
+					{greetingSettings.text || DEFAULT_MAIN_GREETING}
 				</h1>
 			</div>
 

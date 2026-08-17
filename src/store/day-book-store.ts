@@ -1,6 +1,7 @@
 import { BORING_AVATARS_DEFAULT_COLORS } from "@/constants/default-colors";
 import { FLOATING_MESSAGES } from "@/constants/floating-messages";
 import { GREETINGS } from "@/constants/greetings";
+import { DEFAULT_GREETING_TEXT_SETTINGS } from "@/constants/main-greeting";
 import type { Birthday } from "@/types/birthday";
 import type { Settings } from "@/types/settings";
 import { create } from "zustand";
@@ -33,6 +34,7 @@ export const defaultSettings: Settings = {
 		typeof window !== "undefined"
 			? !window.matchMedia("(prefers-reduced-motion: reduce)").matches
 			: true,
+	greetingTextSettings: DEFAULT_GREETING_TEXT_SETTINGS,
 };
 
 interface DayBookState {
@@ -117,6 +119,14 @@ export const useDayBookStore = create<DayBookState>()(
 							mappings: {
 								...defaultSettings.soundSettings?.mappings,
 								...(state?.settings?.soundSettings?.mappings || {}),
+							},
+						},
+						greetingTextSettings: {
+							...defaultSettings.greetingTextSettings,
+							...(state?.settings?.greetingTextSettings || {}),
+							gradient: {
+								...defaultSettings.greetingTextSettings?.gradient,
+								...(state?.settings?.greetingTextSettings?.gradient || {}),
 							},
 						},
 					},

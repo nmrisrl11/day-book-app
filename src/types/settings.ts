@@ -19,6 +19,7 @@ export type SoundName =
 	| "pulse"
 	| "scan"
 	| "arrival";
+export type GreetingTextColorType = "solid" | "gradient";
 
 export interface AvatarSettings {
 	allowCustomUploads: boolean;
@@ -40,6 +41,17 @@ export interface SoundSettings {
 	};
 }
 
+export interface GreetingTextSettings {
+	text: string;
+	type: GreetingTextColorType;
+	solidColor: string;
+	gradient: {
+		start: string;
+		end: string;
+		direction: string;
+	};
+}
+
 export interface Settings {
 	upcomingCount: number;
 	theme: "light" | "dark";
@@ -48,4 +60,5 @@ export interface Settings {
 	avatarSettings?: AvatarSettings;
 	soundSettings?: SoundSettings;
 	animationsEnabled?: boolean;
+	greetingTextSettings?: GreetingTextSettings;
 }

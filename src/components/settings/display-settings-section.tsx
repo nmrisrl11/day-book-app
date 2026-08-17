@@ -1,10 +1,16 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { useDayBookStore } from "@/store/day-book-store";
+import { defaultSettings, useDayBookStore } from "@/store/day-book-store";
+import { useState } from "react";
+import { RestoreDefaultsButton } from "./restore-defaults-button";
 
 export function DisplaySettingsSection() {
 	const { settings, updateSettings } = useDayBookStore();
+
+	const [isDragging, setIsDragging] = useState(false);
+	const [startX, setStartX] = useState(0);
+	const [scrollLeft, setScrollLeft] = useState(0);
 
 	const handleUpcomingCountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const val = e.target.valueAsNumber;
@@ -13,26 +19,93 @@ export function DisplaySettingsSection() {
 		}
 	};
 
+	const getScrollContainer = (element: HTMLElement) => {
+		return element.parentElement as HTMLElement;
+	};
+
+	const onMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+		const container = getScrollContainer(e.currentTarget);
+		if (!container) return;
+		setIsDragging(true);
+		setStartX(e.pageX - container.offsetLeft);
+		setScrollLeft(container.scrollLeft);
+	};
+
+	const onMouseLeave = () => {
+		setIsDragging(false);
+	};
+
+	const onMouseUp = () => {
+		setIsDragging(false);
+	};
+
+	const onMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+		if (!isDragging) return;
+		const container = getScrollContainer(e.currentTarget);
+		if (!container) return;
+		e.preventDefault();
+		const x = e.pageX - container.offsetLeft;
+		const walk = (x - startX) * 2;
+		container.scrollLeft = scrollLeft - walk;
+	};
+
 	return (
 		<div className="flex flex-col gap-8">
 			<div className="flex flex-col gap-3">
-				<Label htmlFor="upcoming-count" className="text-base">
-					Upcoming Birthdays Display Count
-				</Label>
+				<div className="flex items-center justify-between">
+					<Label htmlFor="upcoming-count" className="text-base">
+						Upcoming Birthdays Display Count
+					</Label>
+					<RestoreDefaultsButton
+						onClick={() => updateSettings({ upcomingCount: defaultSettings.upcomingCount })}
+						ariaLabel="Restore display defaults"
+					/>
+				</div>
 				<p className="text-muted-foreground text-sm">
 					Choose how many upcoming birthdays to show on the dashboard.
 				</p>
-				<Input
-					id="upcoming-count"
-					name="upcoming-count"
-					type="number"
-					min={1}
-					max={10}
-					step="1"
-					value={settings.upcomingCount}
-					onChange={handleUpcomingCountChange}
-				/>
+				<div className="flex items-center gap-4">
+					<Input
+						id="upcoming-count"
+						name="upcoming-count"
+						type="number"
+						min={1}
+						max={10}
+						step="1"
+						value={settings.upcomingCount}
+						onChange={handleUpcomingCountChange}
+					/>
+				</div>
+
+				<div className="bg-muted/20 w-full overflow-x-auto rounded-xl mask-[linear-gradient(to_right,transparent,black_5%,black_95%,transparent)] whitespace-nowrap [&::-webkit-scrollbar]:hidden">
+					<div
+						className={`flex w-max space-x-4 p-4 pt-8 pb-4 select-none ${isDragging ? "cursor-grabbing" : "cursor-grab"}`}
+						onMouseDown={onMouseDown}
+						onMouseLeave={onMouseLeave}
+						onMouseUp={onMouseUp}
+						onMouseMove={onMouseMove}
+					>
+						{Array.from({ length: settings.upcomingCount }).map((_, i) => (
+							<div
+								key={i}
+								className="animate-in fade-in zoom-in-95 fill-mode-both border-border bg-card flex min-w-28 flex-col items-center rounded-2xl border p-3 shadow-sm duration-300 md:min-w-32"
+								style={{ animationDelay: `${i * 50}ms` }}
+							>
+								<div className="bg-background ring-border relative -mt-8 mb-3 rounded-full p-1 shadow-sm ring-1">
+									<div className="bg-primary/20 h-10 w-10 rounded-full md:h-12 md:w-12" />
+								</div>
+								<div className="flex w-full flex-col items-center gap-1.5 text-center">
+									<div className="bg-primary/20 h-3 w-16 rounded-full md:w-20" />
+									<div className="bg-primary/10 h-2 w-12 rounded-full md:w-16" />
+									<div className="bg-primary/10 mt-0.5 h-4 w-20 rounded-full md:w-24" />
+								</div>
+							</div>
+						))}
+					</div>
+				</div>
 			</div>
+
+			<div className="my-2 border-t" />
 
 			<div className="flex items-center justify-between">
 				<div className="space-y-0.5">
