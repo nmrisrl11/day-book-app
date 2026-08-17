@@ -1,4 +1,4 @@
-import { BORING_AVATARS_DEFAULT_COLORS } from "@/constants/default-colors";
+import { AVATAR_SETTINGS, BORING_AVATARS_COLORS } from "@/constants/avatar-settings";
 import { cn } from "@/lib/utils";
 import { useDayBookStore } from "@/store/day-book-store";
 import type { Birthday } from "@/types/birthday";
@@ -13,15 +13,10 @@ interface UserAvatarProps {
 
 export function UserAvatar({ birthday, size = 40, className }: UserAvatarProps) {
 	// Fallback safely in case avatarSettings is missing from an old store state
-	const avatarSettings = useDayBookStore((state) => state.settings.avatarSettings) || {
-		allowCustomUploads: true,
-		defaultLibrary: "avvvatars",
-		avvvatarsStyle: "shape",
-		boringAvatarsVariant: "beam",
-		boringAvatarsColors: BORING_AVATARS_DEFAULT_COLORS,
-	};
+	const avatarSettings =
+		useDayBookStore((state) => state.settings.avatarSettings) || AVATAR_SETTINGS;
 
-	// 1. Custom uploaded image (Always show if it exists, even if uploads are disabled)
+	// Custom uploaded image (Always show if it exists, even if uploads are disabled)
 	if (birthday.avatar) {
 		return (
 			<img
@@ -33,7 +28,7 @@ export function UserAvatar({ birthday, size = 40, className }: UserAvatarProps) 
 		);
 	}
 
-	// 2. Boring Avatars
+	// Boring Avatars
 	if (avatarSettings.defaultLibrary === "boring-avatars") {
 		return (
 			<div
@@ -47,13 +42,13 @@ export function UserAvatar({ birthday, size = 40, className }: UserAvatarProps) 
 					size={size}
 					name={birthday.name}
 					variant={avatarSettings.boringAvatarsVariant}
-					colors={avatarSettings.boringAvatarsColors || BORING_AVATARS_DEFAULT_COLORS}
+					colors={avatarSettings.boringAvatarsColors || BORING_AVATARS_COLORS}
 				/>
 			</div>
 		);
 	}
 
-	// 3. Avvvatars (Fallback / Default)
+	// Avvvatars (Fallback / Default)
 	return (
 		<div
 			className={cn(

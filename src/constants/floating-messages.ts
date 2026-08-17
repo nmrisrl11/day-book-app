@@ -6,3 +6,5 @@ export const FLOATING_MESSAGES: string[] = [
 	"Have a blast! 🎉",
 	"Celebrate! 🥳",
 ];
+
+export const DEFAULT_FLOATING_MESSAGE = FLOATING_MESSAGES[0];

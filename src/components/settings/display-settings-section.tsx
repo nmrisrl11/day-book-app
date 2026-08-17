@@ -1,6 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
+import { useDragScroll } from "@/hooks/use-drag-scroll";
 import { defaultSettings, useDayBookStore } from "@/store/day-book-store";
 import { useEffect, useState } from "react";
 import { RestoreDefaultsButton } from "./restore-defaults-button";
@@ -8,9 +9,7 @@ import { RestoreDefaultsButton } from "./restore-defaults-button";
 export function DisplaySettingsSection() {
 	const { settings, updateSettings } = useDayBookStore();
 
-	const [isDragging, setIsDragging] = useState(false);
-	const [startX, setStartX] = useState(0);
-	const [scrollLeft, setScrollLeft] = useState(0);
+	const { isDragging, handlers } = useDragScroll();
 
 	const [upcomingDraft, setUpcomingDraft] = useState(settings.upcomingCount.toString());
 
@@ -29,36 +28,6 @@ export function DisplaySettingsSection() {
 		} else {
 			setUpcomingDraft(settings.upcomingCount.toString());
 		}
-	};
-
-	const getScrollContainer = (element: HTMLElement) => {
-		return element.parentElement as HTMLElement;
-	};
-
-	const onMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
-		const container = getScrollContainer(e.currentTarget);
-		if (!container) return;
-		setIsDragging(true);
-		setStartX(e.pageX - container.offsetLeft);
-		setScrollLeft(container.scrollLeft);
-	};
-
-	const onMouseLeave = () => {
-		setIsDragging(false);
-	};
-
-	const onMouseUp = () => {
-		setIsDragging(false);
-	};
-
-	const onMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-		if (!isDragging) return;
-		const container = getScrollContainer(e.currentTarget);
-		if (!container) return;
-		e.preventDefault();
-		const x = e.pageX - container.offsetLeft;
-		const walk = (x - startX) * 2;
-		container.scrollLeft = scrollLeft - walk;
 	};
 
 	return (
@@ -94,10 +63,7 @@ export function DisplaySettingsSection() {
 				<div className="w-full overflow-x-auto rounded-xl mask-[linear-gradient(to_right,transparent,black_5%,black_95%,transparent)] whitespace-nowrap [&::-webkit-scrollbar]:hidden">
 					<div
 						className={`flex w-max space-x-4 p-4 pt-8 pb-4 select-none ${isDragging ? "cursor-grabbing" : "cursor-grab"}`}
-						onMouseDown={onMouseDown}
-						onMouseLeave={onMouseLeave}
-						onMouseUp={onMouseUp}
-						onMouseMove={onMouseMove}
+						{...handlers}
 					>
 						{Array.from({ length: Math.max(1, Math.min(10, settings.upcomingCount || 5)) }).map(
 							(_, i) => (

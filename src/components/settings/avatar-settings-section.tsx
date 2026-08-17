@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { UserAvatar } from "@/components/user-avatar";
-import { BORING_AVATARS_DEFAULT_COLORS } from "@/constants/default-colors";
+import { AVATAR_SETTINGS, BORING_AVATARS_COLORS } from "@/constants/avatar-settings";
 import { getRandomPalette } from "@/helpers/color-palettes";
 import { useDayBookStore } from "@/store/day-book-store";
 import type { AvatarLibrary, AvvvatarsStyle, BoringAvatarsVariant } from "@/types/settings";
@@ -20,13 +20,7 @@ import { RestoreDefaultsButton } from "./restore-defaults-button";
 
 export function AvatarSettingsSection() {
 	const { settings, updateSettings } = useDayBookStore();
-	const avatarSettings = settings.avatarSettings || {
-		allowCustomUploads: true,
-		defaultLibrary: "avvvatars",
-		avvvatarsStyle: "shape",
-		boringAvatarsVariant: "beam",
-		boringAvatarsColors: BORING_AVATARS_DEFAULT_COLORS,
-	};
+	const avatarSettings = settings.avatarSettings || AVATAR_SETTINGS;
 
 	const handleToggleCustomUploads = (checked: boolean) => {
 		updateSettings({ avatarSettings: { ...avatarSettings, allowCustomUploads: checked } });
@@ -51,7 +45,7 @@ export function AvatarSettingsSection() {
 				defaultLibrary: "avvvatars",
 				avvvatarsStyle: "shape",
 				boringAvatarsVariant: "beam",
-				boringAvatarsColors: BORING_AVATARS_DEFAULT_COLORS,
+				boringAvatarsColors: BORING_AVATARS_COLORS,
 			},
 		});
 	};
@@ -171,9 +165,7 @@ export function AvatarSettingsSection() {
 															size={24}
 															name="DayBook"
 															variant={variant}
-															colors={
-																avatarSettings.boringAvatarsColors || BORING_AVATARS_DEFAULT_COLORS
-															}
+															colors={avatarSettings.boringAvatarsColors || BORING_AVATARS_COLORS}
 														/>
 													</div>
 													<span className="capitalize">{variant}</span>
@@ -194,7 +186,7 @@ export function AvatarSettingsSection() {
 										aria-label="Randomize palette"
 										onClick={() => {
 											const currentColors = (
-												avatarSettings.boringAvatarsColors || BORING_AVATARS_DEFAULT_COLORS
+												avatarSettings.boringAvatarsColors || BORING_AVATARS_COLORS
 											).join(",");
 											const randomPalette = getRandomPalette(currentColors);
 											updateSettings({
@@ -207,7 +199,7 @@ export function AvatarSettingsSection() {
 									</Button>
 								</div>
 								<div className="flex items-center gap-2 max-sm:justify-center">
-									{(avatarSettings.boringAvatarsColors || BORING_AVATARS_DEFAULT_COLORS).map(
+									{(avatarSettings.boringAvatarsColors || BORING_AVATARS_COLORS).map(
 										(color, index) => (
 											<div
 												key={index}
@@ -218,8 +210,7 @@ export function AvatarSettingsSection() {
 													value={color}
 													onChange={(e) => {
 														const newColors = [
-															...(avatarSettings.boringAvatarsColors ||
-																BORING_AVATARS_DEFAULT_COLORS),
+															...(avatarSettings.boringAvatarsColors || BORING_AVATARS_COLORS),
 														];
 														newColors[index] = e.target.value;
 														updateSettings({

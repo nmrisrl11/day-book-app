@@ -17,16 +17,14 @@ export const MAIN_GREETING_FONTS = [
 	{ label: "Pacifico", value: "'Pacifico', cursive" },
 ];
 
-export const DEFAULT_MAIN_GREETING = MAIN_GREETINGS[0];
-
-export const DEFAULT_GREETING_TEXT_SETTINGS: GreetingTextSettings = {
-	text: DEFAULT_MAIN_GREETING,
+export const GREETING_TEXT_SETTINGS: GreetingTextSettings = {
+	text: MAIN_GREETINGS[0],
 	fontFamily: MAIN_GREETING_FONTS[0].value,
 	type: "gradient",
-	solidColor: "#ec4899", // pink-500
+	solidColor: "#ec4899",
 	gradient: {
-		start: "#ec4899", // pink-500
-		end: "#f97316", // orange-500
-		direction: "to bottom right", // matching Tailwind's bg-gradient-to-br
+		start: "#ec4899",
+		end: "#f97316",
+		direction: "to bottom right",
 	},
 };
