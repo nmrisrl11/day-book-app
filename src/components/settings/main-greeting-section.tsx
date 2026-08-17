@@ -8,7 +8,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import { MAIN_GREETINGS } from "@/constants/main-greeting";
+import { MAIN_GREETINGS, MAIN_GREETING_FONTS } from "@/constants/main-greeting";
 import { cn } from "@/lib/utils";
 import { defaultSettings, useDayBookStore } from "@/store/day-book-store";
 import type { GreetingTextColorType } from "@/types/settings";
@@ -50,8 +50,9 @@ export function MainGreetingSection() {
 							"max-w-full px-4 pb-2 text-4xl leading-normal font-extrabold tracking-tight break-all md:text-5xl",
 							greetingSettings.type === "gradient" ? "bg-clip-text text-transparent" : "",
 						)}
-						style={
-							greetingSettings.type === "gradient"
+						style={{
+							...(greetingSettings.fontFamily ? { fontFamily: greetingSettings.fontFamily } : {}),
+							...(greetingSettings.type === "gradient"
 								? {
 										backgroundImage: `linear-gradient(${
 											greetingSettings.gradient.direction === "random"
@@ -59,8 +60,8 @@ export function MainGreetingSection() {
 												: greetingSettings.gradient.direction
 										}, ${greetingSettings.gradient.start}, ${greetingSettings.gradient.end})`,
 									}
-								: { color: greetingSettings.solidColor }
-						}
+								: { color: greetingSettings.solidColor }),
+						}}
 					>
 						{greetingSettings.text || "Type something..."}
 					</h1>
@@ -94,16 +95,43 @@ export function MainGreetingSection() {
 					</Select>
 
 					{isCustomText && (
-						<Input
-							placeholder="Type your custom greeting"
-							value={greetingSettings.text}
-							onChange={(e) => updateGreeting({ text: e.target.value })}
-							className="mt-2"
-							maxLength={50}
-							autoFocus
-							id="custom-greeting-input"
-						/>
+						<div className="flex flex-col gap-2">
+							<Label htmlFor="custom-greeting-input" className="sr-only">
+								Type your custom greeting
+							</Label>
+							<Input
+								placeholder="Type your custom greeting"
+								value={greetingSettings.text}
+								onChange={(e) => updateGreeting({ text: e.target.value })}
+								className="mt-2"
+								maxLength={50}
+								autoFocus
+								id="custom-greeting-input"
+								aria-label="Type your custom greeting"
+							/>
+						</div>
 					)}
+				</div>
+
+				<div className="flex flex-col gap-3">
+					<Label className="text-base" htmlFor="greeting-font">
+						Font Style
+					</Label>
+					<Select
+						value={greetingSettings.fontFamily || MAIN_GREETING_FONTS[0].value}
+						onValueChange={(val) => updateGreeting({ fontFamily: val })}
+					>
+						<SelectTrigger id="greeting-font" className="w-full">
+							<SelectValue placeholder="Select a font" />
+						</SelectTrigger>
+						<SelectContent position="popper">
+							{MAIN_GREETING_FONTS.map((font) => (
+								<SelectItem key={font.value} value={font.value}>
+									<span style={{ fontFamily: font.value }}>{font.label}</span>
+								</SelectItem>
+							))}
+						</SelectContent>
+					</Select>
 				</div>
 
 				{/* Style Type */}
@@ -140,6 +168,7 @@ export function MainGreetingSection() {
 									value={greetingSettings.solidColor}
 									onChange={(e) => updateGreeting({ solidColor: e.target.value })}
 									className="h-16 w-16 -translate-x-3 -translate-y-3 cursor-pointer"
+									aria-label="Solid greeting color"
 								/>
 							</div>
 							<span className="text-muted-foreground text-sm uppercase">

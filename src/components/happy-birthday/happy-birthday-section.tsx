@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import { defaultSettings, useDayBookStore } from "@/store/day-book-store";
 import type { Birthday } from "@/types/birthday";
 import { StarIcon } from "lucide-react";
-import { lazy, Suspense, useState } from "react";
+import { lazy, Suspense, useState, useMemo } from "react";
 import { CelebrantDisplay } from "./celebrant-display";
 import { FloatingMessages } from "./floating-messages";
 
@@ -22,6 +22,8 @@ export function HappyBirthdaySection({ celebrants, currentDate }: HappyBirthdayS
 	const [selectedCelebrant, setSelectedCelebrant] = useState<Birthday | null>(null);
 	const { settings } = useDayBookStore();
 	const greetingSettings = settings.greetingTextSettings || defaultSettings.greetingTextSettings!;
+
+	const randomGradientAngle = useMemo(() => Math.floor(Math.random() * 360), []);
 
 	const hasCelebrants = celebrants.length > 0;
 
@@ -60,17 +62,18 @@ export function HappyBirthdaySection({ celebrants, currentDate }: HappyBirthdayS
 						"max-w-full px-4 pb-2 text-5xl leading-normal font-extrabold tracking-tight break-all drop-shadow-sm md:text-7xl",
 						greetingSettings.type === "gradient" ? "bg-clip-text text-transparent" : "",
 					)}
-					style={
-						greetingSettings.type === "gradient"
+					style={{
+						...(greetingSettings.fontFamily ? { fontFamily: greetingSettings.fontFamily } : {}),
+						...(greetingSettings.type === "gradient"
 							? {
 									backgroundImage: `linear-gradient(${
 										greetingSettings.gradient.direction === "random"
-											? `${Math.floor(Math.random() * 360)}deg`
+											? `${randomGradientAngle}deg`
 											: greetingSettings.gradient.direction
 									}, ${greetingSettings.gradient.start}, ${greetingSettings.gradient.end})`,
 								}
-							: { color: greetingSettings.solidColor }
-					}
+							: { color: greetingSettings.solidColor }),
+					}}
 				>
 					{greetingSettings.text || DEFAULT_MAIN_GREETING}
 				</h1>

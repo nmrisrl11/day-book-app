@@ -109,6 +109,10 @@ export const useDayBookStore = create<DayBookState>()(
 					settings: {
 						...defaultSettings,
 						...(state?.settings || {}),
+						upcomingCount: Math.max(
+							1,
+							Math.min(10, state?.settings?.upcomingCount ?? defaultSettings.upcomingCount),
+						),
 						avatarSettings: {
 							...defaultSettings.avatarSettings,
 							...(state?.settings?.avatarSettings || {}),

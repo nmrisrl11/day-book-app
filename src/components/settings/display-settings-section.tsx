@@ -2,7 +2,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { defaultSettings, useDayBookStore } from "@/store/day-book-store";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { RestoreDefaultsButton } from "./restore-defaults-button";
 
 export function DisplaySettingsSection() {
@@ -12,10 +12,22 @@ export function DisplaySettingsSection() {
 	const [startX, setStartX] = useState(0);
 	const [scrollLeft, setScrollLeft] = useState(0);
 
+	const [upcomingDraft, setUpcomingDraft] = useState(settings.upcomingCount.toString());
+
+	useEffect(() => {
+		setUpcomingDraft(settings.upcomingCount.toString());
+	}, [settings.upcomingCount]);
+
 	const handleUpcomingCountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const val = e.target.valueAsNumber;
+		setUpcomingDraft(e.target.value);
+	};
+
+	const handleUpcomingCountBlur = () => {
+		const val = parseInt(upcomingDraft, 10);
 		if (Number.isInteger(val) && val >= 1 && val <= 10) {
 			updateSettings({ upcomingCount: val });
+		} else {
+			setUpcomingDraft(settings.upcomingCount.toString());
 		}
 	};
 
@@ -72,8 +84,9 @@ export function DisplaySettingsSection() {
 						min={1}
 						max={10}
 						step="1"
-						value={settings.upcomingCount}
+						value={upcomingDraft}
 						onChange={handleUpcomingCountChange}
+						onBlur={handleUpcomingCountBlur}
 					/>
 				</div>
 
@@ -85,22 +98,24 @@ export function DisplaySettingsSection() {
 						onMouseUp={onMouseUp}
 						onMouseMove={onMouseMove}
 					>
-						{Array.from({ length: settings.upcomingCount }).map((_, i) => (
-							<div
-								key={i}
-								className="animate-in fade-in zoom-in-95 fill-mode-both border-border bg-card flex min-w-28 flex-col items-center rounded-2xl border p-3 shadow-sm duration-300 md:min-w-32"
-								style={{ animationDelay: `${i * 50}ms` }}
-							>
-								<div className="bg-background ring-border relative -mt-8 mb-3 rounded-full p-1 shadow-sm ring-1">
-									<div className="bg-primary/20 h-10 w-10 rounded-full md:h-12 md:w-12" />
+						{Array.from({ length: Math.max(1, Math.min(10, settings.upcomingCount || 5)) }).map(
+							(_, i) => (
+								<div
+									key={i}
+									className="animate-in fade-in zoom-in-95 fill-mode-both border-border bg-card flex min-w-28 flex-col items-center rounded-2xl border p-3 shadow-sm duration-300 md:min-w-32"
+									style={{ animationDelay: `${i * 50}ms` }}
+								>
+									<div className="bg-background ring-border relative -mt-8 mb-3 rounded-full p-1 shadow-sm ring-1">
+										<div className="bg-primary/20 h-10 w-10 rounded-full md:h-12 md:w-12" />
+									</div>
+									<div className="flex w-full flex-col items-center gap-1.5 text-center">
+										<div className="bg-primary/20 h-3 w-16 rounded-full md:w-20" />
+										<div className="bg-primary/10 h-2 w-12 rounded-full md:w-16" />
+										<div className="bg-primary/10 mt-0.5 h-4 w-20 rounded-full md:w-24" />
+									</div>
 								</div>
-								<div className="flex w-full flex-col items-center gap-1.5 text-center">
-									<div className="bg-primary/20 h-3 w-16 rounded-full md:w-20" />
-									<div className="bg-primary/10 h-2 w-12 rounded-full md:w-16" />
-									<div className="bg-primary/10 mt-0.5 h-4 w-20 rounded-full md:w-24" />
-								</div>
-							</div>
-						))}
+							),
+						)}
 					</div>
 				</div>
 			</div>
