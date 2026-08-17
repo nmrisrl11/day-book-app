@@ -11,8 +11,14 @@ import {
 import { FULL_MONTHS } from "@/constants/months";
 import { useDayBookStore } from "@/store/day-book-store";
 import type { Birthday } from "@/types/birthday";
-import { ChevronLeft, ChevronRight, MoreHorizontal, PlusIcon, SearchIcon } from "lucide-react";
-import { lazy, Suspense, useEffect, useMemo, useState } from "react";
+import {
+	ChevronLeftIcon,
+	ChevronRightIcon,
+	MoreHorizontalIcon,
+	PlusIcon,
+	SearchIcon,
+} from "lucide-react";
+import { lazy, Suspense, useCallback, useEffect, useMemo, useState } from "react";
 import { BirthdayListItem } from "./birthday-list-item";
 
 const BirthdayFormModal = lazy(() =>
@@ -137,15 +143,15 @@ export function BirthdayManagementScreen() {
 		setFormModalOpen(true);
 	};
 
-	const handleEdit = (birthday: Birthday) => {
+	const handleEdit = useCallback((birthday: Birthday) => {
 		setEditingBirthday(birthday);
 		setFormModalOpen(true);
-	};
+	}, []);
 
-	const handleDeleteClick = (birthday: Birthday) => {
+	const handleDeleteClick = useCallback((birthday: Birthday) => {
 		setDeletingBirthday(birthday);
 		setDeleteModalOpen(true);
-	};
+	}, []);
 
 	const handleConfirmDelete = () => {
 		if (deletingBirthday) {
@@ -267,14 +273,14 @@ export function BirthdayManagementScreen() {
 										disabled={currentPage === 1}
 										aria-label="Previous page"
 									>
-										<ChevronLeft className="h-4 w-4" />
+										<ChevronLeftIcon className="h-4 w-4" />
 									</Button>
 
 									{generatePageNumbers().map((page, idx) => {
 										if (typeof page === "string" && page.startsWith("ellipsis")) {
 											return (
 												<div key={page} className="flex h-8 w-8 items-center justify-center">
-													<MoreHorizontal className="text-muted-foreground h-4 w-4" />
+													<MoreHorizontalIcon className="text-muted-foreground h-4 w-4" />
 												</div>
 											);
 										}
@@ -299,7 +305,7 @@ export function BirthdayManagementScreen() {
 										disabled={currentPage === totalPages}
 										aria-label="Next page"
 									>
-										<ChevronRight className="h-4 w-4" />
+										<ChevronRightIcon className="h-4 w-4" />
 									</Button>
 								</div>
 							)}

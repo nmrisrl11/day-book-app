@@ -2,6 +2,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { useDragScroll } from "@/hooks/use-drag-scroll";
+import { cn } from "@/lib/utils";
 import { defaultSettings, useDayBookStore } from "@/store/day-book-store";
 import { useEffect, useState } from "react";
 import { RestoreDefaultsButton } from "./restore-defaults-button";
@@ -10,23 +11,26 @@ export function DisplaySettingsSection() {
 	const { settings, updateSettings } = useDayBookStore();
 
 	const { isDragging, handlers } = useDragScroll();
-
-	const [upcomingDraft, setUpcomingDraft] = useState(settings.upcomingCount.toString());
+	const [localCount, setLocalCount] = useState(settings.upcomingCount.toString());
 
 	useEffect(() => {
-		setUpcomingDraft(settings.upcomingCount.toString());
+		setLocalCount(settings.upcomingCount.toString());
 	}, [settings.upcomingCount]);
 
 	const handleUpcomingCountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setUpcomingDraft(e.target.value);
+		const val = e.target.value;
+		setLocalCount(val);
+
+		const parsed = parseInt(val, 10);
+		if (!isNaN(parsed) && parsed >= 1 && parsed <= 10) {
+			updateSettings({ upcomingCount: parsed });
+		}
 	};
 
-	const handleUpcomingCountBlur = () => {
-		const val = parseInt(upcomingDraft, 10);
-		if (Number.isInteger(val) && val >= 1 && val <= 10) {
-			updateSettings({ upcomingCount: val });
-		} else {
-			setUpcomingDraft(settings.upcomingCount.toString());
+	const handleCommitCount = () => {
+		const parsed = parseInt(localCount, 10);
+		if (isNaN(parsed) || parsed < 1 || parsed > 10) {
+			setLocalCount(settings.upcomingCount.toString());
 		}
 	};
 
@@ -55,14 +59,17 @@ export function DisplaySettingsSection() {
 					min={1}
 					max={10}
 					step="1"
-					value={upcomingDraft}
+					value={localCount}
 					onChange={handleUpcomingCountChange}
-					onBlur={handleUpcomingCountBlur}
+					onBlur={handleCommitCount}
 				/>
 
 				<div className="w-full overflow-x-auto rounded-xl mask-[linear-gradient(to_right,transparent,black_5%,black_95%,transparent)] whitespace-nowrap [&::-webkit-scrollbar]:hidden">
 					<div
-						className={`flex w-max space-x-4 p-4 pt-8 pb-4 select-none ${isDragging ? "cursor-grabbing" : "cursor-grab"}`}
+						className={cn(
+							"flex w-max space-x-4 p-4 pt-8 pb-4 select-none",
+							isDragging ? "cursor-grabbing" : "cursor-grab",
+						)}
 						{...handlers}
 					>
 						{Array.from({ length: Math.max(1, Math.min(10, settings.upcomingCount || 5)) }).map(

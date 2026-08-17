@@ -6,9 +6,9 @@ import {
 	DialogTitle,
 } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { UserAvatar } from "@/components/user-avatar";
 import { formatBirthdayDisplay } from "@/helpers/birthday-utils";
 import type { Birthday } from "@/types/birthday";
-import { UserAvatar } from "@/components/user-avatar";
 
 interface MonthlyBirthdayModalProps {
 	monthName: string;
@@ -39,7 +39,7 @@ export function MonthlyBirthdayModal({
 	return (
 		<Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
 			<DialogContent className="border-border/50 bg-background/95 rounded-2xl shadow-2xl backdrop-blur-md sm:max-w-md">
-				<DialogHeader className="border-b border-slate-100 p-0 pb-4">
+				<DialogHeader className="p-0 pb-4">
 					<DialogTitle className="text-foreground font-sans text-2xl font-bold tracking-wide uppercase">
 						{monthName}
 					</DialogTitle>

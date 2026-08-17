@@ -4,15 +4,18 @@ import {
 	DialogDescription,
 	DialogHeader,
 	DialogTitle,
+	DialogFooter,
 } from "@/components/ui/dialog";
 import { PartyHat } from "@/components/ui/party-hat";
 import { UserAvatar } from "@/components/user-avatar";
 import { calculateAge, formatBirthdayDisplay } from "@/helpers/birthday-utils";
 import { useDayBookStore } from "@/store/day-book-store";
 import { type Birthday } from "@/types/birthday";
-import { CalendarIcon, GiftIcon } from "lucide-react";
-import { useMemo } from "react";
+import { CalendarIcon, GiftIcon, CalendarPlus } from "lucide-react";
+import { useMemo, useState } from "react";
 import { Badge } from "../ui/badge";
+import { Button } from "../ui/button";
+import { CalendarExportDialog } from "@/components/calendar/calendar-export-dialog";
 
 interface CelebrantModalProps {
 	celebrant: Birthday | null;
@@ -23,6 +26,7 @@ interface CelebrantModalProps {
 
 export function CelebrantModal({ celebrant, isOpen, onClose, currentDate }: CelebrantModalProps) {
 	const { settings } = useDayBookStore();
+	const [exportOpen, setExportOpen] = useState(false);
 
 	// Randomly select a greeting when the modal opens
 	const greeting = useMemo(() => {
@@ -41,48 +45,65 @@ export function CelebrantModal({ celebrant, isOpen, onClose, currentDate }: Cele
 	const formattedDate = formatBirthdayDisplay(celebrant.birthday);
 
 	return (
-		<Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-			<DialogContent className="border-border/50 bg-background/90 rounded-2xl shadow-2xl backdrop-blur-md sm:max-w-md">
-				<DialogHeader className="flex flex-col items-center space-y-3 py-6 text-center">
-					<div className="relative">
-						<div className="absolute inset-0 rounded-full bg-blue-500/20 blur-2xl" />
+		<>
+			<Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
+				<DialogContent className="border-border/50 bg-background/90 rounded-2xl shadow-2xl backdrop-blur-md sm:max-w-md">
+					<DialogHeader className="flex flex-col items-center space-y-3 py-6 text-center">
+						<div className="relative">
+							<div className="absolute inset-0 rounded-full bg-blue-500/20 blur-2xl" />
 
-						<div className="absolute -top-9 right-0 z-20 h-14 w-14 rotate-12 drop-shadow-md">
-							<PartyHat className="h-full w-full" />
-						</div>
-
-						<div className="bg-background ring-border relative z-10 rounded-full p-2 shadow-sm ring-1">
-							<UserAvatar birthday={celebrant} size={96} className="h-24 w-24" />
-						</div>
-					</div>
-
-					<DialogTitle className="text-foreground font-sans text-2xl font-bold">
-						{celebrant.name}
-					</DialogTitle>
-
-					<DialogDescription asChild>
-						<div className="text-muted-foreground mt-2 flex flex-col items-center gap-4">
-							<div className="flex flex-wrap items-center justify-center gap-3">
-								<Badge variant="secondary" className="p-3 text-sm font-bold">
-									<CalendarIcon data-icon="inline-start" />
-									{formattedDate}
-								</Badge>
-
-								{age !== null && (
-									<Badge variant="destructive" className="p-3 text-sm font-bold">
-										<GiftIcon data-icon="inline-start" />
-										Turning {age}
-									</Badge>
-								)}
+							<div className="absolute -top-9 right-0 z-20 h-14 w-14 rotate-12 drop-shadow-md">
+								<PartyHat className="h-full w-full" />
 							</div>
 
-							<p className="text-secondary-foreground text-base leading-relaxed italic">
-								"{greeting}"
-							</p>
+							<div className="bg-background ring-border relative z-10 rounded-full p-2 shadow-sm ring-1">
+								<UserAvatar birthday={celebrant} size={96} className="h-24 w-24" />
+							</div>
 						</div>
-					</DialogDescription>
-				</DialogHeader>
-			</DialogContent>
-		</Dialog>
+
+						<DialogTitle className="text-foreground font-sans text-2xl font-bold">
+							{celebrant.name}
+						</DialogTitle>
+
+						<DialogDescription asChild>
+							<div className="text-muted-foreground mt-2 flex flex-col items-center gap-4">
+								<div className="flex flex-wrap items-center justify-center gap-3">
+									<Badge variant="secondary" className="p-3 text-sm font-bold">
+										<CalendarIcon data-icon="inline-start" />
+										{formattedDate}
+									</Badge>
+
+									{age !== null && (
+										<Badge variant="destructive" className="p-3 text-sm font-bold">
+											<GiftIcon data-icon="inline-start" />
+											Turning {age}
+										</Badge>
+									)}
+								</div>
+
+								<p className="text-secondary-foreground text-base leading-relaxed italic">
+									"{greeting}"
+								</p>
+							</div>
+						</DialogDescription>
+					</DialogHeader>
+
+					<DialogFooter className="border-border/50 border-t pt-4 sm:justify-center">
+						<Button variant="outline" className="w-full gap-2" onClick={() => setExportOpen(true)}>
+							<CalendarPlus className="h-4 w-4" />
+							Add to Calendar
+						</Button>
+					</DialogFooter>
+				</DialogContent>
+			</Dialog>
+
+			{exportOpen && (
+				<CalendarExportDialog
+					open={exportOpen}
+					onOpenChange={setExportOpen}
+					birthdays={celebrant}
+				/>
+			)}
+		</>
 	);
 }
