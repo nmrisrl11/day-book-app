@@ -43,6 +43,7 @@ export interface SoundSettings {
 
 export interface GreetingTextSettings {
 	text: string;
+	fontFamily?: string;
 	type: GreetingTextColorType;
 	solidColor: string;
 	gradient: {

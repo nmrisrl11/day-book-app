@@ -8,10 +8,20 @@ export const MAIN_GREETINGS: string[] = [
 	"Wishing You the Best!",
 ];
 
+export const MAIN_GREETING_FONTS = [
+	{ label: "Default", value: "" },
+	{ label: "Balsamiq Sans", value: "'Balsamiq Sans', cursive" },
+	{ label: "Caveat", value: "'Caveat', cursive" },
+	{ label: "Chewy", value: "'Chewy', system-ui" },
+	{ label: "Fredoka", value: "'Fredoka', sans-serif" },
+	{ label: "Pacifico", value: "'Pacifico', cursive" },
+];
+
 export const DEFAULT_MAIN_GREETING = MAIN_GREETINGS[0];
 
 export const DEFAULT_GREETING_TEXT_SETTINGS: GreetingTextSettings = {
 	text: DEFAULT_MAIN_GREETING,
+	fontFamily: MAIN_GREETING_FONTS[0].value,
 	type: "gradient",
 	solidColor: "#ec4899", // pink-500
 	gradient: {
