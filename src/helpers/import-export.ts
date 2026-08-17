@@ -66,3 +66,30 @@ export function parseImportedBirthdays(fileText: string): Birthday[] {
 		throw new Error(error instanceof Error ? error.message : "Invalid JSON file.");
 	}
 }
+
+export function exportSettings(settings: any) {
+	const dataStr = JSON.stringify(settings, null, 2);
+	const blob = new Blob([dataStr], { type: "application/json" });
+	const url = URL.createObjectURL(blob);
+
+	const a = document.createElement("a");
+	a.href = url;
+	a.download = `day-book-settings-${new Date().toISOString().split("T")[0]}.json`;
+	document.body.appendChild(a);
+	a.click();
+	document.body.removeChild(a);
+	URL.revokeObjectURL(url);
+}
+
+export function parseImportedSettings(fileText: string): any {
+	try {
+		const parsed = JSON.parse(fileText);
+		if (typeof parsed !== "object" || parsed === null || Array.isArray(parsed)) {
+			throw new Error("Settings data must be a JSON object.");
+		}
+
+		return parsed;
+	} catch (error) {
+		throw new Error(error instanceof Error ? error.message : "Invalid JSON file.");
+	}
+}
