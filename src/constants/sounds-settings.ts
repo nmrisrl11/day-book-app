@@ -1,4 +1,4 @@
-import type { SoundName } from "@/types/settings";
+import type { SoundName, SoundSettings } from "@/types/settings";
 
 export const SOUND_COLORS: Record<SoundName, string> = {
 	chime: "bg-blue-500",
@@ -27,3 +27,15 @@ export const INTERACTION_TYPES = [
 	{ id: "success", label: "Success Notification" },
 	{ id: "error", label: "Error/Warning" },
 ] as const;
+
+export const SOUND_SETTINGS: SoundSettings = {
+	enabled: true,
+	volume: 0.5,
+	mappings: {
+		hover: "tick",
+		press: "pulse",
+		toggle: "toggle",
+		success: "success",
+		error: "error",
+	},
+};

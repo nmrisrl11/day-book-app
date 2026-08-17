@@ -1,11 +1,11 @@
 import { PartyHat } from "@/components/ui/party-hat";
-import { DEFAULT_MAIN_GREETING } from "@/constants/main-greeting";
+import { MAIN_GREETINGS } from "@/constants/main-greeting";
 import { useConfetti } from "@/hooks/use-confetti";
 import { cn } from "@/lib/utils";
 import { defaultSettings, useDayBookStore } from "@/store/day-book-store";
 import type { Birthday } from "@/types/birthday";
 import { StarIcon } from "lucide-react";
-import { lazy, Suspense, useState, useMemo } from "react";
+import { lazy, Suspense, useMemo, useState } from "react";
 import { CelebrantDisplay } from "./celebrant-display";
 import { FloatingMessages } from "./floating-messages";
 
@@ -75,7 +75,7 @@ export function HappyBirthdaySection({ celebrants, currentDate }: HappyBirthdayS
 							: { color: greetingSettings.solidColor }),
 					}}
 				>
-					{greetingSettings.text || DEFAULT_MAIN_GREETING}
+					{greetingSettings.text || MAIN_GREETINGS[0]}
 				</h1>
 			</div>
 

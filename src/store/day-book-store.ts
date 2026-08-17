@@ -1,7 +1,8 @@
-import { BORING_AVATARS_DEFAULT_COLORS } from "@/constants/default-colors";
+import { AVATAR_SETTINGS } from "@/constants/avatar-settings";
 import { FLOATING_MESSAGES } from "@/constants/floating-messages";
 import { GREETINGS } from "@/constants/greetings";
-import { DEFAULT_GREETING_TEXT_SETTINGS } from "@/constants/main-greeting";
+import { GREETING_TEXT_SETTINGS } from "@/constants/main-greeting";
+import { SOUND_SETTINGS } from "@/constants/sounds-settings";
 import type { Birthday } from "@/types/birthday";
 import type { Settings } from "@/types/settings";
 import { create } from "zustand";
@@ -12,29 +13,13 @@ export const defaultSettings: Settings = {
 	theme: "light",
 	floatingMessages: FLOATING_MESSAGES,
 	greetings: GREETINGS,
-	avatarSettings: {
-		allowCustomUploads: true,
-		defaultLibrary: "avvvatars",
-		avvvatarsStyle: "shape",
-		boringAvatarsVariant: "beam",
-		boringAvatarsColors: BORING_AVATARS_DEFAULT_COLORS,
-	},
-	soundSettings: {
-		enabled: true,
-		volume: 0.5,
-		mappings: {
-			hover: "tick",
-			press: "pulse",
-			toggle: "toggle",
-			success: "success",
-			error: "error",
-		},
-	},
+	avatarSettings: AVATAR_SETTINGS,
+	soundSettings: SOUND_SETTINGS,
 	animationsEnabled:
 		typeof window !== "undefined"
 			? !window.matchMedia("(prefers-reduced-motion: reduce)").matches
 			: true,
-	greetingTextSettings: DEFAULT_GREETING_TEXT_SETTINGS,
+	greetingTextSettings: GREETING_TEXT_SETTINGS,
 };
 
 interface DayBookState {

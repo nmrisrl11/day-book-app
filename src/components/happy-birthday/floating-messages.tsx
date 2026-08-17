@@ -1,3 +1,4 @@
+import { DEFAULT_FLOATING_MESSAGE } from "@/constants/floating-messages";
 import { useDayBookStore } from "@/store/day-book-store";
 import { useEffect, useState, useRef } from "react";
 
@@ -18,7 +19,7 @@ export function FloatingMessages({ enabled }: { enabled: boolean }) {
 		const floatingMessages =
 			floatingMessagesSetting && floatingMessagesSetting.length > 0
 				? floatingMessagesSetting
-				: ["Happy Birthday! 🎂"]; // safe fallback
+				: [DEFAULT_FLOATING_MESSAGE];
 
 		const interval = setInterval(() => {
 			const text = floatingMessages[Math.floor(Math.random() * floatingMessages.length)];

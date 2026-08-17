@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
-import { INTERACTION_TYPES, SOUND_COLORS } from "@/constants/sounds";
+import { INTERACTION_TYPES, SOUND_COLORS } from "@/constants/sounds-settings";
 import { defaultSettings, useDayBookStore } from "@/store/day-book-store";
 import { play, sounds, type SoundName } from "cuelume";
 import { RestoreDefaultsButton } from "./restore-defaults-button";
