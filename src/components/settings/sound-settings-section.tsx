@@ -126,7 +126,7 @@ export function SoundSettingsSection() {
 											value={soundSettings.mappings[id]}
 											onValueChange={(val) => handleMappingChange(id, val as SoundName)}
 										>
-											<SelectTrigger id={`sound-${id}`}>
+											<SelectTrigger id={`sound-${id}`} className="w-full">
 												<SelectValue placeholder="Select sound" />
 											</SelectTrigger>
 											<SelectContent position="popper">

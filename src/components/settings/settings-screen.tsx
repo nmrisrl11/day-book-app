@@ -8,6 +8,7 @@ import {
 	DatabaseIcon,
 	MessageSquareIcon,
 	PaintbrushIcon,
+	StarIcon,
 	UserCircleIcon,
 	Volume2Icon,
 } from "lucide-react";
@@ -27,6 +28,9 @@ const DeleteConfirmationModal = lazy(() =>
 );
 const ThemeSection = lazy(() =>
 	import("./theme-section").then((m) => ({ default: m.ThemeSection })),
+);
+const MainGreetingSection = lazy(() =>
+	import("./main-greeting-section").then((m) => ({ default: m.MainGreetingSection })),
 );
 const DisplaySettingsSection = lazy(() =>
 	import("./display-settings-section").then((m) => ({ default: m.DisplaySettingsSection })),
@@ -61,6 +65,7 @@ export function SettingsScreen() {
 
 	const tabs = [
 		{ id: "appearance", label: "Appearance", icon: PaintbrushIcon },
+		{ id: "main-greeting", label: "Main Greeting", icon: StarIcon },
 		{ id: "avatar", label: "Avatar", icon: UserCircleIcon },
 		{
 			id: "messages",
@@ -121,6 +126,9 @@ export function SettingsScreen() {
 								<TabsContent value="appearance" className="space-y-8">
 									<ThemeSection />
 									<DisplaySettingsSection />
+								</TabsContent>
+								<TabsContent value="main-greeting">
+									<MainGreetingSection />
 								</TabsContent>
 								<TabsContent value="avatar">
 									<AvatarSettingsSection />
