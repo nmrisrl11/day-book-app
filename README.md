@@ -12,7 +12,7 @@ DayBook is a stylish, lightweight, local-first birthday tracker designed to help
 ## Features
 
 - 🔒 **Privacy First**: All your birthday and settings data stays on your device (`localStorage`). Visitor analytics (unique visitor counting) use the `/api/visitors` flow with IP-based counting backed by Upstash Redis.
-- 📱 **Installable PWA**: Install DayBook on your phone or desktop! Works offline, loads instantly, and updates safely in the background.
+- 📱 **Installable PWA**: Install DayBook on your phone or desktop! Works offline, loads instantly, and detects updates in the background, applying them safely only after you confirm.
 - ✨ **Beautiful Dashboard**: Celebratory "Happy Birthday" section with confetti, upcoming birthdays list, and an interactive 12-month calendar grid.
 - 🎨 **Rich Customization**:
   - 🌓 Theme toggling (Light/Dark).

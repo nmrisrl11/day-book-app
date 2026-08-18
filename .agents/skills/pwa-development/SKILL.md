@@ -3,7 +3,7 @@ name: pwa-development
 description: Progressive Web Apps - service workers, caching strategies, offline, Workbox
 when-to-use: When building PWA features - service workers, caching, offline support
 user-invocable: false
-paths: ["**/sw.*", "**/service-worker.*", "**/workbox-config.*", "**/manifest.json"]
+paths: ["**/sw.*", "**/service-worker.*", "**/workbox-config.*", "**/manifest.json", "**/vite.config.*", "**/pwa-prompt.*"]
 effort: medium
 ---
 
@@ -36,9 +36,10 @@ effort: medium
 │  INSTALLABILITY CRITERIA (Chrome)                               │
 │  ─────────────────────────────────────────────────────────────  │
 │  • HTTPS (or localhost)                                         │
-│  • Service worker with fetch handler                            │
-│  • Web app manifest with: name, icons (192px + 512px),          │
-│    start_url, display: standalone/fullscreen/minimal-ui         │
+│  • Browser-menu installation and install prompts vary by        │
+│    browser version, engagement, and heuristics.                 │
+│  • Web app manifest (recommended fields): name, icons           │
+│    (192px + 512px), start_url, display: standalone              │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
@@ -206,7 +207,7 @@ self.addEventListener('activate', (event) => {
     caches.keys()
       .then((keys) => Promise.all(
         keys
-          .filter((key) => key !== CACHE_NAME)
+          .filter((key) => key.startsWith('app-cache-') && key !== CACHE_NAME)
           .map((key) => caches.delete(key))
       ))
       .then(() => self.clients.claim())
@@ -218,7 +219,12 @@ self.addEventListener('fetch', (event) => {
   event.respondWith(
     caches.match(event.request)
       .then((cached) => cached || fetch(event.request))
-      .catch(() => caches.match('/offline.html'))
+      .catch(() => {
+        if (event.request.mode === 'navigate') {
+          return caches.match('/offline.html');
+        }
+        return Response.error();
+      })
   );
 });
 ```
@@ -269,9 +275,11 @@ self.addEventListener('fetch', (event) => {
           if (cached) return cached;
           return fetch(event.request).then((response) => {
             const clone = response.clone();
-            caches.open(CACHE_NAME).then((cache) => {
-              cache.put(event.request, clone);
-            });
+            event.waitUntil(
+              caches.open(CACHE_NAME).then((cache) => {
+                return cache.put(event.request, clone);
+              })
+            );
             return response;
           });
         })
@@ -285,14 +293,16 @@ self.addEventListener('fetch', (event) => {
 ```javascript
 // Best for: API data, frequently updated content
 self.addEventListener('fetch', (event) => {
-  if (event.request.url.includes('/api/')) {
+  if (event.request.url.includes('/api/') && event.request.method === 'GET') {
     event.respondWith(
       fetch(event.request)
         .then((response) => {
           const clone = response.clone();
-          caches.open(CACHE_NAME).then((cache) => {
-            cache.put(event.request, clone);
-          });
+          event.waitUntil(
+            caches.open(CACHE_NAME).then((cache) => {
+              return cache.put(event.request, clone);
+            })
+          );
           return response;
         })
         .catch(() => caches.match(event.request))
@@ -306,12 +316,14 @@ self.addEventListener('fetch', (event) => {
 ```javascript
 // Best for: Content that's okay to be slightly outdated
 self.addEventListener('fetch', (event) => {
-  if (event.request.url.includes('/articles/')) {
+  if (event.request.url.includes('/articles/') && event.request.method === 'GET') {
     event.respondWith(
       caches.open(CACHE_NAME).then((cache) => {
         return cache.match(event.request).then((cached) => {
           const fetchPromise = fetch(event.request).then((response) => {
-            cache.put(event.request, response.clone());
+            event.waitUntil(
+              cache.put(event.request, response.clone())
+            );
             return response;
           });
           return cached || fetchPromise;
@@ -337,9 +349,12 @@ self.addEventListener('fetch', (event) => {
 ### Installation
 
 ```bash
-npm install workbox-webpack-plugin  # Webpack
-npm install @vite-pwa/vite-plugin   # Vite
+npm install vite-plugin-pwa workbox-window --save-dev
 ```
+
+### Workbox with Vite (generateSW)
+
+Use `vite-plugin-pwa` for seamless Vite integration. Separate `generateSW` from custom worker instructions. For custom workers, use strategies like `injectManifest`, `srcDir`, `filename`, `self.__WB_MANIFEST`, and add direct dependencies for every imported Workbox module.
 
 ### Workbox with Vite
 
@@ -749,13 +764,13 @@ async function loadPage(path) {
 
 ```bash
 # Run Lighthouse from CLI
-npx lighthouse https://your-app.com --view
+npx lighthouse@latest https://your-app.com --view
 
 # Key metrics to check:
-# - PWA badge (installable, offline-ready)
 # - Performance score
 # - Best practices
 # - Accessibility
+# Note: Test installability, offline support, and updates manually in DevTools or E2E.
 ```
 
 ### Manual Testing Checklist
@@ -791,18 +806,16 @@ npx lighthouse https://your-app.com --view
 
 ### Testing Service Worker Updates
 
-```javascript
-// Force update check
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.ready.then((registration) => {
-    registration.update();
-  });
-}
+When using prompt mode, avoid combining `skipWaiting()` with an unconditional `window.location.reload()` on `controllerchange`, as this discards unsaved input.
+Document `autoUpdate` (background updates) and `prompt` (user-confirmed) as alternatives.
 
-// Listen for updates
-navigator.serviceWorker.addEventListener('controllerchange', () => {
-  // New service worker activated
-  window.location.reload();
+```javascript
+// Example using vite-plugin-pwa's useRegisterSW for prompt mode:
+const { updateServiceWorker } = useRegisterSW({
+  onNeedRefresh() {
+    // Show UI prompt to user
+    // Only call updateServiceWorker(true) if user confirms
+  }
 });
 ```
 
@@ -873,7 +886,6 @@ project/
 - [ ] Offline page created and cached
 - [ ] Cache strategies defined for all resource types
 - [ ] Install prompt handling implemented
-- [ ] Lighthouse PWA audit passes
 
 ### After Launch
 
@@ -910,7 +922,7 @@ module.exports = withPWA({
 
 ```bash
 # CRA 4+ has PWA support built-in
-npx create-react-app my-pwa --template cra-template-pwa
+npx create-react-app@5.0.1 my-pwa --template cra-template-pwa@1.2.0
 ```
 
 ### Vite (Any Framework)
