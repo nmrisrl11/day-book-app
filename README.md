@@ -1,36 +1,41 @@
 # DayBook
 
 <div align="center">
-  <img src="public/logo/daybook-logo.svg" alt="DayBook Logo" width="120" />
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="public/logo/daybook-logo-dark.svg">
+    <img src="public/logo/daybook-logo-light.svg" alt="DayBook Logo" width="120" />
+  </picture>
 </div>
 
 DayBook is a stylish, lightweight, local-first birthday tracker designed to help you keep track of family and friends' birthdays so you never forget one again. 🎉🎂
 
 ## Features
 
-- **Privacy First**: All your birthday and settings data stays on your device (`localStorage`). Visitor analytics (unique visitor counting) use the `/api/visitors` flow with IP-based counting backed by Upstash Redis.
-- **Beautiful Dashboard**: Celebratory "Happy Birthday" section with confetti, upcoming birthdays list, and an interactive 12-month calendar grid.
-- **Rich Customization**:
-  - Theme toggling (Light/Dark).
-  - Main greeting typography and gradient styling.
-  - Floating messages and personalized greeting pools.
-  - Two integrated avatar systems (`avvvatars` and `boring-avatars`) plus custom photo uploads.
-- **Sound Feedback**: Satisfying, configurable audio feedback for interactions using the `cuelume` library.
-- **Calendar Integration**: Export your birthdays to `.ics` files or add them directly to Google Calendar.
-- **Data Portability**: Full JSON export and import for both your birthday data and your application settings.
-- **Visitor Analytics**: Edge-hosted unique visitor tracking using Upstash Redis.
+- 🔒 **Privacy First**: All your birthday and settings data stays on your device (`localStorage`). Visitor analytics (unique visitor counting) use the `/api/visitors` flow with IP-based counting backed by Upstash Redis.
+- 📱 **Installable PWA**: Install DayBook on your phone or desktop! Works offline, loads instantly, and detects updates in the background, applying them safely only after you confirm.
+- ✨ **Beautiful Dashboard**: Celebratory "Happy Birthday" section with confetti, upcoming birthdays list, and an interactive 12-month calendar grid.
+- 🎨 **Rich Customization**:
+  - 🌓 Theme toggling (Light/Dark).
+  - 🅰️ Main greeting typography and gradient styling.
+  - 💬 Floating messages and personalized greeting pools.
+  - 🖼️ Two integrated avatar systems (`avvvatars` and `boring-avatars`) plus custom photo uploads.
+- 🎵 **Sound Feedback**: Satisfying, configurable audio feedback for interactions using the `cuelume` library.
+- 📅 **Calendar Integration**: Export your birthdays to `.ics` files or add them directly to Google Calendar.
+- 💾 **Data Portability**: Full JSON export and import for both your birthday data and your application settings.
+- 📊 **Visitor Analytics**: Edge-hosted unique visitor tracking using Upstash Redis.
 
 ## Technology Stack
 
-- **Framework**: React 19 + Vite 6
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS 4
-- **State Management**: Zustand 5
-- **Routing**: React Router v7
-- **UI Components**: Radix UI (via shadcn/ui)
-- **Animation**: Framer Motion, `@animate-ui`
-- **Validation**: Zod + React Hook Form
-- **URL State**: `nuqs`
+- ⚡ **Framework**: React 19 + Vite 6
+- 📱 **PWA**: vite-plugin-pwa + Workbox
+- 📘 **Language**: TypeScript
+- 🎨 **Styling**: Tailwind CSS 4
+- 🐻 **State Management**: Zustand 5
+- 🛣️ **Routing**: React Router v7
+- 🧱 **UI Components**: Radix UI (via shadcn/ui)
+- ✨ **Animation**: Framer Motion, `@animate-ui`
+- ✅ **Validation**: Zod + React Hook Form
+- 🔗 **URL State**: `nuqs`
 
 ## AI Agent Documentation
 
