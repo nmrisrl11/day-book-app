@@ -48,7 +48,7 @@ export function VisitorTracker({ className }: VisitorTrackerProps) {
 				className,
 			)}
 		>
-			<div className="flex -space-x-2.5">
+			<div className="pointer-events-none flex -space-x-2.5">
 				{DUMMY_VISITORS.map((visitor, idx) => (
 					<div key={idx} className="ring-background relative rounded-full ring-2">
 						<UserAvatar birthday={visitor} size={24} />
