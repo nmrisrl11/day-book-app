@@ -54,6 +54,7 @@ Settings has grown into a full `/settings` route with 6 tabs managed by `nuqs` U
 
 - **Calendar**: Google Calendar add-event links and `.ics` file generation and download (`helpers/calendar-export.ts`).
 - **Visitor Tracking**: Public endpoint (`/api/visitors`) using Vercel Edge functions and Upstash Redis. Uses `INCR` and `SET NX EX 86400` for 24-hour IP-based unique visitor counting.
+- **Progressive Web App (PWA)**: Installable, offline-capable application built via `vite-plugin-pwa` with Workbox generating the service worker. It includes a custom update prompt for graceful updates.
 
 ## 4. Current Architecture Details
 
@@ -78,11 +79,9 @@ day-book-app/
 ### Known Issues & Technical Debt
 
 - **Stale Closures**: Because the settings state is tightly bound to the UI (e.g. debounced color pickers), `updateSettings` calls must frequently fetch the latest state inside the execution block using `useDayBookStore.getState()`. This pattern is established but fragile.
-- **PWA Completeness**: `public/site.webmanifest` exists, but there is no Service Worker registration. The app is not fully installable or offline-capable yet.
 - **React Scan**: `<script crossorigin="anonymous" src="//unpkg.com/react-scan/dist/auto.global.js"></script>` is currently hardcoded in `index.html` for performance debugging.
 
 ## 5. Current Development Focus
 
+- DayBook is currently in a highly stable state.
 - Documentation audit and reorganization (AGENTS.md, CURRENT_STATE.md).
-- Future: Complete PWA implementation (Service Worker, offline caching, install prompts).
-- Future: Form migration (some legacy forms might still need converting to `react-hook-form`).
