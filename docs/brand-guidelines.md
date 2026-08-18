@@ -29,7 +29,9 @@ The design should feel polished and intentional without becoming overly corporat
 
 ## Font Family
 
-Use **Satoshi** as the primary font family. _(Note: The current actual implementation uses **Geist** and **Fredoka** to achieve this vibe, which is the accepted direction)._
+Use **Satoshi** as the primary design target and required font for new UI designs.
+
+_(Note: The current actual implementation uses **Fredoka** (and previously Geist) to achieve this vibe in the absence of Satoshi. Fredoka is the standard for the current codebase until Satoshi is fully integrated)._
 
 Satoshi should be used consistently throughout the application and should support all available:
 
