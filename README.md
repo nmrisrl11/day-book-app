@@ -1,34 +1,79 @@
-# React + TypeScript + Vite
+# DayBook
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+<div align="center">
+  <img src="public/favicon.svg" alt="DayBook Logo" width="120" />
+</div>
 
-Currently, two official plugins are available:
+DayBook is a stylish, lightweight, local-first birthday tracker designed to help you keep track of family and friends' birthdays so you never forget one again. 🎉🎂
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Features
 
-## React Compiler
+- **Local-First Privacy**: All your data stays on your device (`localStorage`). No accounts, no backend databases, no tracking of your contacts.
+- **Beautiful Dashboard**: Celebratory "Happy Birthday" section with confetti, upcoming birthdays list, and an interactive 12-month calendar grid.
+- **Rich Customization**:
+  - Theme toggling (Light/Dark).
+  - Main greeting typography and gradient styling.
+  - Floating messages and personalized greeting pools.
+  - Two integrated avatar systems (`avvvatars` and `boring-avatars`) plus custom photo uploads.
+- **Sound Feedback**: Satisfying, configurable audio feedback for interactions using the `cuelume` library.
+- **Calendar Integration**: Export your birthdays to `.ics` files or add them directly to Google Calendar.
+- **Data Portability**: Full JSON export and import for both your birthday data and your application settings.
+- **Visitor Analytics**: Edge-hosted unique visitor tracking using Upstash Redis.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Technology Stack
 
-## Expanding the Oxlint configuration
+- **Framework**: React 19 + Vite 6
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS 4
+- **State Management**: Zustand 5
+- **Routing**: React Router v7
+- **UI Components**: Radix UI (via shadcn/ui)
+- **Animation**: Framer Motion, `@animate-ui`
+- **Validation**: Zod + React Hook Form
+- **URL State**: `nuqs`
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+## AI Agent Documentation
 
-```json
-{
-	"$schema": "./node_modules/oxlint/configuration_schema.json",
-	"plugins": ["react", "typescript", "oxc"],
-	"options": {
-		"typeAware": true
-	},
-	"rules": {
-		"react/rules-of-hooks": "error",
-		"react/only-export-components": ["warn", { "allowConstantExport": true }]
-	}
-}
+If you are an AI agent or a developer looking to contribute to this project, please consult the project documentation in the following order:
+
+1. **`AGENTS.md`**: Permanent AI operating instructions and deep architectural context.
+2. **`CURRENT_STATE.md`**: Living snapshot of what is actually implemented _right now_, known tech debt, and current focus.
+3. **`docs/rules.md`**: Strict coding conventions, naming rules, and boundaries.
+4. **`docs/instructions.md`**: The original foundational product specification.
+5. **`docs/brand-guidelines.md`**: Design, typography, and personality rules.
+
+## Local Development
+
+### Prerequisites
+
+- Node.js (v18+)
+- npm
+
+### Setup
+
+```bash
+# Clone the repository
+git clone <repository-url>
+
+# Install dependencies
+npm install
+
+# Start the development server
+npm run dev
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+### Environment Variables
 
-# day-book-app
+For the visitor tracking API to function locally, you will need a Vercel Upstash Redis database and the following variables in a `.env.local` file:
+
+```env
+KV_REST_API_URL="your-upstash-url"
+KV_REST_API_TOKEN="your-upstash-token"
+```
+
+## Available Scripts
+
+- `npm run dev` - Starts the Vite development server.
+- `npm run build` - Builds the app for production.
+- `npm run lint` - Lints the codebase using Oxlint.
+- `npm run preview` - Previews the production build locally.

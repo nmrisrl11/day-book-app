@@ -29,7 +29,7 @@ The design should feel polished and intentional without becoming overly corporat
 
 ## Font Family
 
-Use **Satoshi** as the primary font family.
+Use **Satoshi** as the primary font family. _(Note: The current actual implementation uses **Geist** and **Fredoka** to achieve this vibe, which is the accepted direction)._
 
 Satoshi should be used consistently throughout the application and should support all available:
 

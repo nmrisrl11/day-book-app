@@ -74,6 +74,11 @@ For example:
 - File: `celebrant-card.tsx`
 - Component: `CelebrantCard`
 
+### Icons (Lucide)
+
+- When importing icons from `lucide-react`, ALWAYS append the `Icon` suffix to the name if it isn't already there.
+- Example: `import { Settings as SettingsIcon, BookUser as BookUserIcon } from "lucide-react";`
+
 ### Hooks
 
 - Hook files must use **kebab-case**.
@@ -186,6 +191,21 @@ Use the following naming conventions consistently:
 - Respect `prefers-reduced-motion` for animations and decorative motion.
 
 ## Code Organization
+
+### Directory Boundaries
+
+- `src/features/`: Domain-driven modules. Each folder here represents a distinct feature area (e.g., `dashboard`, `management`, `settings`). Features should encapsulate their own specific components, hooks, and logic.
+- `src/components/`: Global, reusable UI components only. Do not place feature-specific components here.
+- `src/components/ui/`: STRICTLY for un-opinionated external UI primitives (e.g., shadcn/ui components, `@animate-ui` wrappers). Do not place custom business logic components here.
+- `src/schema/`: Zod schemas for forms, validation, and API boundaries.
+- `src/constants/`: Static application configuration, settings boundaries, and default values. Do not put user data here.
+
+### Architecture First
+
+- Before adding a new component or utility, always check if one already exists in `src/components/` or `src/helpers/`.
+- Do not add new dependencies without checking if existing tools (e.g., `nuqs`, `zustand`, `lucide-react`, `cuelume`) can handle the requirement.
+
+### General Guidelines
 
 - Keep the code clean, readable, and organized.
 - Follow the existing project structure and naming conventions.
