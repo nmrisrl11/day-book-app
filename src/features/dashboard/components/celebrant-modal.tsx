@@ -1,21 +1,21 @@
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
 	Dialog,
 	DialogContent,
 	DialogDescription,
+	DialogFooter,
 	DialogHeader,
 	DialogTitle,
-	DialogFooter,
 } from "@/components/ui/dialog";
 import { PartyHat } from "@/components/ui/party-hat";
 import { UserAvatar } from "@/components/user-avatar";
+import { CalendarExportDialog } from "@/features/calendar/components/calendar-export-dialog";
 import { calculateAge, formatBirthdayDisplay } from "@/helpers/birthday-utils";
 import { useDayBookStore } from "@/store/day-book-store";
 import { type Birthday } from "@/types/birthday";
-import { CalendarIcon, GiftIcon, CalendarPlus } from "lucide-react";
+import { CalendarIcon, CalendarPlus, GiftIcon } from "lucide-react";
 import { useMemo, useState } from "react";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { CalendarExportDialog } from "@/features/calendar/components/calendar-export-dialog";
 
 interface CelebrantModalProps {
 	celebrant: Birthday | null;
@@ -47,10 +47,10 @@ export function CelebrantModal({ celebrant, isOpen, onClose, currentDate }: Cele
 	return (
 		<>
 			<Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-				<DialogContent className="border-border/50 bg-background/90 rounded-2xl shadow-2xl backdrop-blur-md sm:max-w-md">
+				<DialogContent className="border-border/50 bg-background/90 rounded-2xl shadow-2xl sm:max-w-md">
 					<DialogHeader className="flex flex-col items-center space-y-3 py-6 text-center">
 						<div className="relative">
-							<div className="absolute inset-0 rounded-full bg-blue-500/20 blur-2xl" />
+							<div className="bg-[radial-gradient(circle_at_center,var(--color-blue-500),transparent_70%)]/30 absolute -inset-4 rounded-full" />
 
 							<div className="absolute -top-9 right-0 z-20 h-14 w-14 rotate-12 drop-shadow-md">
 								<PartyHat className="h-full w-full" />

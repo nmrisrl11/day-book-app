@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import {
 	Select,
 	SelectContent,
@@ -11,15 +10,9 @@ import {
 import { FULL_MONTHS } from "@/constants/months";
 import { useDayBookStore } from "@/store/day-book-store";
 import type { Birthday } from "@/types/birthday";
-import {
-	ChevronLeftIcon,
-	ChevronRightIcon,
-	MoreHorizontalIcon,
-	PlusIcon,
-	SearchIcon,
-} from "lucide-react";
+import { ChevronLeftIcon, ChevronRightIcon, PlusIcon, SearchIcon } from "lucide-react";
+import { parseAsInteger, parseAsString, parseAsStringLiteral, useQueryState } from "nuqs";
 import { lazy, Suspense, useCallback, useEffect, useMemo, useState } from "react";
-import { useQueryState, parseAsString, parseAsInteger } from "nuqs";
 import { BirthdayListItem } from "./components/birthday-list-item";
 
 const BirthdayFormModal = lazy(() =>
@@ -48,12 +41,54 @@ export function BirthdayManagementScreen() {
 	const [exportModalOpen, setExportModalOpen] = useState(false);
 	const [exportingBirthday, setExportingBirthday] = useState<Birthday | null>(null);
 
+	const MONTH_OPTIONS = [
+		"all",
+		"1",
+		"2",
+		"3",
+		"4",
+		"5",
+		"6",
+		"7",
+		"8",
+		"9",
+		"10",
+		"11",
+		"12",
+	] as const;
+	const SORT_OPTIONS = ["upcoming", "name-asc", "name-desc", "date-asc", "date-desc"] as const;
+	const PER_PAGE_OPTIONS = ["10", "20", "50", "100", "all"] as const;
+
 	const [searchQuery, setSearchQuery] = useQueryState("q", parseAsString.withDefault(""));
-	const [monthFilter, setMonthFilter] = useQueryState("month", parseAsString.withDefault("all"));
-	const [sortOption, setSortOption] = useQueryState("sort", parseAsString.withDefault("upcoming"));
+	const [monthFilter, setMonthFilter] = useQueryState(
+		"month",
+		parseAsStringLiteral(MONTH_OPTIONS).withDefault("all"),
+	);
+	const [sortOption, setSortOption] = useQueryState(
+		"sort",
+		parseAsStringLiteral(SORT_OPTIONS).withDefault("upcoming"),
+	);
 
 	const [currentPage, setCurrentPage] = useQueryState("page", parseAsInteger.withDefault(1));
-	const [itemsPerPage, setItemsPerPage] = useQueryState("perPage", parseAsString.withDefault("10"));
+	const [itemsPerPage, setItemsPerPage] = useQueryState(
+		"perPage",
+		parseAsStringLiteral(PER_PAGE_OPTIONS).withDefault("10"),
+	);
+
+	const [localSearch, setLocalSearch] = useState(searchQuery);
+
+	useEffect(() => {
+		setLocalSearch(searchQuery);
+	}, [searchQuery]);
+
+	useEffect(() => {
+		const timeout = setTimeout(() => {
+			if (localSearch !== searchQuery) {
+				setSearchQuery(localSearch);
+			}
+		}, 300);
+		return () => clearTimeout(timeout);
+	}, [localSearch, setSearchQuery, searchQuery]);
 
 	useEffect(() => {
 		setCurrentPage(1);
@@ -112,21 +147,23 @@ export function BirthdayManagementScreen() {
 	const totalPages =
 		itemsPerPage === "all"
 			? 1
-			: Math.ceil(filteredAndSortedBirthdays.length / parseInt(itemsPerPage, 10));
+			: Math.max(1, Math.ceil(filteredAndSortedBirthdays.length / parseInt(itemsPerPage, 10)));
+
+	const clampedPage = Math.max(1, Math.min(currentPage, totalPages));
 
 	const paginatedBirthdays = useMemo(() => {
 		if (itemsPerPage === "all") return filteredAndSortedBirthdays;
 		const size = parseInt(itemsPerPage, 10);
-		const start = (currentPage - 1) * size;
+		const start = (clampedPage - 1) * size;
 		return filteredAndSortedBirthdays.slice(start, start + size);
-	}, [filteredAndSortedBirthdays, currentPage, itemsPerPage]);
+	}, [filteredAndSortedBirthdays, clampedPage, itemsPerPage]);
 
 	const generatePageNumbers = () => {
 		if (totalPages <= 7) return Array.from({ length: totalPages }, (_, i) => i + 1);
 
-		if (currentPage <= 4) {
+		if (clampedPage <= 4) {
 			return [1, 2, 3, 4, 5, "ellipsis-1", totalPages];
-		} else if (currentPage >= totalPages - 3) {
+		} else if (clampedPage >= totalPages - 3) {
 			return [
 				1,
 				"ellipsis-1",
@@ -140,9 +177,9 @@ export function BirthdayManagementScreen() {
 			return [
 				1,
 				"ellipsis-1",
-				currentPage - 1,
-				currentPage,
-				currentPage + 1,
+				clampedPage - 1,
+				clampedPage,
+				clampedPage + 1,
 				"ellipsis-2",
 				totalPages,
 			];
@@ -208,13 +245,16 @@ export function BirthdayManagementScreen() {
 								name="search-birthdays"
 								placeholder="Search by name..."
 								className="bg-background pl-9"
-								value={searchQuery}
-								onChange={(e) => setSearchQuery(e.target.value)}
+								value={localSearch}
+								onChange={(e) => setLocalSearch(e.target.value)}
 								aria-label="Search by name"
 							/>
 						</div>
 						<div className="flex gap-2">
-							<Select value={monthFilter} onValueChange={setMonthFilter}>
+							<Select
+								value={monthFilter}
+								onValueChange={(val) => setMonthFilter(val as (typeof MONTH_OPTIONS)[number])}
+							>
 								<SelectTrigger className="bg-background w-32.5" aria-label="Filter by month">
 									<SelectValue placeholder="Month" />
 								</SelectTrigger>
@@ -227,7 +267,10 @@ export function BirthdayManagementScreen() {
 									))}
 								</SelectContent>
 							</Select>
-							<Select value={sortOption} onValueChange={setSortOption}>
+							<Select
+								value={sortOption}
+								onValueChange={(val) => setSortOption(val as (typeof SORT_OPTIONS)[number])}
+							>
 								<SelectTrigger className="bg-background w-40" aria-label="Sort birthdays">
 									<SelectValue placeholder="Sort by" />
 								</SelectTrigger>
@@ -242,7 +285,7 @@ export function BirthdayManagementScreen() {
 						</div>
 					</div>
 
-					<ScrollArea className="h-[55vh] pr-4">
+					<div className="custom-scrollbar max-h-[55vh] overflow-y-auto pr-4">
 						{filteredAndSortedBirthdays.length === 0 ? (
 							<div className="text-muted-foreground py-12 text-center italic">
 								No birthdays found matching your criteria.
@@ -260,13 +303,16 @@ export function BirthdayManagementScreen() {
 								))}
 							</div>
 						)}
-					</ScrollArea>
+					</div>
 
 					{filteredAndSortedBirthdays.length > 0 && (
 						<div className="mt-2 flex flex-col items-center justify-between gap-4 sm:flex-row">
 							<div className="text-muted-foreground flex items-center gap-2 text-sm">
 								<span>Show</span>
-								<Select value={itemsPerPage} onValueChange={setItemsPerPage}>
+								<Select
+									value={itemsPerPage}
+									onValueChange={(val) => setItemsPerPage(val as (typeof PER_PAGE_OPTIONS)[number])}
+								>
 									<SelectTrigger className="h-8 w-17.5">
 										<SelectValue placeholder="10" />
 									</SelectTrigger>
@@ -283,31 +329,33 @@ export function BirthdayManagementScreen() {
 							{itemsPerPage !== "all" && totalPages > 1 && (
 								<div className="flex items-center gap-1">
 									<Button
-										variant="ghost"
+										variant="outline"
 										size="icon"
 										className="h-8 w-8"
-										onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-										disabled={currentPage === 1}
+										onClick={() => setCurrentPage(clampedPage - 1)}
+										disabled={clampedPage <= 1}
 										aria-label="Previous page"
 									>
 										<ChevronLeftIcon className="h-4 w-4" />
 									</Button>
 
-									{generatePageNumbers().map((page, idx) => {
-										if (typeof page === "string" && page.startsWith("ellipsis")) {
+									{generatePageNumbers().map((page, index) => {
+										if (typeof page === "string") {
 											return (
-												<div key={page} className="flex h-8 w-8 items-center justify-center">
-													<MoreHorizontalIcon className="text-muted-foreground h-4 w-4" />
-												</div>
+												<span key={page} className="text-muted-foreground px-2">
+													...
+												</span>
 											);
 										}
 										return (
 											<Button
-												key={idx}
-												variant={currentPage === page ? "default" : "ghost"}
+												key={index}
+												variant={clampedPage === page ? "default" : "ghost"}
 												size="icon"
-												className="h-8 w-8"
-												onClick={() => setCurrentPage(page as number)}
+												className="h-8 w-8 text-sm"
+												onClick={() => setCurrentPage(page)}
+												aria-label={`Go to page ${page}`}
+												aria-current={clampedPage === page ? "page" : undefined}
 											>
 												{page}
 											</Button>
@@ -315,11 +363,11 @@ export function BirthdayManagementScreen() {
 									})}
 
 									<Button
-										variant="ghost"
+										variant="outline"
 										size="icon"
 										className="h-8 w-8"
-										onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-										disabled={currentPage === totalPages}
+										onClick={() => setCurrentPage(clampedPage + 1)}
+										disabled={clampedPage >= totalPages}
 										aria-label="Next page"
 									>
 										<ChevronRightIcon className="h-4 w-4" />

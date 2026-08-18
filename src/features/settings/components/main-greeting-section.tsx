@@ -13,6 +13,43 @@ import { cn } from "@/lib/utils";
 import { defaultSettings, useDayBookStore } from "@/store/day-book-store";
 import type { GreetingTextColorType } from "@/types/settings";
 import { RestoreDefaultsButton } from "./restore-defaults-button";
+import { useState, useEffect } from "react";
+
+function DebouncedColorPicker({
+	value,
+	onChange,
+	id,
+}: {
+	value: string;
+	onChange: (val: string) => void;
+	id?: string;
+}) {
+	const [localValue, setLocalValue] = useState(value);
+
+	useEffect(() => {
+		setLocalValue(value);
+	}, [value]);
+
+	useEffect(() => {
+		const timeout = setTimeout(() => {
+			if (localValue !== value) {
+				onChange(localValue);
+			}
+		}, 50); // 50ms debounce
+		return () => clearTimeout(timeout);
+	}, [localValue, onChange, value]);
+
+	return (
+		<input
+			type="color"
+			value={localValue}
+			onChange={(e) => setLocalValue(e.target.value)}
+			className="h-16 w-16 -translate-x-3 -translate-y-3 cursor-pointer"
+			id={id}
+			aria-label="Color picker"
+		/>
+	);
+}
 
 export function MainGreetingSection() {
 	const { settings, updateSettings } = useDayBookStore();
@@ -159,12 +196,9 @@ export function MainGreetingSection() {
 					{greetingSettings.type === "solid" ? (
 						<div className="flex items-center gap-3">
 							<div className="h-10 w-10 overflow-hidden rounded-md border shadow-sm">
-								<input
-									type="color"
+								<DebouncedColorPicker
 									value={greetingSettings.solidColor}
-									onChange={(e) => updateGreeting({ solidColor: e.target.value })}
-									className="h-16 w-16 -translate-x-3 -translate-y-3 cursor-pointer"
-									aria-label="Solid greeting color"
+									onChange={(val) => updateGreeting({ solidColor: val })}
 								/>
 							</div>
 							<span className="text-muted-foreground text-sm uppercase">
@@ -179,11 +213,9 @@ export function MainGreetingSection() {
 								</Label>
 								<div className="flex items-center gap-3">
 									<div className="h-10 w-10 overflow-hidden rounded-md border shadow-sm">
-										<input
-											type="color"
+										<DebouncedColorPicker
 											value={greetingSettings.gradient.start}
-											onChange={(e) => updateGradient({ start: e.target.value })}
-											className="h-16 w-16 -translate-x-3 -translate-y-3 cursor-pointer"
+											onChange={(val) => updateGradient({ start: val })}
 											id="start-color"
 										/>
 									</div>
@@ -198,11 +230,9 @@ export function MainGreetingSection() {
 								</Label>
 								<div className="flex items-center gap-3">
 									<div className="h-10 w-10 overflow-hidden rounded-md border shadow-sm">
-										<input
-											type="color"
+										<DebouncedColorPicker
 											value={greetingSettings.gradient.end}
-											onChange={(e) => updateGradient({ end: e.target.value })}
-											className="h-16 w-16 -translate-x-3 -translate-y-3 cursor-pointer"
+											onChange={(val) => updateGradient({ end: val })}
 											id="end-color"
 										/>
 									</div>

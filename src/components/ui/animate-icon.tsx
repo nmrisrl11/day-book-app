@@ -429,6 +429,7 @@ function AnimateIcon({
 				active: localAnimate,
 				animate,
 				initialOnAnimateEnd,
+				persistOnAnimateEnd,
 				completeOnStop,
 				delay,
 			}}
@@ -539,6 +540,7 @@ function IconWrapper<T extends string>({
 					active: parentActive,
 					animate: parentAnimate,
 					initialOnAnimateEnd: parentInitialOnAnimateEnd,
+					persistOnAnimateEnd: parentPersistOnAnimateEnd,
 					delay: parentDelay,
 					completeOnStop: parentCompleteOnStop,
 				}}
@@ -560,7 +562,13 @@ function IconWrapper<T extends string>({
 		animateOnHover !== undefined ||
 		animateOnTap !== undefined ||
 		animateOnView !== undefined ||
-		animationProp !== undefined
+		animationProp !== undefined ||
+		loop !== undefined ||
+		loopDelay !== undefined ||
+		delay !== undefined ||
+		completeOnStop !== undefined ||
+		initialOnAnimateEnd !== undefined ||
+		persistOnAnimateEnd !== undefined
 	) {
 		return (
 			<AnimateIcon
@@ -575,6 +583,8 @@ function IconWrapper<T extends string>({
 				loopDelay={loopDelay}
 				delay={delay}
 				completeOnStop={completeOnStop}
+				initialOnAnimateEnd={initialOnAnimateEnd}
+				persistOnAnimateEnd={persistOnAnimateEnd}
 				asChild
 			>
 				<IconComponent
