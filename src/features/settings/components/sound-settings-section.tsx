@@ -12,11 +12,18 @@ import { INTERACTION_TYPES, SOUND_COLORS } from "@/constants/sounds-settings";
 import { cn } from "@/lib/utils";
 import { defaultSettings, useDayBookStore } from "@/store/day-book-store";
 import { play, sounds, type SoundName } from "cuelume";
+import { useState, useEffect } from "react";
 import { RestoreDefaultsButton } from "./restore-defaults-button";
 
 export function SoundSettingsSection() {
 	const { settings, updateSettings } = useDayBookStore();
 	const soundSettings = settings.soundSettings!;
+
+	const [localVolume, setLocalVolume] = useState(soundSettings.volume);
+
+	useEffect(() => {
+		setLocalVolume(soundSettings.volume);
+	}, [soundSettings.volume]);
 
 	const handleRestore = () => {
 		updateSettings({ soundSettings: defaultSettings.soundSettings });
@@ -27,10 +34,14 @@ export function SoundSettingsSection() {
 	};
 
 	const handleVolumeChange = (value: number[]) => {
-		updateSettings({ soundSettings: { ...soundSettings, volume: value[0] } });
+		setLocalVolume(value[0]);
 		if (soundSettings.enabled) {
 			play(soundSettings.mappings.press, { volume: value[0] });
 		}
+	};
+
+	const handleVolumeCommit = (value: number[]) => {
+		updateSettings({ soundSettings: { ...soundSettings, volume: value[0] } });
 	};
 
 	const handleMappingChange = (type: keyof typeof soundSettings.mappings, sound: SoundName) => {
@@ -91,17 +102,20 @@ export function SoundSettingsSection() {
 							<div className="flex items-center justify-between">
 								<h3 className="text-base font-medium">Volume</h3>
 								<span className="text-muted-foreground text-sm">
-									{Math.round(soundSettings.volume * 100)}%
+									{Math.round(localVolume * 100)}%
 								</span>
 							</div>
 							<Slider
-								aria-labelledby="volume-label"
+								id="master-volume"
 								min={0}
 								max={1}
 								step={0.01}
-								value={[soundSettings.volume]}
+								value={[localVolume]}
 								onValueChange={handleVolumeChange}
-								className="mb-3"
+								onValueCommit={handleVolumeCommit}
+								disabled={!soundSettings.enabled}
+								className="mt-2"
+								aria-label="Master volume"
 							/>
 						</div>
 

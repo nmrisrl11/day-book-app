@@ -17,7 +17,105 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { play } from "cuelume";
 import { CameraIcon, Trash2Icon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch, type Control } from "react-hook-form";
+
+interface AvatarPreviewProps {
+	control: Control<BirthdayFormData>;
+	avatarSettings: { allowCustomUploads: boolean };
+	onAvatarClick: () => void;
+	onRemoveAvatar: (e: React.MouseEvent) => void;
+}
+
+function AvatarPreview({
+	control,
+	avatarSettings,
+	onAvatarClick,
+	onRemoveAvatar,
+}: AvatarPreviewProps) {
+	const avatar = useWatch({ control, name: "avatar" });
+	const name = useWatch({ control, name: "name" });
+	const date = useWatch({ control, name: "birthday" });
+
+	const previewBirthday: Birthday = {
+		id: "preview",
+		name: name || "DayBook",
+		birthday: date || "2000-01-01",
+		avatar: avatar,
+	};
+
+	if (avatarSettings.allowCustomUploads) {
+		return (
+			<>
+				<button
+					type="button"
+					aria-label="Change avatar"
+					className="group border-border hover:border-primary/50 focus-visible:ring-ring relative flex h-24 w-24 cursor-pointer items-center justify-center overflow-hidden rounded-full border-2 border-dashed transition-colors focus:outline-none focus-visible:ring-2"
+					onClick={onAvatarClick}
+				>
+					{avatar ? (
+						<img
+							src={avatar}
+							alt="Avatar preview"
+							title="Avatar preview"
+							className="h-full w-full object-cover"
+						/>
+					) : name?.trim().length > 0 ? (
+						<div className="h-24 w-24">
+							<UserAvatar birthday={previewBirthday} size={96} className="h-full w-full" />
+						</div>
+					) : (
+						<div className="text-muted-foreground flex flex-col items-center justify-center">
+							<CameraIcon className="h-8 w-8 opacity-50" />
+						</div>
+					)}
+
+					<div className="absolute inset-0 flex flex-col items-center justify-center bg-black/40 opacity-0 transition-opacity group-hover:opacity-100">
+						<CameraIcon className="mb-1 h-6 w-6 text-white" />
+						<span className="text-[10px] font-medium tracking-wider text-white uppercase">
+							Change
+						</span>
+					</div>
+				</button>
+
+				{avatar && (
+					<Button
+						type="button"
+						variant="ghost"
+						size="sm"
+						className="text-destructive hover:text-destructive hover:bg-destructive/10 mt-2 h-7 text-xs"
+						onClick={onRemoveAvatar}
+					>
+						<Trash2Icon className="mr-1.5 h-3 w-3" />
+						Remove
+					</Button>
+				)}
+			</>
+		);
+	}
+
+	return (
+		<div className="flex flex-col items-center justify-center">
+			<UserAvatar birthday={previewBirthday} size={96} />
+			{avatar && (
+				<Button
+					type="button"
+					variant="ghost"
+					size="sm"
+					className="text-destructive hover:text-destructive hover:bg-destructive/10 mt-2 h-7 text-xs"
+					onClick={onRemoveAvatar}
+				>
+					<Trash2Icon className="mr-1.5 h-3 w-3" />
+					Remove
+				</Button>
+			)}
+			<p className="text-muted-foreground mt-3 max-w-62.5 text-center text-xs">
+				{avatar
+					? "Custom profile image uploads are disabled. You can still remove your existing image."
+					: "Custom profile images are disabled. This generated avatar will be used instead."}
+			</p>
+		</div>
+	);
+}
 
 interface BirthdayFormModalProps {
 	open: boolean;
@@ -43,14 +141,9 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 		register,
 		handleSubmit,
 		setValue,
-		watch,
 		reset,
 		formState: { errors },
 	} = form;
-
-	const avatar = watch("avatar");
-	const name = watch("name");
-	const date = watch("birthday");
 
 	useEffect(() => {
 		if (open) {
@@ -167,16 +260,6 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 		allowCustomUploads: true,
 	};
 
-	// Create a dummy Birthday object for previewing the avatar.
-	// The preview will use the selected generated-avatar library when custom uploads are disabled,
-	// or the currently selected avatar string if it exists.
-	const previewBirthday: Birthday = {
-		id: "preview",
-		name: name || "DayBook",
-		birthday: date || "2000-01-01",
-		avatar: avatar,
-	};
-
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
 			<DialogContent>
@@ -193,85 +276,22 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 					className="flex flex-col gap-4 py-4"
 				>
 					<div className="mb-2 flex flex-col items-center justify-center">
-						{avatarSettings.allowCustomUploads ? (
-							<>
-								<button
-									type="button"
-									aria-label="Change avatar"
-									className="group border-border hover:border-primary/50 focus-visible:ring-ring relative flex h-24 w-24 cursor-pointer items-center justify-center overflow-hidden rounded-full border-2 border-dashed transition-colors focus:outline-none focus-visible:ring-2"
-									onClick={handleAvatarClick}
-								>
-									{avatar ? (
-										<img
-											src={avatar}
-											alt="Avatar preview"
-											title="Avatar preview"
-											className="h-full w-full object-cover"
-										/>
-									) : name?.trim().length > 0 ? (
-										<div className="h-24 w-24">
-											<UserAvatar birthday={previewBirthday} size={96} className="h-full w-full" />
-										</div>
-									) : (
-										<div className="text-muted-foreground flex flex-col items-center justify-center">
-											<CameraIcon className="h-8 w-8 opacity-50" />
-										</div>
-									)}
-
-									{/* Hover overlay for changing image */}
-									<div className="absolute inset-0 flex flex-col items-center justify-center bg-black/40 opacity-0 transition-opacity group-hover:opacity-100">
-										<CameraIcon className="mb-1 h-6 w-6 text-white" />
-										<span className="text-[10px] font-medium tracking-wider text-white uppercase">
-											Change
-										</span>
-									</div>
-								</button>
-
-								{avatar && (
-									<Button
-										type="button"
-										variant="ghost"
-										size="sm"
-										className="text-destructive hover:text-destructive hover:bg-destructive/10 mt-2 h-7 text-xs"
-										onClick={handleRemoveAvatar}
-									>
-										<Trash2Icon className="mr-1.5 h-3 w-3" />
-										Remove
-									</Button>
-								)}
-								<Input
-									id="avatar-upload"
-									name="avatar-upload"
-									type="file"
-									accept="image/jpeg, image/jpg, image/png"
-									className="hidden"
-									ref={fileInputRef}
-									onChange={handleFileChange}
-									aria-label="Upload Avatar"
-								/>
-							</>
-						) : (
-							<div className="flex flex-col items-center justify-center">
-								<UserAvatar birthday={previewBirthday} size={96} />
-								{avatar && (
-									<Button
-										type="button"
-										variant="ghost"
-										size="sm"
-										className="text-destructive hover:text-destructive hover:bg-destructive/10 mt-2 h-7 text-xs"
-										onClick={handleRemoveAvatar}
-									>
-										<Trash2Icon className="mr-1.5 h-3 w-3" />
-										Remove
-									</Button>
-								)}
-								<p className="text-muted-foreground mt-3 max-w-62.5 text-center text-xs">
-									{avatar
-										? "Custom profile image uploads are disabled. You can still remove your existing image."
-										: "Custom profile images are disabled. This generated avatar will be used instead."}
-								</p>
-							</div>
-						)}
+						<AvatarPreview
+							control={form.control}
+							avatarSettings={avatarSettings}
+							onAvatarClick={handleAvatarClick}
+							onRemoveAvatar={handleRemoveAvatar}
+						/>
+						<Input
+							id="avatar-upload"
+							name="avatar-upload"
+							type="file"
+							accept="image/jpeg, image/jpg, image/png"
+							className="hidden"
+							ref={fileInputRef}
+							onChange={handleFileChange}
+							aria-label="Upload Avatar"
+						/>
 					</div>
 
 					<div className="flex flex-col gap-2">
