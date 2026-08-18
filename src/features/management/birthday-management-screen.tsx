@@ -90,14 +90,21 @@ export function BirthdayManagementScreen() {
 		return () => clearTimeout(timeout);
 	}, [localSearch, setSearchQuery, searchQuery]);
 
-	const isMounted = useRef(false);
+	const prevDeps = useRef({ birthdays, searchQuery, monthFilter, sortOption, itemsPerPage });
 
 	useEffect(() => {
-		if (!isMounted.current) {
-			isMounted.current = true;
-			return;
+		const prev = prevDeps.current;
+		const hasChanged =
+			prev.birthdays !== birthdays ||
+			prev.searchQuery !== searchQuery ||
+			prev.monthFilter !== monthFilter ||
+			prev.sortOption !== sortOption ||
+			prev.itemsPerPage !== itemsPerPage;
+
+		if (hasChanged) {
+			setCurrentPage(1);
+			prevDeps.current = { birthdays, searchQuery, monthFilter, sortOption, itemsPerPage };
 		}
-		setCurrentPage(1);
 	}, [birthdays, searchQuery, monthFilter, sortOption, itemsPerPage, setCurrentPage]);
 
 	const filteredAndSortedBirthdays = useMemo(() => {

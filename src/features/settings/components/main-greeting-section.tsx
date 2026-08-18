@@ -83,14 +83,23 @@ export function MainGreetingSection() {
 	};
 
 	const updateGreeting = (updates: Partial<typeof greetingSettings>) => {
+		const currentSettings = useDayBookStore.getState().settings;
+		const currentGreetingSettings =
+			currentSettings.greetingTextSettings || defaultSettings.greetingTextSettings!;
 		updateSettings({
-			greetingTextSettings: { ...greetingSettings, ...updates },
+			greetingTextSettings: { ...currentGreetingSettings, ...updates },
 		});
 	};
 
 	const updateGradient = (updates: Partial<typeof greetingSettings.gradient>) => {
-		updateGreeting({
-			gradient: { ...greetingSettings.gradient, ...updates },
+		const currentSettings = useDayBookStore.getState().settings;
+		const currentGreetingSettings =
+			currentSettings.greetingTextSettings || defaultSettings.greetingTextSettings!;
+		updateSettings({
+			greetingTextSettings: {
+				...currentGreetingSettings,
+				gradient: { ...currentGreetingSettings.gradient, ...updates },
+			},
 		});
 	};
 

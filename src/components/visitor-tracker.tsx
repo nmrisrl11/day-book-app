@@ -21,21 +21,12 @@ export function VisitorTracker({ className }: VisitorTrackerProps) {
 	useEffect(() => {
 		const fetchStats = async () => {
 			try {
-				// Check if this is the user's first time visiting (unique visitor logic)
-				const hasVisited = localStorage.getItem("daybook_has_visited");
-				const trackQuery = !hasVisited ? "?track=1" : "";
-
-				const res = await fetch(`/api/visitors${trackQuery}`);
+				const res = await fetch("/api/visitors");
 				if (res.ok) {
 					const data = await res.json();
 					setStats({
 						total: data.total || 0,
 					});
-
-					//! Mark the user as having visited so the app don't count them again on reload
-					if (!hasVisited) {
-						localStorage.setItem("daybook_has_visited", "true");
-					}
 				}
 			} catch (err) {
 				// Silently fail if API is unavailable

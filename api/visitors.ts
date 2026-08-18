@@ -15,16 +15,25 @@ export default async function handler(req: Request) {
 	}
 
 	try {
-		const url = new URL(req.url);
-		const shouldTrack = url.searchParams.get("track") === "1";
+		// Get client IP for server-enforced unique identity and bot mitigation
+		const ip = req.headers.get("x-forwarded-for") || "unknown";
+
+		// Atomic check-and-set: Lock this IP for 24 hours (86400 seconds)
+		const lockRes = await fetch(`${REDIS_URL}/set/daybook_visit_${ip}/1/EX/86400/NX`, {
+			headers: { Authorization: `Bearer ${REDIS_TOKEN}` },
+		});
+		const lockData = await lockRes.json();
+		const isNewVisit = lockData?.result === "OK";
+
 		let totalVisitors = 0;
 
-		if (shouldTrack) {
+		if (isNewVisit) {
 			// Increment the total visitors counter by 1
 			const res = await fetch(`${REDIS_URL}/incr/daybook_visitors_total`, {
 				headers: { Authorization: `Bearer ${REDIS_TOKEN}` },
 			});
-			totalVisitors = await res.json();
+			const data = await res.json();
+			totalVisitors = data?.result ? parseInt(data.result, 10) : 0;
 		} else {
 			// Just fetch the current count without incrementing
 			const res = await fetch(`${REDIS_URL}/get/daybook_visitors_total`, {

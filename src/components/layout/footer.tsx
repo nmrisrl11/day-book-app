@@ -2,7 +2,7 @@ import { GithubIcon } from "@/components/icons/github-icon";
 import { AnimateIcon } from "@/components/ui/animate-icon";
 import { BotIcon } from "@/components/ui/animated-icons/bot-icon";
 import { Button } from "@/components/ui/button";
-import { VisitorTracker } from "@/components/ui/visitor-tracker";
+import { VisitorTracker } from "@/components/visitor-tracker";
 
 export function Footer() {
 	return (
