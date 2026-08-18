@@ -10,7 +10,7 @@ import {
 import { FULL_MONTHS } from "@/constants/months";
 import { useDayBookStore } from "@/store/day-book-store";
 import type { Birthday } from "@/types/birthday";
-import { ChevronLeftIcon, ChevronRightIcon, PlusIcon, SearchIcon } from "lucide-react";
+import { ChevronLeftIcon, ChevronRightIcon, FilterXIcon, PlusIcon, SearchIcon } from "lucide-react";
 import { parseAsInteger, parseAsString, parseAsStringLiteral, useQueryState } from "nuqs";
 import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { BirthdayListItem } from "./components/birthday-list-item";
@@ -89,6 +89,21 @@ export function BirthdayManagementScreen() {
 		}, 300);
 		return () => clearTimeout(timeout);
 	}, [localSearch, setSearchQuery, searchQuery]);
+
+	const isFiltersActive =
+		searchQuery !== "" ||
+		monthFilter !== "all" ||
+		sortOption !== "upcoming" ||
+		itemsPerPage !== "10";
+
+	const handleClearFilters = () => {
+		setLocalSearch("");
+		setSearchQuery("");
+		setMonthFilter("all");
+		setSortOption("upcoming");
+		setItemsPerPage("10");
+		setCurrentPage(1);
+	};
 
 	const prevDeps = useRef({ birthdays, searchQuery, monthFilter, sortOption, itemsPerPage });
 
@@ -263,7 +278,7 @@ export function BirthdayManagementScreen() {
 								aria-label="Search by name"
 							/>
 						</div>
-						<div className="flex gap-2">
+						<div className="flex flex-wrap items-center gap-2">
 							<Select
 								value={monthFilter}
 								onValueChange={(val) => setMonthFilter(val as (typeof MONTH_OPTIONS)[number])}
@@ -295,6 +310,19 @@ export function BirthdayManagementScreen() {
 									<SelectItem value="date-desc">Youngest to Oldest</SelectItem>
 								</SelectContent>
 							</Select>
+
+							{isFiltersActive && (
+								<Button
+									variant="ghost"
+									size="icon"
+									className="text-muted-foreground hover:bg-destructive/10 hover:text-destructive shrink-0"
+									onClick={handleClearFilters}
+									aria-label="Clear all filters"
+									title="Clear all filters"
+								>
+									<FilterXIcon className="h-4 w-4" />
+								</Button>
+							)}
 						</div>
 					</div>
 

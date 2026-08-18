@@ -1,104 +1,91 @@
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { cn } from "@/lib/utils";
-import { defaultSettings, useDayBookStore } from "@/store/day-book-store";
-import { CheckIcon, Edit2Icon, PlusIcon, Trash2Icon, XIcon } from "lucide-react";
-import { useState } from "react";
 import { Kbd } from "@/components/ui/kbd";
+import { defaultSettings, useDayBookStore } from "@/store/day-book-store";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { PlusIcon, Trash2Icon } from "lucide-react";
+import { useEffect, useRef } from "react";
+import { useFieldArray, useForm } from "react-hook-form";
+import { z } from "zod";
 import { RestoreDefaultsButton } from "./restore-defaults-button";
+
+const floatingMessagesSchema = z.object({
+	messages: z
+		.array(
+			z.object({
+				text: z
+					.string()
+					.min(2, "Must be at least 2 characters.")
+					.max(50, "Cannot exceed 50 characters."),
+			}),
+		)
+		.max(10, "Maximum of 10 messages reached."),
+});
+
+type FloatingMessagesFormValues = z.infer<typeof floatingMessagesSchema>;
 
 export function FloatingMessagesManager() {
 	const { settings, updateSettings } = useDayBookStore();
-	const messages = settings.floatingMessages || [];
-	const [newMessage, setNewMessage] = useState("");
-	const [error, setError] = useState("");
+	const initialMessages = settings.floatingMessages || [];
 
-	const [editingIndex, setEditingIndex] = useState<number | null>(null);
-	const [editText, setEditText] = useState("");
+	const {
+		register,
+		control,
+		reset,
+		watch,
+		formState: { errors },
+	} = useForm<FloatingMessagesFormValues>({
+		resolver: zodResolver(floatingMessagesSchema),
+		defaultValues: {
+			messages: initialMessages.map((text) => ({ text })),
+		},
+		mode: "onChange",
+	});
+
+	const { fields, append, remove } = useFieldArray({
+		control,
+		name: "messages",
+	});
+
+	const isInitialMount = useRef(true);
+
+	useEffect(() => {
+		const subscription = watch((value) => {
+			if (isInitialMount.current) {
+				isInitialMount.current = false;
+				return;
+			}
+
+			if (value.messages) {
+				const parsed = floatingMessagesSchema.safeParse(value);
+				if (parsed.success) {
+					const newMessages = parsed.data.messages.map((m) => m.text);
+					const currentMessages = useDayBookStore.getState().settings.floatingMessages || [];
+					if (JSON.stringify(newMessages) !== JSON.stringify(currentMessages)) {
+						updateSettings({ floatingMessages: newMessages });
+					}
+				}
+			}
+		});
+		return () => subscription.unsubscribe();
+	}, [watch, updateSettings]);
 
 	const handleAdd = () => {
-		const trimmed = newMessage.trim();
-		if (trimmed.length < 2) {
-			setError("Message must be at least 2 characters.");
-			return;
+		if (fields.length < 10) {
+			append({ text: "" });
 		}
-		if (trimmed.length > 50) {
-			setError("Message cannot exceed 50 characters.");
-			return;
-		}
-		if (messages.includes(trimmed)) {
-			setError("This message already exists.");
-			return;
-		}
-		if (messages.length >= 10) {
-			setError("Maximum of 10 messages reached.");
-			return;
-		}
-
-		updateSettings({ floatingMessages: [...messages, trimmed] });
-		setNewMessage("");
-		setError("");
-	};
-
-	const handleDelete = (index: number) => {
-		setEditingIndex(null);
-		setEditText("");
-		const newMessages = messages.filter((_, i) => i !== index);
-		updateSettings({ floatingMessages: newMessages });
-		setError("");
 	};
 
 	const handleClearAll = () => {
+		reset({ messages: [] });
 		updateSettings({ floatingMessages: [] });
-		setError("");
-		setEditingIndex(null);
-	};
-
-	const startEdit = (index: number, currentText: string) => {
-		setEditingIndex(index);
-		setEditText(currentText);
-		setError("");
-	};
-
-	const cancelEdit = () => {
-		setEditingIndex(null);
-		setEditText("");
-		setError("");
-	};
-
-	const saveEdit = (index: number) => {
-		const trimmed = editText.trim();
-		if (trimmed.length < 2) {
-			setError("Message must be at least 2 characters.");
-			return;
-		}
-		if (trimmed.length > 50) {
-			setError("Message cannot exceed 50 characters.");
-			return;
-		}
-		// If it's the exact same text, just cancel edit
-		if (trimmed === messages[index]) {
-			cancelEdit();
-			return;
-		}
-		if (messages.some((msg, i) => i !== index && msg === trimmed)) {
-			setError("This message already exists.");
-			return;
-		}
-
-		const newMessages = [...messages];
-		newMessages[index] = trimmed;
-		updateSettings({ floatingMessages: newMessages });
-		cancelEdit();
 	};
 
 	const handleRestoreDefaults = () => {
 		if (defaultSettings.floatingMessages) {
+			const defaults = defaultSettings.floatingMessages.map((text) => ({ text }));
+			reset({ messages: defaults });
 			updateSettings({ floatingMessages: defaultSettings.floatingMessages });
-			setError("");
-			setEditingIndex(null);
 		}
 	};
 
@@ -117,7 +104,7 @@ export function FloatingMessagesManager() {
 							size="sm"
 							className="text-destructive hover:bg-destructive/10 hover:text-destructive h-8 text-xs"
 							onClick={handleClearAll}
-							disabled={messages.length === 0}
+							disabled={fields.length === 0}
 							aria-label="Clear all floating messages"
 						>
 							<Trash2Icon className="h-3 w-3 sm:mr-1.5" />
@@ -133,113 +120,61 @@ export function FloatingMessagesManager() {
 			</div>
 
 			<div className="flex flex-wrap gap-1.5">
-				{messages.map((msg, index) => (
-					<div key={index} className="flex items-center">
-						{editingIndex === index ? (
-							<div className="border-primary/50 bg-background focus-within:ring-ring flex items-center gap-1 rounded-full border py-1 pr-1 pl-3 shadow-sm transition-all focus-within:ring-2">
-								<Input
-									autoFocus
-									maxLength={50}
-									id={`edit-floating-msg-${index}`}
-									className="h-6 w-32 border-0 bg-transparent px-0 py-0 text-sm shadow-none focus-visible:ring-0"
-									value={editText}
-									onChange={(e) => setEditText(e.target.value)}
-									onKeyDown={(e) => {
-										if (e.key === "Enter") saveEdit(index);
-										if (e.key === "Escape") cancelEdit();
-									}}
-								/>
-								<div className="flex shrink-0">
-									<Button
-										size="icon"
-										variant="ghost"
-										className="h-6 w-6 rounded-full text-green-600 hover:bg-green-100/50 hover:text-green-700 dark:hover:bg-green-900/30"
-										onClick={() => saveEdit(index)}
-										aria-label="Save"
-									>
-										<CheckIcon className="h-3.5 w-3.5" />
-									</Button>
-									<Button
-										size="icon"
-										variant="ghost"
-										className="text-muted-foreground h-6 w-6 rounded-full"
-										onClick={cancelEdit}
-										aria-label="Cancel"
-									>
-										<XIcon className="h-3.5 w-3.5" />
-									</Button>
-								</div>
-							</div>
-						) : (
-							<Badge
-								variant="secondary"
-								className="bg-secondary/80 hover:bg-secondary h-8 gap-1 py-1 pr-1 pl-3 text-sm"
+				{fields.map((field, index) => (
+					<div key={field.id} className="flex flex-col gap-1">
+						<div className="relative">
+							<Input
+								{...register(`messages.${index}.text`)}
+								className="peer field-sizing-content h-9 rounded-full pe-9"
+								placeholder="Enter a message"
+								maxLength={50}
+								autoComplete="off"
+							/>
+
+							<Button
+								size="icon"
+								variant="ghost"
+								className="hover:bg-destructive/20 hover:text-destructive absolute inset-y-0 inset-e-1 my-auto h-7 w-7 rounded-full"
+								onClick={() => remove(index)}
+								aria-label="Delete message"
 							>
-								<span>{msg}</span>
-								<div className="ml-1 flex shrink-0">
-									<Button
-										size="icon"
-										variant="ghost"
-										className="h-6 w-6 rounded-full hover:bg-black/10 dark:hover:bg-white/10"
-										onClick={() => startEdit(index, msg)}
-										aria-label={`Edit floating message: ${msg.substring(0, 20)}`}
-									>
-										<Edit2Icon className="h-3 w-3" />
-									</Button>
-									<Button
-										size="icon"
-										variant="ghost"
-										className={cn(
-											"hover:bg-destructive/20 hover:text-destructive h-6 w-6 rounded-full",
-											messages.length <= 1 && "cursor-not-allowed opacity-50",
-										)}
-										onClick={() => handleDelete(index)}
-										disabled={messages.length <= 1}
-										aria-label={`Delete floating message: ${msg.substring(0, 20)}`}
-									>
-										<Trash2Icon className="h-3 w-3" />
-									</Button>
-								</div>
-							</Badge>
+								<Trash2Icon aria-hidden="true" className="h-3 w-3" />
+							</Button>
+						</div>
+						{errors.messages?.[index]?.text && (
+							<span className="text-destructive max-w-55 pl-2 text-[10px]">
+								{errors.messages[index]?.text?.message}
+							</span>
 						)}
 					</div>
 				))}
+				{fields.length === 0 && (
+					<div className="text-muted-foreground py-2 text-sm italic">
+						No floating messages added.
+					</div>
+				)}
 			</div>
 
 			<div className="flex flex-col gap-3 border-t pt-3">
-				{messages.length < 10 ? (
+				{fields.length < 10 ? (
 					<div className="flex flex-col gap-3">
-						<Label htmlFor="new-floating-message" className="text-sm font-medium">
+						<Button
+							onClick={handleAdd}
+							size="sm"
+							className="w-fit"
+							aria-label="Add floating message"
+						>
+							<PlusIcon className="mr-1 h-4 w-4" />
 							Add New Message
-						</Label>
-						<div className="flex items-center gap-3">
-							<Input
-								id="new-floating-message"
-								maxLength={50}
-								placeholder="Add a new message... (min 2, max 50 chars)"
-								value={newMessage}
-								onChange={(e) => {
-									setNewMessage(e.target.value);
-									if (error) setError("");
-								}}
-								onKeyDown={(e) => {
-									if (e.key === "Enter") handleAdd();
-								}}
-								className="max-w-sm"
-							/>
-							<Button onClick={handleAdd} size="sm" aria-label="Add floating message">
-								<PlusIcon className="mr-1 h-4 w-4" />
-								Add
-							</Button>
-						</div>
+						</Button>
 					</div>
 				) : (
 					<p className="text-sm font-medium text-amber-600">Maximum of 10 messages reached.</p>
 				)}
 
-				{error && (
+				{errors.messages?.root && (
 					<p className="text-destructive text-sm font-medium" role="alert">
-						{error}
+						{errors.messages.root.message}
 					</p>
 				)}
 			</div>
