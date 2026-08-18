@@ -12,7 +12,7 @@ import { useDayBookStore } from "@/store/day-book-store";
 import type { Birthday } from "@/types/birthday";
 import { ChevronLeftIcon, ChevronRightIcon, PlusIcon, SearchIcon } from "lucide-react";
 import { parseAsInteger, parseAsString, parseAsStringLiteral, useQueryState } from "nuqs";
-import { lazy, Suspense, useCallback, useEffect, useMemo, useState } from "react";
+import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { BirthdayListItem } from "./components/birthday-list-item";
 
 const BirthdayFormModal = lazy(() =>
@@ -90,9 +90,15 @@ export function BirthdayManagementScreen() {
 		return () => clearTimeout(timeout);
 	}, [localSearch, setSearchQuery, searchQuery]);
 
+	const isMounted = useRef(false);
+
 	useEffect(() => {
+		if (!isMounted.current) {
+			isMounted.current = true;
+			return;
+		}
 		setCurrentPage(1);
-	}, [birthdays, searchQuery, monthFilter, sortOption, itemsPerPage]);
+	}, [birthdays, searchQuery, monthFilter, sortOption, itemsPerPage, setCurrentPage]);
 
 	const filteredAndSortedBirthdays = useMemo(() => {
 		let result = [...birthdays];
@@ -320,6 +326,7 @@ export function BirthdayManagementScreen() {
 										<SelectItem value="10">10</SelectItem>
 										<SelectItem value="20">20</SelectItem>
 										<SelectItem value="50">50</SelectItem>
+										<SelectItem value="100">100</SelectItem>
 										<SelectItem value="all">All</SelectItem>
 									</SelectContent>
 								</Select>

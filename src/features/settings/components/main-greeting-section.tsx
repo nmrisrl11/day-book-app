@@ -12,8 +12,8 @@ import { MAIN_GREETINGS, MAIN_GREETING_FONTS } from "@/constants/main-greeting";
 import { cn } from "@/lib/utils";
 import { defaultSettings, useDayBookStore } from "@/store/day-book-store";
 import type { GreetingTextColorType } from "@/types/settings";
+import { useEffect, useRef, useState } from "react";
 import { RestoreDefaultsButton } from "./restore-defaults-button";
-import { useState, useEffect } from "react";
 
 function DebouncedColorPicker({
 	value,
@@ -25,6 +25,15 @@ function DebouncedColorPicker({
 	id?: string;
 }) {
 	const [localValue, setLocalValue] = useState(value);
+	const onChangeRef = useRef(onChange);
+	const localValueRef = useRef(localValue);
+	const valueRef = useRef(value);
+
+	useEffect(() => {
+		onChangeRef.current = onChange;
+		localValueRef.current = localValue;
+		valueRef.current = value;
+	}, [onChange, localValue, value]);
 
 	useEffect(() => {
 		setLocalValue(value);
@@ -39,14 +48,28 @@ function DebouncedColorPicker({
 		return () => clearTimeout(timeout);
 	}, [localValue, onChange, value]);
 
+	// Flush dirty value on unmount
+	useEffect(() => {
+		return () => {
+			if (localValueRef.current !== valueRef.current) {
+				onChangeRef.current(localValueRef.current);
+			}
+		};
+	}, []);
+
 	return (
 		<input
 			type="color"
 			value={localValue}
 			onChange={(e) => setLocalValue(e.target.value)}
+			onBlur={() => {
+				if (localValue !== value) {
+					onChange(localValue);
+				}
+			}}
 			className="h-16 w-16 -translate-x-3 -translate-y-3 cursor-pointer"
 			id={id}
-			aria-label="Color picker"
+			aria-label={id ? undefined : "Color picker"}
 		/>
 	);
 }
