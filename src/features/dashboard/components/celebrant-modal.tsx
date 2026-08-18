@@ -13,9 +13,9 @@ import { useDayBookStore } from "@/store/day-book-store";
 import { type Birthday } from "@/types/birthday";
 import { CalendarIcon, GiftIcon, CalendarPlus } from "lucide-react";
 import { useMemo, useState } from "react";
-import { Badge } from "../ui/badge";
-import { Button } from "../ui/button";
-import { CalendarExportDialog } from "@/components/calendar/calendar-export-dialog";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { CalendarExportDialog } from "@/features/calendar/components/calendar-export-dialog";
 
 interface CelebrantModalProps {
 	celebrant: Birthday | null;

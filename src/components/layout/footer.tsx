@@ -1,4 +1,6 @@
 import { GithubIcon } from "@/components/icons/github-icon";
+import { BotIcon } from "@/components/ui/animated-icons/bot-icon";
+import { AnimateIcon } from "@/components/ui/animate-icon";
 import { Button } from "@/components/ui/button";
 
 export function Footer() {
@@ -21,15 +23,17 @@ export function Footer() {
 
 				<span className="text-[0.8rem]">
 					Developed by:
-					<a
-						href="https://www.nmrisrl.dev/"
-						target="_blank"
-						rel="noopener noreferrer"
-						title="Visit Developer's Website"
-						className="ml-1 font-medium transition-colors hover:text-slate-800 dark:hover:text-slate-200"
-					>
-						Nomer with ☕
-					</a>
+					<AnimateIcon animateOnHover asChild>
+						<a
+							href="https://www.nmrisrl.dev/"
+							target="_blank"
+							rel="noopener noreferrer"
+							title="Visit Developer's Website"
+							className="ml-1 inline-flex items-center font-medium transition-colors hover:text-slate-800 dark:hover:text-slate-200"
+						>
+							Nomer with <BotIcon className="ml-1 h-4 w-4" />
+						</a>
+					</AnimateIcon>
 				</span>
 			</div>
 		</footer>

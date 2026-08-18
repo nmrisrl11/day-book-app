@@ -1,5 +1,8 @@
 import type { Birthday } from "@/types/birthday";
 import { SettingsSchema } from "@/schema/settings-schema";
+import type { z } from "zod";
+
+type SettingsState = z.infer<typeof SettingsSchema>;
 
 export function exportBirthdays(birthdays: Birthday[]) {
 	const dataStr = JSON.stringify(birthdays, null, 2);
@@ -68,7 +71,7 @@ export function parseImportedBirthdays(fileText: string): Birthday[] {
 	}
 }
 
-export function exportSettings(settings: any) {
+export function exportSettings(settings: SettingsState) {
 	const dataStr = JSON.stringify(settings, null, 2);
 	const blob = new Blob([dataStr], { type: "application/json" });
 	const url = URL.createObjectURL(blob);
@@ -82,7 +85,7 @@ export function exportSettings(settings: any) {
 	URL.revokeObjectURL(url);
 }
 
-export function parseImportedSettings(fileText: string): any {
+export function parseImportedSettings(fileText: string): SettingsState {
 	try {
 		const parsed = JSON.parse(fileText);
 		if (typeof parsed !== "object" || parsed === null || Array.isArray(parsed)) {

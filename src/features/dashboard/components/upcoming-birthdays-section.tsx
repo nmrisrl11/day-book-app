@@ -28,12 +28,14 @@ export function UpcomingBirthdaysSection({
 
 				<div
 					className={cn(
-						"overflow-x-auto scrollbar-none [&::-webkit-scrollbar]:hidden",
+						"scrollbar-none overflow-x-auto [&::-webkit-scrollbar]:hidden",
 						isDragging ? "cursor-grabbing" : "cursor-grab",
 					)}
-					{...handlers}
 				>
-					<div className="flex w-max snap-x snap-mandatory space-x-4 p-4 pt-10 pb-6 select-none">
+					<div
+						className="flex w-max snap-x snap-mandatory space-x-4 p-4 pt-10 pb-6 select-none"
+						{...handlers}
+					>
 						{displayedBirthdays.map((celebrant) => (
 							<UpcomingBirthdayCard
 								key={celebrant.id}

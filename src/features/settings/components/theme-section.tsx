@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { useDayBookStore } from "@/store/day-book-store";
 import { MoonIcon, SunIcon } from "lucide-react";
-import { Kbd } from "../ui/kbd";
+import { Kbd } from "@/components/ui/kbd";
 
 export function ThemeSection() {
 	const { settings, updateSettings } = useDayBookStore();

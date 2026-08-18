@@ -19,16 +19,21 @@ import {
 	SearchIcon,
 } from "lucide-react";
 import { lazy, Suspense, useCallback, useEffect, useMemo, useState } from "react";
-import { BirthdayListItem } from "./birthday-list-item";
+import { useQueryState, parseAsString, parseAsInteger } from "nuqs";
+import { BirthdayListItem } from "./components/birthday-list-item";
 
 const BirthdayFormModal = lazy(() =>
-	import("./birthday-form-modal").then((m) => ({ default: m.BirthdayFormModal })),
+	import("./components/birthday-form-modal").then((m) => ({ default: m.BirthdayFormModal })),
 );
 const DeleteConfirmationModal = lazy(() =>
-	import("./delete-confirmation-modal").then((m) => ({ default: m.DeleteConfirmationModal })),
+	import("./components/delete-confirmation-modal").then((m) => ({
+		default: m.DeleteConfirmationModal,
+	})),
 );
 const CalendarExportDialog = lazy(() =>
-	import("@/components/calendar/calendar-export-dialog").then((m) => ({ default: m.CalendarExportDialog })),
+	import("@/features/calendar/components/calendar-export-dialog").then((m) => ({
+		default: m.CalendarExportDialog,
+	})),
 );
 
 export function BirthdayManagementScreen() {
@@ -43,12 +48,12 @@ export function BirthdayManagementScreen() {
 	const [exportModalOpen, setExportModalOpen] = useState(false);
 	const [exportingBirthday, setExportingBirthday] = useState<Birthday | null>(null);
 
-	const [searchQuery, setSearchQuery] = useState("");
-	const [monthFilter, setMonthFilter] = useState("all");
-	const [sortOption, setSortOption] = useState("upcoming");
+	const [searchQuery, setSearchQuery] = useQueryState("q", parseAsString.withDefault(""));
+	const [monthFilter, setMonthFilter] = useQueryState("month", parseAsString.withDefault("all"));
+	const [sortOption, setSortOption] = useQueryState("sort", parseAsString.withDefault("upcoming"));
 
-	const [currentPage, setCurrentPage] = useState(1);
-	const [itemsPerPage, setItemsPerPage] = useState("10");
+	const [currentPage, setCurrentPage] = useQueryState("page", parseAsInteger.withDefault(1));
+	const [itemsPerPage, setItemsPerPage] = useQueryState("perPage", parseAsString.withDefault("10"));
 
 	useEffect(() => {
 		setCurrentPage(1);

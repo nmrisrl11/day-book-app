@@ -17,7 +17,6 @@ export const BirthdayListItem = memo(function BirthdayListItem({
 	onDelete,
 	onExport,
 }: BirthdayListItemProps) {
-
 	// Parse the birthday string to display it nicely
 	const [year, month, day] = birthday.birthday.split("-");
 	const displayDate = new Date(Number(year), Number(month) - 1, Number(day)).toLocaleDateString(
@@ -65,7 +64,6 @@ export const BirthdayListItem = memo(function BirthdayListItem({
 					</Button>
 				</div>
 			</div>
-
 		</>
 	);
 });
