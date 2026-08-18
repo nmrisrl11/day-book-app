@@ -1,5 +1,5 @@
-import { CalendarExportDialog } from "@/components/calendar/calendar-export-dialog";
-import { CalendarImportDialog } from "@/components/calendar/calendar-import-dialog";
+import { CalendarExportDialog } from "@/features/calendar/components/calendar-export-dialog";
+import { CalendarImportDialog } from "@/features/calendar/components/calendar-import-dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { parseIcsForBirthdays } from "@/helpers/calendar-import";

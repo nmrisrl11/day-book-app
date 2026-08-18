@@ -1,20 +1,26 @@
 import { bind, setEnabled, setVolume } from "cuelume";
+import { NuqsAdapter } from "nuqs/adapters/react";
 import { lazy, Suspense, useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Footer } from "./components/layout/footer";
 import { PageLayout } from "./components/layout/page-layout";
+import { DashboardSkeleton } from "./features/dashboard/components/dashboard-skeleton";
+import { ManageBirthdaysSkeleton } from "./features/management/components/manage-birthdays-skeleton";
+import { SettingsSkeleton } from "./features/settings/components/settings-skeleton";
 import { useDayBookStore } from "./store/day-book-store";
 
 const Dashboard = lazy(() =>
-	import("./components/dashboard/dashboard").then((m) => ({ default: m.Dashboard })),
+	import("./features/dashboard/dashboard").then((m) => ({ default: m.Dashboard })),
 );
-const BirthdayManagementScreen = lazy(() =>
-	import("./components/management/birthday-management-screen").then((m) => ({
+const ManageBirthdays = lazy(() =>
+	import("./features/management/birthday-management-screen").then((m) => ({
 		default: m.BirthdayManagementScreen,
 	})),
 );
-const SettingsScreen = lazy(() =>
-	import("./components/settings/settings-screen").then((m) => ({ default: m.SettingsScreen })),
+const Settings = lazy(() =>
+	import("./features/settings/settings-screen").then((m) => ({
+		default: m.SettingsScreen,
+	})),
 );
 
 function App() {
@@ -56,22 +62,37 @@ function App() {
 
 	return (
 		<BrowserRouter>
-			<PageLayout>
-				<Suspense
-					fallback={
-						<div className="flex min-h-[50vh] w-full items-center justify-center">
-							<div className="text-muted-foreground animate-pulse text-lg">Loading...</div>
-						</div>
-					}
-				>
+			<NuqsAdapter>
+				<PageLayout>
 					<Routes>
-						<Route path="/" element={<Dashboard />} />
-						<Route path="/manage" element={<BirthdayManagementScreen />} />
-						<Route path="/settings" element={<SettingsScreen />} />
+						<Route
+							path="/"
+							element={
+								<Suspense fallback={<DashboardSkeleton />}>
+									<Dashboard />
+								</Suspense>
+							}
+						/>
+						<Route
+							path="/manage"
+							element={
+								<Suspense fallback={<ManageBirthdaysSkeleton />}>
+									<ManageBirthdays />
+								</Suspense>
+							}
+						/>
+						<Route
+							path="/settings"
+							element={
+								<Suspense fallback={<SettingsSkeleton />}>
+									<Settings />
+								</Suspense>
+							}
+						/>
 					</Routes>
-				</Suspense>
-				<Footer />
-			</PageLayout>
+					<Footer />
+				</PageLayout>
+			</NuqsAdapter>
 		</BrowserRouter>
 	);
 }

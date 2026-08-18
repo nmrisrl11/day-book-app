@@ -14,7 +14,7 @@ import { formatBirthdayDisplay } from "@/helpers/birthday-utils";
 import { cn } from "@/lib/utils";
 import { useDayBookStore } from "@/store/day-book-store";
 import type { Birthday } from "@/types/birthday";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 interface CalendarImportDialogProps {
 	open: boolean;
@@ -32,11 +32,31 @@ export function CalendarImportDialog({
 	const { birthdays: existingBirthdays, importData } = useDayBookStore();
 	const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
 
-	const isDuplicate = (b: Birthday) => {
-		return existingBirthdays.some(
-			(ex) => ex.name.toLowerCase() === b.name.toLowerCase() && ex.birthday === b.birthday,
-		);
-	};
+	const duplicatesInfo = useMemo(() => {
+		const seen = new Set<string>();
+		for (const ex of existingBirthdays) {
+			seen.add(`${ex.name.toLowerCase()}|${ex.birthday}`);
+		}
+
+		const duplicateMap = new Map<string, boolean>();
+		for (const b of foundBirthdays) {
+			const key = `${b.name.toLowerCase()}|${b.birthday}`;
+			if (seen.has(key)) {
+				duplicateMap.set(b.id, true);
+			} else {
+				seen.add(key);
+				duplicateMap.set(b.id, false);
+			}
+		}
+		return duplicateMap;
+	}, [existingBirthdays, foundBirthdays]);
+
+	const isDuplicate = useCallback(
+		(b: Birthday) => {
+			return duplicatesInfo.get(b.id) || false;
+		},
+		[duplicatesInfo],
+	);
 
 	// Auto-select birthdays that don't already exist
 	useEffect(() => {
@@ -79,22 +99,7 @@ export function CalendarImportDialog({
 	};
 
 	const handleImport = () => {
-		const toImport: Birthday[] = [];
-		const seen = new Set<string>();
-
-		for (const ex of existingBirthdays) {
-			seen.add(`${ex.name.toLowerCase()}|${ex.birthday}`);
-		}
-
-		for (const b of foundBirthdays) {
-			if (selectedIds.has(b.id)) {
-				const key = `${b.name.toLowerCase()}|${b.birthday}`;
-				if (!seen.has(key)) {
-					seen.add(key);
-					toImport.push(b);
-				}
-			}
-		}
+		const toImport = foundBirthdays.filter((b) => selectedIds.has(b.id) && !isDuplicate(b));
 
 		if (toImport.length > 0) {
 			importData([...existingBirthdays, ...toImport]);
@@ -130,7 +135,10 @@ export function CalendarImportDialog({
 
 	// Sort groupedBirthdays by month index
 	const sortedMonthGroups = Object.entries(groupedBirthdays).sort((a, b) => {
-		return FULL_MONTHS.indexOf(a[0] as any) - FULL_MONTHS.indexOf(b[0] as any);
+		return (
+			FULL_MONTHS.indexOf(a[0] as (typeof FULL_MONTHS)[number]) -
+			FULL_MONTHS.indexOf(b[0] as (typeof FULL_MONTHS)[number])
+		);
 	});
 
 	// Sort birthdays within the month by date
@@ -186,9 +194,7 @@ export function CalendarImportDialog({
 									if (allSelectedInMonth) {
 										celebrants.forEach((b) => newSelected.delete(b.id));
 									} else {
-										// If all are duplicates, allow selecting them all if they click "Select All"
-										const toSelect = selectableInMonth.length > 0 ? selectableInMonth : celebrants;
-										toSelect.forEach((b) => newSelected.add(b.id));
+										selectableInMonth.forEach((b) => newSelected.add(b.id));
 									}
 									setSelectedIds(newSelected);
 								};
@@ -219,7 +225,7 @@ export function CalendarImportDialog({
 														key={b.id}
 														className={cn(
 															"flex items-center gap-3 rounded-xl border p-3 transition-colors",
-															duplicate ? "opacity-50 cursor-not-allowed" : "cursor-pointer",
+															duplicate ? "cursor-not-allowed opacity-50" : "cursor-pointer",
 															isSelected
 																? "border-primary bg-primary/5"
 																: "border-border hover:bg-accent/50",
@@ -234,7 +240,7 @@ export function CalendarImportDialog({
 
 														<input
 															type="checkbox"
-															className="text-primary focus:ring-primary accent-primary h-4 w-4 rounded border-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
+															className="text-primary focus:ring-primary accent-primary h-4 w-4 rounded border-gray-300 disabled:cursor-not-allowed disabled:opacity-50"
 															checked={isSelected}
 															disabled={duplicate}
 															onChange={() => toggleSelection(b.id)}

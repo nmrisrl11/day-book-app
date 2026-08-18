@@ -7,7 +7,7 @@ function cleanBirthdaySummary(summary: string): string {
 	let name = summary;
 
 	// Remove common emojis
-	name = name.replace(/[🎂🎁🎉🎊🎈]/g, "");
+	name = name.replace(/[🎂🎁🎉🎊🎈]/gu, "");
 
 	// Remove common prefixes/suffixes
 	const patterns = [/'s Birthday/i, / Birthday/i, /Birthday - /i, /Birthday: /i, / turns \d+/i];
@@ -30,11 +30,11 @@ function parseIcsDateString(dateStr: string): string | null {
 		const month = Number(match[2]);
 		const day = Number(match[3]);
 
-		const date = new Date(year, month - 1, day);
+		const date = new Date(Date.UTC(year, month - 1, day));
 		if (
-			date.getFullYear() === year &&
-			date.getMonth() === month - 1 &&
-			date.getDate() === day
+			date.getUTCFullYear() === year &&
+			date.getUTCMonth() === month - 1 &&
+			date.getUTCDate() === day
 		) {
 			return `${match[1]}-${match[2]}-${match[3]}`;
 		}
@@ -52,11 +52,10 @@ export function parseIcsForBirthdays(icsText: string): Birthday[] {
 	const lines = unfolded.split(/\r?\n/);
 
 	const unescapeIcsText = (text: string) => {
-		return text
-			.replace(/\\n/gi, "\n")
-			.replace(/\\,/g, ",")
-			.replace(/\\;/g, ";")
-			.replace(/\\\\/g, "\\");
+		return text.replace(/\\([n,;\\])/gi, (_match, p1) => {
+			if (p1.toLowerCase() === "n") return "\n";
+			return p1;
+		});
 	};
 
 	const birthdays: Birthday[] = [];

@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { defaultSettings, useDayBookStore } from "@/store/day-book-store";
 import { CheckIcon, Edit2Icon, PlusIcon, Trash2Icon, XIcon } from "lucide-react";
 import { useState } from "react";
-import { Kbd } from "../ui/kbd";
+import { Kbd } from "@/components/ui/kbd";
 import { RestoreDefaultsButton } from "./restore-defaults-button";
 
 export function FloatingMessagesManager() {

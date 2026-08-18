@@ -2,7 +2,7 @@ import { UserAvatar } from "@/components/user-avatar";
 import { calculateAge, formatBirthdayDisplay } from "@/helpers/birthday-utils";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import type { Birthday } from "@/types/birthday";
-import { Badge } from "../ui/badge";
+import { Badge } from "@/components/ui/badge";
 
 interface UpcomingBirthdayCardProps {
 	celebrant: Birthday;

@@ -1,23 +1,12 @@
+import { DashboardSkeleton } from "./components/dashboard-skeleton";
 import { EmptyState } from "@/components/empty-state";
 import { useBirthdayData } from "@/hooks/use-birthday-data";
 import { useDayBookStore } from "@/store/day-book-store";
-import { lazy, Suspense } from "react";
+import { Suspense } from "react";
 
-const BirthdaysSection = lazy(() =>
-	import("@/components/birthdays-by-month/birthdays-section").then((m) => ({
-		default: m.BirthdaysSection,
-	})),
-);
-const HappyBirthdaySection = lazy(() =>
-	import("@/components/happy-birthday/happy-birthday-section").then((m) => ({
-		default: m.HappyBirthdaySection,
-	})),
-);
-const UpcomingBirthdaysSection = lazy(() =>
-	import("@/components/upcoming-birthdays/upcoming-birthdays-section").then((m) => ({
-		default: m.UpcomingBirthdaysSection,
-	})),
-);
+import { BirthdaysSection } from "./components/birthdays-section";
+import { HappyBirthdaySection } from "./components/happy-birthday-section";
+import { UpcomingBirthdaysSection } from "./components/upcoming-birthdays-section";
 
 export function Dashboard() {
 	const { todayCelebrants, upcomingBirthdays, birthdaysByMonth, currentDate } = useBirthdayData();
@@ -29,13 +18,7 @@ export function Dashboard() {
 
 	return (
 		<div className="flex w-full flex-col items-center gap-16">
-			<Suspense
-				fallback={
-					<div className="flex min-h-[20vh] w-full items-center justify-center">
-						<div className="text-muted-foreground animate-pulse text-sm">Loading...</div>
-					</div>
-				}
-			>
+			<Suspense fallback={<DashboardSkeleton />}>
 				<HappyBirthdaySection celebrants={todayCelebrants} currentDate={currentDate} />
 				<UpcomingBirthdaysSection upcomingBirthdays={upcomingBirthdays} currentDate={currentDate} />
 				<BirthdaysSection birthdaysByMonth={birthdaysByMonth} />

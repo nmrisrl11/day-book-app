@@ -1,58 +1,106 @@
+import { AnimateIcon } from "@/components/ui/animate-icon";
+import { MessageSquareIcon } from "@/components/ui/animated-icons/message-square-icon";
+import { PaintbrushIcon } from "@/components/ui/animated-icons/paintbrush-icon";
+import { StarIcon } from "@/components/ui/animated-icons/star-icon";
+import { UserRoundIcon as UserCircleIcon } from "@/components/ui/animated-icons/user-round-icon";
+import { Volume2Icon } from "@/components/ui/animated-icons/volume-2-icon";
 import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { exportBirthdays } from "@/helpers/import-export";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { useDayBookStore } from "@/store/day-book-store";
-import {
-	ArrowLeftIcon,
-	DatabaseIcon,
-	MessageSquareIcon,
-	PaintbrushIcon,
-	StarIcon,
-	UserCircleIcon,
-	Volume2Icon,
-} from "lucide-react";
-import { lazy, Suspense, useState } from "react";
+import { ArrowLeftIcon, DatabaseIcon } from "lucide-react";
+import { parseAsString, useQueryState } from "nuqs";
+import { lazy, Suspense, useEffect, useRef, useState, type ElementType } from "react";
 import { useNavigate } from "react-router-dom";
 
 const FloatingMessagesManager = lazy(() =>
-	import("./floating-messages-manager").then((m) => ({ default: m.FloatingMessagesManager })),
+	import("./components/floating-messages-manager").then((m) => ({
+		default: m.FloatingMessagesManager,
+	})),
 );
 const GreetingsManager = lazy(() =>
-	import("./greetings-manager").then((m) => ({ default: m.GreetingsManager })),
+	import("./components/greetings-manager").then((m) => ({ default: m.GreetingsManager })),
 );
 const DeleteConfirmationModal = lazy(() =>
-	import("../management/delete-confirmation-modal").then((m) => ({
+	import("../management/components/delete-confirmation-modal").then((m) => ({
 		default: m.DeleteConfirmationModal,
 	})),
 );
 const ThemeSection = lazy(() =>
-	import("./theme-section").then((m) => ({ default: m.ThemeSection })),
+	import("./components/theme-section").then((m) => ({ default: m.ThemeSection })),
 );
 const MainGreetingSection = lazy(() =>
-	import("./main-greeting-section").then((m) => ({ default: m.MainGreetingSection })),
+	import("./components/main-greeting-section").then((m) => ({ default: m.MainGreetingSection })),
 );
 const DisplaySettingsSection = lazy(() =>
-	import("./display-settings-section").then((m) => ({ default: m.DisplaySettingsSection })),
+	import("./components/display-settings-section").then((m) => ({
+		default: m.DisplaySettingsSection,
+	})),
 );
 const AvatarSettingsSection = lazy(() =>
-	import("./avatar-settings-section").then((m) => ({ default: m.AvatarSettingsSection })),
+	import("./components/avatar-settings-section").then((m) => ({
+		default: m.AvatarSettingsSection,
+	})),
 );
 const DataManagementSection = lazy(() =>
-	import("./data-management-section").then((m) => ({ default: m.DataManagementSection })),
+	import("./components/data-management-section").then((m) => ({
+		default: m.DataManagementSection,
+	})),
 );
 const DangerZoneSection = lazy(() =>
-	import("./danger-zone-section").then((m) => ({ default: m.DangerZoneSection })),
+	import("./components/danger-zone-section").then((m) => ({ default: m.DangerZoneSection })),
 );
 const SoundSettingsSection = lazy(() =>
-	import("./sound-settings-section").then((m) => ({ default: m.SoundSettingsSection })),
+	import("./components/sound-settings-section").then((m) => ({ default: m.SoundSettingsSection })),
 );
+
+type SettingsTab = {
+	id: string;
+	label: string;
+	icon: ElementType;
+	isAnimated: boolean;
+};
+
+const AnimatedTabTrigger = ({ tab, isActiveTab }: { tab: SettingsTab; isActiveTab: boolean }) => {
+	const triggerRef = useRef<HTMLButtonElement>(null);
+
+	useEffect(() => {
+		if (isActiveTab && triggerRef.current) {
+			triggerRef.current.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+		}
+	}, [isActiveTab]);
+
+	const trigger = (
+		<TabsTrigger
+			ref={triggerRef}
+			value={tab.id}
+			className="relative flex shrink-0 snap-start items-center gap-3 px-4 py-3 text-sm whitespace-nowrap group-data-[orientation=vertical]/tabs:justify-start data-[state=active]:font-semibold md:py-2.5"
+		>
+			<tab.icon className="h-4 w-4" />
+			{tab.label}
+		</TabsTrigger>
+	);
+
+	if (tab.isAnimated) {
+		return (
+			<AnimateIcon animateOnHover animateOnTap asChild>
+				{trigger}
+			</AnimateIcon>
+		);
+	}
+
+	return trigger;
+};
 
 export function SettingsScreen() {
 	const { birthdays, deleteAllBirthdays } = useDayBookStore();
 	const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 	const navigate = useNavigate();
 	const isDesktop = useMediaQuery("(min-width: 768px)");
+
+	const [activeTab, setActiveTab] = useQueryState("tab", parseAsString.withDefault("appearance"));
 
 	const handleConfirmDeleteAll = () => {
 		deleteAllBirthdays();
@@ -64,16 +112,17 @@ export function SettingsScreen() {
 	};
 
 	const tabs = [
-		{ id: "appearance", label: "Appearance", icon: PaintbrushIcon },
-		{ id: "main-greeting", label: "Main Greeting", icon: StarIcon },
-		{ id: "avatar", label: "Avatar", icon: UserCircleIcon },
+		{ id: "appearance", label: "Appearance", icon: PaintbrushIcon, isAnimated: true },
+		{ id: "main-greeting", label: "Main Greeting", icon: StarIcon, isAnimated: true },
+		{ id: "avatar", label: "Avatar", icon: UserCircleIcon, isAnimated: true },
 		{
 			id: "messages",
 			label: "Messages & Greetings",
 			icon: MessageSquareIcon,
+			isAnimated: true,
 		},
-		{ id: "sounds", label: "Sound & Feedback", icon: Volume2Icon },
-		{ id: "data", label: "Data Management", icon: DatabaseIcon },
+		{ id: "sounds", label: "Sound & Feedback", icon: Volume2Icon, isAnimated: true },
+		{ id: "data", label: "Data Management", icon: DatabaseIcon, isAnimated: false },
 	];
 
 	return (
@@ -95,33 +144,31 @@ export function SettingsScreen() {
 			</div>
 
 			<Tabs
-				defaultValue="appearance"
+				value={activeTab}
+				onValueChange={setActiveTab}
 				orientation={isDesktop ? "vertical" : "horizontal"}
 				className="relative flex flex-col gap-8 md:flex-row"
 			>
 				<div className="relative w-full max-w-full shrink-0 md:sticky md:top-6 md:h-fit md:w-64 md:self-start">
 					<div className="from-background pointer-events-none absolute inset-y-0 left-0 z-10 w-8 bg-linear-to-r to-transparent md:hidden" />
 					<div className="from-background pointer-events-none absolute inset-y-0 right-0 z-10 w-8 bg-linear-to-l to-transparent md:hidden" />
-					<TabsList
-						variant="line"
-						className="border-border scrollbar-hide relative flex h-auto w-full snap-x justify-start gap-2 overflow-x-auto overflow-y-hidden px-4 pb-2 md:w-full md:flex-col md:border-r md:px-0 md:pr-6 md:pb-0"
-					>
-						{tabs.map((tab) => (
-							<TabsTrigger
-								key={tab.id}
-								value={tab.id}
-								className="relative flex shrink-0 snap-start items-center gap-3 px-4 py-3 text-sm whitespace-nowrap group-data-[orientation=vertical]/tabs:justify-start data-[state=active]:font-semibold md:py-2.5"
-							>
-								<tab.icon className="h-4 w-4" />
-								{tab.label}
-							</TabsTrigger>
-						))}
-					</TabsList>
+					<ScrollArea orientation="horizontal" className="w-full">
+						<TabsList
+							variant="line"
+							className="border-border relative flex h-auto w-max snap-x justify-start gap-2 px-4 pb-2 md:w-full md:flex-col md:border-r md:px-0 md:pr-6 md:pb-0"
+						>
+							{tabs.map((tab) => (
+								<AnimatedTabTrigger key={tab.id} tab={tab} isActiveTab={activeTab === tab.id} />
+							))}
+						</TabsList>
+					</ScrollArea>
 				</div>
 
 				<div className="min-w-0 flex-1">
 					<div className="border-border bg-card flex flex-col gap-8 rounded-xl border p-6 shadow-sm">
-						<Suspense fallback={<div className="bg-muted h-32 animate-pulse rounded-xl"></div>}>
+						<Suspense
+							fallback={<div className="bg-muted/50 h-100 w-full animate-pulse rounded-xl" />}
+						>
 							<div className="flex flex-col gap-8">
 								<TabsContent value="appearance" className="space-y-6">
 									<ThemeSection />

@@ -10,10 +10,21 @@ const GlobalSettingsManagement = lazy(() =>
 	import("./global-settings-management").then((m) => ({ default: m.GlobalSettingsManagement })),
 );
 
+import { Skeleton } from "@/components/ui/skeleton";
+
 export function DataManagementSection() {
 	return (
 		<div className="flex flex-col gap-6">
-			<Suspense fallback={<div className="bg-muted h-32 animate-pulse rounded-xl"></div>}>
+			<Suspense
+				fallback={
+					<div className="flex flex-col gap-6">
+						<Skeleton className="h-32 w-full rounded-xl" />
+						<Skeleton className="h-32 w-full rounded-xl" />
+						<div className="my-2 border-t" />
+						<Skeleton className="h-24 w-full rounded-xl" />
+					</div>
+				}
+			>
 				<BirthdaysDataManagement />
 				<SettingsDataManagement />
 				<div className="my-2 border-t" />
