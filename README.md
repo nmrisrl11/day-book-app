@@ -1,14 +1,14 @@
 # DayBook
 
 <div align="center">
-  <img src="public/favicon.svg" alt="DayBook Logo" width="120" />
+  <img src="public/logo/daybook-logo.svg" alt="DayBook Logo" width="120" />
 </div>
 
 DayBook is a stylish, lightweight, local-first birthday tracker designed to help you keep track of family and friends' birthdays so you never forget one again. 🎉🎂
 
 ## Features
 
-- **Privacy First**: All your birthday and settings data stays on your device (`localStorage`). Visitor analytics (page views) use the `/api/visitors` flow with IP-based counting backed by Upstash Redis.
+- **Privacy First**: All your birthday and settings data stays on your device (`localStorage`). Visitor analytics (unique visitor counting) use the `/api/visitors` flow with IP-based counting backed by Upstash Redis.
 - **Beautiful Dashboard**: Celebratory "Happy Birthday" section with confetti, upcoming birthdays list, and an interactive 12-month calendar grid.
 - **Rich Customization**:
   - Theme toggling (Light/Dark).

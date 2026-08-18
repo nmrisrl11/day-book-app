@@ -33,6 +33,8 @@ Use **Satoshi** as the primary design target and required font for new UI design
 
 _(Note: The current actual implementation uses **Fredoka** (and previously Geist) to achieve this vibe in the absence of Satoshi. Fredoka is the standard for the current codebase until Satoshi is fully integrated)._
 
+Satoshi should be used consistently throughout the application and should support all available:
+
 - Font weights
 - Font styles
 

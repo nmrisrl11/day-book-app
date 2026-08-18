@@ -4,7 +4,7 @@ import { Kbd } from "@/components/ui/kbd";
 import { defaultSettings, useDayBookStore } from "@/store/day-book-store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PlusIcon, Trash2Icon } from "lucide-react";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { z } from "zod";
 import { RestoreDefaultsButton } from "./restore-defaults-button";
@@ -47,15 +47,8 @@ export function FloatingMessagesManager() {
 		name: "messages",
 	});
 
-	const isInitialMount = useRef(true);
-
 	useEffect(() => {
 		const subscription = watch((value) => {
-			if (isInitialMount.current) {
-				isInitialMount.current = false;
-				return;
-			}
-
 			if (value.messages) {
 				const parsed = floatingMessagesSchema.safeParse(value);
 				if (parsed.success) {
