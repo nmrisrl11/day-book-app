@@ -50,7 +50,7 @@ export function CelebrantModal({ celebrant, isOpen, onClose, currentDate }: Cele
 				<DialogContent className="border-border/50 bg-background/90 rounded-2xl shadow-2xl sm:max-w-md">
 					<DialogHeader className="flex flex-col items-center space-y-3 py-6 text-center">
 						<div className="relative">
-							<div className="bg-[radial-gradient(circle_at_center,var(--color-blue-500),transparent_70%)]/30 absolute -inset-4 rounded-full" />
+							<div className="absolute -inset-4 rounded-full bg-[radial-gradient(circle_at_center,var(--color-blue-500),transparent_70%)] opacity-30" />
 
 							<div className="absolute -top-9 right-0 z-20 h-14 w-14 rotate-12 drop-shadow-md">
 								<PartyHat className="h-full w-full" />

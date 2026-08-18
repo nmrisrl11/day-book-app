@@ -1,12 +1,15 @@
 import { GithubIcon } from "@/components/icons/github-icon";
-import { BotIcon } from "@/components/ui/animated-icons/bot-icon";
 import { AnimateIcon } from "@/components/ui/animate-icon";
+import { BotIcon } from "@/components/ui/animated-icons/bot-icon";
 import { Button } from "@/components/ui/button";
+import { VisitorTracker } from "@/components/visitor-tracker";
 
 export function Footer() {
 	return (
-		<footer className="text-muted-foreground mt-auto flex w-full items-center text-sm">
-			<div className="flex w-full flex-col items-end justify-end gap-1">
+		<footer className="text-muted-foreground mt-auto flex w-full flex-col items-center gap-3 text-sm sm:flex-row sm:justify-between">
+			<VisitorTracker className="justify-center" />
+
+			<div className="flex flex-1 flex-col items-center justify-end gap-1 sm:items-end">
 				<div className="flex">
 					<Button variant="ghost" size="sm" asChild>
 						<a
