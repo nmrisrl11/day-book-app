@@ -21,15 +21,15 @@ export function DisplaySettingsSection() {
 		const val = e.target.value;
 		setLocalCount(val);
 
-		const parsed = parseInt(val, 10);
-		if (!isNaN(parsed) && parsed >= 1 && parsed <= 10) {
+		const parsed = Number(val);
+		if (Number.isInteger(parsed) && parsed >= 1 && parsed <= 10) {
 			updateSettings({ upcomingCount: parsed });
 		}
 	};
 
 	const handleCommitCount = () => {
-		const parsed = parseInt(localCount, 10);
-		if (isNaN(parsed) || parsed < 1 || parsed > 10) {
+		const parsed = Number(localCount);
+		if (!Number.isInteger(parsed) || parsed < 1 || parsed > 10) {
 			setLocalCount(settings.upcomingCount.toString());
 		}
 	};

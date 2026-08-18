@@ -66,6 +66,9 @@ export function CalendarImportDialog({
 	};
 
 	const toggleSelection = (id: string) => {
+		const b = foundBirthdays.find((x) => x.id === id);
+		if (!b || isDuplicate(b)) return;
+
 		const newSelected = new Set(selectedIds);
 		if (newSelected.has(id)) {
 			newSelected.delete(id);
@@ -76,7 +79,23 @@ export function CalendarImportDialog({
 	};
 
 	const handleImport = () => {
-		const toImport = foundBirthdays.filter((b) => selectedIds.has(b.id));
+		const toImport: Birthday[] = [];
+		const seen = new Set<string>();
+
+		for (const ex of existingBirthdays) {
+			seen.add(`${ex.name.toLowerCase()}|${ex.birthday}`);
+		}
+
+		for (const b of foundBirthdays) {
+			if (selectedIds.has(b.id)) {
+				const key = `${b.name.toLowerCase()}|${b.birthday}`;
+				if (!seen.has(key)) {
+					seen.add(key);
+					toImport.push(b);
+				}
+			}
+		}
+
 		if (toImport.length > 0) {
 			importData([...existingBirthdays, ...toImport]);
 			onImportSuccess();
@@ -199,7 +218,8 @@ export function CalendarImportDialog({
 													<label
 														key={b.id}
 														className={cn(
-															"flex cursor-pointer items-center gap-3 rounded-xl border p-3 transition-colors",
+															"flex items-center gap-3 rounded-xl border p-3 transition-colors",
+															duplicate ? "opacity-50 cursor-not-allowed" : "cursor-pointer",
 															isSelected
 																? "border-primary bg-primary/5"
 																: "border-border hover:bg-accent/50",
@@ -214,8 +234,9 @@ export function CalendarImportDialog({
 
 														<input
 															type="checkbox"
-															className="text-primary focus:ring-primary accent-primary h-4 w-4 rounded border-gray-300"
+															className="text-primary focus:ring-primary accent-primary h-4 w-4 rounded border-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
 															checked={isSelected}
+															disabled={duplicate}
 															onChange={() => toggleSelection(b.id)}
 														/>
 														<div className="flex flex-1 flex-col">

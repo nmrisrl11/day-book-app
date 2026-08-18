@@ -26,7 +26,18 @@ function parseIcsDateString(dateStr: string): string | null {
 	// e.g. 20260314 or 20260314T120000Z
 	const match = dateStr.match(/^(\d{4})(\d{2})(\d{2})/);
 	if (match) {
-		return `${match[1]}-${match[2]}-${match[3]}`;
+		const year = Number(match[1]);
+		const month = Number(match[2]);
+		const day = Number(match[3]);
+
+		const date = new Date(year, month - 1, day);
+		if (
+			date.getFullYear() === year &&
+			date.getMonth() === month - 1 &&
+			date.getDate() === day
+		) {
+			return `${match[1]}-${match[2]}-${match[3]}`;
+		}
 	}
 	return null;
 }
@@ -39,6 +50,14 @@ export function parseIcsForBirthdays(icsText: string): Birthday[] {
 	// Unfold lines: an ICS line starting with space/tab is a continuation of the previous line
 	const unfolded = icsText.replace(/\r?\n[ \t]/g, "");
 	const lines = unfolded.split(/\r?\n/);
+
+	const unescapeIcsText = (text: string) => {
+		return text
+			.replace(/\\n/gi, "\n")
+			.replace(/\\,/g, ",")
+			.replace(/\\;/g, ";")
+			.replace(/\\\\/g, "\\");
+	};
 
 	const birthdays: Birthday[] = [];
 
@@ -80,7 +99,7 @@ export function parseIcsForBirthdays(icsText: string): Birthday[] {
 
 		if (insideEvent) {
 			if (line.startsWith("SUMMARY:")) {
-				currentSummary = line.substring(8); // Length of 'SUMMARY:'
+				currentSummary = unescapeIcsText(line.substring(8)); // Length of 'SUMMARY:'
 			} else if (line.startsWith("DTSTART")) {
 				// E.g., DTSTART;VALUE=DATE:20260314 or DTSTART:20260314T120000Z
 				const parts = line.split(":");
