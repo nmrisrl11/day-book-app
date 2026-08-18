@@ -27,6 +27,9 @@ const BirthdayFormModal = lazy(() =>
 const DeleteConfirmationModal = lazy(() =>
 	import("./delete-confirmation-modal").then((m) => ({ default: m.DeleteConfirmationModal })),
 );
+const CalendarExportDialog = lazy(() =>
+	import("@/components/calendar/calendar-export-dialog").then((m) => ({ default: m.CalendarExportDialog })),
+);
 
 export function BirthdayManagementScreen() {
 	const { birthdays, deleteBirthday } = useDayBookStore();
@@ -36,6 +39,9 @@ export function BirthdayManagementScreen() {
 
 	const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 	const [deletingBirthday, setDeletingBirthday] = useState<Birthday | null>(null);
+
+	const [exportModalOpen, setExportModalOpen] = useState(false);
+	const [exportingBirthday, setExportingBirthday] = useState<Birthday | null>(null);
 
 	const [searchQuery, setSearchQuery] = useState("");
 	const [monthFilter, setMonthFilter] = useState("all");
@@ -153,6 +159,11 @@ export function BirthdayManagementScreen() {
 		setDeleteModalOpen(true);
 	}, []);
 
+	const handleExport = useCallback((birthday: Birthday) => {
+		setExportingBirthday(birthday);
+		setExportModalOpen(true);
+	}, []);
+
 	const handleConfirmDelete = () => {
 		if (deletingBirthday) {
 			deleteBirthday(deletingBirthday.id);
@@ -237,8 +248,9 @@ export function BirthdayManagementScreen() {
 									<BirthdayListItem
 										key={birthday.id}
 										birthday={birthday}
-										onEdit={() => handleEdit(birthday)}
-										onDelete={() => handleDeleteClick(birthday)}
+										onEdit={handleEdit}
+										onDelete={handleDeleteClick}
+										onExport={handleExport}
 									/>
 								))}
 							</div>
@@ -331,6 +343,16 @@ export function BirthdayManagementScreen() {
 						onOpenChange={setDeleteModalOpen}
 						onConfirm={handleConfirmDelete}
 						birthdayName={deletingBirthday?.name}
+					/>
+				</Suspense>
+			)}
+
+			{exportModalOpen && exportingBirthday && (
+				<Suspense fallback={null}>
+					<CalendarExportDialog
+						open={exportModalOpen}
+						onOpenChange={setExportModalOpen}
+						birthdays={exportingBirthday}
 					/>
 				</Suspense>
 			)}

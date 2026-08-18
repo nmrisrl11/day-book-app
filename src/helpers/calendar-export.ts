@@ -12,11 +12,12 @@ function formatDateToYYYYMMDD(dateString: string): string {
  * Needed for all-day events where DTEND is exclusive.
  */
 function getNextDayYYYYMMDD(dateString: string): string {
-	const date = new Date(dateString);
-	date.setDate(date.getDate() + 1);
-	const yyyy = date.getFullYear();
-	const mm = String(date.getMonth() + 1).padStart(2, "0");
-	const dd = String(date.getDate()).padStart(2, "0");
+	const [yearStr, monthStr, dayStr] = dateString.split("-");
+	const date = new Date(Date.UTC(Number(yearStr), Number(monthStr) - 1, Number(dayStr)));
+	date.setUTCDate(date.getUTCDate() + 1);
+	const yyyy = date.getUTCFullYear();
+	const mm = String(date.getUTCMonth() + 1).padStart(2, "0");
+	const dd = String(date.getUTCDate()).padStart(2, "0");
 	return `${yyyy}${mm}${dd}`;
 }
 
@@ -63,12 +64,20 @@ export function generateIcsContent(birthdays: Birthday | Birthday[]): string {
 		"CALSCALE:GREGORIAN",
 	];
 
+	const escapeIcsText = (text: string) => {
+		return text
+			.replace(/\\/g, "\\\\")
+			.replace(/;/g, "\\;")
+			.replace(/,/g, "\\,")
+			.replace(/\n/g, "\\n");
+	};
+
 	for (const birthday of bdays) {
 		const start = formatDateToYYYYMMDD(birthday.birthday);
 		const end = getNextDayYYYYMMDD(birthday.birthday);
-		const uid = `daybook-${birthday.id}@daybook.app`;
-		const summary = `${birthday.name}'s Birthday`;
-		const description = `Imported from DayBook`;
+		const uid = `daybook-${encodeURIComponent(birthday.id)}@daybook.app`;
+		const summary = escapeIcsText(`${birthday.name}'s Birthday`);
+		const description = escapeIcsText(`Imported from DayBook`);
 
 		ics = ics.concat([
 			"BEGIN:VEVENT",

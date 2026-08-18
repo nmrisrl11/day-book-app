@@ -2,21 +2,21 @@ import type { Birthday } from "@/types/birthday";
 import { Button } from "@/components/ui/button";
 import { CalendarIcon, Edit2Icon, Trash2Icon } from "lucide-react";
 import { UserAvatar } from "@/components/user-avatar";
-import { memo, useState } from "react";
-import { CalendarExportDialog } from "@/components/calendar/calendar-export-dialog";
+import { memo } from "react";
 
 interface BirthdayListItemProps {
 	birthday: Birthday;
-	onEdit: () => void;
-	onDelete: () => void;
+	onEdit: (birthday: Birthday) => void;
+	onDelete: (birthday: Birthday) => void;
+	onExport: (birthday: Birthday) => void;
 }
 
 export const BirthdayListItem = memo(function BirthdayListItem({
 	birthday,
 	onEdit,
 	onDelete,
+	onExport,
 }: BirthdayListItemProps) {
-	const [exportOpen, setExportOpen] = useState(false);
 
 	// Parse the birthday string to display it nicely
 	const [year, month, day] = birthday.birthday.split("-");
@@ -46,19 +46,19 @@ export const BirthdayListItem = memo(function BirthdayListItem({
 					<Button
 						variant="ghost"
 						size="icon"
-						onClick={() => setExportOpen(true)}
+						onClick={() => onExport(birthday)}
 						title="Export to Calendar"
 					>
 						<CalendarIcon className="h-4 w-4" />
 					</Button>
-					<Button variant="ghost" size="icon" onClick={onEdit} title="Edit">
+					<Button variant="ghost" size="icon" onClick={() => onEdit(birthday)} title="Edit">
 						<Edit2Icon className="h-4 w-4" />
 					</Button>
 					<Button
 						variant="ghost"
 						size="icon"
 						className="text-destructive hover:bg-destructive/10 hover:text-destructive"
-						onClick={onDelete}
+						onClick={() => onDelete(birthday)}
 						title="Delete"
 					>
 						<Trash2Icon className="h-4 w-4" />
@@ -66,9 +66,6 @@ export const BirthdayListItem = memo(function BirthdayListItem({
 				</div>
 			</div>
 
-			{exportOpen && (
-				<CalendarExportDialog open={exportOpen} onOpenChange={setExportOpen} birthdays={birthday} />
-			)}
 		</>
 	);
 });

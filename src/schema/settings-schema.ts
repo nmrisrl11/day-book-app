@@ -26,7 +26,7 @@ const GreetingTextColorTypeSchema = z.enum(["solid", "gradient"]);
 
 export const SettingsSchema = z
 	.object({
-		upcomingCount: z.number().min(1).max(10),
+		upcomingCount: z.number().int().min(1).max(10),
 		theme: z.enum(["light", "dark"]),
 		floatingMessages: z.array(z.string()).optional(),
 		greetings: z.array(z.string()).optional(),
