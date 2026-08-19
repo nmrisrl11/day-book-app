@@ -23,6 +23,7 @@ import {
 import { parseAsInteger, parseAsString, parseAsStringLiteral, useQueryState } from "nuqs";
 import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { BirthdayListItem } from "./components/birthday-list-item";
+import { gooeyToast } from "goey-toast";
 
 const BirthdayFormModal = lazy(() =>
 	import("./components/birthday-form-modal").then((m) => ({ default: m.BirthdayFormModal })),
@@ -581,8 +582,18 @@ export function BirthdayManagementScreen() {
 					<div className="bg-border h-4 w-px" />
 					<Select
 						onValueChange={(val) => {
+							const count = selectedIds.size;
 							updateBirthdays(Array.from(selectedIds), { relationship: val as any });
 							setSelectedIds(new Set());
+							gooeyToast.success("People updated", {
+								description: `${count} people are now marked as ${val}.`,
+								showTimestamp: false,
+								classNames: {
+									content: "items-center text-center",
+									title: "text-center w-full",
+									description: "text-center justify-center flex w-full",
+								},
+							});
 						}}
 					>
 						<SelectTrigger className="h-8 w-40 border-none bg-transparent px-2 shadow-none focus:ring-0">
