@@ -30,7 +30,8 @@ DayBook is a fully functional, local-first birthday tracking application. All co
 - **Data Model**: Birthdays have ID, Name, Date, Avatar (Base64 or external ID).
 - **CRUD**: Create, Read, Update, Delete functionality for birthdays.
 - **Persistence**: Handled entirely client-side via `localStorage` via Zustand `persist`.
-- **Validation**: Zod schema prevents empty names, handles bad dates, and limits Base64 upload sizes.
+- **Validation**: Strict validation centralized in `validation-constants.ts` enforced via Zod schemas (`birthday-schema.ts`, `settings-schema.ts`) and native HTML `maxLength`/`minLength` attributes.
+- **Invitations / Links**: Fully local-first link sharing system. Users can generate an Invitation link (24h expiration, Base64Url token) to send to friends. Friends fill it out on the `/invite` route and generate a Response link (`/response`), allowing easy data ingestion without a backend.
 
 ### Dashboard & Views (Fully Implemented)
 
@@ -53,6 +54,7 @@ Settings has grown into a full `/settings` route with 6 tabs managed by `nuqs` U
 ### System Integrations
 
 - **Calendar**: Google Calendar add-event links and `.ics` file generation and download (`helpers/calendar-export.ts`).
+- **Dynamic Open Graph (OG) Previews**: Uses a lightweight Vercel Edge Function (`api/og-rewriter.ts`) and `vercel.json` rewrites to dynamically inject specific social media preview images (Twitter/Facebook cards) when sharing `/invite` or `/response` links.
 - **Visitor Tracking**: Public endpoint (`/api/visitors`) using Vercel Edge functions and Upstash Redis. Uses `INCR` and `SET NX EX 86400` for 24-hour IP-based unique visitor counting.
 - **Progressive Web App (PWA)**: Installable, offline-capable application built via `vite-plugin-pwa` with Workbox generating the service worker. It includes a custom update prompt for graceful updates.
 

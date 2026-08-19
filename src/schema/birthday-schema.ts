@@ -8,8 +8,8 @@ export const birthdaySchema = z.object({
 		.min(1, { message: "Name is required." })
 		.min(NAME_MIN_LENGTH, { message: `Name must be at least ${NAME_MIN_LENGTH} characters.` })
 		.max(NAME_MAX_LENGTH, { message: `Name must be less than ${NAME_MAX_LENGTH} characters.` })
-		.regex(/^[\p{L}\p{N} ]+$/u, {
-			message: "Name can only contain letters and numbers.",
+		.regex(/^[\p{L}\p{N}\p{M} \-']+$/u, {
+			message: "Name can only contain letters, numbers, spaces, hyphens, and apostrophes.",
 		}),
 	birthday: z
 		.string()

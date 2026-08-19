@@ -72,7 +72,8 @@ export function ResponseScreen() {
 		);
 	}
 
-	const formattedDate = new Date(response.b).toLocaleDateString(undefined, {
+	const [year, month, day] = response.b.split("-").map(Number);
+	const formattedDate = new Date(year, month - 1, day).toLocaleDateString(undefined, {
 		month: "long",
 		day: "numeric",
 	});

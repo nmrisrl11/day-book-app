@@ -1,3 +1,5 @@
+import { birthdaySchema } from "@/schema/birthday-schema";
+
 export interface InvitationPayload {
 	v: number;
 	n: string; // Inviter name
@@ -29,8 +31,9 @@ function decodeBase64Url(str: string): string {
 }
 
 /**
- * Generates a Base64Url-encoded invitation token for an inviter.
- * The token contains the inviter's name, version, and a 24-hour expiration timestamp.
+ * Generates a Base64Url-encoded invitation payload for an inviter.
+ * Note: This is an unencrypted, forgeable client-side convenience token, not a secure cryptographic token.
+ * It contains the inviter's name, version, and a 24-hour expiration timestamp.
  *
  * Example Result: "eyJ2IjoxLCJuIjoiSm9obiIsImUiOjE3MTkwMDAwMDAwMDB9"
  */
@@ -41,8 +44,9 @@ export function generateInvitationToken(name: string): string {
 }
 
 /**
- * Parses and validates an invitation token.
- * Returns the payload if the token is valid, matches the current version, and hasn't expired.
+ * Parses and validates an invitation payload.
+ * Returns the payload if it is structurally valid, matches the current version, and hasn't expired.
+ * Note: Expiration is client-enforced and the payload is not cryptographically authenticated.
  *
  * Example Result: { v: 1, n: "John", e: 1719000000000 }
  * Returns `null` if the token is invalid, corrupted, or expired.
@@ -66,8 +70,9 @@ export function parseInvitationToken(token: string): InvitationPayload | null {
 }
 
 /**
- * Generates a Base64Url-encoded response token from the invitee.
- * The token contains the invitee's name, birthday, version, and a 24-hour expiration timestamp.
+ * Generates a Base64Url-encoded response payload from the invitee.
+ * Note: This is an unencrypted, forgeable client-side convenience token.
+ * It contains the invitee's name, birthday, version, and a 24-hour expiration timestamp.
  *
  * Example Result: "eyJ2IjoxLCJuIjoiU2FyYWgiLCJiIjoiMTk5NS0wMS0xNSIsImUiOjE3MTkwMDAwMDAwMDB9"
  */
@@ -78,8 +83,9 @@ export function generateResponseToken(name: string, birthday: string): string {
 }
 
 /**
- * Parses and validates a response token.
- * Returns the payload if the token is valid, matches the current version, and hasn't expired.
+ * Parses and validates a response payload against the birthday schema.
+ * Returns the payload if structurally valid, matches the version, and hasn't expired.
+ * Note: Expiration is client-enforced and the payload is not cryptographically authenticated.
  *
  * Example Result: { v: 1, n: "Sarah", b: "1995-01-15", e: 1719000000000 }
  * Returns `null` if the token is invalid, corrupted, or expired.
@@ -95,7 +101,10 @@ export function parseResponseToken(token: string): ResponsePayload | null {
 			typeof payload.e === "number" &&
 			Date.now() <= payload.e
 		) {
-			return payload as ResponsePayload;
+			const validation = birthdaySchema.safeParse({ name: payload.n, birthday: payload.b });
+			if (validation.success) {
+				return payload as ResponsePayload;
+			}
 		}
 		return null;
 	} catch (_) {

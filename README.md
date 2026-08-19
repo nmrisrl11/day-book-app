@@ -1,13 +1,12 @@
 # DayBook
 
 <div align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="public/logo/daybook-logo-dark.svg">
-    <img src="public/logo/daybook-logo-light.svg" alt="DayBook Logo" width="120" />
-  </picture>
+  <img src="public/favicon.svg" alt="DayBook Logo" width="120" />
 </div>
 
-DayBook is a stylish, lightweight, local-first birthday tracker designed to help you keep track of family and friends' birthdays so you never forget one again. 🎉🎂
+<div align="center">
+    DayBook is a stylish, lightweight, local-first birthday tracker designed to help you keep track of family and friends' birthdays so you never forget one again. 🎉🎂
+</div>
 
 ## Features
 
@@ -21,6 +20,8 @@ DayBook is a stylish, lightweight, local-first birthday tracker designed to help
   - 🖼️ Two integrated avatar systems (`avvvatars` and `boring-avatars`) plus custom photo uploads.
 - 🎵 **Sound Feedback**: Satisfying, configurable audio feedback for interactions using the `cuelume` library.
 - 📅 **Calendar Integration**: Export your birthdays to `.ics` files or add them directly to Google Calendar.
+- 🔗 **Birthday Links**: Request your friends' birthdays effortlessly! Generate an invitation link, send it via chat, and process their response link directly into your local database. No backend required.
+- 🖼️ **Dynamic Social Previews**: Vercel Edge-powered dynamic Open Graph images tailored specifically for the Invitation and Response shareable links.
 - 💾 **Data Portability**: Full JSON export and import for both your birthday data and your application settings.
 - 📊 **Visitor Analytics**: Edge-hosted unique visitor tracking using Upstash Redis.
 

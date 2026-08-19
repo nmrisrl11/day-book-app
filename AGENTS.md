@@ -59,6 +59,8 @@ DayBook is a local-first, client-side React application built with Vite. It has 
 2.  **Calendar System**: Generates Google Calendar URLs and `.ics` files. See `src/helpers/calendar-export.ts`.
 3.  **Sound System**: Uses `cuelume` for hover/click/success feedback based on customizable settings.
 4.  **Visitor Tracker**: Uses Upstash Redis via Vercel Edge (`api/visitors.ts`). It employs IP-based locking (`SET NX EX 86400`) to prevent spam/refresh inflation.
+5.  **Birthday Links & Data Ingestion**: Client-side parsing of Base64Url JSON tokens (`helpers/invitation-token.ts`) enables users to request and respond to birthday invites without a backend.
+6.  **Dynamic Open Graph (OG) Previews**: Utilizes a Vercel Edge Function (`api/og-rewriter.ts`) alongside `vercel.json` rewrites to intercept `/invite(.*)` and `/response(.*)` to inject tailored preview images for social sharing.
 
 ## 4. Agent Workflow Rules
 
