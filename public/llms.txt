@@ -1,0 +1,24 @@
+# DayBook
+
+DayBook is a stylish, lightweight, local-first web application designed to help you remember the people you love by keeping track of their birthdays, relationships, and special notes. It acts as a lightweight "People CRM." It is built with React 19, TypeScript, and Vite 6.
+
+## Core Architecture
+- **Local-First & Privacy-Focused**: All birthday, relationship, and settings data stays securely on your device using `localStorage`. There is no backend database for user data.
+- **State Management**: Uses Zustand 5 for global state management.
+- **Styling**: Tailwind CSS 4 with Radix UI (via shadcn/ui).
+- **PWA Integration**: Fully installable Progressive Web App with offline support and background updates via `vite-plugin-pwa` and Workbox.
+
+## Key Features
+- **Relationship Tracking**: Store names, dates, relationship tags (e.g. Family, Friend, Colleague), and personal notes.
+- **Beautiful Dashboard**: Celebratory "Happy Birthday" section with confetti, upcoming birthdays list, and an interactive 12-month calendar grid.
+- **Rich Customization**:
+  - Theme toggling (Light/Dark).
+  - Main greeting typography and gradient styling.
+  - Floating messages and personalized greeting pools.
+  - Two integrated avatar systems (`avvvatars` and `boring-avatars`) plus custom photo uploads.
+- **Sound Feedback**: Configurable audio feedback for interactions using `cuelume`.
+- **Calendar Integration**: Export your birthdays to `.ics` files or add them directly to Google Calendar. ICS imports fully support restoring relationship tags and notes.
+- **Shareable Birthday Links**: Request your friends' birthdays effortlessly! Generate an invitation link, send it via chat, and process their response link directly into your local database. No backend required—links encode data via base64url.
+- **Dynamic Social Previews**: Vercel Edge-powered dynamic Open Graph images tailored specifically for the Invitation and Response shareable links.
+- **Data Portability**: Full JSON export and import for both your birthday data and your application settings.
+- **Visitor Analytics**: Edge-hosted unique visitor tracking using Upstash Redis.

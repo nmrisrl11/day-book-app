@@ -208,32 +208,43 @@ export function BirthdayManagementScreen() {
 		const currentMonth = today.getMonth() + 1;
 		const currentDay = today.getDate();
 
-		result.sort((a, b) => {
-			if (sortOption === "name-asc") {
-				return a.name.localeCompare(b.name);
-			} else if (sortOption === "name-desc") {
-				return b.name.localeCompare(a.name);
-			} else if (sortOption === "date-asc") {
-				return new Date(a.birthday).getTime() - new Date(b.birthday).getTime();
-			} else if (sortOption === "date-desc") {
-				return new Date(b.birthday).getTime() - new Date(a.birthday).getTime();
+		// Pre-calculate sort keys to avoid parsing dates inside the sort comparator
+		const mapped = result.map((b) => {
+			let timestamp = 0;
+			let upcomingTimestamp = 0;
+
+			if (sortOption === "date-asc" || sortOption === "date-desc") {
+				timestamp = new Date(b.birthday).getTime();
 			} else if (sortOption === "upcoming") {
-				const getNextBirthday = (dateStr: string) => {
-					const [, m, d] = dateStr.split("-");
-					const month = parseInt(m, 10);
-					const day = parseInt(d, 10);
-					let year = today.getFullYear();
-					if (month < currentMonth || (month === currentMonth && day < currentDay)) {
-						year += 1;
-					}
-					return new Date(year, month - 1, day).getTime();
-				};
-				return getNextBirthday(a.birthday) - getNextBirthday(b.birthday);
+				const [, m, d] = b.birthday.split("-");
+				const month = parseInt(m, 10);
+				const day = parseInt(d, 10);
+				let year = today.getFullYear();
+				if (month < currentMonth || (month === currentMonth && day < currentDay)) {
+					year += 1;
+				}
+				upcomingTimestamp = new Date(year, month - 1, day).getTime();
+			}
+
+			return { b, timestamp, upcomingTimestamp };
+		});
+
+		mapped.sort((a, b) => {
+			if (sortOption === "name-asc") {
+				return a.b.name.localeCompare(b.b.name);
+			} else if (sortOption === "name-desc") {
+				return b.b.name.localeCompare(a.b.name);
+			} else if (sortOption === "date-asc") {
+				return a.timestamp - b.timestamp;
+			} else if (sortOption === "date-desc") {
+				return b.timestamp - a.timestamp;
+			} else if (sortOption === "upcoming") {
+				return a.upcomingTimestamp - b.upcomingTimestamp;
 			}
 			return 0;
 		});
 
-		return result;
+		return mapped.map((item) => item.b);
 	}, [birthdays, searchQuery, monthFilter, relationshipFilter, sortOption]);
 
 	const totalPages =
