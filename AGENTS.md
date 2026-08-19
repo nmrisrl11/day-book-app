@@ -70,6 +70,6 @@ While originally conceived as a "birthday tracker," the product is evolving into
 ## 4. Agent Workflow Rules
 
 1.  **Read Before Writing**: Always read `CURRENT_STATE.md` to understand where the project is before making architectural decisions.
-2.  **Verify Assumptions**: If `instructions.md` says "Use Satoshi font", but the codebase uses `@fontsource-variable/geist`, the codebase wins.
+2.  **Verify Assumptions**: If `instructions.md` says "Use Satoshi font", but the codebase uses `@fontsource-variable/fredoka`, the codebase wins.
 3.  **Respect Boundaries**: Do not add dependencies if an existing tool does the job. Do not move feature-specific components into the global `src/components/` folder unless they are actually reused.
 4.  **Documentation Maintenance**: If you add a new feature, a new dependency, or change a fundamental pattern, you **MUST** update `CURRENT_STATE.md` and `README.md` (if applicable) before concluding your task.
