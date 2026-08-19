@@ -1,4 +1,4 @@
-import { birthdaySchema } from "@/schema/birthday-schema";
+import { inviteeSchema } from "@/schema/birthday-schema";
 
 export interface InvitationPayload {
 	v: number;
@@ -101,7 +101,7 @@ export function parseResponseToken(token: string): ResponsePayload | null {
 			typeof payload.e === "number" &&
 			Date.now() <= payload.e
 		) {
-			const validation = birthdaySchema.safeParse({ name: payload.n, birthday: payload.b });
+			const validation = inviteeSchema.safeParse({ name: payload.n, birthday: payload.b });
 			if (validation.success) {
 				return payload as ResponsePayload;
 			}

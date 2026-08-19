@@ -1,4 +1,5 @@
 import { useRegisterSW } from "virtual:pwa-register/react";
+import { APP_INFO } from "@/constants/app-info";
 import { Button } from "./ui/button";
 
 export function PWAPrompt() {
@@ -22,7 +23,9 @@ export function PWAPrompt() {
 		<div className="bg-card animate-in slide-in-from-bottom-5 fixed right-4 bottom-4 z-50 flex items-center gap-4 rounded-xl border p-4 shadow-lg">
 			<div className="flex flex-col gap-1">
 				<p className="text-sm font-semibold">Update available!</p>
-				<p className="text-muted-foreground text-xs">A new version of DayBook is available.</p>
+				<p className="text-muted-foreground text-xs">
+					A new version of {APP_INFO.name} is available.
+				</p>
 			</div>
 			<div className="flex items-center gap-2">
 				<Button size="sm" variant="outline" onClick={() => setNeedRefresh(false)}>

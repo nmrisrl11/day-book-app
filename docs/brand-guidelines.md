@@ -3,8 +3,9 @@
 ## 1. Brand Overview
 
 **Brand Name:** DayBook
+**Page Title:** DayBook - Remember The People You Love
 
-**Page Title:** DayBook - What's my birthday?
+_(Note: The brand name, page title, description, and keywords are managed centrally in `src/constants/app-info.ts`. Modifying this file will dynamically update the Vite PWA manifest, HTML `<meta>` tags, and all static UI text.)_
 
 **Description:**  
 A stylish, lightweight birthday tracker for keeping track of family and friends' birthdays — so you never forget one again. 🎉🎂

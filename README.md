@@ -5,12 +5,12 @@
 </div>
 
 <div align="center">
-    DayBook is a stylish, lightweight, local-first birthday tracker designed to help you keep track of family and friends' birthdays so you never forget one again. 🎉🎂
+    DayBook is a stylish, lightweight, local-first app designed to help you remember the people you love by keeping track of their birthdays, relationships, and special notes. 🎉🎂
 </div>
 
 ## Features
 
-- 🔒 **Privacy First**: All your birthday and settings data stays on your device (`localStorage`). Visitor analytics (unique visitor counting) use the `/api/visitors` flow with IP-based counting backed by Upstash Redis.
+- 🔒 **Privacy First**: All your birthday, relationship, and settings data stays on your device (`localStorage`). Visitor analytics (unique visitor counting) use the `/api/visitors` flow with IP-based counting backed by Upstash Redis.
 - 📱 **Installable PWA**: Install DayBook on your phone or desktop! Works offline, loads instantly, and detects updates in the background, applying them safely only after you confirm.
 - ✨ **Beautiful Dashboard**: Celebratory "Happy Birthday" section with confetti, upcoming birthdays list, and an interactive 12-month calendar grid.
 - 🎨 **Rich Customization**:
@@ -19,8 +19,9 @@
   - 💬 Floating messages and personalized greeting pools.
   - 🖼️ Two integrated avatar systems (`avvvatars` and `boring-avatars`) plus custom photo uploads.
 - 🎵 **Sound Feedback**: Satisfying, configurable audio feedback for interactions using the `cuelume` library.
-- 📅 **Calendar Integration**: Export your birthdays to `.ics` files or add them directly to Google Calendar.
+- 📅 **Calendar Integration**: Export your birthdays to `.ics` files or add them directly to Google Calendar. ICS imports fully support restoring relationship tags and notes.
 - 🔗 **Birthday Links**: Request your friends' birthdays effortlessly! Generate an invitation link, send it via chat, and process their response link directly into your local database. No backend required.
+- 🏷️ **Centralized Branding**: Easily fork and rebrand the application by editing a single `app-info.ts` configuration file that syncs across PWA manifests, meta tags, and all UI components.
 - 🖼️ **Dynamic Social Previews**: Vercel Edge-powered dynamic Open Graph images tailored specifically for the Invitation and Response shareable links.
 - 💾 **Data Portability**: Full JSON export and import for both your birthday data and your application settings.
 - 📊 **Visitor Analytics**: Edge-hosted unique visitor tracking using Upstash Redis.

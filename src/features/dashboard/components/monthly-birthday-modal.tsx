@@ -68,9 +68,16 @@ export function MonthlyBirthdayModal({
 												<div className="bg-muted ring-border rounded-full p-1 ring-1">
 													<UserAvatar birthday={celebrant} size={48} className="h-12 w-12" />
 												</div>
-												<span className="text-foreground text-lg font-semibold">
-													{celebrant.name}
-												</span>
+												<div className="flex flex-col">
+													<span className="text-foreground text-lg font-semibold">
+														{celebrant.name}
+													</span>
+													{celebrant.relationship && (
+														<span className="text-muted-foreground text-xs font-medium tracking-widest uppercase">
+															{celebrant.relationship}
+														</span>
+													)}
+												</div>
 											</div>
 										))}
 									</div>

@@ -2,6 +2,7 @@ import { parseImportedBirthdays } from "@/helpers/import-export";
 import { useDayBookStore } from "@/store/day-book-store";
 import { PlusIcon, UploadIcon } from "lucide-react";
 import { lazy, Suspense, useState } from "react";
+import { APP_INFO } from "@/constants/app-info";
 import { Button } from "./ui/button";
 
 const BirthdayFormModal = lazy(() =>
@@ -40,7 +41,7 @@ export function EmptyState() {
 			<div className="mb-6 animate-bounce text-6xl">🎂</div>
 
 			<h1 className="mb-4 text-center text-4xl font-extrabold tracking-tight md:text-5xl">
-				Welcome to DayBook
+				Welcome to {APP_INFO.name}
 			</h1>
 
 			<p className="text-muted-foreground mb-8 max-w-md text-center text-lg">

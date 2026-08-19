@@ -1,14 +1,26 @@
 import { Button } from "@/components/ui/button";
+import { APP_INFO } from "@/constants/app-info";
 import { parseResponseToken } from "@/helpers/invitation-token";
 import { useDayBookStore } from "@/store/day-book-store";
 import { AlertTriangleIcon, CalendarIcon, HomeIcon, UserIcon } from "lucide-react";
 import { useQueryState } from "nuqs";
+import { Label } from "@/components/ui/label";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
+import { RELATIONSHIP_OPTIONS, type Relationship } from "@/types/birthday";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
 export function ResponseScreen() {
 	const [token] = useQueryState("t");
 	const [added, setAdded] = useState(false);
+	const [relationship, setRelationship] = useState<Relationship | "">("");
+	const [error, setError] = useState("");
 
 	const { birthdays, addBirthday } = useDayBookStore();
 
@@ -40,9 +52,16 @@ export function ResponseScreen() {
 	);
 
 	const handleAdd = () => {
+		if (!relationship) {
+			setError("Please select a relationship before adding.");
+			return;
+		}
+
 		addBirthday({
 			name: response.n,
 			birthday: response.b,
+			relationship: relationship,
+			notes: [],
 		});
 		setAdded(true);
 	};
@@ -54,7 +73,7 @@ export function ResponseScreen() {
 					<div className="mb-2 text-6xl">🎉</div>
 					<h3 className="mb-2 text-lg font-semibold">Birthday Added!</h3>
 					<p className="text-muted-foreground mb-6">
-						<strong>{response.n}</strong> has been added to your DayBook.
+						<strong>{response.n}</strong> has been added to your {APP_INFO.name}.
 					</p>
 					<div className="flex gap-4">
 						<Button asChild variant="outline">
@@ -120,6 +139,35 @@ export function ResponseScreen() {
 						</div>
 					</div>
 				)}
+
+				<div className="flex flex-col gap-2 pt-2 pb-2">
+					<Label htmlFor="relationship">
+						Relationship <span className="text-destructive">*</span>
+					</Label>
+					<Select
+						value={relationship}
+						onValueChange={(val) => {
+							setRelationship(val as Relationship);
+							setError("");
+						}}
+					>
+						<SelectTrigger id="relationship" className="w-full">
+							<SelectValue placeholder="Select relationship" />
+						</SelectTrigger>
+						<SelectContent position="popper">
+							{RELATIONSHIP_OPTIONS.map((option) => (
+								<SelectItem key={option} value={option}>
+									{option}
+								</SelectItem>
+							))}
+						</SelectContent>
+					</Select>
+					{error && (
+						<p className="text-destructive text-sm font-medium" role="alert">
+							{error}
+						</p>
+					)}
+				</div>
 
 				<div className="flex flex-col gap-3 pt-2">
 					<Button onClick={handleAdd} className="w-full">

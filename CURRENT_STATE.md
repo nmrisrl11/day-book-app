@@ -6,7 +6,7 @@ This document is a living snapshot of the DayBook project's current state. It re
 
 ## 1. Project Status
 
-DayBook is a fully functional, local-first birthday tracking application. All core features from the original product specification are implemented. Several significant features (custom avatars, sound systems, settings management) have been added beyond the original scope.
+DayBook is a fully functional, local-first React application. While originally specified as a pure birthday tracker, it has evolved into a relationship-centric "People CRM," storing relationships and notes alongside birthdays. All core features from the original product specification are implemented, with significant additions (custom avatars, sound systems, settings management) beyond the original scope.
 
 ## 2. Technology Stack
 
@@ -25,13 +25,13 @@ DayBook is a fully functional, local-first birthday tracking application. All co
 
 ## 3. Implemented Features Inventory
 
-### Core Birthday Management (Fully Implemented)
+### Core Birthday & People Management (Fully Implemented)
 
-- **Data Model**: Birthdays have ID, Name, Date, Avatar (Base64 or external ID).
-- **CRUD**: Create, Read, Update, Delete functionality for birthdays.
-- **Persistence**: Handled entirely client-side via `localStorage` via Zustand `persist`.
+- **Data Model**: Birthdays act as "Person Cards" with an ID, Name, Date, Avatar (Base64 or external ID), Relationship (Family, Friend, Partner, Colleague, Other), and Notes (up to 5 lightweight string tags).
+- **CRUD & Bulk**: Create, Read, Update, Delete functionality for birthdays. Users can also select multiple people in the Management screen to assign relationships in bulk.
+- **Persistence**: Handled entirely client-side via `localStorage` via Zustand `persist`. Backward compatible data migrations handle legacy formats.
 - **Validation**: Strict validation centralized in `validation-constants.ts` enforced via Zod schemas (`birthday-schema.ts`, `settings-schema.ts`) and native HTML `maxLength`/`minLength` attributes.
-- **Invitations / Links**: Fully local-first link sharing system. Users can generate an Invitation link (24h expiration, Base64Url token) to send to friends. Friends fill it out on the `/invite` route and generate a Response link (`/response`), allowing easy data ingestion without a backend.
+- **Invitations / Links**: Fully local-first link sharing system. Users can generate an Invitation link (24h expiration, Base64Url token) to send to friends. Friends fill it out on the `/invite` route and generate a Response link (`/response`), allowing easy data ingestion without a backend. Receivers of the link can select a relationship upon importing.
 
 ### Dashboard & Views (Fully Implemented)
 
@@ -53,10 +53,11 @@ Settings has grown into a full `/settings` route with 6 tabs managed by `nuqs` U
 
 ### System Integrations
 
-- **Calendar**: Google Calendar add-event links and `.ics` file generation and download (`helpers/calendar-export.ts`).
+- **Calendar**: Google Calendar add-event links and `.ics` file generation and download (`helpers/calendar-export.ts`). ICS Import correctly parses and restores relationships and notes from DayBook exports.
 - **Dynamic Open Graph (OG) Previews**: Uses a lightweight Vercel Edge Function (`api/og-rewriter.ts`) and `vercel.json` rewrites to dynamically inject specific social media preview images (Twitter/Facebook cards) when sharing `/invite` or `/response` links.
-- **Visitor Tracking**: Public endpoint (`/api/visitors`) using Vercel Edge functions and Upstash Redis. Uses `INCR` and `SET NX EX 86400` for 24-hour IP-based unique visitor counting.
+- **Visitor Tracking**: Public endpoint (`/api/visitors`) using Vercel Edge functions and Upstash Redis. Uses `INCR` and `SET NX EX 86400` for 24-hour IP-based unique visitor counting. Local development environments safely bypass this API to preserve limits.
 - **Progressive Web App (PWA)**: Installable, offline-capable application built via `vite-plugin-pwa` with Workbox generating the service worker. It includes a custom update prompt for graceful updates.
+- **Centralized Branding**: The application brand name, title, description, keywords, and theme colors are strictly centralized in `src/constants/app-info.ts` ensuring a single source of truth that is dynamically injected into the PWA manifest, HTML templates via Vite plugin, and all static UI components.
 
 ## 4. Current Architecture Details
 

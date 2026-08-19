@@ -1,5 +1,7 @@
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
 	Select,
 	SelectContent,
@@ -9,7 +11,7 @@ import {
 } from "@/components/ui/select";
 import { FULL_MONTHS } from "@/constants/months";
 import { useDayBookStore } from "@/store/day-book-store";
-import type { Birthday } from "@/types/birthday";
+import { RELATIONSHIP_OPTIONS, type Birthday } from "@/types/birthday";
 import {
 	ChevronLeftIcon,
 	ChevronRightIcon,
@@ -40,7 +42,9 @@ const AskBirthdayModal = lazy(() =>
 );
 
 export function BirthdayManagementScreen() {
-	const { birthdays, deleteBirthday } = useDayBookStore();
+	const { birthdays, deleteBirthday, updateBirthdays } = useDayBookStore();
+
+	const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
 
 	const [formModalOpen, setFormModalOpen] = useState(false);
 	const [editingBirthday, setEditingBirthday] = useState<Birthday | null>(null);
@@ -76,6 +80,10 @@ export function BirthdayManagementScreen() {
 		"month",
 		parseAsStringLiteral(MONTH_OPTIONS).withDefault("all"),
 	);
+	const [relationshipFilter, setRelationshipFilter] = useQueryState(
+		"relationship",
+		parseAsString.withDefault("all"),
+	);
 	const [sortOption, setSortOption] = useQueryState(
 		"sort",
 		parseAsStringLiteral(SORT_OPTIONS).withDefault("upcoming"),
@@ -105,6 +113,7 @@ export function BirthdayManagementScreen() {
 	const isFiltersActive =
 		searchQuery !== "" ||
 		monthFilter !== "all" ||
+		relationshipFilter !== "all" ||
 		sortOption !== "upcoming" ||
 		itemsPerPage !== "10";
 
@@ -112,12 +121,20 @@ export function BirthdayManagementScreen() {
 		setLocalSearch("");
 		setSearchQuery("");
 		setMonthFilter("all");
+		setRelationshipFilter("all");
 		setSortOption("upcoming");
 		setItemsPerPage("10");
 		setCurrentPage(1);
 	};
 
-	const prevDeps = useRef({ birthdays, searchQuery, monthFilter, sortOption, itemsPerPage });
+	const prevDeps = useRef({
+		birthdays,
+		searchQuery,
+		monthFilter,
+		relationshipFilter,
+		sortOption,
+		itemsPerPage,
+	});
 
 	useEffect(() => {
 		const prev = prevDeps.current;
@@ -125,14 +142,42 @@ export function BirthdayManagementScreen() {
 			prev.birthdays !== birthdays ||
 			prev.searchQuery !== searchQuery ||
 			prev.monthFilter !== monthFilter ||
+			prev.relationshipFilter !== relationshipFilter ||
 			prev.sortOption !== sortOption ||
 			prev.itemsPerPage !== itemsPerPage;
 
 		if (hasChanged) {
 			setCurrentPage(1);
-			prevDeps.current = { birthdays, searchQuery, monthFilter, sortOption, itemsPerPage };
+			prevDeps.current = {
+				birthdays,
+				searchQuery,
+				monthFilter,
+				relationshipFilter,
+				sortOption,
+				itemsPerPage,
+			};
 		}
-	}, [birthdays, searchQuery, monthFilter, sortOption, itemsPerPage, setCurrentPage]);
+	}, [
+		birthdays,
+		searchQuery,
+		monthFilter,
+		relationshipFilter,
+		sortOption,
+		itemsPerPage,
+		setCurrentPage,
+	]);
+
+	const handleSelectChange = useCallback((id: string, selected: boolean) => {
+		setSelectedIds((prev) => {
+			const next = new Set(prev);
+			if (selected) {
+				next.add(id);
+			} else {
+				next.delete(id);
+			}
+			return next;
+		});
+	}, []);
 
 	const filteredAndSortedBirthdays = useMemo(() => {
 		let result = [...birthdays];
@@ -151,7 +196,12 @@ export function BirthdayManagementScreen() {
 			});
 		}
 
-		// 3. Sort
+		// 3. Relationship filter
+		if (relationshipFilter !== "all") {
+			result = result.filter((b) => b.relationship === relationshipFilter);
+		}
+
+		// 4. Sort
 		const today = new Date();
 		const currentMonth = today.getMonth() + 1;
 		const currentDay = today.getDate();
@@ -182,7 +232,7 @@ export function BirthdayManagementScreen() {
 		});
 
 		return result;
-	}, [birthdays, searchQuery, monthFilter, sortOption]);
+	}, [birthdays, searchQuery, monthFilter, relationshipFilter, sortOption]);
 
 	const totalPages =
 		itemsPerPage === "all"
@@ -316,6 +366,22 @@ export function BirthdayManagementScreen() {
 								</SelectContent>
 							</Select>
 							<Select
+								value={relationshipFilter}
+								onValueChange={(val) => setRelationshipFilter(val)}
+							>
+								<SelectTrigger className="bg-background w-32.5" aria-label="Filter by relationship">
+									<SelectValue placeholder="Relationship" />
+								</SelectTrigger>
+								<SelectContent position="popper">
+									<SelectItem value="all">All People</SelectItem>
+									{RELATIONSHIP_OPTIONS.map((option) => (
+										<SelectItem key={option} value={option}>
+											{option}
+										</SelectItem>
+									))}
+								</SelectContent>
+							</Select>
+							<Select
 								value={sortOption}
 								onValueChange={(val) => setSortOption(val as (typeof SORT_OPTIONS)[number])}
 							>
@@ -346,6 +412,33 @@ export function BirthdayManagementScreen() {
 						</div>
 					</div>
 
+					{filteredAndSortedBirthdays.length > 0 && (
+						<div className="flex items-center justify-between px-1 py-2">
+							<div className="flex items-center gap-2">
+								<Checkbox
+									id="select-all"
+									checked={
+										filteredAndSortedBirthdays.length > 0 &&
+										selectedIds.size === filteredAndSortedBirthdays.length
+									}
+									onCheckedChange={(checked) => {
+										if (checked) {
+											setSelectedIds(new Set(filteredAndSortedBirthdays.map((b) => b.id)));
+										} else {
+											setSelectedIds(new Set());
+										}
+									}}
+								/>
+								<Label htmlFor="select-all" className="cursor-pointer text-sm font-medium">
+									Select All
+								</Label>
+							</div>
+							<div className="text-muted-foreground text-sm">
+								{filteredAndSortedBirthdays.length} items
+							</div>
+						</div>
+					)}
+
 					<div className="custom-scrollbar max-h-[55vh] overflow-y-auto pr-4">
 						{filteredAndSortedBirthdays.length === 0 ? (
 							<div className="text-muted-foreground py-12 text-center italic">
@@ -360,6 +453,9 @@ export function BirthdayManagementScreen() {
 										onEdit={handleEdit}
 										onDelete={handleDeleteClick}
 										onExport={handleExport}
+										selectable={true}
+										selected={selectedIds.has(birthday.id)}
+										onSelectChange={handleSelectChange}
 									/>
 								))}
 							</div>
@@ -476,6 +572,39 @@ export function BirthdayManagementScreen() {
 				<Suspense fallback={null}>
 					<AskBirthdayModal open={askModalOpen} onOpenChange={setAskModalOpen} />
 				</Suspense>
+			)}
+
+			{selectedIds.size > 0 && (
+				<div className="bg-popover text-popover-foreground animate-in fade-in slide-in-from-bottom-4 fixed bottom-6 left-1/2 z-50 flex -translate-x-1/2 items-center gap-3 rounded-full border px-4 py-2 shadow-lg">
+					<div className="text-sm font-medium whitespace-nowrap">{selectedIds.size} selected</div>
+					<div className="bg-border h-4 w-px" />
+					<Select
+						onValueChange={(val) => {
+							updateBirthdays(Array.from(selectedIds), { relationship: val as any });
+							setSelectedIds(new Set());
+						}}
+					>
+						<SelectTrigger className="h-8 w-40 border-none bg-transparent px-2 shadow-none focus:ring-0">
+							<SelectValue placeholder="Set Relationship" />
+						</SelectTrigger>
+						<SelectContent position="popper" side="top">
+							{RELATIONSHIP_OPTIONS.map((option) => (
+								<SelectItem key={option} value={option}>
+									{option}
+								</SelectItem>
+							))}
+						</SelectContent>
+					</Select>
+					<div className="bg-border h-4 w-px" />
+					<Button
+						variant="ghost"
+						size="sm"
+						className="hover:bg-muted h-8 rounded-full px-3"
+						onClick={() => setSelectedIds(new Set())}
+					>
+						Clear
+					</Button>
+				</div>
 			)}
 		</div>
 	);
