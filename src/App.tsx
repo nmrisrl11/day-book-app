@@ -11,6 +11,7 @@ import { ResponseSkeleton } from "./features/invitation/components/response-skel
 import { ManageBirthdaysSkeleton } from "./features/management/components/manage-birthdays-skeleton";
 import { SettingsSkeleton } from "./features/settings/components/settings-skeleton";
 import { useDayBookStore } from "./store/day-book-store";
+import { GooeyToaster } from "goey-toast";
 
 const Dashboard = lazy(() =>
 	import("./features/dashboard/dashboard").then((m) => ({ default: m.Dashboard })),
@@ -120,6 +121,12 @@ function App() {
 						/>
 					</Routes>
 					<PWAPrompt />
+					<GooeyToaster
+						position="bottom-center"
+						theme={settings.theme}
+						closeOnEscape={false}
+						showTimestamp={false}
+					/>
 					<Footer />
 				</PageLayout>
 			</NuqsAdapter>

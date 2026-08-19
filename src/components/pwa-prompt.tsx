@@ -1,10 +1,11 @@
-import { useRegisterSW } from "virtual:pwa-register/react";
 import { APP_INFO } from "@/constants/app-info";
-import { Button } from "./ui/button";
+import { gooeyToast } from "goey-toast";
+import { useEffect } from "react";
+import { useRegisterSW } from "virtual:pwa-register/react";
 
 export function PWAPrompt() {
 	const {
-		needRefresh: [needRefresh, setNeedRefresh],
+		needRefresh: [needRefresh],
 		updateServiceWorker,
 	} = useRegisterSW({
 		onRegistered(r) {
@@ -17,24 +18,29 @@ export function PWAPrompt() {
 		},
 	});
 
-	if (!needRefresh) return null;
+	useEffect(() => {
+		if (needRefresh) {
+			gooeyToast.info("Update available", {
+				id: "pwa-update",
+				description: `A newer version of ${APP_INFO.name} is ready.`,
+				duration: Infinity,
+				timing: { displayDuration: 86400000 }, // Fix for goey-toast internal morph-collapse timer
+				showTimestamp: false,
+				classNames: {
+					content: "items-center text-center",
+					title: "text-center w-full",
+					description: "text-center justify-center flex w-full",
+				},
+				action: {
+					label: "Update",
+					successLabel: "Updating...",
+					onClick: () => {
+						updateServiceWorker(true);
+					},
+				},
+			});
+		}
+	}, [needRefresh, updateServiceWorker]);
 
-	return (
-		<div className="bg-card animate-in slide-in-from-bottom-5 fixed right-4 bottom-4 z-50 flex items-center gap-4 rounded-xl border p-4 shadow-lg">
-			<div className="flex flex-col gap-1">
-				<p className="text-sm font-semibold">Update available!</p>
-				<p className="text-muted-foreground text-xs">
-					A new version of {APP_INFO.name} is available.
-				</p>
-			</div>
-			<div className="flex items-center gap-2">
-				<Button size="sm" variant="outline" onClick={() => setNeedRefresh(false)}>
-					Dismiss
-				</Button>
-				<Button size="sm" onClick={() => updateServiceWorker(true)}>
-					Reload
-				</Button>
-			</div>
-		</div>
-	);
+	return null;
 }
