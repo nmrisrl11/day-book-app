@@ -24,7 +24,7 @@
 - 🏷️ **Centralized Branding**: Easily fork and rebrand the application by editing a single `app-info.ts` configuration file that syncs across PWA manifests, meta tags, and all UI components.
 - 🖼️ **Dynamic Social Previews**: Vercel Edge-powered dynamic Open Graph images tailored specifically for the Invitation and Response shareable links.
 - 💾 **Data Portability**: Full JSON export and import for both your birthday data and your application settings.
-- 📊 **Visitor Analytics**: Edge-hosted unique visitor tracking using Upstash Redis.
+- 📊 **Visitor Analytics**: Edge-hosted unique visitor tracking using Upstash Redis. _Privacy note: IP addresses are strictly anonymized via one-way SHA-256 hashing before reaching the database, ensuring no Personally Identifiable Information (PII) is ever stored._
 
 ## Technology Stack
 

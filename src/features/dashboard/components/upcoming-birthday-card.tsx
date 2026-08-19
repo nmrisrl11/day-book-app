@@ -31,10 +31,7 @@ export function UpcomingBirthdayCard({ celebrant, currentDate }: UpcomingBirthda
 				<span className="text-muted-foreground text-sm font-medium">{formattedDate}</span>
 
 				{age !== null && (
-					<Badge
-						variant="secondary"
-						className="text-muted-foreground mt-1 px-2 py-0.5 font-semibold"
-					>
+					<Badge variant="secondary" className="mt-1 px-2 py-0.5 font-semibold">
 						{age} years old
 					</Badge>
 				)}

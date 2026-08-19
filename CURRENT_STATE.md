@@ -55,7 +55,7 @@ Settings has grown into a full `/settings` route with 6 tabs managed by `nuqs` U
 
 - **Calendar**: Google Calendar add-event links and `.ics` file generation and download (`helpers/calendar-export.ts`). ICS Import correctly parses and restores relationships and notes from DayBook exports.
 - **Dynamic Open Graph (OG) Previews**: Uses a lightweight Vercel Edge Function (`api/og-rewriter.ts`) and `vercel.json` rewrites to dynamically inject specific social media preview images (Twitter/Facebook cards) when sharing `/invite` or `/response` links.
-- **Visitor Tracking**: Public endpoint (`/api/visitors`) using Vercel Edge functions and Upstash Redis. Uses `INCR` and `SET NX EX 86400` for 24-hour IP-based unique visitor counting. Local development environments safely bypass this API to preserve limits.
+- **Visitor Tracking**: Public endpoint (`/api/visitors`) using Vercel Edge functions and Upstash Redis. Uses `INCR` and `SET NX EX 86400` for 24-hour unique visitor counting. IP addresses are completely anonymized via one-way SHA-256 hashing _before_ being used as lock keys, guaranteeing no PII is ever stored and maintaining the privacy-first architecture. Local development environments safely bypass this API to preserve limits.
 - **Progressive Web App (PWA)**: Installable, offline-capable application built via `vite-plugin-pwa` with Workbox generating the service worker. It includes a custom update prompt for graceful updates.
 - **Centralized Branding**: The application brand name, title, description, keywords, and theme colors are strictly centralized in `src/constants/app-info.ts` ensuring a single source of truth that is dynamically injected into the PWA manifest, HTML templates via Vite plugin, and all static UI components.
 
@@ -82,9 +82,10 @@ day-book-app/
 ### Known Issues & Technical Debt
 
 - **Stale Closures**: Because the settings state is tightly bound to the UI (e.g. debounced color pickers), `updateSettings` calls must frequently fetch the latest state inside the execution block using `useDayBookStore.getState()`. This pattern is established but fragile.
-- **React Scan**: `<script crossorigin="anonymous" src="//unpkg.com/react-scan/dist/auto.global.js"></script>` is currently hardcoded in `index.html` for performance debugging.
+- **PWA Install Prompt**: The custom PWA install prompt behavior in production needs to be verified on specific mobile devices to ensure the `beforeinstallprompt` event fires correctly.
 
 ## 5. Current Development Focus
 
-- DayBook is currently in a highly stable state.
-- Documentation audit and reorganization (AGENTS.md, CURRENT_STATE.md).
+- DayBook is currently in a highly stable, performant state.
+- A full performance audit and optimization pass was recently completed (bundle splitting `node_modules`, sorting logic optimization via Schwartzian transform, and asynchronous font loading).
+- Ongoing monitoring of PWA behavior across devices.
