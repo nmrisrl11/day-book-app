@@ -90,7 +90,7 @@ export function generateIcsContent(birthdays: Birthday | Birthday[]): string {
 		const summary = escapeIcsText(`${birthday.name}'s Birthday`);
 		const description = escapeIcsText(generateDescription(birthday));
 
-		ics = ics.concat([
+		const eventLines = [
 			"BEGIN:VEVENT",
 			`UID:${uid}`,
 			`DTSTAMP:${dtStamp}`,
@@ -98,10 +98,17 @@ export function generateIcsContent(birthdays: Birthday | Birthday[]): string {
 			`DTEND;VALUE=DATE:${end}`,
 			`SUMMARY:${summary}`,
 			`DESCRIPTION:${description}`,
-			"RRULE:FREQ=YEARLY",
-			"TRANSP:TRANSPARENT", // Shows as 'free' not 'busy'
-			"END:VEVENT",
-		]);
+		];
+
+		if (birthday.notes && birthday.notes.length > 0) {
+			for (const note of birthday.notes) {
+				eventLines.push(`X-DAYBOOK-NOTE:${escapeIcsText(note)}`);
+			}
+		}
+
+		eventLines.push("RRULE:FREQ=YEARLY", "TRANSP:TRANSPARENT", "END:VEVENT");
+
+		ics = ics.concat(eventLines);
 	}
 
 	ics.push("END:VCALENDAR");

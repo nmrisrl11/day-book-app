@@ -48,8 +48,9 @@ export function CalendarExportDialog({ open, onOpenChange, birthdays }: Calendar
 				<DialogHeader>
 					<DialogTitle>{title}</DialogTitle>
 					<DialogDescription>
-						This will create calendar events containing birthday information. {APP_INFO.name} does
-						not control how external calendar services store or manage this information.
+						This will create calendar events containing birthday information, relationship labels,
+						and all note text. {APP_INFO.name} does not control how external calendar services store
+						or manage these fields.
 					</DialogDescription>
 				</DialogHeader>
 

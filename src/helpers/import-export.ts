@@ -4,7 +4,7 @@ import type { z } from "zod";
 
 type SettingsState = z.infer<typeof SettingsSchema>;
 
-import { NOTE_MAX_COUNT } from "@/schema/validation-constants";
+import { NOTE_MAX_COUNT, NOTE_MAX_LENGTH } from "@/schema/validation-constants";
 
 export function exportBirthdays(birthdays: Birthday[]) {
 	const dataStr = JSON.stringify(birthdays, null, 2);
@@ -59,7 +59,12 @@ export function parseImportedBirthdays(fileText: string): Birthday[] {
 			.map((item: Record<string, unknown>) => {
 				let parsedNotes: string[] = [];
 				if (Array.isArray(item.notes)) {
-					parsedNotes = item.notes.filter((n) => typeof n === "string").slice(0, NOTE_MAX_COUNT);
+					parsedNotes = item.notes
+						.filter((n) => typeof n === "string")
+						.map((n) => (n as string).trim())
+						.filter((n) => n.length > 0)
+						.map((n) => n.substring(0, NOTE_MAX_LENGTH))
+						.slice(0, NOTE_MAX_COUNT);
 				}
 
 				return {

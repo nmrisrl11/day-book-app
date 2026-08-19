@@ -104,9 +104,20 @@ export const useDayBookStore = create<DayBookState>()(
 			merge: (persistedState: unknown, currentState) => {
 				const state = persistedState as Partial<DayBookState>;
 
+				let mergedBirthdays = state?.birthdays || currentState.birthdays || [];
+
+				if (Array.isArray(mergedBirthdays)) {
+					mergedBirthdays = mergedBirthdays.map((b) => ({
+						...b,
+						relationship: b.relationship || "Other",
+						notes: Array.isArray(b.notes) ? b.notes : [],
+					}));
+				}
+
 				return {
 					...currentState,
 					...state,
+					birthdays: mergedBirthdays,
 					settings: {
 						...defaultSettings,
 						...(state?.settings || {}),

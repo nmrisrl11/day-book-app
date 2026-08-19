@@ -399,6 +399,7 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 										<span>{note}</span>
 										<button
 											type="button"
+											aria-label={`Remove note: ${note}`}
 											onClick={() => {
 												form.setValue(
 													"notes",
@@ -442,14 +443,18 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 							/>
 							<Button
 								type="button"
-								variant="outline"
+								size="icon"
+								variant="secondary"
+								aria-label="Add note"
+								className="shrink-0"
 								disabled={notes.length >= NOTE_MAX_COUNT || !noteInput.trim()}
-								onClick={() => {
+								onClick={(e) => {
+									e.preventDefault();
 									const trimmed = noteInput.trim();
 									if (
 										trimmed &&
-										trimmed.length <= NOTE_MAX_LENGTH &&
 										notes.length < NOTE_MAX_COUNT &&
+										trimmed.length <= NOTE_MAX_LENGTH &&
 										!notes.includes(trimmed)
 									) {
 										form.setValue("notes", [...notes, trimmed], { shouldValidate: true });

@@ -65,6 +65,7 @@ export function parseIcsForBirthdays(icsText: string): Birthday[] {
 	let currentDtStart = "";
 	let currentRrule = "";
 	let currentDescription = "";
+	let currentNotes: string[] = [];
 
 	for (const line of lines) {
 		if (line.startsWith("BEGIN:VEVENT")) {
@@ -73,6 +74,7 @@ export function parseIcsForBirthdays(icsText: string): Birthday[] {
 			currentDtStart = "";
 			currentRrule = "";
 			currentDescription = "";
+			currentNotes = [];
 			continue;
 		}
 
@@ -95,14 +97,10 @@ export function parseIcsForBirthdays(icsText: string): Birthday[] {
 						if (relMatch) {
 							relationship = relMatch[1].trim() as any;
 						}
+					}
 
-						const notesMatch = currentDescription.match(/Notes:\s*(.+?)(?:\n|$)/i);
-						if (notesMatch) {
-							notes = notesMatch[1]
-								.split("•")
-								.map((n) => n.trim())
-								.filter(Boolean);
-						}
+					if (currentNotes.length > 0) {
+						notes = [...currentNotes];
 					}
 
 					birthdays.push({
@@ -131,6 +129,8 @@ export function parseIcsForBirthdays(icsText: string): Birthday[] {
 				}
 			} else if (line.startsWith("RRULE:")) {
 				currentRrule = line.substring(6);
+			} else if (line.startsWith("X-DAYBOOK-NOTE:")) {
+				currentNotes.push(unescapeIcsText(line.substring(15)));
 			}
 		}
 	}

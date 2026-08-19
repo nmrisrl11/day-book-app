@@ -148,6 +148,7 @@ export function BirthdayManagementScreen() {
 
 		if (hasChanged) {
 			setCurrentPage(1);
+			setSelectedIds(new Set());
 			prevDeps.current = {
 				birthdays,
 				searchQuery,
