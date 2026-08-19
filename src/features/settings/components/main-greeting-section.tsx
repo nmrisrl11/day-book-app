@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -9,9 +10,11 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import { MAIN_GREETINGS, MAIN_GREETING_FONTS } from "@/constants/main-greeting";
+import { getRandomPalette } from "@/helpers/color-palettes";
 import { cn } from "@/lib/utils";
 import { defaultSettings, useDayBookStore } from "@/store/day-book-store";
 import type { GreetingTextColorType } from "@/types/settings";
+import { ArrowRightLeftIcon, DicesIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { RestoreDefaultsButton } from "./restore-defaults-button";
 
@@ -224,7 +227,47 @@ export function MainGreetingSection() {
 				</div>
 
 				<div className="flex flex-col gap-4 sm:col-span-2">
-					<h3 className="text-base font-medium">Colors</h3>
+					<div className="flex items-center justify-between">
+						<h3 className="text-base font-medium">Colors</h3>
+						{greetingSettings.type === "gradient" && (
+							<div className="flex items-center gap-1 sm:gap-2">
+								<Button
+									variant="ghost"
+									size="sm"
+									className="h-8 text-xs"
+									aria-label="Reverse gradient colors"
+									onClick={() => {
+										updateGradient({
+											start: greetingSettings.gradient.end,
+											end: greetingSettings.gradient.start,
+										});
+									}}
+								>
+									<ArrowRightLeftIcon className="h-3 w-3 sm:mr-1.5" />
+									<span className="hidden sm:inline">Reverse</span>
+								</Button>
+								<Button
+									variant="ghost"
+									size="sm"
+									className="h-8 text-xs"
+									aria-label="Randomize gradient colors"
+									onClick={() => {
+										// Pass the current colors to avoid getting the same palette if possible
+										const currentStr = `${greetingSettings.gradient.start},${greetingSettings.gradient.end}`;
+										const randomPalette = getRandomPalette(currentStr);
+										// Use the first two colors from the random palette for the gradient
+										updateGradient({
+											start: randomPalette[0],
+											end: randomPalette[1],
+										});
+									}}
+								>
+									<DicesIcon className="h-3 w-3 sm:mr-1.5" />
+									<span className="hidden sm:inline">Randomize</span>
+								</Button>
+							</div>
+						)}
+					</div>
 					{greetingSettings.type === "solid" ? (
 						<div className="flex items-center gap-3">
 							<div className="h-10 w-10 overflow-hidden rounded-md border shadow-sm">
