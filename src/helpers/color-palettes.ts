@@ -5,7 +5,10 @@ export function getRandomPalette(currentPaletteStr?: string): string[] {
 		return palettes[Math.floor(Math.random() * palettes.length)];
 	}
 
-	const currentIndex = palettes.findIndex((p) => p.join(",") === currentPaletteStr);
+	const colorsCount = currentPaletteStr.split(",").length;
+	const currentIndex = palettes.findIndex(
+		(p) => p.slice(0, colorsCount).join(",") === currentPaletteStr
+	);
 
 	if (currentIndex === -1) {
 		return palettes[Math.floor(Math.random() * palettes.length)];
