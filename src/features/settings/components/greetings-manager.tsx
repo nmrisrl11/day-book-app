@@ -7,6 +7,7 @@ import { RestoreDefaultsButton } from "./restore-defaults-button";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { GREETINGS_MAX_LENGTH, GREETINGS_MIN_LENGTH } from "@/schema/validation-constants";
 
 const greetingSchema = z.object({
 	greetings: z
@@ -14,8 +15,8 @@ const greetingSchema = z.object({
 			z.object({
 				text: z
 					.string()
-					.min(2, "Must be at least 2 characters.")
-					.max(200, "Cannot exceed 200 characters."),
+					.min(GREETINGS_MIN_LENGTH, `Must be at least ${GREETINGS_MIN_LENGTH} characters.`)
+					.max(GREETINGS_MAX_LENGTH, `Cannot exceed ${GREETINGS_MAX_LENGTH} characters.`),
 			}),
 		)
 		.max(10, "Maximum of 10 greetings reached."),
@@ -127,10 +128,12 @@ export function GreetingsManager() {
 								<Textarea
 									{...register(`greetings.${index}.text`)}
 									placeholder="New greeting"
-									maxLength={200}
+									minLength={GREETINGS_MIN_LENGTH}
+									maxLength={GREETINGS_MAX_LENGTH}
 									className="field-sizing-content max-h-32 min-h-0 w-full resize-none overflow-hidden border py-1.75 text-sm break-all transition-colors"
 									onInput={adjustTextareaHeight}
 									onFocus={adjustTextareaHeight}
+									autoComplete="off"
 								/>
 								{errors.greetings?.[index]?.text && (
 									<p className="text-destructive text-xs">

@@ -1,14 +1,15 @@
 import { z } from "zod";
+import { NAME_MAX_LENGTH, NAME_MIN_LENGTH } from "./validation-constants";
 
 export const birthdaySchema = z.object({
 	name: z
 		.string()
 		.trim()
 		.min(1, { message: "Name is required." })
-		.min(2, { message: "Name must be at least 2 characters." })
-		.max(50, { message: "Name must be less than 50 characters." })
-		.regex(/^[\p{L}\p{M} \-']+$/u, {
-			message: "Name can only contain letters, combining marks, spaces, hyphens, and apostrophes.",
+		.min(NAME_MIN_LENGTH, { message: `Name must be at least ${NAME_MIN_LENGTH} characters.` })
+		.max(NAME_MAX_LENGTH, { message: `Name must be less than ${NAME_MAX_LENGTH} characters.` })
+		.regex(/^[\p{L}\p{N}\p{M} \-']+$/u, {
+			message: "Name can only contain letters, numbers, spaces, hyphens, and apostrophes.",
 		}),
 	birthday: z
 		.string()

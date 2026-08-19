@@ -4,11 +4,13 @@ import { lazy, Suspense, useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Footer } from "./components/layout/footer";
 import { PageLayout } from "./components/layout/page-layout";
+import { PWAPrompt } from "./components/pwa-prompt";
 import { DashboardSkeleton } from "./features/dashboard/components/dashboard-skeleton";
+import { InvitationSkeleton } from "./features/invitation/components/invitation-skeleton";
+import { ResponseSkeleton } from "./features/invitation/components/response-skeleton";
 import { ManageBirthdaysSkeleton } from "./features/management/components/manage-birthdays-skeleton";
 import { SettingsSkeleton } from "./features/settings/components/settings-skeleton";
 import { useDayBookStore } from "./store/day-book-store";
-import { PWAPrompt } from "./components/pwa-prompt";
 
 const Dashboard = lazy(() =>
 	import("./features/dashboard/dashboard").then((m) => ({ default: m.Dashboard })),
@@ -21,6 +23,16 @@ const ManageBirthdays = lazy(() =>
 const Settings = lazy(() =>
 	import("./features/settings/settings-screen").then((m) => ({
 		default: m.SettingsScreen,
+	})),
+);
+const Invitation = lazy(() =>
+	import("./features/invitation/invitation-screen").then((m) => ({
+		default: m.InvitationScreen,
+	})),
+);
+const Response = lazy(() =>
+	import("./features/invitation/response-screen").then((m) => ({
+		default: m.ResponseScreen,
 	})),
 );
 
@@ -87,6 +99,22 @@ function App() {
 							element={
 								<Suspense fallback={<SettingsSkeleton />}>
 									<Settings />
+								</Suspense>
+							}
+						/>
+						<Route
+							path="/invite"
+							element={
+								<Suspense fallback={<InvitationSkeleton />}>
+									<Invitation />
+								</Suspense>
+							}
+						/>
+						<Route
+							path="/invite/response"
+							element={
+								<Suspense fallback={<ResponseSkeleton />}>
+									<Response />
 								</Suspense>
 							}
 						/>

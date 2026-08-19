@@ -62,6 +62,7 @@ export function DisplaySettingsSection() {
 					value={localCount}
 					onChange={handleUpcomingCountChange}
 					onBlur={handleCommitCount}
+					autoComplete="off"
 				/>
 
 				<div className="bg-accent/30 flex flex-col gap-2 rounded-xl border p-4">
