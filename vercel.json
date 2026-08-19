@@ -5,10 +5,6 @@
 			"destination": "/api/og-rewriter"
 		},
 		{
-			"source": "/response(.*)",
-			"destination": "/api/og-rewriter"
-		},
-		{
 			"source": "/(.*)",
 			"destination": "/index.html"
 		}
