@@ -13,7 +13,7 @@ export const MAIN_GREETING_FONTS = [
 	{ label: "Balsamiq Sans", value: "'Balsamiq Sans', cursive" },
 	{ label: "Caveat", value: "'Caveat', cursive" },
 	{ label: "Chewy", value: "'Chewy', system-ui" },
-	{ label: "Fredoka", value: "'Fredoka', sans-serif" },
+	{ label: "Fredoka", value: "'Fredoka Variable', sans-serif" },
 	{ label: "Pacifico", value: "'Pacifico', cursive" },
 ];
 

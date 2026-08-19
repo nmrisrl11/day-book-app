@@ -30,6 +30,45 @@ export default defineConfig(({ command, mode }) => {
 		define: {
 			"import.meta.env.VITE_VERCEL_ENV": JSON.stringify(vercelEnv),
 		},
+		build: {
+			rollupOptions: {
+				output: {
+					manualChunks(id) {
+						if (id.includes("node_modules")) {
+							if (
+								id.includes("react/") ||
+								id.includes("react-dom/") ||
+								id.includes("react-router-dom/")
+							) {
+								return "vendor-react";
+							}
+							if (
+								id.includes("lucide-react") ||
+								id.includes("radix-ui") ||
+								id.includes("class-variance-authority") ||
+								id.includes("tailwind-merge") ||
+								id.includes("clsx") ||
+								id.includes("motion") ||
+								id.includes("framer-motion")
+							) {
+								return "vendor-ui";
+							}
+							if (
+								id.includes("react-hook-form") ||
+								id.includes("@hookform") ||
+								id.includes("zod")
+							) {
+								return "vendor-form";
+							}
+							if (id.includes("date-fns")) {
+								return "vendor-date";
+							}
+							return "vendor";
+						}
+					},
+				},
+			},
+		},
 		plugins: [
 			htmlPlugin(),
 			react(),
@@ -86,7 +125,7 @@ export default defineConfig(({ command, mode }) => {
 		],
 		resolve: {
 			alias: {
-				"@": path.resolve(__dirname, "./src"),
+				"@": path.resolve(import.meta.dirname, "./src"),
 			},
 		},
 	};
