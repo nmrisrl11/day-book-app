@@ -17,10 +17,10 @@ export default async function handler(request: Request) {
 		let html = await response.text();
 
 		// Replace the generic OG image with route-specific ones
-		if (url.pathname.startsWith("/invite")) {
-			html = html.replace(/\/og-image\.png/g, "/invite-preview.png");
-		} else if (url.pathname.startsWith("/response")) {
+		if (url.pathname.startsWith("/invite/response")) {
 			html = html.replace(/\/og-image\.png/g, "/response-preview.png");
+		} else if (url.pathname.startsWith("/invite")) {
+			html = html.replace(/\/og-image\.png/g, "/invite-preview.png");
 		}
 
 		return new Response(html, {
