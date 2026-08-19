@@ -7,6 +7,10 @@ import { PlusIcon, Trash2Icon } from "lucide-react";
 import { useEffect } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { z } from "zod";
+import {
+	FLOATING_MESSAGE_MAX_LENGTH,
+	FLOATING_MESSAGE_MIN_LENGTH,
+} from "@/schema/validation-constants";
 import { RestoreDefaultsButton } from "./restore-defaults-button";
 
 const floatingMessagesSchema = z.object({
@@ -15,8 +19,14 @@ const floatingMessagesSchema = z.object({
 			z.object({
 				text: z
 					.string()
-					.min(2, "Must be at least 2 characters.")
-					.max(50, "Cannot exceed 50 characters."),
+					.min(
+						FLOATING_MESSAGE_MIN_LENGTH,
+						`Must be at least ${FLOATING_MESSAGE_MIN_LENGTH} characters.`,
+					)
+					.max(
+						FLOATING_MESSAGE_MAX_LENGTH,
+						`Cannot exceed ${FLOATING_MESSAGE_MAX_LENGTH} characters.`,
+					),
 			}),
 		)
 		.max(10, "Maximum of 10 messages reached."),
@@ -120,7 +130,8 @@ export function FloatingMessagesManager() {
 								{...register(`messages.${index}.text`)}
 								className="peer field-sizing-content h-9 rounded-full pe-9"
 								placeholder="Enter a message"
-								maxLength={50}
+								minLength={FLOATING_MESSAGE_MIN_LENGTH}
+								maxLength={FLOATING_MESSAGE_MAX_LENGTH}
 								autoComplete="off"
 							/>
 

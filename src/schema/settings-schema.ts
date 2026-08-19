@@ -1,4 +1,9 @@
 import { z } from "zod";
+import {
+	GREETINGS_MAX_LENGTH,
+	FLOATING_MESSAGE_MAX_LENGTH,
+	CUSTOM_GREETING_MAX_LENGTH,
+} from "./validation-constants";
 
 const AvatarLibrarySchema = z.enum(["avvvatars", "boring-avatars"]);
 const AvvvatarsStyleSchema = z.enum(["character", "shape"]);
@@ -28,8 +33,8 @@ export const SettingsSchema = z
 	.object({
 		upcomingCount: z.number().int().min(1).max(10),
 		theme: z.enum(["light", "dark"]),
-		floatingMessages: z.array(z.string()).optional(),
-		greetings: z.array(z.string()).optional(),
+		floatingMessages: z.array(z.string().max(FLOATING_MESSAGE_MAX_LENGTH)).optional(),
+		greetings: z.array(z.string().max(GREETINGS_MAX_LENGTH)).optional(),
 		avatarSettings: z
 			.object({
 				allowCustomUploads: z.boolean(),
@@ -59,7 +64,7 @@ export const SettingsSchema = z
 		animationsEnabled: z.boolean().optional(),
 		greetingTextSettings: z
 			.object({
-				text: z.string(),
+				text: z.string().max(CUSTOM_GREETING_MAX_LENGTH),
 				fontFamily: z.string().optional(),
 				type: GreetingTextColorTypeSchema,
 				solidColor: z.string(),

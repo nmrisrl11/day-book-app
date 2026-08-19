@@ -12,6 +12,7 @@ import {
 import { MAIN_GREETINGS, MAIN_GREETING_FONTS } from "@/constants/main-greeting";
 import { getRandomPalette } from "@/helpers/color-palettes";
 import { cn } from "@/lib/utils";
+import { CUSTOM_GREETING_MAX_LENGTH } from "@/schema/validation-constants";
 import { defaultSettings, useDayBookStore } from "@/store/day-book-store";
 import type { GreetingTextColorType } from "@/types/settings";
 import { ArrowRightLeftIcon, DicesIcon } from "lucide-react";
@@ -174,10 +175,11 @@ export function MainGreetingSection() {
 								value={greetingSettings.text}
 								onChange={(e) => updateGreeting({ text: e.target.value })}
 								className="mt-2"
-								maxLength={50}
+								maxLength={CUSTOM_GREETING_MAX_LENGTH}
 								autoFocus
 								id="custom-greeting-input"
 								aria-label="Type your custom greeting"
+								autoComplete="off"
 							/>
 						</div>
 					)}

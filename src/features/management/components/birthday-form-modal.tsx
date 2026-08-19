@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { UserAvatar } from "@/components/user-avatar";
 import { birthdaySchema, type BirthdayFormData } from "@/schema/birthday-schema";
+import { NAME_MAX_LENGTH, NAME_MIN_LENGTH } from "@/schema/validation-constants";
 import { useDayBookStore } from "@/store/day-book-store";
 import type { Birthday } from "@/types/birthday";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -296,7 +297,14 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 
 					<div className="flex flex-col gap-2">
 						<Label htmlFor="name">Name</Label>
-						<Input id="name" {...register("name")} placeholder="e.g. John" autoComplete="off" />
+						<Input
+							id="name"
+							{...register("name")}
+							placeholder="e.g. John"
+							autoComplete="off"
+							minLength={NAME_MIN_LENGTH}
+							maxLength={NAME_MAX_LENGTH}
+						/>
 						{errors.name && (
 							<p className="text-destructive text-sm font-medium" role="alert">
 								{errors.name.message}
@@ -311,6 +319,7 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 							type="date"
 							{...register("birthday")}
 							className="dark:scheme-dark"
+							autoComplete="off"
 						/>
 						{errors.birthday && (
 							<p className="text-destructive text-sm font-medium" role="alert">

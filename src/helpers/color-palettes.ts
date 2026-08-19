@@ -7,7 +7,7 @@ export function getRandomPalette(currentPaletteStr?: string): string[] {
 
 	const colorsCount = currentPaletteStr.split(",").length;
 	const currentIndex = palettes.findIndex(
-		(p) => p.slice(0, colorsCount).join(",") === currentPaletteStr
+		(p) => p.slice(0, colorsCount).join(",") === currentPaletteStr,
 	);
 
 	if (currentIndex === -1) {

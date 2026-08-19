@@ -6,13 +6,17 @@ export function ManageBirthdaysSkeleton() {
 			{/* Page Header */}
 			<div className="flex items-center justify-between">
 				<Skeleton className="h-8 w-62.5 rounded-lg" />
-				<Skeleton className="h-8 w-32 rounded-lg" />
+
+				<div className="flex items-center gap-2">
+					<Skeleton className="h-8 w-12 rounded-lg sm:w-32" />
+					<Skeleton className="h-8 w-12 rounded-lg sm:w-32" />
+				</div>
 			</div>
 
 			<div className="flex flex-col gap-4">
 				{/* Filters / Search */}
 				<div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-					<Skeleton className="h-8 w-full flex-1 rounded-lg" />
+					<Skeleton className="h-8 w-full rounded-lg sm:flex-1" />
 					<div className="flex flex-wrap items-center gap-2">
 						<Skeleton className="h-8 w-32 rounded-lg" />
 						<Skeleton className="h-8 w-40 rounded-lg" />

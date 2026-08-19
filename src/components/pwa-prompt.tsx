@@ -7,7 +7,9 @@ export function PWAPrompt() {
 		updateServiceWorker,
 	} = useRegisterSW({
 		onRegistered(r) {
-			console.log("SW Registered:", r);
+			if (import.meta.env.VITE_VERCEL_ENV !== "production") {
+				console.log("SW Registered:", r);
+			}
 		},
 		onRegisterError(error) {
 			console.error("SW Registration Error:", error);

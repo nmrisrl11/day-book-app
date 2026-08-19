@@ -10,7 +10,14 @@ import {
 import { FULL_MONTHS } from "@/constants/months";
 import { useDayBookStore } from "@/store/day-book-store";
 import type { Birthday } from "@/types/birthday";
-import { ChevronLeftIcon, ChevronRightIcon, FilterXIcon, PlusIcon, SearchIcon } from "lucide-react";
+import {
+	ChevronLeftIcon,
+	ChevronRightIcon,
+	FilterXIcon,
+	LinkIcon,
+	PlusIcon,
+	SearchIcon,
+} from "lucide-react";
 import { parseAsInteger, parseAsString, parseAsStringLiteral, useQueryState } from "nuqs";
 import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { BirthdayListItem } from "./components/birthday-list-item";
@@ -28,6 +35,9 @@ const CalendarExportDialog = lazy(() =>
 		default: m.CalendarExportDialog,
 	})),
 );
+const AskBirthdayModal = lazy(() =>
+	import("./components/ask-birthday-modal").then((m) => ({ default: m.AskBirthdayModal })),
+);
 
 export function BirthdayManagementScreen() {
 	const { birthdays, deleteBirthday } = useDayBookStore();
@@ -40,6 +50,8 @@ export function BirthdayManagementScreen() {
 
 	const [exportModalOpen, setExportModalOpen] = useState(false);
 	const [exportingBirthday, setExportingBirthday] = useState<Birthday | null>(null);
+
+	const [askModalOpen, setAskModalOpen] = useState(false);
 
 	const MONTH_OPTIONS = [
 		"all",
@@ -246,10 +258,17 @@ export function BirthdayManagementScreen() {
 		<div className="flex w-full flex-col gap-6">
 			<div className="flex items-center justify-between">
 				<h2 className="text-foreground px-2 text-2xl font-bold tracking-tight">Manage Birthdays</h2>
-				<Button onClick={handleAdd}>
-					<PlusIcon className="mr-2 h-4 w-4" />
-					Add Birthday
-				</Button>
+				<div className="flex items-center gap-2">
+					<Button variant="outline" onClick={() => setAskModalOpen(true)}>
+						<LinkIcon className="mr-2 h-4 w-4" />
+						<span className="hidden sm:inline">Ask for Birthday</span>
+					</Button>
+					<Button onClick={handleAdd}>
+						<PlusIcon className="mr-2 h-4 w-4" />
+						<span className="hidden sm:inline">Add Birthday</span>
+						<span className="sm:hidden">Add</span>
+					</Button>
+				</div>
 			</div>
 
 			{birthdays.length === 0 ? (
@@ -276,6 +295,7 @@ export function BirthdayManagementScreen() {
 								value={localSearch}
 								onChange={(e) => setLocalSearch(e.target.value)}
 								aria-label="Search by name"
+								autoComplete="off"
 							/>
 						</div>
 						<div className="flex flex-wrap items-center gap-2">
@@ -449,6 +469,12 @@ export function BirthdayManagementScreen() {
 						onOpenChange={setExportModalOpen}
 						birthdays={exportingBirthday}
 					/>
+				</Suspense>
+			)}
+
+			{askModalOpen && (
+				<Suspense fallback={null}>
+					<AskBirthdayModal open={askModalOpen} onOpenChange={setAskModalOpen} />
 				</Suspense>
 			)}
 		</div>
