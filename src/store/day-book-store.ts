@@ -30,13 +30,24 @@ interface DayBookState {
 	deleteBirthday: (id: string) => void;
 	deleteAllBirthdays: () => void;
 	updateSettings: (settings: Partial<Settings>) => void;
+	updateBirthdays: (ids: string[], updates: Partial<Birthday>) => void;
 	importData: (data: Birthday[]) => void;
 }
 
 const getInitialBirthdays = (): Birthday[] => {
 	try {
 		const saved = localStorage.getItem("daybook_birthdays");
-		if (saved) return JSON.parse(saved);
+		if (saved) {
+			const parsed = JSON.parse(saved);
+			if (Array.isArray(parsed)) {
+				// Migration for existing records
+				return parsed.map((b) => ({
+					...b,
+					relationship: b.relationship || "Other",
+					notes: Array.isArray(b.notes) ? b.notes : [],
+				}));
+			}
+		}
 	} catch (e) {
 		console.error(e);
 	}
@@ -81,6 +92,11 @@ export const useDayBookStore = create<DayBookState>()(
 					settings: { ...state.settings, ...newSettings },
 				})),
 
+			updateBirthdays: (ids, updates) =>
+				set((state) => ({
+					birthdays: state.birthdays.map((b) => (ids.includes(b.id) ? { ...b, ...updates } : b)),
+				})),
+
 			importData: (data) => set({ birthdays: data }),
 		}),
 		{
@@ -88,9 +104,20 @@ export const useDayBookStore = create<DayBookState>()(
 			merge: (persistedState: unknown, currentState) => {
 				const state = persistedState as Partial<DayBookState>;
 
+				let mergedBirthdays = state?.birthdays || currentState.birthdays || [];
+
+				if (Array.isArray(mergedBirthdays)) {
+					mergedBirthdays = mergedBirthdays.map((b) => ({
+						...b,
+						relationship: b.relationship || "Other",
+						notes: Array.isArray(b.notes) ? b.notes : [],
+					}));
+				}
+
 				return {
 					...currentState,
 					...state,
+					birthdays: mergedBirthdays,
 					settings: {
 						...defaultSettings,
 						...(state?.settings || {}),

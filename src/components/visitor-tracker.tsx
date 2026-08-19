@@ -20,6 +20,12 @@ export function VisitorTracker({ className }: VisitorTrackerProps) {
 
 	useEffect(() => {
 		const fetchStats = async () => {
+			if (import.meta.env.DEV) {
+				setStats({ total: 42 }); // fake count in dev
+				setIsLoading(false);
+				return;
+			}
+
 			try {
 				const res = await fetch("/api/visitors");
 				if (res.ok) {

@@ -64,6 +64,8 @@ export function parseIcsForBirthdays(icsText: string): Birthday[] {
 	let currentSummary = "";
 	let currentDtStart = "";
 	let currentRrule = "";
+	let currentDescription = "";
+	let currentNotes: string[] = [];
 
 	for (const line of lines) {
 		if (line.startsWith("BEGIN:VEVENT")) {
@@ -71,6 +73,8 @@ export function parseIcsForBirthdays(icsText: string): Birthday[] {
 			currentSummary = "";
 			currentDtStart = "";
 			currentRrule = "";
+			currentDescription = "";
+			currentNotes = [];
 			continue;
 		}
 
@@ -85,11 +89,27 @@ export function parseIcsForBirthdays(icsText: string): Birthday[] {
 			if (currentSummary && currentDtStart && (isYearly || hasBirthdayInTitle)) {
 				const dateString = parseIcsDateString(currentDtStart);
 				if (dateString) {
+					let relationship: Birthday["relationship"] = "Other";
+					let notes: string[] = [];
+
+					if (currentDescription) {
+						const relMatch = currentDescription.match(/Relationship:\s*(.+?)(?:\n|$)/i);
+						if (relMatch) {
+							relationship = relMatch[1].trim() as any;
+						}
+					}
+
+					if (currentNotes.length > 0) {
+						notes = [...currentNotes];
+					}
+
 					birthdays.push({
 						id: crypto.randomUUID(),
 						name: cleanBirthdaySummary(currentSummary),
 						birthday: dateString,
 						avatar: "",
+						relationship,
+						notes,
 					});
 				}
 			}
@@ -99,6 +119,8 @@ export function parseIcsForBirthdays(icsText: string): Birthday[] {
 		if (insideEvent) {
 			if (line.startsWith("SUMMARY:")) {
 				currentSummary = unescapeIcsText(line.substring(8)); // Length of 'SUMMARY:'
+			} else if (line.startsWith("DESCRIPTION:")) {
+				currentDescription = unescapeIcsText(line.substring(12));
 			} else if (line.startsWith("DTSTART")) {
 				// E.g., DTSTART;VALUE=DATE:20260314 or DTSTART:20260314T120000Z
 				const parts = line.split(":");
@@ -107,6 +129,8 @@ export function parseIcsForBirthdays(icsText: string): Birthday[] {
 				}
 			} else if (line.startsWith("RRULE:")) {
 				currentRrule = line.substring(6);
+			} else if (line.startsWith("X-DAYBOOK-NOTE:")) {
+				currentNotes.push(unescapeIcsText(line.substring(15)));
 			}
 		}
 	}

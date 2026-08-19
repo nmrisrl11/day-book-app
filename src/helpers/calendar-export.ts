@@ -1,3 +1,4 @@
+import { APP_INFO } from "@/constants/app-info";
 import type { Birthday } from "@/types/birthday";
 
 /**
@@ -30,11 +31,21 @@ function getCurrentDTSTAMP(): string {
 }
 
 /**
+ * Generates a rich description string from a person's relationship and notes.
+ */
+function generateDescription(birthday: Birthday): string {
+	const relationship = birthday.relationship || "Other";
+	const notes = birthday.notes?.length ? `\nNotes: ${birthday.notes.join(" • ")}` : "";
+
+	return `Relationship: ${relationship}${notes}\n\nImported from ${APP_INFO.name}.`;
+}
+
+/**
  * Generates a Google Calendar 'add event' URL for a single birthday.
  */
 export function generateGoogleCalendarUrl(birthday: Birthday): string {
 	const title = `${birthday.name}'s Birthday 🎂`;
-	const description = `Imported from DayBook. Wish ${birthday.name} a happy birthday!`;
+	const description = generateDescription(birthday);
 
 	const start = formatDateToYYYYMMDD(birthday.birthday);
 	const end = getNextDayYYYYMMDD(birthday.birthday);
@@ -60,7 +71,7 @@ export function generateIcsContent(birthdays: Birthday | Birthday[]): string {
 	let ics = [
 		"BEGIN:VCALENDAR",
 		"VERSION:2.0",
-		"PRODID:-//DayBook//Birthday Calendar//EN",
+		`PRODID:-//${APP_INFO.name}//Birthday Calendar//EN`,
 		"CALSCALE:GREGORIAN",
 	];
 
@@ -77,9 +88,9 @@ export function generateIcsContent(birthdays: Birthday | Birthday[]): string {
 		const end = getNextDayYYYYMMDD(birthday.birthday);
 		const uid = `daybook-${encodeURIComponent(birthday.id)}@daybook.app`;
 		const summary = escapeIcsText(`${birthday.name}'s Birthday`);
-		const description = escapeIcsText(`Imported from DayBook`);
+		const description = escapeIcsText(generateDescription(birthday));
 
-		ics = ics.concat([
+		const eventLines = [
 			"BEGIN:VEVENT",
 			`UID:${uid}`,
 			`DTSTAMP:${dtStamp}`,
@@ -87,10 +98,17 @@ export function generateIcsContent(birthdays: Birthday | Birthday[]): string {
 			`DTEND;VALUE=DATE:${end}`,
 			`SUMMARY:${summary}`,
 			`DESCRIPTION:${description}`,
-			"RRULE:FREQ=YEARLY",
-			"TRANSP:TRANSPARENT", // Shows as 'free' not 'busy'
-			"END:VEVENT",
-		]);
+		];
+
+		if (birthday.notes && birthday.notes.length > 0) {
+			for (const note of birthday.notes) {
+				eventLines.push(`X-DAYBOOK-NOTE:${escapeIcsText(note)}`);
+			}
+		}
+
+		eventLines.push("RRULE:FREQ=YEARLY", "TRANSP:TRANSPARENT", "END:VEVENT");
+
+		ics = ics.concat(eventLines);
 	}
 
 	ics.push("END:VCALENDAR");

@@ -18,6 +18,10 @@ When seeking context, prioritize reading in this order:
 
 DayBook is a local-first, client-side React application built with Vite. It has no traditional backend or user authentication.
 
+### Core Philosophy: Remember People, Not Just Dates
+
+While originally conceived as a "birthday tracker," the product is evolving into a lightweight "People CRM." A birthday record acts as a **person card**, holding relationship context and small pieces of personal information (notes/tags) to help the user remember the person holistically. All features should reflect this broader relationship-centric context.
+
 ### Technology Stack (Actual)
 
 - **Core**: React 19, TypeScript, Vite 6
@@ -58,9 +62,10 @@ DayBook is a local-first, client-side React application built with Vite. It has 
 1.  **Avatar System**: Supports `avvvatars` and `boring-avatars`, plus local file uploads (Base64). Managed in `src/components/user-avatar.tsx`.
 2.  **Calendar System**: Generates Google Calendar URLs and `.ics` files. See `src/helpers/calendar-export.ts`.
 3.  **Sound System**: Uses `cuelume` for hover/click/success feedback based on customizable settings.
-4.  **Visitor Tracker**: Uses Upstash Redis via Vercel Edge (`api/visitors.ts`). It employs IP-based locking (`SET NX EX 86400`) to prevent spam/refresh inflation.
-5.  **Birthday Links & Data Ingestion**: Client-side parsing of Base64Url JSON tokens (`helpers/invitation-token.ts`) enables users to request and respond to birthday invites without a backend.
+4.  **Visitor Tracker**: Uses Upstash Redis via Vercel Edge (`api/visitors.ts`). It employs IP-based locking (`SET NX EX 86400`) to prevent spam/refresh inflation. It safely bypasses network requests completely during local development (`import.meta.env.DEV`).
+5.  **Birthday Links & Data Ingestion**: Client-side parsing of Base64Url JSON tokens (`helpers/invitation-token.ts`) enables users to request and respond to birthday invites without a backend. Parse functions gracefully tolerate missing optional fields.
 6.  **Dynamic Open Graph (OG) Previews**: Utilizes a Vercel Edge Function (`api/og-rewriter.ts`) alongside `vercel.json` rewrites to intercept `/invite(.*)` and `/response(.*)` to inject tailored preview images for social sharing.
+7.  **Branding & Meta**: All application branding (name, title, description, keywords, theme colors) is centralized in `src/constants/app-info.ts`. This single source of truth is injected dynamically into the Vite PWA manifest, HTML meta tags, and React components.
 
 ## 4. Agent Workflow Rules
 

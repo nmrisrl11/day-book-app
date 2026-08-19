@@ -4,6 +4,8 @@ import type { z } from "zod";
 
 type SettingsState = z.infer<typeof SettingsSchema>;
 
+import { NOTE_MAX_COUNT, NOTE_MAX_LENGTH } from "@/schema/validation-constants";
+
 export function exportBirthdays(birthdays: Birthday[]) {
 	const dataStr = JSON.stringify(birthdays, null, 2);
 	const blob = new Blob([dataStr], { type: "application/json" });
@@ -54,12 +56,26 @@ export function parseImportedBirthdays(fileText: string): Birthday[] {
 				}
 				return true;
 			})
-			.map((item: Record<string, unknown>) => ({
-				id: item.id,
-				name: item.name,
-				birthday: item.birthday,
-				avatar: item.avatar,
-			})) as Birthday[];
+			.map((item: Record<string, unknown>) => {
+				let parsedNotes: string[] = [];
+				if (Array.isArray(item.notes)) {
+					parsedNotes = item.notes
+						.filter((n) => typeof n === "string")
+						.map((n) => (n as string).trim())
+						.filter((n) => n.length > 0)
+						.map((n) => n.substring(0, NOTE_MAX_LENGTH))
+						.slice(0, NOTE_MAX_COUNT);
+				}
+
+				return {
+					id: item.id,
+					name: item.name,
+					birthday: item.birthday,
+					avatar: item.avatar,
+					relationship: typeof item.relationship === "string" ? item.relationship : "Other",
+					notes: parsedNotes,
+				};
+			}) as Birthday[];
 
 		if (validBirthdays.length === 0 && parsed.length > 0) {
 			throw new Error("No valid birthday records found in the imported file.");

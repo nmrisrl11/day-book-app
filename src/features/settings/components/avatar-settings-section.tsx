@@ -11,6 +11,7 @@ import { Switch } from "@/components/ui/switch";
 import { UserAvatar } from "@/components/user-avatar";
 import { AVATAR_SETTINGS, BORING_AVATARS_COLORS } from "@/constants/avatar-settings";
 import { getRandomPalette } from "@/helpers/color-palettes";
+import { APP_INFO } from "@/constants/app-info";
 import { useDayBookStore } from "@/store/day-book-store";
 import type { AvatarLibrary, AvvvatarsStyle, BoringAvatarsVariant } from "@/types/settings";
 import Avvvatars from "avvvatars-react";
@@ -116,7 +117,7 @@ export function AvatarSettingsSection() {
 									<SelectItem value="shape">
 										<div className="flex items-center gap-3">
 											<div className="h-6 w-6">
-												<Avvvatars value="DayBook" style="shape" size={24} />
+												<Avvvatars value={APP_INFO.name} style="shape" size={24} />
 											</div>
 											<span>Shape</span>
 										</div>
@@ -124,7 +125,7 @@ export function AvatarSettingsSection() {
 									<SelectItem value="character">
 										<div className="flex items-center gap-3">
 											<div className="h-6 w-6">
-												<Avvvatars value="DayBook" style="character" size={24} />
+												<Avvvatars value={APP_INFO.name} style="character" size={24} />
 											</div>
 											<span>Character</span>
 										</div>
@@ -163,7 +164,7 @@ export function AvatarSettingsSection() {
 													<div className="flex items-center justify-center overflow-hidden rounded-full [&>svg]:h-full! [&>svg]:w-full!">
 														<BoringAvatar
 															size={24}
-															name="DayBook"
+															name={APP_INFO.name}
 															variant={variant}
 															colors={avatarSettings.boringAvatarsColors || BORING_AVATARS_COLORS}
 														/>
@@ -234,7 +235,7 @@ export function AvatarSettingsSection() {
 						Preview
 					</p>
 					<div className="bg-muted ring-border rounded-full p-2 shadow-sm ring-1">
-						<UserAvatar birthday={{ name: "DayBook" }} size={80} className="h-20 w-20" />
+						<UserAvatar birthday={{ name: APP_INFO.name }} size={80} className="h-20 w-20" />
 					</div>
 				</div>
 			</div>

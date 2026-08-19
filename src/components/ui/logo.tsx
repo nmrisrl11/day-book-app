@@ -1,3 +1,4 @@
+import { APP_INFO } from "@/constants/app-info";
 import { cn } from "@/lib/utils";
 import React from "react";
 
@@ -10,7 +11,7 @@ export function Logo({ className, ...props }: LogoProps) {
 			viewBox="0 0 314 100"
 			className={cn("group/logo fill-current", className)}
 			role="img"
-			aria-label="DayBook Logo"
+			aria-label={`${APP_INFO.name} Logo`}
 			{...props}
 		>
 			<g

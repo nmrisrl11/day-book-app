@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { PartyHat } from "@/components/ui/party-hat";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { APP_INFO } from "@/constants/app-info";
 import { FULL_MONTHS } from "@/constants/months";
 import { formatBirthdayDisplay } from "@/helpers/birthday-utils";
 import { cn } from "@/lib/utils";
@@ -159,7 +160,7 @@ export function CalendarImportDialog({
 					</DialogTitle>
 					<DialogDescription className="text-muted-foreground">
 						We found {foundBirthdays.length} birthday{foundBirthdays.length === 1 ? "" : "s"} in the
-						calendar. Select the ones you'd like to import into DayBook.
+						calendar. Select the ones you'd like to import into {APP_INFO.name}.
 					</DialogDescription>
 					{foundBirthdays.length > 0 && (
 						<div className="flex items-center justify-between pt-2">
@@ -250,6 +251,11 @@ export function CalendarImportDialog({
 																<span className="text-foreground text-sm font-semibold">
 																	{b.name}
 																</span>
+																{b.relationship && b.relationship !== "Other" && (
+																	<span className="text-muted-foreground text-xs font-normal tracking-wider uppercase">
+																		• {b.relationship}
+																	</span>
+																)}
 															</div>
 															<span className="text-muted-foreground text-xs font-medium">
 																{formatBirthdayDisplay(b.birthday)}

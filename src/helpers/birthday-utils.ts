@@ -25,11 +25,13 @@ export function getUpcomingBirthdays(birthdays: Birthday[], currentDate: Date): 
 	withNextOccurrence.sort((a, b) => compareAsc(a.nextOccurrence, b.nextOccurrence));
 
 	// Return original birthday objects (without nextOccurrence property)
-	return withNextOccurrence.map(({ id, name, birthday, avatar }) => ({
+	return withNextOccurrence.map(({ id, name, birthday, avatar, relationship, notes }) => ({
 		id,
 		name,
 		birthday,
 		avatar,
+		relationship,
+		notes,
 	}));
 }
 

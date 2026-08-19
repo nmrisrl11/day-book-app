@@ -61,8 +61,13 @@ export function CelebrantModal({ celebrant, isOpen, onClose, currentDate }: Cele
 							</div>
 						</div>
 
-						<DialogTitle className="text-foreground font-sans text-2xl font-bold">
-							{celebrant.name}
+						<DialogTitle className="text-foreground flex flex-col items-center gap-1 font-sans text-2xl font-bold">
+							<span>{celebrant.name}</span>
+							{celebrant.relationship && (
+								<span className="text-muted-foreground text-sm font-normal tracking-wider uppercase">
+									{celebrant.relationship}
+								</span>
+							)}
 						</DialogTitle>
 
 						<DialogDescription asChild>
@@ -84,6 +89,19 @@ export function CelebrantModal({ celebrant, isOpen, onClose, currentDate }: Cele
 								<p className="text-secondary-foreground text-base leading-relaxed italic">
 									"{greeting}"
 								</p>
+
+								{celebrant.notes && celebrant.notes.length > 0 && (
+									<div className="flex flex-wrap items-center justify-center gap-2 pt-1">
+										{celebrant.notes.map((note, idx) => (
+											<span
+												key={idx}
+												className="bg-primary/5 text-primary border-primary/10 rounded-md border px-2.5 py-1 text-xs font-medium shadow-sm"
+											>
+												{note}
+											</span>
+										))}
+									</div>
+								)}
 							</div>
 						</DialogDescription>
 					</DialogHeader>

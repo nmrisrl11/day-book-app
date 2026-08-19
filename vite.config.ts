@@ -4,6 +4,22 @@ import tailwindcss from "@tailwindcss/vite";
 import path from "path";
 
 import { VitePWA } from "vite-plugin-pwa";
+import { APP_INFO } from "./src/constants/app-info.ts";
+
+const htmlPlugin = () => {
+	return {
+		name: "html-transform",
+		transformIndexHtml(html: string) {
+			return html
+				.replace(/%APP_TITLE%/g, APP_INFO.title)
+				.replace(/%APP_DESCRIPTION%/g, APP_INFO.description)
+				.replace(/%APP_KEYWORDS%/g, APP_INFO.keywords)
+				.replace(/%APP_THEME_COLOR%/g, APP_INFO.themeColor)
+				.replace(/%APP_NAME%/g, APP_INFO.name)
+				.replace(/%APP_AUTHOR%/g, APP_INFO.author);
+		},
+	};
+};
 
 // https://vite.dev/config/
 export default defineConfig(({ command, mode }) => {
@@ -15,6 +31,7 @@ export default defineConfig(({ command, mode }) => {
 			"import.meta.env.VITE_VERCEL_ENV": JSON.stringify(vercelEnv),
 		},
 		plugins: [
+			htmlPlugin(),
 			react(),
 			tailwindcss(),
 			VitePWA({
@@ -27,12 +44,11 @@ export default defineConfig(({ command, mode }) => {
 				injectRegister: "auto",
 				includeAssets: ["favicon.ico", "apple-touch-icon.png"],
 				manifest: {
-					name: "DayBook",
-					short_name: "DayBook",
-					description:
-						"DayBook is your personal birthday manager. Keep track of family, friends, and loved ones' birthdays so you never forget a special day again.",
-					theme_color: "#ffffff",
-					background_color: "#ffffff",
+					name: APP_INFO.name,
+					short_name: APP_INFO.shortName,
+					description: APP_INFO.description,
+					theme_color: APP_INFO.themeColor,
+					background_color: APP_INFO.backgroundColor,
 					display: "standalone",
 					icons: [
 						{

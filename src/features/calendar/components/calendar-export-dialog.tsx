@@ -12,6 +12,7 @@ import {
 	generateIcsContent,
 } from "@/helpers/calendar-export";
 import type { Birthday } from "@/types/birthday";
+import { APP_INFO } from "@/constants/app-info";
 import { CalendarIcon, DownloadIcon } from "lucide-react";
 
 interface CalendarExportDialogProps {
@@ -47,8 +48,9 @@ export function CalendarExportDialog({ open, onOpenChange, birthdays }: Calendar
 				<DialogHeader>
 					<DialogTitle>{title}</DialogTitle>
 					<DialogDescription>
-						This will create calendar events containing birthday information. DayBook does not
-						control how external calendar services store or manage this information.
+						This will create calendar events containing birthday information, relationship labels,
+						and all note text. {APP_INFO.name} does not control how external calendar services store
+						or manage these fields.
 					</DialogDescription>
 				</DialogHeader>
 

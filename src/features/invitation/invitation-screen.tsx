@@ -1,8 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { APP_INFO } from "@/constants/app-info";
 import { generateResponseToken, parseInvitationToken } from "@/helpers/invitation-token";
-import { birthdaySchema, type BirthdayFormData } from "@/schema/birthday-schema";
+import { inviteeSchema, type InviteeFormData } from "@/schema/birthday-schema";
 import { NAME_MAX_LENGTH, NAME_MIN_LENGTH } from "@/schema/validation-constants";
 import { useDayBookStore } from "@/store/day-book-store";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -24,8 +25,8 @@ export function InvitationScreen() {
 		register,
 		handleSubmit,
 		formState: { errors },
-	} = useForm<BirthdayFormData>({
-		resolver: zodResolver(birthdaySchema),
+	} = useForm<InviteeFormData>({
+		resolver: zodResolver(inviteeSchema),
 		defaultValues: { name: "", birthday: "" },
 	});
 
@@ -57,7 +58,7 @@ export function InvitationScreen() {
 		);
 	}
 
-	const onSubmit = (data: BirthdayFormData) => {
+	const onSubmit = (data: InviteeFormData) => {
 		const rToken = generateResponseToken(data.name, data.birthday);
 		const link = `${window.location.origin}/invite/response?t=${rToken}`;
 		setResponseLink(link);
@@ -79,7 +80,7 @@ export function InvitationScreen() {
 		try {
 			await navigator.share({
 				title: "My Birthday",
-				text: `Here is my birthday for DayBook!`,
+				text: `Here is my birthday for ${APP_INFO.name}!`,
 				url: responseLink,
 			});
 		} catch (e) {
@@ -141,7 +142,7 @@ export function InvitationScreen() {
 					Help {invitation.n} remember your birthday
 				</h2>
 				<p className="text-muted-foreground">
-					Enter your information below so they can add you to their DayBook.
+					Enter your information below so they can add you to their {APP_INFO.name}.
 				</p>
 			</div>
 

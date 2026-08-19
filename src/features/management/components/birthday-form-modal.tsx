@@ -9,16 +9,30 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
 import { UserAvatar } from "@/components/user-avatar";
+import { APP_INFO } from "@/constants/app-info";
 import { birthdaySchema, type BirthdayFormData } from "@/schema/birthday-schema";
-import { NAME_MAX_LENGTH, NAME_MIN_LENGTH } from "@/schema/validation-constants";
+import {
+	NAME_MAX_LENGTH,
+	NAME_MIN_LENGTH,
+	NOTE_MAX_COUNT,
+	NOTE_MAX_LENGTH,
+} from "@/schema/validation-constants";
 import { useDayBookStore } from "@/store/day-book-store";
 import type { Birthday } from "@/types/birthday";
+import { RELATIONSHIP_OPTIONS } from "@/types/birthday";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { play } from "cuelume";
-import { CameraIcon, Trash2Icon } from "lucide-react";
+import { CameraIcon, PlusIcon, Trash2Icon, XIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { useForm, useWatch, type Control } from "react-hook-form";
+import { Controller, useForm, useWatch, type Control } from "react-hook-form";
 
 interface AvatarPreviewProps {
 	control: Control<BirthdayFormData>;
@@ -39,9 +53,11 @@ function AvatarPreview({
 
 	const previewBirthday: Birthday = {
 		id: "preview",
-		name: name || "DayBook",
+		name: name || APP_INFO.name,
 		birthday: date || "2000-01-01",
 		avatar: avatar,
+		relationship: "Other",
+		notes: [],
 	};
 
 	if (avatarSettings.allowCustomUploads) {
@@ -135,8 +151,13 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 			name: "",
 			birthday: "",
 			avatar: "",
+			relationship: "",
+			notes: [],
 		},
 	});
+
+	const [noteInput, setNoteInput] = useState("");
+	const notes = useWatch({ control: form.control, name: "notes" }) || [];
 
 	const {
 		register,
@@ -153,14 +174,19 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 					name: birthday.name,
 					birthday: birthday.birthday,
 					avatar: birthday.avatar || "",
+					relationship: birthday.relationship || "",
+					notes: birthday.notes || [],
 				});
 			} else {
 				reset({
 					name: "",
 					birthday: "",
 					avatar: "",
+					relationship: "",
+					notes: [],
 				});
 			}
+			setNoteInput("");
 			setGeneralError("");
 		}
 	}, [open, birthday, reset]);
@@ -263,18 +289,18 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
-			<DialogContent>
-				<DialogHeader>
-					<DialogTitle>{birthday ? "Edit Birthday" : "Add Birthday"}</DialogTitle>
+			<DialogContent className="flex max-h-[90vh] flex-col gap-0 p-0 sm:max-w-sm">
+				<DialogHeader className="border-b p-4 pb-2">
+					<DialogTitle>{birthday ? "Edit Person" : "Add Person"}</DialogTitle>
 					<DialogDescription>
-						{birthday ? "Update the details below." : "Enter the details for the new birthday."}
+						{birthday ? "Update the details below." : "Enter the details for this person."}
 					</DialogDescription>
 				</DialogHeader>
 
 				<form
 					id="birthday-form"
 					onSubmit={handleSubmit(onSubmit, onError)}
-					className="flex flex-col gap-4 py-4"
+					className="custom-scrollbar flex flex-1 flex-col gap-4 overflow-y-auto p-4"
 				>
 					<div className="mb-2 flex flex-col items-center justify-center">
 						<AvatarPreview
@@ -328,6 +354,124 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 						)}
 					</div>
 
+					<div className="flex flex-col gap-2">
+						<Label htmlFor="relationship">Relationship</Label>
+						<Controller
+							control={form.control}
+							name="relationship"
+							render={({ field }) => (
+								<Select onValueChange={field.onChange} value={field.value}>
+									<SelectTrigger id="relationship" className="w-full">
+										<SelectValue placeholder="Select relationship" />
+									</SelectTrigger>
+									<SelectContent position="popper">
+										{RELATIONSHIP_OPTIONS.map((option) => (
+											<SelectItem key={option} value={option}>
+												{option}
+											</SelectItem>
+										))}
+									</SelectContent>
+								</Select>
+							)}
+						/>
+						{errors.relationship && (
+							<p className="text-destructive text-sm font-medium" role="alert">
+								{errors.relationship.message}
+							</p>
+						)}
+					</div>
+
+					<div className="flex flex-col gap-2 pt-2">
+						<div className="flex items-center justify-between">
+							<Label htmlFor="note">Notes (Optional)</Label>
+							<span className="text-muted-foreground text-xs">
+								{notes.length}/{NOTE_MAX_COUNT}
+							</span>
+						</div>
+
+						{notes.length > 0 && (
+							<div className="mb-2 flex flex-wrap gap-2">
+								{notes.map((note, index) => (
+									<div
+										key={index}
+										className="bg-primary/10 text-primary flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium"
+									>
+										<span>{note}</span>
+										<button
+											type="button"
+											aria-label={`Remove note: ${note}`}
+											onClick={() => {
+												form.setValue(
+													"notes",
+													notes.filter((_, i) => i !== index),
+													{ shouldValidate: true },
+												);
+											}}
+											className="hover:bg-primary/20 rounded-full p-0.5"
+										>
+											<XIcon className="h-3 w-3" />
+										</button>
+									</div>
+								))}
+							</div>
+						)}
+
+						<div className="flex gap-2">
+							<Input
+								id="note"
+								value={noteInput}
+								onChange={(e) => setNoteInput(e.target.value)}
+								placeholder="e.g. Loves painting"
+								autoComplete="off"
+								maxLength={NOTE_MAX_LENGTH}
+								disabled={notes.length >= NOTE_MAX_COUNT}
+								onKeyDown={(e) => {
+									if (e.key === "Enter") {
+										e.preventDefault();
+										const trimmed = noteInput.trim();
+										if (
+											trimmed &&
+											trimmed.length <= NOTE_MAX_LENGTH &&
+											notes.length < NOTE_MAX_COUNT &&
+											!notes.includes(trimmed)
+										) {
+											form.setValue("notes", [...notes, trimmed], { shouldValidate: true });
+											setNoteInput("");
+										}
+									}
+								}}
+							/>
+							<Button
+								type="button"
+								size="icon"
+								variant="secondary"
+								aria-label="Add note"
+								className="shrink-0"
+								disabled={notes.length >= NOTE_MAX_COUNT || !noteInput.trim()}
+								onClick={(e) => {
+									e.preventDefault();
+									const trimmed = noteInput.trim();
+									if (
+										trimmed &&
+										notes.length < NOTE_MAX_COUNT &&
+										trimmed.length <= NOTE_MAX_LENGTH &&
+										!notes.includes(trimmed)
+									) {
+										form.setValue("notes", [...notes, trimmed], { shouldValidate: true });
+										setNoteInput("");
+									}
+								}}
+							>
+								<PlusIcon className="h-4 w-4" />
+							</Button>
+						</div>
+						{errors.notes && (
+							<p className="text-destructive text-sm font-medium" role="alert">
+								{errors.notes.message}
+							</p>
+						)}
+					</div>
+
 					{generalError && (
 						<p className="text-destructive text-sm font-medium" role="alert">
 							{generalError}
@@ -335,12 +479,12 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 					)}
 				</form>
 
-				<DialogFooter>
-					<Button variant="ghost" onClick={() => onOpenChange(false)}>
+				<DialogFooter className="m-0 rounded-none rounded-b-xl border-t p-4">
+					<Button variant="ghost" type="button" onClick={() => onOpenChange(false)}>
 						Cancel
 					</Button>
 					<Button type="submit" form="birthday-form">
-						{birthday ? "Save Changes" : "Add Birthday"}
+						{birthday ? "Save Changes" : "Save Person"}
 					</Button>
 				</DialogFooter>
 			</DialogContent>
