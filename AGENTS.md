@@ -69,7 +69,33 @@ While originally conceived as a "birthday tracker," the product is evolving into
 
 ## 4. Agent Workflow Rules
 
-1.  **Read Before Writing**: Always read `CURRENT_STATE.md` to understand where the project is before making architectural decisions.
+1.  **Read Before Writing**: Always read `CURRENT_STATE.md` to understand where the project is before making architectural decisions. Read `PENDING_CHANGES.md` to understand unreleased work.
 2.  **Verify Assumptions**: If `instructions.md` says "Use Satoshi font", but the codebase uses `@fontsource-variable/fredoka`, the codebase wins.
 3.  **Respect Boundaries**: Do not add dependencies if an existing tool does the job. Do not move feature-specific components into the global `src/components/` folder unless they are actually reused.
-4.  **Documentation Maintenance**: If you add a new feature, a new dependency, or change a fundamental pattern, you **MUST** update `CURRENT_STATE.md` and `README.md` (if applicable) before concluding your task.
+4.  **Documentation Maintenance**: Update `CURRENT_STATE.md` **only** when the implementation state or architecture has materially changed. Do not update it for every minor bug fix.
+
+## 5. Changelog, Versioning & Development Workflow
+
+To ensure product changes are consistently recorded, all AI agents must follow this development lifecycle:
+
+### The Lifecycle
+1. **Development**: Implement features/fixes.
+2. **Pending**: Record user-facing changes immediately in `PENDING_CHANGES.md` under categories (`Added`, `Improved`, `Fixed`, `Changed`, `Removed`). Do this before finishing your task.
+3. **Release**: When intentionally releasing an update:
+   - Group related pending changes into concise product features.
+   - Write polished, App Store-friendly copy (user-focused, non-technical). Example: "Remember more about the people you love" instead of "Added relationship to schema".
+   - Select an appropriate semantic version bump based on the accumulated changes.
+   - Update `package.json` with the new version.
+   - Add the release entry to `src/data/changelog.ts` with the new version, today's date (YYYY-MM-DD), and the grouped changes.
+   - Clear or archive the released entries from `PENDING_CHANGES.md`.
+
+### Copywriting Rules
+- **Never write developer commit logs**. The changelog answers "What does this mean for the user?", not "What did the developer change?".
+- Always check project constants (e.g., `src/constants/app-info.ts`) to use exact existing product terminology.
+
+### Source of Truth Hierarchy
+- **Codebase**: Source of truth for actual implementation.
+- **`PENDING_CHANGES.md`**: Source of truth for *unreleased* user-facing changes.
+- **`src/data/changelog.ts`**: Source of truth for *released* user-facing changes.
+- **`CURRENT_STATE.md`**: Source of truth for current product/architecture state.
+- **`package.json`**: Source of truth for the active application version.
