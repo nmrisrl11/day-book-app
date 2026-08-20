@@ -1,17 +1,18 @@
 import { bind, setEnabled, setVolume } from "cuelume";
+import { GooeyToaster } from "goey-toast";
 import { NuqsAdapter } from "nuqs/adapters/react";
 import { lazy, Suspense, useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Footer } from "./components/layout/footer";
 import { PageLayout } from "./components/layout/page-layout";
 import { PWAPrompt } from "./components/pwa-prompt";
+import { AboutSkeleton } from "./features/about/components/about-skeleton";
 import { DashboardSkeleton } from "./features/dashboard/components/dashboard-skeleton";
 import { InvitationSkeleton } from "./features/invitation/components/invitation-skeleton";
 import { ResponseSkeleton } from "./features/invitation/components/response-skeleton";
 import { ManageBirthdaysSkeleton } from "./features/management/components/manage-birthdays-skeleton";
 import { SettingsSkeleton } from "./features/settings/components/settings-skeleton";
 import { useDayBookStore } from "./store/day-book-store";
-import { GooeyToaster } from "goey-toast";
 
 const Dashboard = lazy(() =>
 	import("./features/dashboard/dashboard").then((m) => ({ default: m.Dashboard })),
@@ -111,7 +112,7 @@ function App() {
 						<Route
 							path="/about"
 							element={
-								<Suspense fallback={<DashboardSkeleton />}>
+								<Suspense fallback={<AboutSkeleton />}>
 									<About />
 								</Suspense>
 							}

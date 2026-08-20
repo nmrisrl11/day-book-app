@@ -2,8 +2,10 @@ import { AVATAR_SETTINGS, BORING_AVATARS_COLORS } from "@/constants/avatar-setti
 import { cn } from "@/lib/utils";
 import { useDayBookStore } from "@/store/day-book-store";
 import type { Birthday } from "@/types/birthday";
-import Avvvatars from "avvvatars-react";
-import BoringAvatar from "boring-avatars";
+import { lazy, Suspense } from "react";
+
+const Avvvatars = lazy(() => import("avvvatars-react"));
+const BoringAvatar = lazy(() => import("boring-avatars"));
 
 interface UserAvatarProps {
 	birthday: Pick<Birthday, "name" | "avatar">;
@@ -37,13 +39,16 @@ export function UserAvatar({ birthday, size = 40, className }: UserAvatarProps) 
 					className,
 				)}
 				style={!className?.includes("w-") ? { width: size, height: size } : undefined}
+				aria-hidden="true"
 			>
-				<BoringAvatar
-					size={size}
-					name={birthday.name}
-					variant={avatarSettings.boringAvatarsVariant}
-					colors={avatarSettings.boringAvatarsColors || BORING_AVATARS_COLORS}
-				/>
+				<Suspense fallback={<div className="bg-muted h-full w-full animate-pulse rounded-full" />}>
+					<BoringAvatar
+						size={size}
+						name={birthday.name}
+						variant={avatarSettings.boringAvatarsVariant}
+						colors={avatarSettings.boringAvatarsColors || BORING_AVATARS_COLORS}
+					/>
+				</Suspense>
 			</div>
 		);
 	}
@@ -56,8 +61,11 @@ export function UserAvatar({ birthday, size = 40, className }: UserAvatarProps) 
 				className,
 			)}
 			style={!className?.includes("w-") ? { width: size, height: size } : undefined}
+			aria-hidden="true"
 		>
-			<Avvvatars value={birthday.name} style={avatarSettings.avvvatarsStyle} size={size} />
+			<Suspense fallback={<div className="bg-muted h-full w-full animate-pulse rounded-full" />}>
+				<Avvvatars value={birthday.name} style={avatarSettings.avvvatarsStyle} size={size} />
+			</Suspense>
 		</div>
 	);
 }

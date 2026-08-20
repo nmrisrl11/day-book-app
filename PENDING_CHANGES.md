@@ -15,3 +15,5 @@
 - **Mobile Calendar Export UX** — On mobile devices (iOS and Android), exporting to `.ics` now utilizes the native Web Share API to directly open the OS Share Sheet instead of silently downloading a file.
 - **PWA Offline Fonts** — Google fonts and external font assets are now strictly precached via Workbox, ensuring the app remains perfectly styled even when completely offline.
 - **Default Avatars** — `boring-avatars` (beam variant) is now the default avatar library for a cleaner, modern look out of the box.
+- **Lighthouse Audit Optimizations** — Achieved massive bundle size reductions (and lowered main-thread execution time) by dynamically chunking heavy libraries like avatars. Improved semantic heading accessibility and SVG screen-reader compliance across the dashboard.
+- **About Page Skeleton** — Added a layout-accurate, dedicated skeleton loader for the `/about` screen to ensure a perfectly seamless visual transition while the page lazy-loads.

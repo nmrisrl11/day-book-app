@@ -63,7 +63,6 @@ export default defineConfig(({ command, mode }) => {
 							if (id.includes("date-fns")) {
 								return "vendor-date";
 							}
-							return "vendor";
 						}
 					},
 				},
