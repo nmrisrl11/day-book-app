@@ -52,9 +52,10 @@ If you are an AI agent or a developer looking to contribute to this project, ple
 
 1. **`AGENTS.md`**: Permanent AI operating instructions and deep architectural context.
 2. **`CURRENT_STATE.md`**: Living snapshot of what is actually implemented _right now_, known tech debt, and current focus.
-3. **`docs/rules.md`**: Strict coding conventions, naming rules, and boundaries.
-4. **`docs/instructions.md`**: The original foundational product specification.
-5. **`docs/brand-guidelines.md`**: Design, typography, and personality rules.
+3. **`PENDING_CHANGES.md`**: Development record containing unreleased product changes that have not yet been promoted to the official changelog.
+4. **`docs/rules.md`**: Strict coding conventions, naming rules, and boundaries.
+5. **`docs/instructions.md`**: The original foundational product specification.
+6. **`docs/brand-guidelines.md`**: Design, typography, and personality rules.
 
 ## Local Development
 
