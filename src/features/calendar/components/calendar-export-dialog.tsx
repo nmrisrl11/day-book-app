@@ -13,7 +13,7 @@ import {
 } from "@/helpers/calendar-export";
 import type { Birthday } from "@/types/birthday";
 import { APP_INFO } from "@/constants/app-info";
-import { CalendarIcon, DownloadIcon } from "lucide-react";
+import { CalendarIcon, DownloadIcon, ShareIcon } from "lucide-react";
 
 interface CalendarExportDialogProps {
 	open: boolean;
@@ -25,6 +25,10 @@ export function CalendarExportDialog({ open, onOpenChange, birthdays }: Calendar
 	const isSingle = !Array.isArray(birthdays);
 	const title = isSingle ? `Export ${birthdays.name}'s Birthday` : "Export Birthdays";
 
+	const isMobile =
+		/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+		(navigator.userAgent.includes("Mac") && "ontouchend" in document);
+
 	const handleGoogleExport = () => {
 		if (isSingle) {
 			const url = generateGoogleCalendarUrl(birthdays);
@@ -33,12 +37,12 @@ export function CalendarExportDialog({ open, onOpenChange, birthdays }: Calendar
 		}
 	};
 
-	const handleIcsExport = () => {
+	const handleIcsExport = async () => {
 		const content = generateIcsContent(birthdays);
 		const filename = isSingle
 			? `${birthdays.name.replace(/\s+/g, "_")}_birthday.ics`
 			: `daybook_birthdays_${new Date().toISOString().split("T")[0]}.ics`;
-		downloadIcsFile(content, filename);
+		await downloadIcsFile(content, filename);
 		onOpenChange(false);
 	};
 
@@ -69,37 +73,51 @@ export function CalendarExportDialog({ open, onOpenChange, birthdays }: Calendar
 						</Button>
 					)}
 
-					<Button
-						variant="outline"
-						className="w-full justify-start"
-						onClick={handleIcsExport}
-						aria-label="Export for Apple Calendar"
-					>
-						<CalendarIcon className="mr-2 h-4 w-4" />
-						Apple Calendar (.ics)
-					</Button>
+					{isMobile ? (
+						<Button
+							variant="outline"
+							className="w-full justify-start"
+							onClick={handleIcsExport}
+							aria-label="Share to Calendar App"
+						>
+							<ShareIcon className="mr-2 h-4 w-4" />
+							Share to Calendar App
+						</Button>
+					) : (
+						<>
+							<Button
+								variant="outline"
+								className="w-full justify-start"
+								onClick={handleIcsExport}
+								aria-label="Export for Apple Calendar"
+							>
+								<CalendarIcon className="mr-2 h-4 w-4" />
+								Apple Calendar (.ics)
+							</Button>
 
-					<Button
-						variant="outline"
-						className="w-full justify-start"
-						onClick={handleIcsExport}
-						aria-label="Export for Outlook"
-					>
-						<CalendarIcon className="mr-2 h-4 w-4" />
-						Outlook (.ics)
-					</Button>
+							<Button
+								variant="outline"
+								className="w-full justify-start"
+								onClick={handleIcsExport}
+								aria-label="Export for Outlook"
+							>
+								<CalendarIcon className="mr-2 h-4 w-4" />
+								Outlook (.ics)
+							</Button>
 
-					<div className="my-2 border-t" />
+							<div className="my-2 border-t" />
 
-					<Button
-						variant="secondary"
-						className="w-full justify-start"
-						onClick={handleIcsExport}
-						aria-label="Download .ics File"
-					>
-						<DownloadIcon className="mr-2 h-4 w-4" />
-						Download .ics File
-					</Button>
+							<Button
+								variant="secondary"
+								className="w-full justify-start"
+								onClick={handleIcsExport}
+								aria-label="Download .ics File"
+							>
+								<DownloadIcon className="mr-2 h-4 w-4" />
+								Download .ics File
+							</Button>
+						</>
+					)}
 				</div>
 			</DialogContent>
 		</Dialog>

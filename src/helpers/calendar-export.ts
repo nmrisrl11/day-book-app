@@ -118,10 +118,34 @@ export function generateIcsContent(birthdays: Birthday | Birthday[]): string {
 }
 
 /**
- * Triggers a download of an .ics file in the browser.
+ * Triggers a download of an .ics file in the browser, or uses the native Share Sheet on iOS.
  */
-export function downloadIcsFile(content: string, filename: string) {
+export async function downloadIcsFile(content: string, filename: string) {
 	const blob = new Blob([content], { type: "text/calendar;charset=utf-8" });
+
+	const isMobile =
+		/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+		(navigator.userAgent.includes("Mac") && "ontouchend" in document);
+
+	if (isMobile) {
+		const file = new File([blob], filename, { type: "text/calendar" });
+		if (navigator.canShare && navigator.canShare({ files: [file] })) {
+			try {
+				await navigator.share({
+					files: [file],
+					title: "Birthdays",
+				});
+				return;
+			} catch (error) {
+				console.error("Error sharing ICS file:", error);
+				if (error instanceof Error && error.name === "AbortError") {
+					// User cancelled the share sheet
+					return;
+				}
+			}
+		}
+	}
+
 	const url = URL.createObjectURL(blob);
 	const a = document.createElement("a");
 	a.href = url;
@@ -131,3 +155,4 @@ export function downloadIcsFile(content: string, filename: string) {
 	document.body.removeChild(a);
 	URL.revokeObjectURL(url);
 }
+
