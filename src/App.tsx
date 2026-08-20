@@ -36,6 +36,11 @@ const Response = lazy(() =>
 		default: m.ResponseScreen,
 	})),
 );
+const About = lazy(() =>
+	import("./features/about/about-screen").then((m) => ({
+		default: m.AboutScreen,
+	})),
+);
 
 function App() {
 	const settings = useDayBookStore((state) => state.settings);
@@ -57,7 +62,7 @@ function App() {
 			setEnabled(soundSettings.enabled);
 			setVolume(soundSettings.volume);
 		}
-	}, [soundSettings?.enabled, soundSettings?.volume]);
+	}, [soundSettings, soundSettings?.enabled, soundSettings?.volume]);
 
 	useEffect(() => {
 		const handleKeyDown = (e: KeyboardEvent) => {
@@ -100,6 +105,14 @@ function App() {
 							element={
 								<Suspense fallback={<SettingsSkeleton />}>
 									<Settings />
+								</Suspense>
+							}
+						/>
+						<Route
+							path="/about"
+							element={
+								<Suspense fallback={<DashboardSkeleton />}>
+									<About />
 								</Suspense>
 							}
 						/>

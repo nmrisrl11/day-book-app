@@ -57,7 +57,7 @@ export default async function handler(req: Request) {
 				"Content-Type": "application/json",
 			},
 		});
-	} catch (error) {
+	} catch (_error) {
 		return new Response(JSON.stringify({ total: 0, error: "Failed to fetch stats" }), {
 			status: 500,
 			headers: { "Content-Type": "application/json" },

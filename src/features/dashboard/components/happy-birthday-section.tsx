@@ -1,4 +1,4 @@
-import { PartyHat } from "@/components/ui/party-hat";
+import { PartyHat } from "@/components/icons/party-hat";
 import { MAIN_GREETINGS } from "@/constants/main-greeting";
 import { useConfetti } from "@/hooks/use-confetti";
 import { cn } from "@/lib/utils";

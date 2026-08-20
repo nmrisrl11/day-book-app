@@ -1,5 +1,5 @@
+import { Logo } from "@/components/icons/logo";
 import { Button } from "@/components/ui/button";
-import { Logo } from "@/components/ui/logo";
 import { BookUserIcon, SettingsIcon } from "lucide-react";
 import React from "react";
 import { Link, useLocation } from "react-router-dom";

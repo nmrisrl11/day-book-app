@@ -22,14 +22,20 @@ export function PWAPrompt() {
 		if (needRefresh) {
 			gooeyToast.info("Update available", {
 				id: "pwa-update",
-				description: `A newer version of ${APP_INFO.name} is ready.`,
+				description: (
+					<div>
+						A newer version of <span className="font-semibold">{APP_INFO.name}</span> is ready!
+						<br />
+						Check the About page to see what's new after updating.
+					</div>
+				),
 				duration: Infinity,
 				timing: { displayDuration: 86400000 }, // Fix for goey-toast internal morph-collapse timer
 				showTimestamp: false,
 				classNames: {
 					content: "items-center text-center",
 					title: "text-center w-full",
-					description: "text-center justify-center flex w-full",
+					description: "text-center! justify-center flex w-full",
 				},
 				action: {
 					label: "Update",

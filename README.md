@@ -24,7 +24,14 @@
 - 🏷️ **Centralized Branding**: Easily fork and rebrand the application by editing a single `app-info.ts` configuration file that syncs across PWA manifests, meta tags, and all UI components.
 - 🖼️ **Dynamic Social Previews**: Vercel Edge-powered dynamic Open Graph images tailored specifically for the Invitation and Response shareable links.
 - 💾 **Data Portability**: Full JSON export and import for both your birthday data and your application settings.
-- 📊 **Visitor Analytics**: Edge-hosted unique visitor tracking using Upstash Redis. _Privacy note: IP addresses are strictly anonymized via one-way SHA-256 hashing before reaching the database, ensuring no Personally Identifiable Information (PII) is ever stored._
+- ℹ️ **Product Overview**: A dedicated `/about` page detailing the app's features and an interactive changelog. It features a responsive "Line Nav" table of contents built with Framer Motion.
+- 📊 **Visitor Analytics**: Edge-hosted unique visitor tracking using Upstash Redis. _(See Privacy Disclaimer below)._
+
+## Privacy & Data Disclaimer
+
+DayBook is strictly a **local-first** application. Your birthday records, relationship tags, and personalized settings are stored entirely on your device via `localStorage`. We do not sync your personal data to any external cloud database.
+
+To combat spam, we implemented an edge-hosted visitor counter (`/api/visitors`). This counter processes incoming IP addresses but uses a one-way cryptographic hash (SHA-256) **before** the data reaches our Redis instance. This ensures that no Personally Identifiable Information (PII) is ever stored or tracked.
 
 ## Technology Stack
 

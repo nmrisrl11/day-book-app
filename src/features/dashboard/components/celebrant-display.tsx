@@ -1,4 +1,4 @@
-import { PartyHat } from "@/components/ui/party-hat";
+import { PartyHat } from "@/components/icons/party-hat";
 import { UserAvatar } from "@/components/user-avatar";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import type { Birthday } from "@/types/birthday";

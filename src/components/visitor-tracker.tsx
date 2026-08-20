@@ -34,7 +34,7 @@ export function VisitorTracker({ className }: VisitorTrackerProps) {
 						total: data.total || 0,
 					});
 				}
-			} catch (err) {
+			} catch (_err) {
 				// Silently fail if API is unavailable
 			} finally {
 				setIsLoading(false);

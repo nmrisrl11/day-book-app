@@ -64,7 +64,7 @@ export function parseInvitationToken(token: string): InvitationPayload | null {
 			return payload as InvitationPayload;
 		}
 		return null;
-	} catch (_) {
+	} catch {
 		return null;
 	}
 }
@@ -107,7 +107,7 @@ export function parseResponseToken(token: string): ResponsePayload | null {
 			}
 		}
 		return null;
-	} catch (_) {
+	} catch {
 		return null;
 	}
 }
