@@ -10,7 +10,7 @@ export const BORING_AVATARS_COLORS: string[] = [
 
 export const AVATAR_SETTINGS: AvatarSettings = {
 	allowCustomUploads: true,
-	defaultLibrary: "avvvatars",
+	defaultLibrary: "boring-avatars",
 	avvvatarsStyle: "shape",
 	boringAvatarsVariant: "beam",
 	boringAvatarsColors: BORING_AVATARS_COLORS,
