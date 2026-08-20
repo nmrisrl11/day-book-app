@@ -28,7 +28,7 @@ DayBook is a fully functional, local-first React application. While originally s
 
 ### Core Birthday & People Management (Fully Implemented)
 
-- **Data Model**: Birthdays act as "Person Cards" with an ID, Name, Date, Avatar (Base64 or external ID), Relationship (Family, Friend, Partner, Colleague, Other), and Notes (up to 5 lightweight string tags).
+- **Data Model**: Birthdays act as "Person Cards" with an ID, Name, Date, Avatar (Base64 or external ID), Relationship (Me, Family, Friend, Partner, Colleague, Other), and Notes (up to 5 lightweight string tags).
 - **CRUD & Bulk**: Create, Read, Update, Delete functionality for birthdays. Users can also select multiple people in the Management screen to assign relationships in bulk. The Management list uses virtualization (`@tanstack/react-virtual`) to effortlessly handle thousands of records without freezing.
 - **Persistence**: Handled entirely client-side via `localStorage` via Zustand `persist`. Backward compatible data migrations handle legacy formats.
 - **Validation**: Strict validation centralized in `validation-constants.ts` enforced via Zod schemas (`birthday-schema.ts`, `settings-schema.ts`) and native HTML `maxLength`/`minLength` attributes.
@@ -37,7 +37,7 @@ DayBook is a fully functional, local-first React application. While originally s
 ### Dashboard & Views (Fully Implemented)
 
 - **Happy Birthday Section**: Displays today's celebrants with random confetti. Interactive modals for celebrant details.
-- **Upcoming Birthdays**: Scrollable list of the next N birthdays (N is configurable in Settings).
+- **Upcoming Birthdays**: Scrollable list of the next N birthdays (N is configurable in Settings), complete with "days until" indicators.
 - **Birthdays by Month**: 12-month grid indicating which months have birthdays. Clickable month modals showing grouped celebrants.
 - **Empty States**: Beautiful empty states when no birthdays exist.
 - **About Page (Product Overview)**: A dedicated `/about` page detailing the app's features, privacy-first principles, and a user-friendly changelog. Features a dynamic "Line Nav" table of contents that tracks scroll position on desktop and slides in as a mobile drawer via Framer Motion.
@@ -48,17 +48,17 @@ Settings has grown into a full `/settings` route with 6 tabs managed by `nuqs` U
 
 1.  **Appearance**: Theme toggle (Light/Dark) and Display settings (Upcoming count limit).
 2.  **Main Greeting**: Customize the dashboard "Happy Birthday" text, typography, and color styling (Solid/Gradient).
-3.  **Avatar**: Choose between `avvvatars` (character/shape), `boring-avatars` (marble/beam/pixel/etc.), and enable/disable custom image uploads.
+3.  **Avatar**: Choose between `boring-avatars` (default) and `avvvatars`, and enable/disable custom image uploads.
 4.  **Messages & Greetings**: Manage the floating text items and the randomized greeting pool.
 5.  **Sound & Feedback**: Configure `cuelume` hover/click/success/error sound mappings and volume. UI feedback notifications use `goey-toast` for playful, premium animations.
 6.  **Data Management**: Unified virtualized Import Preview Dialog for both JSON and ICS files (handles duplicate reviewing and selective importing smoothly for 1,000+ items). Export Birthdays, Import/Export Settings separately, and Danger Zone (Delete All with export-first safety).
 
 ### System Integrations
 
-- **Calendar**: Google Calendar add-event links and `.ics` file generation and download (`helpers/calendar-export.ts`). ICS Import correctly parses and restores relationships and notes from DayBook exports.
+- **Calendar**: Google Calendar add-event links and `.ics` file generation and download (`helpers/calendar-export.ts`). ICS Import correctly parses and restores relationships and notes from DayBook exports. On mobile devices, ICS exports utilize the Web Share API to invoke the native OS Share Sheet for seamless one-tap calendar importing.
 - **Dynamic Open Graph (OG) Previews**: Uses a lightweight Vercel Edge Function (`api/og-rewriter.ts`) and `vercel.json` rewrites to dynamically inject specific social media preview images (Twitter/Facebook cards) when sharing `/invite` or `/response` links.
 - **Visitor Tracking**: Public endpoint (`/api/visitors`) using Vercel Edge functions and Upstash Redis. Uses `INCR` and `SET NX EX 86400` for 24-hour unique visitor counting. IP addresses are completely anonymized via one-way SHA-256 hashing _before_ being used as lock keys, guaranteeing no PII is ever stored and maintaining the privacy-first architecture. Local development environments safely bypass this API to preserve limits.
-- **Progressive Web App (PWA)**: Installable, offline-capable application built via `vite-plugin-pwa` with Workbox generating the service worker. It includes a custom update prompt for graceful updates, custom iOS install instructions (to bypass Safari limitations), and gooey toast notifications for online/offline status changes.
+- **Progressive Web App (PWA)**: Installable, offline-capable application built via `vite-plugin-pwa` with Workbox generating the service worker. It precaches all assets and fonts for complete offline functionality. It includes a custom update prompt for graceful updates, custom iOS install instructions (to bypass Safari limitations), and gooey toast notifications for online/offline status changes.
 - **Centralized Branding**: The application brand name, title, description, keywords, and theme colors are strictly centralized in `src/constants/app-info.ts` ensuring a single source of truth that is dynamically injected into the PWA manifest, HTML templates via Vite plugin, and all static UI components.
 
 ## 4. Current Architecture Details
