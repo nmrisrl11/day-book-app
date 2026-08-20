@@ -88,5 +88,5 @@ day-book-app/
 ## 5. Current Development Focus
 
 - DayBook is currently in a highly stable, performant state.
-- A full performance audit and optimization pass was recently completed (bundle splitting `node_modules`, sorting logic optimization via Schwartzian transform, and asynchronous font loading).
+- A full performance audit and optimization pass was recently completed, resulting in near-perfect Lighthouse scores. This included aggressive route-level and component-level (avatar libraries) chunk splitting, SVG/heading DOM accessibility (A11y) improvements, and strict PWA static asset pre-caching.
 - Ongoing monitoring of PWA behavior across devices.

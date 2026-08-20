@@ -37,9 +37,9 @@ export function CelebrantDisplay({ celebrant, onClick }: CelebrantDisplayProps) 
 			</div>
 
 			<div className="flex flex-col items-center">
-				<h3 className="text-foreground text-center text-2xl font-bold tracking-tight md:text-3xl">
+				<h2 className="text-foreground text-center text-2xl font-bold tracking-tight md:text-3xl">
 					{celebrant.name}
-				</h3>
+				</h2>
 			</div>
 		</button>
 	);

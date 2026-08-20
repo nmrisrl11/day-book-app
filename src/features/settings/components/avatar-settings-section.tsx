@@ -43,7 +43,7 @@ export function AvatarSettingsSection() {
 		updateSettings({
 			avatarSettings: {
 				...avatarSettings,
-				defaultLibrary: "avvvatars",
+				defaultLibrary: "boring-avatars",
 				avvvatarsStyle: "shape",
 				boringAvatarsVariant: "beam",
 				boringAvatarsColors: BORING_AVATARS_COLORS,

@@ -155,4 +155,3 @@ export async function downloadIcsFile(content: string, filename: string) {
 	document.body.removeChild(a);
 	URL.revokeObjectURL(url);
 }
-
