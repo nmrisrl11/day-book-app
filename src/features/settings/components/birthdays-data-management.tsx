@@ -6,7 +6,6 @@ import { parseIcsForBirthdays } from "@/helpers/calendar-import";
 import { exportBirthdays, parseImportedBirthdays } from "@/helpers/import-export";
 import { useDayBookStore } from "@/store/day-book-store";
 import type { Birthday } from "@/types/birthday";
-import { gooeyToast } from "goey-toast";
 import { CalendarIcon, DownloadIcon, UploadIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
@@ -94,41 +93,12 @@ export function BirthdaysDataManagement() {
 		}
 	};
 
-	const toImport = [{}];
-	const alreadyExistedCount = 1;
-
 	return (
 		<>
 			<div className="flex flex-col gap-6">
 				{/* JSON DATA */}
 				<div className="flex flex-col gap-3">
-					<h3
-						className="text-base font-medium"
-						onClick={() => {
-							gooeyToast.success(`Import Complete!`, {
-								id: "import-complete",
-								description: (
-									<div>
-										<span className="font-semibold">{toImport.length}</span> birthday
-										{toImport.length === 1 ? "" : "s"} {toImport.length === 1 ? "has" : "have"} been
-										added successfully. <br />
-										<span className="font-semibold">{alreadyExistedCount}</span>{" "}
-										{alreadyExistedCount === 1 ? "birthday was" : "birthdays were"} already there.
-									</div>
-								),
-								showTimestamp: false,
-								classNames: {
-									content: "items-center text-center",
-									title: "text-center w-full",
-									description: "text-center! justify-center flex w-full",
-								},
-								duration: Infinity,
-								timing: { displayDuration: 86400000 },
-							});
-						}}
-					>
-						Birthdays Data (JSON)
-					</h3>
+					<h3 className="text-base font-medium">Birthdays Data (JSON)</h3>
 					<div className="flex flex-col gap-3">
 						<Button
 							variant="outline"

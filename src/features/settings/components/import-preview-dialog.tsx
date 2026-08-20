@@ -281,7 +281,6 @@ export function ImportPreviewDialog({
 					classNames: {
 						content: "items-center text-center",
 						title: "text-center w-full",
-						description: "text-center! justify-center flex w-full",
 					},
 				});
 			} else {
@@ -298,7 +297,6 @@ export function ImportPreviewDialog({
 					classNames: {
 						content: "items-center text-center",
 						title: "text-center w-full",
-						description: "text-center! justify-center flex w-full",
 					},
 				});
 			}

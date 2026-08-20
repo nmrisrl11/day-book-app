@@ -11,7 +11,7 @@
 ## Features
 
 - 🔒 **Privacy First**: All your birthday, relationship, and settings data stays on your device (`localStorage`). Visitor analytics (unique visitor counting) use the `/api/visitors` flow with IP-based counting backed by Upstash Redis.
-- 📱 **Installable PWA**: Install DayBook on your phone or desktop! Works offline, loads instantly, and detects updates in the background, applying them safely only after you confirm.
+- 📱 **Installable PWA**: Install DayBook on your phone or desktop! Works offline, loads instantly, and detects updates in the background. It also includes specific iOS installation instructions and real-time offline status notifications.
 - ✨ **Beautiful Dashboard**: Celebratory "Happy Birthday" section with confetti, upcoming birthdays list, and an interactive 12-month calendar grid.
 - 🎨 **Rich Customization**:
   - 🌓 Theme toggling (Light/Dark).

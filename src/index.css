@@ -188,3 +188,7 @@
 .gooey-actionButton {
 	font-weight: 600 !important;
 }
+
+.gooey-description {
+	text-align: center !important;
+}
