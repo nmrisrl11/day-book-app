@@ -19,7 +19,8 @@ DayBook is a fully functional, local-first React application. While originally s
 - **UI Components:** Radix UI primitives via shadcn/ui
 - **Animation:** Framer Motion, `@animate-ui`
 - **Form & Validation:** React Hook Form, Zod
-- **Audio Feedback:** `cuelume`
+- **Audio & UI Feedback:** `cuelume`, `goey-toast`
+- **Virtualization:** `@tanstack/react-virtual`
 - **URL State:** `nuqs`
 - **Database (Analytics Only):** Upstash Redis (Serverless)
 
@@ -28,7 +29,7 @@ DayBook is a fully functional, local-first React application. While originally s
 ### Core Birthday & People Management (Fully Implemented)
 
 - **Data Model**: Birthdays act as "Person Cards" with an ID, Name, Date, Avatar (Base64 or external ID), Relationship (Family, Friend, Partner, Colleague, Other), and Notes (up to 5 lightweight string tags).
-- **CRUD & Bulk**: Create, Read, Update, Delete functionality for birthdays. Users can also select multiple people in the Management screen to assign relationships in bulk.
+- **CRUD & Bulk**: Create, Read, Update, Delete functionality for birthdays. Users can also select multiple people in the Management screen to assign relationships in bulk. The Management list uses virtualization (`@tanstack/react-virtual`) to effortlessly handle thousands of records without freezing.
 - **Persistence**: Handled entirely client-side via `localStorage` via Zustand `persist`. Backward compatible data migrations handle legacy formats.
 - **Validation**: Strict validation centralized in `validation-constants.ts` enforced via Zod schemas (`birthday-schema.ts`, `settings-schema.ts`) and native HTML `maxLength`/`minLength` attributes.
 - **Invitations / Links**: Fully local-first link sharing system. Users can generate an Invitation link (24h expiration, Base64Url token) to send to friends. Friends fill it out on the `/invite` route and generate a Response link (`/response`), allowing easy data ingestion without a backend. Receivers of the link can select a relationship upon importing.
@@ -49,8 +50,8 @@ Settings has grown into a full `/settings` route with 6 tabs managed by `nuqs` U
 2.  **Main Greeting**: Customize the dashboard "Happy Birthday" text, typography, and color styling (Solid/Gradient).
 3.  **Avatar**: Choose between `avvvatars` (character/shape), `boring-avatars` (marble/beam/pixel/etc.), and enable/disable custom image uploads.
 4.  **Messages & Greetings**: Manage the floating text items and the randomized greeting pool.
-5.  **Sound & Feedback**: Configure `cuelume` hover/click/success/error sound mappings and volume.
-6.  **Data Management**: Import/Export Birthdays, Import/Export Settings separately, and Danger Zone (Delete All with export-first safety).
+5.  **Sound & Feedback**: Configure `cuelume` hover/click/success/error sound mappings and volume. UI feedback notifications use `goey-toast` for playful, premium animations.
+6.  **Data Management**: Unified virtualized Import Preview Dialog for both JSON and ICS files (handles duplicate reviewing and selective importing smoothly for 1,000+ items). Export Birthdays, Import/Export Settings separately, and Danger Zone (Delete All with export-first safety).
 
 ### System Integrations
 

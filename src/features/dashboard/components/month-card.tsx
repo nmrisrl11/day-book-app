@@ -56,7 +56,7 @@ export function MonthCard({ monthName, monthIndex, birthdays, onClick }: MonthCa
 							</div>
 						))}
 						{remainingCount > 0 && (
-							<div className="bg-muted text-muted-foreground ring-border z-20 flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold ring-2">
+							<div className="bg-muted ring-border z-20 flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold ring-2">
 								+{remainingCount}
 							</div>
 						)}
