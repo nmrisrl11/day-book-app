@@ -39,6 +39,7 @@ DayBook is a fully functional, local-first React application. While originally s
 - **Upcoming Birthdays**: Scrollable list of the next N birthdays (N is configurable in Settings).
 - **Birthdays by Month**: 12-month grid indicating which months have birthdays. Clickable month modals showing grouped celebrants.
 - **Empty States**: Beautiful empty states when no birthdays exist.
+- **About Page (Product Overview)**: A dedicated `/about` page detailing the app's features, privacy-first principles, and a user-friendly changelog. Features a dynamic "Line Nav" table of contents that tracks scroll position on desktop and slides in as a mobile drawer via Framer Motion.
 
 ### Settings & Customization (Beyond Original Scope)
 

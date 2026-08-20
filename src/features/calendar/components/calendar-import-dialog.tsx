@@ -1,3 +1,4 @@
+import { PartyHat } from "@/components/icons/party-hat";
 import { Button } from "@/components/ui/button";
 import {
 	Dialog,
@@ -7,7 +8,6 @@ import {
 	DialogHeader,
 	DialogTitle,
 } from "@/components/ui/dialog";
-import { PartyHat } from "@/components/ui/party-hat";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { APP_INFO } from "@/constants/app-info";
 import { FULL_MONTHS } from "@/constants/months";
@@ -70,7 +70,7 @@ export function CalendarImportDialog({
 			}
 			setSelectedIds(initialSelected);
 		}
-	}, [open, foundBirthdays, existingBirthdays]);
+	}, [open, foundBirthdays, isDuplicate]);
 
 	const selectableBirthdays = foundBirthdays.filter((b) => !isDuplicate(b));
 	const allSelected =

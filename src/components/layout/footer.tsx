@@ -3,6 +3,8 @@ import { AnimateIcon } from "@/components/ui/animate-icon";
 import { BotIcon } from "@/components/ui/animated-icons/bot-icon";
 import { Button } from "@/components/ui/button";
 import { VisitorTracker } from "@/components/visitor-tracker";
+import { APP_INFO } from "@/constants/app-info";
+import { Link } from "react-router-dom";
 
 export function Footer() {
 	return (
@@ -10,7 +12,7 @@ export function Footer() {
 			<VisitorTracker className="justify-center" />
 
 			<div className="flex flex-1 flex-col items-center justify-end gap-1 sm:items-end">
-				<div className="flex">
+				<div className="flex flex-wrap items-center justify-center sm:justify-end">
 					<Button variant="ghost" size="sm" asChild>
 						<a
 							href="https://github.com/nmrisrl11/day-book-app"
@@ -21,6 +23,9 @@ export function Footer() {
 							<GithubIcon aria-hidden="true" className="mr-1 h-4 w-4" />
 							GitHub Repository
 						</a>
+					</Button>
+					<Button variant="ghost" size="sm" asChild>
+						<Link to="/about">About {APP_INFO.name}</Link>
 					</Button>
 				</div>
 

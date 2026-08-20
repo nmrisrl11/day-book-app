@@ -1,6 +1,7 @@
 export const APP_INFO = {
 	name: "DayBook",
 	shortName: "DayBook",
+	tagline: "Remember the people you love.",
 	title: "DayBook - Remember The People You Love",
 	description:
 		"DayBook is your personal people manager. Keep track of family, friends, and loved ones' birthdays, relationships, and special notes so you never forget a special day again.",

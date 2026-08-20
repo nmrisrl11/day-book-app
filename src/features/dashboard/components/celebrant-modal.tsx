@@ -1,3 +1,4 @@
+import { PartyHat } from "@/components/icons/party-hat";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -8,7 +9,6 @@ import {
 	DialogHeader,
 	DialogTitle,
 } from "@/components/ui/dialog";
-import { PartyHat } from "@/components/ui/party-hat";
 import { UserAvatar } from "@/components/user-avatar";
 import { CalendarExportDialog } from "@/features/calendar/components/calendar-export-dialog";
 import { calculateAge, formatBirthdayDisplay } from "@/helpers/birthday-utils";
