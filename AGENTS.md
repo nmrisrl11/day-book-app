@@ -79,6 +79,7 @@ While originally conceived as a "birthday tracker," the product is evolving into
 To ensure product changes are consistently recorded, all AI agents must follow this development lifecycle:
 
 ### The Lifecycle
+
 1. **Development**: Implement features/fixes.
 2. **Pending**: Record user-facing changes immediately in `PENDING_CHANGES.md` under categories (`Added`, `Improved`, `Fixed`, `Changed`, `Removed`). Do this before finishing your task.
 3. **Release**: When intentionally releasing an update:
@@ -90,12 +91,14 @@ To ensure product changes are consistently recorded, all AI agents must follow t
    - Clear or archive the released entries from `PENDING_CHANGES.md`.
 
 ### Copywriting Rules
+
 - **Never write developer commit logs**. The changelog answers "What does this mean for the user?", not "What did the developer change?".
 - Always check project constants (e.g., `src/constants/app-info.ts`) to use exact existing product terminology.
 
 ### Source of Truth Hierarchy
+
 - **Codebase**: Source of truth for actual implementation.
-- **`PENDING_CHANGES.md`**: Source of truth for *unreleased* user-facing changes.
-- **`src/data/changelog.ts`**: Source of truth for *released* user-facing changes.
+- **`PENDING_CHANGES.md`**: Source of truth for _unreleased_ user-facing changes.
+- **`src/data/changelog.ts`**: Source of truth for _released_ user-facing changes.
 - **`CURRENT_STATE.md`**: Source of truth for current product/architecture state.
 - **`package.json`**: Source of truth for the active application version.

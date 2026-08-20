@@ -18,8 +18,8 @@
   - 🅰️ Main greeting typography and gradient styling.
   - 💬 Floating messages and personalized greeting pools.
   - 🖼️ Two integrated avatar systems (`avvvatars` and `boring-avatars`) plus custom photo uploads.
-- 🎵 **Sound Feedback**: Satisfying, configurable audio feedback for interactions using the `cuelume` library.
-- 📅 **Calendar Integration**: Export your birthdays to `.ics` files or add them directly to Google Calendar. ICS imports fully support restoring relationship tags and notes.
+- 🎵 **Sound & UI Feedback**: Satisfying, configurable audio feedback for interactions using `cuelume`, and delightful, gooey notification toasts via `goey-toast`.
+- 📅 **Calendar & External Integration**: Import/Export your birthdays via `.ics` or `JSON` format. Large imports are handled effortlessly through an advanced virtualized preview interface, allowing for duplicate review and selection without freezing.
 - 🔗 **Birthday Links**: Request your friends' birthdays effortlessly! Generate an invitation link, send it via chat, and process their response link directly into your local database. No backend required.
 - 🏷️ **Centralized Branding**: Easily fork and rebrand the application by editing a single `app-info.ts` configuration file that syncs across PWA manifests, meta tags, and all UI components.
 - 🖼️ **Dynamic Social Previews**: Vercel Edge-powered dynamic Open Graph images tailored specifically for the Invitation and Response shareable links.
@@ -42,7 +42,8 @@ To combat spam, we implemented an edge-hosted visitor counter (`/api/visitors`).
 - 🐻 **State Management**: Zustand 5
 - 🛣️ **Routing**: React Router v7
 - 🧱 **UI Components**: Radix UI (via shadcn/ui)
-- ✨ **Animation**: Framer Motion, `@animate-ui`
+- ✨ **Animation & Feedback**: Framer Motion, `@animate-ui`, `goey-toast`
+- 🚀 **Performance**: `@tanstack/react-virtual`
 - ✅ **Validation**: Zod + React Hook Form
 - 🔗 **URL State**: `nuqs`
 

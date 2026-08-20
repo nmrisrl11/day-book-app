@@ -24,6 +24,7 @@ import { parseAsInteger, parseAsString, parseAsStringLiteral, useQueryState } fr
 import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { BirthdayListItem } from "./components/birthday-list-item";
 import { gooeyToast } from "goey-toast";
+import { useVirtualizer } from "@tanstack/react-virtual";
 
 const BirthdayFormModal = lazy(() =>
 	import("./components/birthday-form-modal").then((m) => ({ default: m.BirthdayFormModal })),
@@ -317,6 +318,15 @@ export function BirthdayManagementScreen() {
 		}
 	};
 
+	const parentRef = useRef<HTMLDivElement>(null);
+
+	const rowVirtualizer = useVirtualizer({
+		count: paginatedBirthdays.length,
+		getScrollElement: () => parentRef.current,
+		estimateSize: () => 88,
+		overscan: 10,
+	});
+
 	return (
 		<div className="flex w-full flex-col gap-6">
 			<div className="flex items-center justify-between">
@@ -452,25 +462,47 @@ export function BirthdayManagementScreen() {
 						</div>
 					)}
 
-					<div className="custom-scrollbar max-h-[55vh] overflow-y-auto pr-4">
+					<div ref={parentRef} className="custom-scrollbar max-h-[55vh] overflow-y-auto pr-4">
 						{filteredAndSortedBirthdays.length === 0 ? (
 							<div className="text-muted-foreground py-12 text-center italic">
 								No birthdays found matching your criteria.
 							</div>
 						) : (
-							<div className="flex flex-col gap-3 pb-8">
-								{paginatedBirthdays.map((birthday) => (
-									<BirthdayListItem
-										key={birthday.id}
-										birthday={birthday}
-										onEdit={handleEdit}
-										onDelete={handleDeleteClick}
-										onExport={handleExport}
-										selectable={true}
-										selected={selectedIds.has(birthday.id)}
-										onSelectChange={handleSelectChange}
-									/>
-								))}
+							<div
+								style={{
+									height: `${rowVirtualizer.getTotalSize()}px`,
+									width: "100%",
+									position: "relative",
+								}}
+								className="pb-8"
+							>
+								{rowVirtualizer.getVirtualItems().map((virtualRow) => {
+									const birthday = paginatedBirthdays[virtualRow.index];
+									return (
+										<div
+											key={virtualRow.index}
+											style={{
+												position: "absolute",
+												top: 0,
+												left: 0,
+												width: "100%",
+												height: `${virtualRow.size}px`,
+												transform: `translateY(${virtualRow.start}px)`,
+												paddingBottom: "12px",
+											}}
+										>
+											<BirthdayListItem
+												birthday={birthday}
+												onEdit={handleEdit}
+												onDelete={handleDeleteClick}
+												onExport={handleExport}
+												selectable={true}
+												selected={selectedIds.has(birthday.id)}
+												onSelectChange={handleSelectChange}
+											/>
+										</div>
+									);
+								})}
 							</div>
 						)}
 					</div>
