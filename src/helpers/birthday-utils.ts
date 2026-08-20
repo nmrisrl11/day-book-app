@@ -1,5 +1,13 @@
 import type { Birthday } from "@/types/birthday";
-import { compareAsc, format, isBefore, isSameDay, parse, setYear } from "date-fns";
+import {
+	compareAsc,
+	differenceInDays,
+	format,
+	isBefore,
+	isSameDay,
+	parse,
+	setYear,
+} from "date-fns";
 
 export function parseBirthday(dateString: string): Date {
 	// Parse YYYY-MM-DD
@@ -91,4 +99,16 @@ export function calculateAge(dateString: string, currentDate: Date): number | nu
 	}
 
 	return age;
+}
+
+export function calculateDaysUntilBirthday(dateString: string, currentDate: Date): number {
+	const parsed = parseBirthday(dateString);
+	const currentYear = currentDate.getFullYear();
+	let nextOccurrence = setYear(parsed, currentYear);
+
+	if (isBefore(nextOccurrence, currentDate) && !isSameDay(nextOccurrence, currentDate)) {
+		nextOccurrence = setYear(parsed, currentYear + 1);
+	}
+
+	return differenceInDays(nextOccurrence, currentDate);
 }

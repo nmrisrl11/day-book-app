@@ -53,6 +53,7 @@ export function PWAPrompt() {
 	useEffect(() => {
 		const handleOnline = () => {
 			gooeyToast.success("Back Online", {
+				id: "online-status",
 				description: "Your connection has been restored.",
 				showTimestamp: false,
 			});
@@ -60,6 +61,7 @@ export function PWAPrompt() {
 
 		const handleOffline = () => {
 			gooeyToast.warning("You are offline", {
+				id: "offline-status",
 				description: `${APP_INFO.name} will continue to work normally offline.`,
 				showTimestamp: false,
 			});
@@ -112,6 +114,7 @@ export function PWAPrompt() {
 							label: "Got it",
 							onClick: () => {
 								localStorage.setItem("ios-install-prompt-dismissed", "true");
+								gooeyToast.dismiss("ios-install-prompt");
 							},
 						},
 					});

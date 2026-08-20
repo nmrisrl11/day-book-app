@@ -1,8 +1,12 @@
+import { Badge } from "@/components/ui/badge";
 import { UserAvatar } from "@/components/user-avatar";
-import { calculateAge, formatBirthdayDisplay } from "@/helpers/birthday-utils";
+import {
+	calculateAge,
+	calculateDaysUntilBirthday,
+	formatBirthdayDisplay,
+} from "@/helpers/birthday-utils";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import type { Birthday } from "@/types/birthday";
-import { Badge } from "@/components/ui/badge";
 
 interface UpcomingBirthdayCardProps {
 	celebrant: Birthday;
@@ -12,6 +16,7 @@ interface UpcomingBirthdayCardProps {
 export function UpcomingBirthdayCard({ celebrant, currentDate }: UpcomingBirthdayCardProps) {
 	const age = calculateAge(celebrant.birthday, currentDate);
 	const formattedDate = formatBirthdayDisplay(celebrant.birthday);
+	const daysUntil = calculateDaysUntilBirthday(celebrant.birthday, currentDate);
 	const isDesktop = useMediaQuery("(min-width: 768px)");
 
 	return (
@@ -30,11 +35,26 @@ export function UpcomingBirthdayCard({ celebrant, currentDate }: UpcomingBirthda
 				</h3>
 				<span className="text-muted-foreground text-sm font-medium">{formattedDate}</span>
 
-				{age !== null && (
-					<Badge variant="secondary" className="mt-1 px-2 py-0.5 font-semibold">
-						{age} years old
-					</Badge>
-				)}
+				<div className="mt-1 flex flex-wrap justify-center gap-1">
+					{daysUntil === 0 ? (
+						<Badge variant="default" className="px-2 py-0.5 font-semibold">
+							Today
+						</Badge>
+					) : daysUntil === 1 ? (
+						<Badge variant="secondary" className="px-2 py-0.5 font-semibold">
+							Tomorrow
+						</Badge>
+					) : (
+						<Badge variant="secondary" className="px-2 py-0.5 font-semibold">
+							In {daysUntil} days
+						</Badge>
+					)}
+					{age !== null && (
+						<Badge variant="secondary" className="px-2 py-0.5 font-semibold">
+							{age} years old
+						</Badge>
+					)}
+				</div>
 			</div>
 		</div>
 	);
