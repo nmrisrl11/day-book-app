@@ -1,3 +1,4 @@
+import { GithubIcon } from "@/components/icons/github-icon";
 import { LogoIcon } from "@/components/icons/logo-icon";
 import { LineNav, type LineNavItem } from "@/components/line-nav";
 import { MobileLineNav } from "@/components/mobile-line-nav";
@@ -25,6 +26,7 @@ export function AboutScreen() {
 	const navItems: LineNavItem[] = [
 		{ id: "overview", label: "Overview" },
 		{ id: "features", label: "Features" },
+		{ id: "open-source", label: "Open Source" },
 		{
 			id: "whats-new",
 			label: "What's New",
@@ -38,6 +40,7 @@ export function AboutScreen() {
 	const trackedIds = [
 		"overview",
 		"features",
+		"open-source",
 		"whats-new",
 		...visibleReleases.map((r) => `changelog-${r.version}`),
 	];
@@ -122,6 +125,35 @@ export function AboutScreen() {
 						your IP address into an irreversible hash (SHA-256) before it ever touches our servers.
 						No Personally Identifiable Information (PII) is ever saved.
 					</p>
+				</section>
+
+				{/* Open Source Section */}
+				<section
+					id="open-source"
+					className="bg-card border-border flex scroll-mt-24 flex-col gap-4 rounded-3xl border p-6 sm:p-8"
+				>
+					<div className="flex items-center gap-3">
+						<div className="bg-primary/10 text-primary flex h-10 w-10 shrink-0 items-center justify-center rounded-full">
+							<GithubIcon className="h-5 w-5" />
+						</div>
+						<h2 className="text-foreground text-2xl font-semibold">Open Source</h2>
+					</div>
+					<p className="text-muted-foreground text-base leading-relaxed">
+						{APP_INFO.name} is a completely open-source project. We believe in transparent,
+						local-first architecture where you own your data. Developers and privacy advocates are
+						highly encouraged to explore the codebase, understand how data is stored, and contribute
+						to the ecosystem!
+					</p>
+					<Button variant="outline" className="mt-2 w-fit" asChild>
+						<a
+							href="https://github.com/nmrisrl11/day-book-app"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							<GithubIcon aria-hidden="true" className="mr-2 h-4 w-4" />
+							View Repository on GitHub
+						</a>
+					</Button>
 				</section>
 
 				{/* Changelog Section */}

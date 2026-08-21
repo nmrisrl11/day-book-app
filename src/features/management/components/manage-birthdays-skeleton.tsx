@@ -19,9 +19,14 @@ export function ManageBirthdaysSkeleton() {
 					<Skeleton className="h-8 w-full rounded-lg sm:flex-1" />
 					<div className="flex flex-wrap items-center gap-2">
 						<Skeleton className="h-8 w-32 rounded-lg" />
+						<Skeleton className="h-8 w-32 rounded-lg" />
 						<Skeleton className="h-8 w-40 rounded-lg" />
-						<Skeleton className="h-8 w-10 rounded-lg" />
 					</div>
+				</div>
+
+				<div className="flex items-center justify-between px-1">
+					<Skeleton className="h-9 w-20 rounded-lg" />
+					<Skeleton className="h-9 w-15 rounded-lg" />
 				</div>
 
 				{/* List Items */}

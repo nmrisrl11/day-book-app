@@ -44,6 +44,16 @@ export function AboutSkeleton() {
 					<Skeleton className="h-20 w-full rounded-md" />
 				</section>
 
+				{/* Open Source Section */}
+				<section className="bg-card border-border flex flex-col gap-4 rounded-3xl border p-6 sm:p-8">
+					<div className="flex items-center gap-3">
+						<Skeleton className="h-10 w-10 rounded-full" />
+						<Skeleton className="h-8 w-40 rounded-md" />
+					</div>
+					<Skeleton className="h-20 w-full rounded-md" />
+					<Skeleton className="mt-2 h-10 w-64 rounded-md" />
+				</section>
+
 				{/* Changelog Section */}
 				<section className="flex flex-col gap-8">
 					<Skeleton className="h-8 w-40 rounded-md" />

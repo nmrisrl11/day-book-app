@@ -2,12 +2,17 @@
 
 ## Added
 
+- **Open Source Section** — Added a dedicated Open Source section to the About page and moved the GitHub link from the footer to the main navigation for better discoverability.
 - **Offline Status Notifications** — The app will now instantly notify you with a beautiful toast when you lose connection, and celebrate when you are back online.
 - **iOS PWA Install Instructions** — iPhone and iPad users will now receive a helpful, tailored prompt instructing them exactly how to install DayBook to their home screen using the Share menu.
 - **"Me" Relationship** — Added "Me" to the relationship options so users can easily track their own birthdays.
 - **Days Until Indicator** — Upcoming birthdays now display precisely how many days are left (e.g., "Today", "Tomorrow", "In 4 days") alongside the age.
 
 ## Improved
+
+- **Smooth Navigation** — Clicking "About" from the footer now automatically scrolls you perfectly to the top of the page.
+- **In-Page Anchor Links** — Clicking sections in the "On this page" menu now uses a beautiful smooth-scroll animation instead of instantly jumping.
+- **Updated Logo** — Swapped out the old logo for a crisper, shadow-free updated design that integrates seamlessly with the About page.
 
 - **JSON Imports** — You can now preview, review duplicates, and hand-select which birthdays to import from a JSON file, matching the calendar import experience. Large imports are now significantly faster.
 - **Massive Performance Boosts** — The Manage Birthdays page and Import previews now use advanced virtualization. This means even if you have thousands of records, the app stays buttery smooth and lag-free.
