@@ -30,44 +30,7 @@ export default defineConfig(({ command, mode }) => {
 		define: {
 			"import.meta.env.VITE_VERCEL_ENV": JSON.stringify(vercelEnv),
 		},
-		build: {
-			rollupOptions: {
-				output: {
-					manualChunks(id) {
-						if (id.includes("node_modules")) {
-							if (
-								id.includes("react/") ||
-								id.includes("react-dom/") ||
-								id.includes("react-router-dom/")
-							) {
-								return "vendor-react";
-							}
-							if (
-								id.includes("lucide-react") ||
-								id.includes("radix-ui") ||
-								id.includes("class-variance-authority") ||
-								id.includes("tailwind-merge") ||
-								id.includes("clsx") ||
-								id.includes("motion") ||
-								id.includes("framer-motion")
-							) {
-								return "vendor-ui";
-							}
-							if (
-								id.includes("react-hook-form") ||
-								id.includes("@hookform") ||
-								id.includes("zod")
-							) {
-								return "vendor-form";
-							}
-							if (id.includes("date-fns")) {
-								return "vendor-date";
-							}
-						}
-					},
-				},
-			},
-		},
+		// build config omitted to allow Rollup to handle chunking dynamically
 		plugins: [
 			htmlPlugin(),
 			react(),
