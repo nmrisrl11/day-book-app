@@ -1,12 +1,16 @@
 # DayBook
 
 <div align="center">
-  <img src="public/favicon.svg" alt="DayBook Logo" width="120" />
+  <img src="public/og-image.png" alt="DayBook Cover" />
 </div>
 
-<div align="center">
-    DayBook is a stylish, lightweight, local-first app designed to help you remember the people you love by keeping track of their birthdays, relationships, and special notes. 🎉🎂
-</div>
+## Overview
+
+**DayBook** is a stylish, lightweight, local-first app designed to help you remember the people you love by keeping track of their birthdays, relationships, and special notes. 🎉🎂
+
+🔗 **Try it now**: [day-book-app.vercel.app](https://day-book-app.vercel.app)
+
+---
 
 ## Features
 
