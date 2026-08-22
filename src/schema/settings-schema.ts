@@ -81,4 +81,3 @@ export const SettingsSchema = z
 	})
 	.strict();
 
-type SettingsImport = z.infer<typeof SettingsSchema>;
