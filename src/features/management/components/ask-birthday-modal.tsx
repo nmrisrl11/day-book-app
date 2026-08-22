@@ -93,7 +93,7 @@ export function AskBirthdayModal({ open, onOpenChange }: AskBirthdayModalProps) 
 					</DialogDescription>
 				</DialogHeader>
 
-				<div className="flex flex-col gap-4 py-4">
+				<div className="flex w-full min-w-0 flex-col gap-4 py-4">
 					{!generatedLink ? (
 						<form
 							id="ask-birthday-form"
@@ -120,12 +120,14 @@ export function AskBirthdayModal({ open, onOpenChange }: AskBirthdayModalProps) 
 							</p>
 						</form>
 					) : (
-						<div className="flex flex-col gap-4">
-							<div className="bg-muted relative flex flex-col gap-2 rounded-lg p-3 pr-12">
-								<Label className="text-muted-foreground text-xs font-semibold uppercase">
+						<div className="flex w-full min-w-0 flex-col gap-4">
+							<div className="bg-muted relative flex w-full min-w-0 flex-col gap-2 rounded-lg p-3 pr-12">
+								<Label className="text-muted-foreground shrink-0 text-xs font-semibold uppercase">
 									Shareable Link
 								</Label>
-								<p className="text-sm font-medium break-all">{generatedLink}</p>
+								<p className="overflow-hidden text-sm font-medium text-ellipsis whitespace-nowrap">
+									{generatedLink}
+								</p>
 								<Button
 									variant="ghost"
 									size="icon"

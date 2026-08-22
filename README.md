@@ -14,7 +14,7 @@
 
 ## Features
 
-- 🔒 **Privacy First**: All your birthday, relationship, and settings data stays on your device (`IndexedDB` and `localStorage`). Vercel Analytics handles fully anonymized basic usage insights.
+- 🔒 **Privacy First**: All your birthday, relationship, and settings data stays on your device (`IndexedDB` and `localStorage`). Vercel Analytics handles basic usage insights.
 - 📱 **Installable PWA**: Install DayBook on your phone or desktop! Works offline, loads instantly, and detects updates in the background. It also includes specific iOS installation instructions and real-time offline status notifications.
 - ✨ **Beautiful Dashboard**: Celebratory "Happy Birthday" section with confetti, upcoming birthdays list, and an interactive 12-month calendar grid.
 - 🎨 **Rich Customization**:
@@ -36,7 +36,7 @@
 
 DayBook is strictly a **local-first** application. Your birthday records, relationship tags, and personalized settings are stored entirely on your device via IndexedDB and `localStorage`. We do not sync your personal data to any external cloud database.
 
-To improve the application, we use Vercel Analytics and Speed Insights for basic performance and usage tracking. This data is completely anonymized by Vercel, and no Personally Identifiable Information (PII) is ever stored or tracked.
+To improve the application, we use Vercel Analytics and Speed Insights for basic performance and usage tracking. We aggressively sanitize analytics events (e.g. dropping telemetry for invitation routes) to ensure no Personally Identifiable Information (PII) or encoded personal data is ever transmitted.
 
 ## Technology Stack
 

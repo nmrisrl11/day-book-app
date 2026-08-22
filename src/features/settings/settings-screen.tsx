@@ -119,8 +119,8 @@ export function SettingsScreen() {
 
 	const tabs = [
 		{ id: "appearance", label: "Appearance", icon: PaintbrushIcon, isAnimated: true },
-		{ id: "main-greeting", label: "Main Greeting", icon: StarIcon, isAnimated: true },
 		{ id: "avatar", label: "Avatar", icon: UserCircleIcon, isAnimated: true },
+		{ id: "main-greeting", label: "Main Greeting", icon: StarIcon, isAnimated: true },
 		{
 			id: "messages",
 			label: "Messages & Greetings",

@@ -100,13 +100,13 @@ export function InvitationScreen() {
 					</p>
 				</div>
 
-				<div className="bg-card flex flex-col gap-6 rounded-xl border p-4 shadow-sm md:p-6">
-					<div className="flex flex-col gap-3">
-						<div className="bg-muted relative flex flex-col gap-2 rounded-lg p-3 pr-12">
-							<Label className="text-muted-foreground text-xs font-semibold uppercase">
+				<div className="bg-card flex w-full min-w-0 flex-col gap-6 rounded-xl border p-4 shadow-sm md:p-6">
+					<div className="flex w-full min-w-0 flex-col gap-3">
+						<div className="bg-muted relative flex w-full min-w-0 flex-col gap-2 overflow-hidden rounded-lg p-3 pr-12">
+							<Label className="text-muted-foreground shrink-0 text-xs font-semibold uppercase">
 								Response Link
 							</Label>
-							<p className="text-sm font-medium break-all">{responseLink}</p>
+							<p className="overflow-hidden text-sm font-medium text-ellipsis whitespace-nowrap">{responseLink}</p>
 							<Button
 								variant="ghost"
 								size="icon"
