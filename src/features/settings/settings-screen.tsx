@@ -18,12 +18,12 @@ import { lazy, Suspense, useEffect, useRef, useState, type ElementType } from "r
 import { useNavigate } from "react-router-dom";
 
 const FloatingMessagesManager = lazy(() =>
-	import("./components/floating-messages-manager").then((m) => ({
+	import("./components/messages/floating-messages-manager").then((m) => ({
 		default: m.FloatingMessagesManager,
 	})),
 );
 const GreetingsManager = lazy(() =>
-	import("./components/greetings-manager").then((m) => ({ default: m.GreetingsManager })),
+	import("./components/messages/greetings-manager").then((m) => ({ default: m.GreetingsManager })),
 );
 const DeleteConfirmationModal = lazy(() =>
 	import("../management/components/delete-confirmation-modal").then((m) => ({
@@ -31,31 +31,35 @@ const DeleteConfirmationModal = lazy(() =>
 	})),
 );
 const ThemeSection = lazy(() =>
-	import("./components/theme-section").then((m) => ({ default: m.ThemeSection })),
+	import("./components/appearance/theme-section").then((m) => ({ default: m.ThemeSection })),
 );
 const MainGreetingSection = lazy(() =>
-	import("./components/main-greeting-section").then((m) => ({ default: m.MainGreetingSection })),
+	import("./components/main-greeting/main-greeting-section").then((m) => ({
+		default: m.MainGreetingSection,
+	})),
 );
 const DisplaySettingsSection = lazy(() =>
-	import("./components/display-settings-section").then((m) => ({
+	import("./components/appearance/display-settings-section").then((m) => ({
 		default: m.DisplaySettingsSection,
 	})),
 );
 const AvatarSettingsSection = lazy(() =>
-	import("./components/avatar-settings-section").then((m) => ({
+	import("./components/avatar/avatar-settings-section").then((m) => ({
 		default: m.AvatarSettingsSection,
 	})),
 );
 const DataManagementSection = lazy(() =>
-	import("./components/data-management-section").then((m) => ({
+	import("./components/data/data-management-section").then((m) => ({
 		default: m.DataManagementSection,
 	})),
 );
 const DangerZoneSection = lazy(() =>
-	import("./components/danger-zone-section").then((m) => ({ default: m.DangerZoneSection })),
+	import("./components/data/danger-zone-section").then((m) => ({ default: m.DangerZoneSection })),
 );
 const SoundSettingsSection = lazy(() =>
-	import("./components/sound-settings-section").then((m) => ({ default: m.SoundSettingsSection })),
+	import("./components/sound/sound-settings-section").then((m) => ({
+		default: m.SoundSettingsSection,
+	})),
 );
 
 type SettingsTab = {

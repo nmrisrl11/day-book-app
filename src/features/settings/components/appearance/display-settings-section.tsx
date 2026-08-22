@@ -5,7 +5,7 @@ import { useDragScroll } from "@/hooks/use-drag-scroll";
 import { cn } from "@/lib/utils";
 import { defaultSettings, useDayBookStore } from "@/store/day-book-store";
 import { useEffect, useState } from "react";
-import { RestoreDefaultsButton } from "./restore-defaults-button";
+import { RestoreDefaultsButton } from "../restore-defaults-button";
 
 export function DisplaySettingsSection() {
 	const { settings, updateSettings } = useDayBookStore();

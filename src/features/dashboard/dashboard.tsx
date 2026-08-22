@@ -5,9 +5,9 @@ import { db } from "@/lib/db";
 import { useLiveQuery } from "dexie-react-hooks";
 import { Suspense } from "react";
 
-import { BirthdaysSection } from "./components/birthdays-section";
-import { HappyBirthdaySection } from "./components/happy-birthday-section";
-import { UpcomingBirthdaysSection } from "./components/upcoming-birthdays-section";
+import { BirthdaysSection } from "./components/calendar/birthdays-section";
+import { HappyBirthdaySection } from "./components/today/happy-birthday-section";
+import { UpcomingBirthdaysSection } from "./components/upcoming/upcoming-birthdays-section";
 
 export function Dashboard() {
 	const { todayCelebrants, upcomingBirthdays, birthdaysByMonth, currentDate } = useBirthdayData();

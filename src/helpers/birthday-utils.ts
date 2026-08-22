@@ -11,7 +11,12 @@ import {
 
 export function parseBirthday(dateString: string): Date {
 	// Parse YYYY-MM-DD
-	return parse(dateString, "yyyy-MM-dd", new Date());
+	// date-fns parse fails on year 0000. We substitute 2000 (a leap year) for parsing purposes
+	// so that calculations (like month/day matching) still work correctly.
+	const safeDateString = dateString.startsWith("0000")
+		? `2000${dateString.substring(4)}`
+		: dateString;
+	return parse(safeDateString, "yyyy-MM-dd", new Date());
 }
 
 export function getUpcomingBirthdays(birthdays: Birthday[], currentDate: Date): Birthday[] {
@@ -110,5 +115,12 @@ export function calculateDaysUntilBirthday(dateString: string, currentDate: Date
 		nextOccurrence = setYear(parsed, currentYear + 1);
 	}
 
-	return differenceInDays(nextOccurrence, currentDate);
+	// Normalize currentDate to midnight to prevent differenceInDays from truncating
+	// e.g. 12 hours away down to 0 days.
+	const todayMidnight = new Date(
+		currentDate.getFullYear(),
+		currentDate.getMonth(),
+		currentDate.getDate(),
+	);
+	return differenceInDays(nextOccurrence, todayMidnight);
 }

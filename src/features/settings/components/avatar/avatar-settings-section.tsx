@@ -17,7 +17,7 @@ import type { AvatarLibrary, AvvvatarsStyle, BoringAvatarsVariant } from "@/type
 import Avvvatars from "avvvatars-react";
 import BoringAvatar from "boring-avatars";
 import { DicesIcon } from "lucide-react";
-import { RestoreDefaultsButton } from "./restore-defaults-button";
+import { RestoreDefaultsButton } from "../restore-defaults-button";
 
 export function AvatarSettingsSection() {
 	const { settings, updateSettings } = useDayBookStore();

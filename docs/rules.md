@@ -194,7 +194,7 @@ Use the following naming conventions consistently:
 
 ### Directory Boundaries
 
-- `src/features/`: Domain-driven modules. Each folder here represents a distinct feature area (e.g., `dashboard`, `management`, `settings`). Features should encapsulate their own specific components, hooks, and logic.
+- `src/features/`: Domain-driven modules. Each folder here represents a distinct feature area (e.g., `dashboard`, `management`, `settings`). Features should encapsulate their own specific components, hooks, and logic. For complex features, group components into logical subfolders (e.g., `tabs` or `sections`) within the feature's `components/` directory.
 - `src/components/`: Global, reusable UI components only. Do not place feature-specific components here.
 - `src/components/ui/`: STRICTLY for un-opinionated external UI primitives (e.g., shadcn/ui components, `@animate-ui` wrappers). Do not place custom business logic components here.
 - `src/schema/`: Zod schemas for forms, validation, and API boundaries.

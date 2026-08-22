@@ -1,14 +1,14 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { CalendarExportDialog } from "@/features/calendar/components/calendar-export-dialog";
-import { ImportPreviewDialog } from "@/features/settings/components/import-preview-dialog";
 import { parseIcsForBirthdays } from "@/helpers/calendar-import";
-import { parseImportedBirthdays, exportBirthdays } from "@/helpers/import-export";
-import type { Birthday } from "@/types/birthday";
+import { exportBirthdays, parseImportedBirthdays } from "@/helpers/import-export";
 import { db } from "@/lib/db";
+import type { Birthday } from "@/types/birthday";
 import { useLiveQuery } from "dexie-react-hooks";
 import { CalendarIcon, DownloadIcon, UploadIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { ImportPreviewDialog } from "./import-preview-dialog";
 
 export function BirthdaysDataManagement() {
 	const birthdays = useLiveQuery(() => db.birthdays.toArray(), []) ?? [];
