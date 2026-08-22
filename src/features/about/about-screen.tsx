@@ -121,9 +121,9 @@ export function AboutScreen() {
 						of your data through JSON imports and exports.
 					</p>
 					<p className="text-muted-foreground text-base leading-relaxed">
-						To protect the app from spam, we use an anonymous visitor tracker. We instantly convert
-						your IP address into an irreversible hash (SHA-256) before it ever touches our servers.
-						No Personally Identifiable Information (PII) is ever saved.
+						We use Vercel Analytics for basic usage and performance insights to help improve the
+						app. This analytics data is fully anonymized, and your personal birthday records always
+						remain private on your device.
 					</p>
 				</section>
 

@@ -1,12 +1,8 @@
 import { AnimateIcon } from "@/components/ui/animate-icon";
 import { BotIcon } from "@/components/ui/animated-icons/bot-icon";
-import { VisitorTracker } from "@/components/visitor-tracker";
-
 export function Footer() {
 	return (
-		<footer className="text-muted-foreground mt-auto flex w-full flex-col items-center gap-3 text-sm sm:flex-row sm:justify-between">
-			<VisitorTracker className="justify-center" />
-
+		<footer className="text-muted-foreground mt-auto flex w-full justify-center">
 			<span className="text-[0.8rem]">
 				Developed by:
 				<AnimateIcon animateOnHover asChild>

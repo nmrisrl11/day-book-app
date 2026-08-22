@@ -17,6 +17,8 @@
 		"@hookform/resolvers": "^5.8.0",
 		"@tailwindcss/vite": "^4.3.3",
 		"@tanstack/react-virtual": "^3.14.10",
+		"@vercel/analytics": "^2.0.1",
+		"@vercel/speed-insights": "^2.0.0",
 		"avvvatars-react": "^0.4.2",
 		"boring-avatars": "^2.0.4",
 		"canvas-confetti": "^1.9.4",

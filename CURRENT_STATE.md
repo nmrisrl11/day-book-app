@@ -22,7 +22,8 @@ DayBook is a fully functional, local-first React application. While originally s
 - **Audio & UI Feedback:** `cuelume`, `goey-toast`
 - **Virtualization:** `@tanstack/react-virtual`
 - **URL State:** `nuqs`
-- **Database (Analytics Only):** Upstash Redis (Serverless)
+- **Database (App):** IndexedDB (Dexie.js)
+- **Testing:** Vitest
 
 ## 3. Implemented Features Inventory
 
@@ -57,7 +58,7 @@ Settings has grown into a full `/settings` route with 6 tabs managed by `nuqs` U
 
 - **Calendar**: Google Calendar add-event links and `.ics` file generation and download (`helpers/calendar-export.ts`). ICS Import correctly parses and restores relationships and notes from DayBook exports. On mobile devices, ICS exports utilize the Web Share API to invoke the native OS Share Sheet for seamless one-tap calendar importing.
 - **Dynamic Open Graph (OG) Previews**: Uses a lightweight Vercel Edge Function (`api/og-rewriter.ts`) and `vercel.json` rewrites to dynamically inject specific social media preview images (Twitter/Facebook cards) when sharing `/invite` or `/response` links.
-- **Visitor Tracking**: Public endpoint (`/api/visitors`) using Vercel Edge functions and Upstash Redis. Uses `INCR` and `SET NX EX 86400` for 24-hour unique visitor counting. IP addresses are completely anonymized via one-way SHA-256 hashing _before_ being used as lock keys, guaranteeing no PII is ever stored and maintaining the privacy-first architecture. Local development environments safely bypass this API to preserve limits.
+- **Analytics**: Integrated `@vercel/analytics` and `@vercel/speed-insights` to provide fully anonymized basic usage and performance metrics without needing to collect or hash user IPs.
 - **Progressive Web App (PWA)**: Installable, offline-capable application built via `vite-plugin-pwa` with Workbox generating the service worker. It precaches all assets and fonts for complete offline functionality. It includes a custom update prompt for graceful updates, custom iOS install instructions (to bypass Safari limitations), and playful gooey toast notifications that alert users when they lose connection or come back online.
 - **Centralized Branding**: The application brand name, title, description, keywords, and theme colors are strictly centralized in `src/constants/app-info.ts` ensuring a single source of truth that is dynamically injected into the PWA manifest, HTML templates via Vite plugin, and all static UI components.
 
