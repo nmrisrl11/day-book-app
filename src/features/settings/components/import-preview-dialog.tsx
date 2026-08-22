@@ -12,9 +12,11 @@ import { APP_INFO } from "@/constants/app-info";
 import { FULL_MONTHS } from "@/constants/months";
 import { formatBirthdayDisplay } from "@/helpers/birthday-utils";
 import { cn } from "@/lib/utils";
-import { useDayBookStore } from "@/store/day-book-store";
+import { BirthdayRepository } from "@/lib/birthday-repository";
+import { db } from "@/lib/db";
+import { useLiveQuery } from "dexie-react-hooks";
 import type { Birthday } from "@/types/birthday";
-import { useVirtualizer } from "@tanstack/react-virtual";
+import { useVirtualizer, type VirtualItem as TanstackVirtualItem } from "@tanstack/react-virtual";
 import { gooeyToast } from "goey-toast";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -39,7 +41,7 @@ const VirtualHeaderRow = React.memo(
 		toggleMonth,
 	}: {
 		item: Extract<VirtualItem, { type: "header" }>;
-		virtualRow: any;
+		virtualRow: TanstackVirtualItem;
 		allSelectedInMonth: boolean;
 		toggleMonth: (celebrantIds: string[], selectAll: boolean) => void;
 	}) => {
@@ -85,7 +87,7 @@ const VirtualBirthdayRow = React.memo(
 		toggleSelection,
 	}: {
 		b: Birthday;
-		virtualRow: any;
+		virtualRow: TanstackVirtualItem;
 		duplicate: boolean;
 		isSelected: boolean;
 		isBday: boolean;
@@ -164,7 +166,7 @@ export function ImportPreviewDialog({
 	foundBirthdays,
 	onImportSuccess,
 }: ImportPreviewDialogProps) {
-	const { birthdays: existingBirthdays, importData } = useDayBookStore();
+	const existingBirthdays = useLiveQuery(() => db.birthdays.toArray(), []) ?? [];
 	const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
 	const navigate = useNavigate();
 
@@ -257,11 +259,11 @@ export function ImportPreviewDialog({
 		});
 	}, []);
 
-	const handleImport = () => {
+	const handleImport = async () => {
 		const toImport = foundBirthdays.filter((b) => selectedIds.has(b.id) && !isDuplicate(b));
 
 		if (toImport.length > 0) {
-			importData([...existingBirthdays, ...toImport]);
+			await BirthdayRepository.bulkSave(toImport);
 
 			// Wait, the number of records actually existing in the file that were ALREADY in the app is:
 			const alreadyExistedCount = foundBirthdays.filter((b) => isDuplicate(b)).length;
@@ -392,17 +394,17 @@ export function ImportPreviewDialog({
 
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
-			<DialogContent className="border-border/50 bg-background/95 flex max-h-[90vh] flex-col rounded-2xl p-0 shadow-2xl backdrop-blur-md sm:max-w-md">
-				<DialogHeader className="shrink-0 p-6 pb-4">
+			<DialogContent className="border-border/50 bg-background max-h-[90vh] rounded-2xl shadow-2xl sm:max-w-md">
+				<DialogHeader className="shrink-0 p-0 pb-4">
 					<DialogTitle className="text-foreground font-sans text-2xl font-bold tracking-wide">
 						Import from {sourceText}
 					</DialogTitle>
-					<DialogDescription className="text-muted-foreground mt-1.5">
+					<DialogDescription className="text-muted-foreground">
 						We found {foundBirthdays.length} birthday{foundBirthdays.length === 1 ? "" : "s"} in the
 						file. Select the ones you'd like to import into {APP_INFO.name}.
 					</DialogDescription>
 					{foundBirthdays.length > 0 && (
-						<div className="flex items-center justify-between pt-4">
+						<div className="flex items-center justify-between">
 							<span className="text-muted-foreground text-sm font-medium">{newCount} selected</span>
 							<Button
 								variant="ghost"
@@ -424,12 +426,12 @@ export function ImportPreviewDialog({
 					) : (
 						<div
 							ref={parentRef}
-							className="custom-scrollbar h-full w-full overflow-y-auto px-6"
+							className="custom-scrollbar h-full w-full overflow-y-auto pr-4"
 							style={{ maxHeight: "50vh" }}
 						>
 							{/* Sticky Header Container */}
 							{activeStickyIndex !== null && (
-								<div className="bg-background/95 absolute top-0 right-6 left-6 z-20 flex items-center justify-between pt-2 pb-2 shadow-[0_4px_10px_-10px_rgba(0,0,0,0.5)]">
+								<div className="bg-background absolute top-0 z-20 flex w-full items-center justify-between pt-2 pb-2 shadow-[0_4px_10px_-10px_rgba(0,0,0,0.5)]">
 									<h4 className="text-muted-foreground text-sm font-bold tracking-widest uppercase">
 										{
 											(

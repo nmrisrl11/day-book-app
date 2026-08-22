@@ -109,8 +109,9 @@ export function FloatingMessagesManager() {
 							onClick={handleClearAll}
 							disabled={fields.length === 0}
 							aria-label="Clear all floating messages"
+							title="Clear all floating messages"
 						>
-							<Trash2Icon className="h-3 w-3 sm:mr-1.5" />
+							<Trash2Icon className="h-3 w-3 sm:mr-1.5" aria-hidden="true" />
 							<span className="hidden sm:inline">Clear All</span>
 						</Button>
 					</div>
@@ -141,6 +142,7 @@ export function FloatingMessagesManager() {
 								className="hover:bg-destructive/20 hover:text-destructive absolute inset-y-0 inset-e-1 my-auto h-7 w-7 rounded-full"
 								onClick={() => remove(index)}
 								aria-label="Delete message"
+								title="Delete message"
 							>
 								<Trash2Icon aria-hidden="true" className="h-3 w-3" />
 							</Button>
@@ -167,8 +169,9 @@ export function FloatingMessagesManager() {
 							size="sm"
 							className="w-fit"
 							aria-label="Add floating message"
+							title="Add floating message"
 						>
-							<PlusIcon className="mr-1 h-4 w-4" />
+							<PlusIcon className="mr-1 h-4 w-4" aria-hidden="true" />
 							Add New Message
 						</Button>
 					</div>

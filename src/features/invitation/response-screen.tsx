@@ -1,7 +1,9 @@
 import { Button } from "@/components/ui/button";
-import { APP_INFO } from "@/constants/app-info";
 import { parseResponseToken } from "@/helpers/invitation-token";
-import { useDayBookStore } from "@/store/day-book-store";
+import { APP_INFO } from "@/constants/app-info";
+import { BirthdayRepository } from "@/lib/birthday-repository";
+import { db } from "@/lib/db";
+import { useLiveQuery } from "dexie-react-hooks";
 import { AlertTriangleIcon, CalendarIcon, HomeIcon, UserIcon } from "lucide-react";
 import { useQueryState } from "nuqs";
 import { Label } from "@/components/ui/label";
@@ -22,7 +24,7 @@ export function ResponseScreen() {
 	const [relationship, setRelationship] = useState<Relationship | "">("");
 	const [error, setError] = useState("");
 
-	const { birthdays, addBirthday } = useDayBookStore();
+	const birthdays = useLiveQuery(() => db.birthdays.toArray(), []) ?? [];
 
 	const response = token ? parseResponseToken(token) : null;
 
@@ -51,13 +53,14 @@ export function ResponseScreen() {
 		(b) => b.name.toLowerCase().trim() === response.n.toLowerCase().trim(),
 	);
 
-	const handleAdd = () => {
+	const handleAdd = async () => {
 		if (!relationship) {
 			setError("Please select a relationship before adding.");
 			return;
 		}
 
-		addBirthday({
+		await BirthdayRepository.save({
+			id: crypto.randomUUID(),
 			name: response.n,
 			birthday: response.b,
 			relationship: relationship,

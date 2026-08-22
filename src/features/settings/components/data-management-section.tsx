@@ -9,6 +9,7 @@ const SettingsDataManagement = lazy(() =>
 const GlobalSettingsManagement = lazy(() =>
 	import("./global-settings-management").then((m) => ({ default: m.GlobalSettingsManagement })),
 );
+const StorageInfo = lazy(() => import("./storage-info").then((m) => ({ default: m.StorageInfo })));
 
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -25,6 +26,8 @@ export function DataManagementSection() {
 					</div>
 				}
 			>
+				<StorageInfo />
+				<div className="my-2 border-t" />
 				<BirthdaysDataManagement />
 				<SettingsDataManagement />
 				<div className="my-2 border-t" />

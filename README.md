@@ -14,26 +14,27 @@
 
 ## Features
 
-- 🔒 **Privacy First**: All your birthday, relationship, and settings data stays on your device (`localStorage`). Visitor analytics (unique visitor counting) use the `/api/visitors` flow with IP-based counting backed by Upstash Redis.
+- 🔒 **Privacy First**: All your birthday, relationship, and settings data stays on your device (`IndexedDB` and `localStorage`). Visitor analytics (unique visitor counting) use the `/api/visitors` flow with IP-based counting backed by Upstash Redis.
 - 📱 **Installable PWA**: Install DayBook on your phone or desktop! Works offline, loads instantly, and detects updates in the background. It also includes specific iOS installation instructions and real-time offline status notifications.
 - ✨ **Beautiful Dashboard**: Celebratory "Happy Birthday" section with confetti, upcoming birthdays list, and an interactive 12-month calendar grid.
 - 🎨 **Rich Customization**:
   - 🌓 Theme toggling (Light/Dark).
   - 🅰️ Main greeting typography and gradient styling.
   - 💬 Floating messages and personalized greeting pools.
-  - 🖼️ Two integrated avatar systems (`avvvatars` and `boring-avatars`) plus custom photo uploads.
+  - 🖼️ Two integrated avatar systems (`avvvatars` and `boring-avatars`) plus custom photo uploads optimized as WebP images.
 - 🎵 **Sound & UI Feedback**: Satisfying, configurable audio feedback for interactions using `cuelume`, and delightful, gooey notification toasts via `goey-toast`.
 - 📅 **Calendar & External Integration**: Import/Export your birthdays via `.ics` or `JSON` format. Large imports are handled effortlessly through an advanced virtualized preview interface, allowing for duplicate review and selection without freezing.
+- 💾 **Storage Protection**: Keep your data safe with a dedicated Storage Overview section that lets you monitor usage and easily enable Persistent Storage protection.
 - 🔗 **Birthday Links**: Request your friends' birthdays effortlessly! Generate an invitation link, send it via chat, and process their response link directly into your local database. No backend required.
 - 🏷️ **Centralized Branding**: Easily fork and rebrand the application by editing a single `app-info.ts` configuration file that syncs across PWA manifests, meta tags, and all UI components.
 - 🖼️ **Dynamic Social Previews**: Vercel Edge-powered dynamic Open Graph images tailored specifically for the Invitation and Response shareable links.
-- 💾 **Data Portability**: Full JSON export and import for both your birthday data and your application settings.
+- ♿ **Highly Accessible**: Fully audited and optimized with robust semantic HTML and comprehensive ARIA screen-reader support.
 - ℹ️ **Product Overview**: A dedicated `/about` page detailing the app's features and an interactive changelog. It features a responsive "Line Nav" table of contents built with Framer Motion.
 - 📊 **Visitor Analytics**: Edge-hosted unique visitor tracking using Upstash Redis. _(See Privacy Disclaimer below)._
 
 ## Privacy & Data Disclaimer
 
-DayBook is strictly a **local-first** application. Your birthday records, relationship tags, and personalized settings are stored entirely on your device via `localStorage`. We do not sync your personal data to any external cloud database.
+DayBook is strictly a **local-first** application. Your birthday records, relationship tags, and personalized settings are stored entirely on your device via IndexedDB and `localStorage`. We do not sync your personal data to any external cloud database.
 
 To combat spam, we implemented an edge-hosted visitor counter (`/api/visitors`). This counter processes incoming IP addresses but uses a one-way cryptographic hash (SHA-256) **before** the data reaches our Redis instance. This ensures that no Personally Identifiable Information (PII) is ever stored or tracked.
 

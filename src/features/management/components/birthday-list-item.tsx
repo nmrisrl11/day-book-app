@@ -75,11 +75,18 @@ export const BirthdayListItem = memo(function BirthdayListItem({
 						size="icon"
 						onClick={() => onExport(birthday)}
 						title="Export to Calendar"
+						aria-label="Export to Calendar"
 					>
-						<CalendarIcon className="h-4 w-4" />
+						<CalendarIcon className="h-4 w-4" aria-hidden="true" />
 					</Button>
-					<Button variant="ghost" size="icon" onClick={() => onEdit(birthday)} title="Edit">
-						<Edit2Icon className="h-4 w-4" />
+					<Button
+						variant="ghost"
+						size="icon"
+						onClick={() => onEdit(birthday)}
+						title="Edit"
+						aria-label="Edit"
+					>
+						<Edit2Icon className="h-4 w-4" aria-hidden="true" />
 					</Button>
 					<Button
 						variant="ghost"
@@ -87,8 +94,9 @@ export const BirthdayListItem = memo(function BirthdayListItem({
 						className="text-destructive hover:bg-destructive/10 hover:text-destructive"
 						onClick={() => onDelete(birthday)}
 						title="Delete"
+						aria-label="Delete"
 					>
-						<Trash2Icon className="h-4 w-4" />
+						<Trash2Icon className="h-4 w-4" aria-hidden="true" />
 					</Button>
 				</div>
 			</div>

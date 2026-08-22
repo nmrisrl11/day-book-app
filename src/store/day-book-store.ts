@@ -3,7 +3,6 @@ import { FLOATING_MESSAGES } from "@/constants/floating-messages";
 import { GREETINGS } from "@/constants/greetings";
 import { GREETING_TEXT_SETTINGS } from "@/constants/main-greeting";
 import { SOUND_SETTINGS } from "@/constants/sounds-settings";
-import type { Birthday } from "@/types/birthday";
 import type { Settings } from "@/types/settings";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
@@ -23,36 +22,9 @@ export const defaultSettings: Settings = {
 };
 
 interface DayBookState {
-	birthdays: Birthday[];
 	settings: Settings;
-	addBirthday: (birthday: Omit<Birthday, "id">) => void;
-	editBirthday: (birthday: Birthday) => void;
-	deleteBirthday: (id: string) => void;
-	deleteAllBirthdays: () => void;
 	updateSettings: (settings: Partial<Settings>) => void;
-	updateBirthdays: (ids: string[], updates: Partial<Birthday>) => void;
-	importData: (data: Birthday[]) => void;
 }
-
-const getInitialBirthdays = (): Birthday[] => {
-	try {
-		const saved = localStorage.getItem("daybook_birthdays");
-		if (saved) {
-			const parsed = JSON.parse(saved);
-			if (Array.isArray(parsed)) {
-				// Migration for existing records
-				return parsed.map((b) => ({
-					...b,
-					relationship: b.relationship || "Other",
-					notes: Array.isArray(b.notes) ? b.notes : [],
-				}));
-			}
-		}
-	} catch (e) {
-		console.error(e);
-	}
-	return [];
-};
 
 const getInitialSettings = (): Settings => {
 	try {
@@ -67,57 +39,22 @@ const getInitialSettings = (): Settings => {
 export const useDayBookStore = create<DayBookState>()(
 	persist(
 		(set) => ({
-			birthdays: getInitialBirthdays(),
 			settings: getInitialSettings(),
-
-			addBirthday: (birthday) =>
-				set((state) => ({
-					birthdays: [...state.birthdays, { ...birthday, id: crypto.randomUUID() }],
-				})),
-
-			editBirthday: (birthday) =>
-				set((state) => ({
-					birthdays: state.birthdays.map((b) => (b.id === birthday.id ? birthday : b)),
-				})),
-
-			deleteBirthday: (id) =>
-				set((state) => ({
-					birthdays: state.birthdays.filter((b) => b.id !== id),
-				})),
-
-			deleteAllBirthdays: () => set({ birthdays: [] }),
 
 			updateSettings: (newSettings) =>
 				set((state) => ({
 					settings: { ...state.settings, ...newSettings },
 				})),
-
-			updateBirthdays: (ids, updates) =>
-				set((state) => ({
-					birthdays: state.birthdays.map((b) => (ids.includes(b.id) ? { ...b, ...updates } : b)),
-				})),
-
-			importData: (data) => set({ birthdays: data }),
 		}),
 		{
 			name: "daybook-storage",
+			partialize: (state) => ({ settings: state.settings }), // Only persist settings
 			merge: (persistedState: unknown, currentState) => {
 				const state = persistedState as Partial<DayBookState>;
-
-				let mergedBirthdays = state?.birthdays || currentState.birthdays || [];
-
-				if (Array.isArray(mergedBirthdays)) {
-					mergedBirthdays = mergedBirthdays.map((b) => ({
-						...b,
-						relationship: b.relationship || "Other",
-						notes: Array.isArray(b.notes) ? b.notes : [],
-					}));
-				}
 
 				return {
 					...currentState,
 					...state,
-					birthdays: mergedBirthdays,
 					settings: {
 						...defaultSettings,
 						...(state?.settings || {}),

@@ -9,7 +9,9 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { exportBirthdays } from "@/helpers/import-export";
 import { useMediaQuery } from "@/hooks/use-media-query";
-import { useDayBookStore } from "@/store/day-book-store";
+import { BirthdayRepository } from "@/lib/birthday-repository";
+import { db } from "@/lib/db";
+import { useLiveQuery } from "dexie-react-hooks";
 import { ArrowLeftIcon, DatabaseIcon } from "lucide-react";
 import { parseAsString, useQueryState } from "nuqs";
 import { lazy, Suspense, useEffect, useRef, useState, type ElementType } from "react";
@@ -78,7 +80,7 @@ const AnimatedTabTrigger = ({ tab, isActiveTab }: { tab: SettingsTab; isActiveTa
 			value={tab.id}
 			className="relative flex shrink-0 snap-start items-center gap-3 px-4 py-3 text-sm whitespace-nowrap group-data-[orientation=vertical]/tabs:justify-start data-[state=active]:font-semibold md:py-2.5"
 		>
-			<tab.icon className="h-4 w-4" />
+			<tab.icon className="h-4 w-4" aria-hidden="true" />
 			{tab.label}
 		</TabsTrigger>
 	);
@@ -95,15 +97,15 @@ const AnimatedTabTrigger = ({ tab, isActiveTab }: { tab: SettingsTab; isActiveTa
 };
 
 export function SettingsScreen() {
-	const { birthdays, deleteAllBirthdays } = useDayBookStore();
+	const birthdays = useLiveQuery(() => db.birthdays.toArray(), []) ?? [];
 	const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 	const navigate = useNavigate();
 	const isDesktop = useMediaQuery("(min-width: 768px)");
 
 	const [activeTab, setActiveTab] = useQueryState("tab", parseAsString.withDefault("appearance"));
 
-	const handleConfirmDeleteAll = () => {
-		deleteAllBirthdays();
+	const handleConfirmDeleteAll = async () => {
+		await BirthdayRepository.deleteAll();
 		setDeleteModalOpen(false);
 	};
 
@@ -135,7 +137,7 @@ export function SettingsScreen() {
 					className="shrink-0"
 					aria-label="Go back"
 				>
-					<ArrowLeftIcon className="h-5 w-5" />
+					<ArrowLeftIcon className="h-5 w-5" aria-hidden="true" />
 				</Button>
 				<div>
 					<h2 className="text-2xl font-bold tracking-tight">Settings</h2>
@@ -188,7 +190,10 @@ export function SettingsScreen() {
 										</>
 									) : (
 										<div className="flex flex-col items-center justify-center py-12 text-center">
-											<MessageSquareIcon className="text-muted-foreground/50 mb-4 h-12 w-12" />
+											<MessageSquareIcon
+												className="text-muted-foreground/50 mb-4 h-12 w-12"
+												aria-hidden="true"
+											/>
 											<h3 className="text-foreground mb-2 text-lg font-semibold">
 												No Birthdays Added
 											</h3>

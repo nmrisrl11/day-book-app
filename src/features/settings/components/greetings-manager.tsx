@@ -106,8 +106,9 @@ export function GreetingsManager() {
 							onClick={handleClearAll}
 							disabled={fields.length === 0}
 							aria-label="Clear all greetings"
+							title="Clear all greetings"
 						>
-							<Trash2Icon className="h-3 w-3 sm:mr-1.5" />
+							<Trash2Icon className="h-3 w-3 sm:mr-1.5" aria-hidden="true" />
 							<span className="hidden sm:inline">Clear All</span>
 						</Button>
 					</div>
@@ -147,8 +148,9 @@ export function GreetingsManager() {
 								className="hover:bg-destructive/10 hover:text-destructive h-8 w-8 shrink-0 rounded-full"
 								onClick={() => remove(index)}
 								aria-label="Delete greeting"
+								title="Delete greeting"
 							>
-								<Trash2Icon className="h-4 w-4" />
+								<Trash2Icon className="h-4 w-4" aria-hidden="true" />
 							</Button>
 						</div>
 					</div>
@@ -162,8 +164,13 @@ export function GreetingsManager() {
 
 			<div className="flex flex-col gap-3 border-t pt-3">
 				{fields.length < 10 ? (
-					<Button onClick={handleAdd} className="w-fit" aria-label="Add new greeting">
-						<PlusIcon className="mr-2 h-4 w-4" />
+					<Button
+						onClick={handleAdd}
+						className="w-fit"
+						aria-label="Add new greeting"
+						title="Add new greeting"
+					>
+						<PlusIcon className="mr-2 h-4 w-4" aria-hidden="true" />
 						Add Greeting
 					</Button>
 				) : (

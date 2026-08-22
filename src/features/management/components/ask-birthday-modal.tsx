@@ -132,8 +132,13 @@ export function AskBirthdayModal({ open, onOpenChange }: AskBirthdayModalProps) 
 									className="text-muted-foreground hover:text-foreground absolute top-2 right-2 h-8 w-8"
 									onClick={handleCopy}
 									title="Copy link"
+									aria-label="Copy link"
 								>
-									{copied ? <CheckIcon className="h-4 w-4" /> : <CopyIcon className="h-4 w-4" />}
+									{copied ? (
+										<CheckIcon className="h-4 w-4" aria-hidden="true" />
+									) : (
+										<CopyIcon className="h-4 w-4" aria-hidden="true" />
+									)}
 								</Button>
 							</div>
 
@@ -159,7 +164,7 @@ export function AskBirthdayModal({ open, onOpenChange }: AskBirthdayModalProps) 
 						<div className="flex flex-col gap-2 sm:flex-row">
 							{typeof navigator !== "undefined" && "share" in navigator && (
 								<Button onClick={handleShare}>
-									<ShareIcon className="mr-2 h-4 w-4" />
+									<ShareIcon className="mr-2 h-4 w-4" aria-hidden="true" />
 									Share Link
 								</Button>
 							)}

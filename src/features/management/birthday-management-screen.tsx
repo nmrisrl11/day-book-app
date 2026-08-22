@@ -10,7 +10,7 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import { FULL_MONTHS } from "@/constants/months";
-import { useDayBookStore } from "@/store/day-book-store";
+import { BirthdayRepository } from "@/lib/birthday-repository";
 import { RELATIONSHIP_OPTIONS, type Birthday } from "@/types/birthday";
 import {
 	ChevronLeftIcon,
@@ -49,9 +49,8 @@ const AskBirthdayModal = lazy(() =>
 );
 
 export function BirthdayManagementScreen() {
-	const { birthdays, deleteBirthday, updateBirthdays } = useDayBookStore();
-
 	const {
+		birthdays,
 		localSearch,
 		setLocalSearch,
 		monthFilter,
@@ -106,9 +105,9 @@ export function BirthdayManagementScreen() {
 		setExportModalOpen(true);
 	}, []);
 
-	const handleConfirmDelete = () => {
+	const handleConfirmDelete = async () => {
 		if (deletingBirthday) {
-			deleteBirthday(deletingBirthday.id);
+			await BirthdayRepository.delete(deletingBirthday.id);
 			setDeleteModalOpen(false);
 			setDeletingBirthday(null);
 		}
@@ -129,11 +128,11 @@ export function BirthdayManagementScreen() {
 				<h2 className="text-foreground px-2 text-2xl font-bold tracking-tight">Manage Birthdays</h2>
 				<div className="flex items-center gap-2">
 					<Button variant="outline" onClick={() => setAskModalOpen(true)}>
-						<LinkIcon className="mr-2 h-4 w-4" />
+						<LinkIcon className="mr-2 h-4 w-4" aria-hidden="true" />
 						<span className="hidden sm:inline">Ask for Birthday</span>
 					</Button>
 					<Button onClick={handleAdd}>
-						<PlusIcon className="mr-2 h-4 w-4" />
+						<PlusIcon className="mr-2 h-4 w-4" aria-hidden="true" />
 						<span className="hidden sm:inline">Add Birthday</span>
 						<span className="sm:hidden">Add</span>
 					</Button>
@@ -155,7 +154,10 @@ export function BirthdayManagementScreen() {
 				<div className="flex flex-col gap-4">
 					<div className="flex flex-col gap-3 sm:flex-row sm:items-center">
 						<div className="relative flex-1">
-							<SearchIcon className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
+							<SearchIcon
+								className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2"
+								aria-hidden="true"
+							/>
 							<Input
 								id="search-birthdays"
 								name="search-birthdays"
@@ -225,7 +227,7 @@ export function BirthdayManagementScreen() {
 									aria-label="Clear all filters"
 									title="Clear all filters"
 								>
-									<FilterXIcon className="h-4 w-4" />
+									<FilterXIcon className="h-4 w-4" aria-hidden="true" />
 								</Button>
 							)}
 						</div>
@@ -335,7 +337,7 @@ export function BirthdayManagementScreen() {
 										disabled={clampedPage <= 1}
 										aria-label="Previous page"
 									>
-										<ChevronLeftIcon className="h-4 w-4" />
+										<ChevronLeftIcon className="h-4 w-4" aria-hidden="true" />
 									</Button>
 
 									{generatePageNumbers().map((page, index) => {
@@ -369,7 +371,7 @@ export function BirthdayManagementScreen() {
 										disabled={clampedPage >= totalPages}
 										aria-label="Next page"
 									>
-										<ChevronRightIcon className="h-4 w-4" />
+										<ChevronRightIcon className="h-4 w-4" aria-hidden="true" />
 									</Button>
 								</div>
 							)}
@@ -420,9 +422,13 @@ export function BirthdayManagementScreen() {
 					<div className="text-sm font-medium whitespace-nowrap">{selectedIds.size} selected</div>
 					<div className="bg-border h-4 w-px" />
 					<Select
-						onValueChange={(val) => {
+						onValueChange={async (val) => {
 							const count = selectedIds.size;
-							updateBirthdays(Array.from(selectedIds), { relationship: val as any });
+							await Promise.all(
+								Array.from(selectedIds).map((id) =>
+									BirthdayRepository.update(id, { relationship: val as Birthday["relationship"] }),
+								),
+							);
 							setSelectedIds(new Set());
 							gooeyToast.success("People updated", {
 								description: `${count} people are now marked as ${val}.`,

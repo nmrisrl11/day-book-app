@@ -47,13 +47,13 @@ export function PageLayout({ children }: PageLayoutProps) {
 									aria-label={item.name}
 									aria-current={isActive ? "page" : undefined}
 								>
-									<Icon />
+									<Icon aria-hidden="true" />
 								</Link>
 							</Button>
 						) : (
 							<Button key={item.path} variant={isActive ? "secondary" : "ghost"} size="sm" asChild>
 								<Link to={item.path} title={item.name} aria-current={isActive ? "page" : undefined}>
-									<Icon className="h-4 w-4 sm:mr-2" />
+									<Icon className="h-4 w-4 sm:mr-2" aria-hidden="true" />
 									<span className="hidden sm:inline">{item.name}</span>
 								</Link>
 							</Button>

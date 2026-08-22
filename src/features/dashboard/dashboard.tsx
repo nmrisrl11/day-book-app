@@ -1,7 +1,8 @@
 import { DashboardSkeleton } from "./components/dashboard-skeleton";
 import { EmptyState } from "@/components/empty-state";
 import { useBirthdayData } from "@/hooks/use-birthday-data";
-import { useDayBookStore } from "@/store/day-book-store";
+import { db } from "@/lib/db";
+import { useLiveQuery } from "dexie-react-hooks";
 import { Suspense } from "react";
 
 import { BirthdaysSection } from "./components/birthdays-section";
@@ -10,7 +11,7 @@ import { UpcomingBirthdaysSection } from "./components/upcoming-birthdays-sectio
 
 export function Dashboard() {
 	const { todayCelebrants, upcomingBirthdays, birthdaysByMonth, currentDate } = useBirthdayData();
-	const { birthdays } = useDayBookStore();
+	const birthdays = useLiveQuery(() => db.birthdays.toArray(), []) ?? [];
 
 	if (birthdays.length === 0) {
 		return <EmptyState />;

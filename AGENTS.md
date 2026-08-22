@@ -25,7 +25,7 @@ While originally conceived as a "birthday tracker," the product is evolving into
 ### Technology Stack (Actual)
 
 - **Core**: React 19, TypeScript, Vite 6
-- **State & Persistence**: Zustand (with `persist` middleware to `localStorage`)
+- **State & Persistence**: Zustand (with `persist` middleware to `localStorage` for settings), IndexedDB (via Dexie.js for birthday records)
 - **Routing**: React Router DOM (v7)
 - **Styling**: Tailwind CSS (v4)
 - **UI Primitives**: shadcn/ui (Radix UI under the hood)
@@ -45,10 +45,11 @@ While originally conceived as a "birthday tracker," the product is evolving into
 
 ## 3. Core Architectural Patterns
 
-### The Data Layer (Zustand + LocalStorage)
+### The Data Layer (IndexedDB + Zustand)
 
-- The single source of truth for all user data (Birthdays, Settings, Greetings, Floating Messages) is the Zustand store (`src/store/day-book-store.ts`).
+- The single source of truth for all user data is IndexedDB (Birthdays) and the Zustand store (Settings, Greetings, Floating Messages).
 - **Rule**: When updating state asynchronously or inside debounced functions (e.g., color pickers, settings toggles), **always use `useDayBookStore.getState()`** to get the latest state before spreading/modifying. Stale closures are a known risk in this architecture.
+- **Rule**: Components querying birthday data must use `useLiveQuery` coupled with `BirthdayRepository`. Direct database access should be avoided.
 - **Rule**: The `Birthday` type and `Settings` type are the fundamental data structures. See `src/types/`.
 
 ### The Presentation Layer

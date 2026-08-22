@@ -26,6 +26,7 @@ import {
 	NOTE_MAX_LENGTH,
 } from "@/schema/validation-constants";
 import { useDayBookStore } from "@/store/day-book-store";
+import { BirthdayRepository } from "@/lib/birthday-repository";
 import type { Birthday } from "@/types/birthday";
 import { RELATIONSHIP_OPTIONS } from "@/types/birthday";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -82,12 +83,12 @@ function AvatarPreview({
 						</div>
 					) : (
 						<div className="text-muted-foreground flex flex-col items-center justify-center">
-							<CameraIcon className="h-8 w-8 opacity-50" />
+							<CameraIcon className="h-8 w-8 opacity-50" aria-hidden="true" />
 						</div>
 					)}
 
 					<div className="absolute inset-0 flex flex-col items-center justify-center bg-black/40 opacity-0 transition-opacity group-hover:opacity-100">
-						<CameraIcon className="mb-1 h-6 w-6 text-white" />
+						<CameraIcon className="mb-1 h-6 w-6 text-white" aria-hidden="true" />
 						<span className="text-[10px] font-medium tracking-wider text-white uppercase">
 							Change
 						</span>
@@ -102,7 +103,7 @@ function AvatarPreview({
 						className="text-destructive hover:text-destructive hover:bg-destructive/10 mt-2 h-7 text-xs"
 						onClick={onRemoveAvatar}
 					>
-						<Trash2Icon className="mr-1.5 h-3 w-3" />
+						<Trash2Icon className="mr-1.5 h-3 w-3" aria-hidden="true" />
 						Remove
 					</Button>
 				)}
@@ -121,7 +122,7 @@ function AvatarPreview({
 					className="text-destructive hover:text-destructive hover:bg-destructive/10 mt-2 h-7 text-xs"
 					onClick={onRemoveAvatar}
 				>
-					<Trash2Icon className="mr-1.5 h-3 w-3" />
+					<Trash2Icon className="mr-1.5 h-3 w-3" aria-hidden="true" />
 					Remove
 				</Button>
 			)}
@@ -141,7 +142,6 @@ interface BirthdayFormModalProps {
 }
 
 export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayFormModalProps) {
-	const { addBirthday, editBirthday } = useDayBookStore();
 	const [generalError, setGeneralError] = useState("");
 	const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -208,10 +208,10 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 		if (!file) return;
 
 		// Validate type
-		const validTypes = ["image/jpeg", "image/jpg", "image/png"];
+		const validTypes = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
 		if (!validTypes.includes(file.type)) {
 			onError();
-			setGeneralError("Only JPEG and PNG images are allowed.");
+			setGeneralError("Only JPEG, PNG, and WebP images are allowed.");
 			return;
 		}
 
@@ -246,7 +246,7 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 					const ctx = canvas.getContext("2d");
 					ctx?.drawImage(img, 0, 0, width, height);
 
-					const dataUrl = canvas.toDataURL("image/jpeg", 0.7);
+					const dataUrl = canvas.toDataURL("image/webp", 0.6);
 					setValue("avatar", dataUrl, { shouldValidate: true });
 					setGeneralError("");
 				};
@@ -262,12 +262,12 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 
 	const soundSettings = useDayBookStore((state) => state.settings.soundSettings);
 
-	const onSubmit = (data: BirthdayFormData) => {
+	const onSubmit = async (data: BirthdayFormData) => {
 		const finalData = { ...data, avatar: data.avatar || undefined };
 		if (birthday) {
-			editBirthday({ ...birthday, ...finalData });
+			await BirthdayRepository.update(birthday.id, { ...birthday, ...finalData });
 		} else {
-			addBirthday(finalData);
+			await BirthdayRepository.save({ ...finalData, id: crypto.randomUUID() } as Birthday);
 		}
 
 		if (soundSettings?.enabled) {
@@ -313,7 +313,7 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 							id="avatar-upload"
 							name="avatar-upload"
 							type="file"
-							accept="image/jpeg, image/jpg, image/png"
+							accept="image/jpeg, image/jpg, image/png, image/webp"
 							className="hidden"
 							ref={fileInputRef}
 							onChange={handleFileChange}
@@ -408,8 +408,9 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 												);
 											}}
 											className="hover:bg-primary/20 rounded-full p-0.5"
+											title={`Remove note: ${note}`}
 										>
-											<XIcon className="h-3 w-3" />
+											<XIcon className="h-3 w-3" aria-hidden="true" />
 										</button>
 									</div>
 								))}
@@ -446,6 +447,7 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 								size="icon"
 								variant="secondary"
 								aria-label="Add note"
+								title="Add note"
 								className="shrink-0"
 								disabled={notes.length >= NOTE_MAX_COUNT || !noteInput.trim()}
 								onClick={(e) => {
@@ -462,7 +464,7 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 									}
 								}}
 							>
-								<PlusIcon className="h-4 w-4" />
+								<PlusIcon className="h-4 w-4" aria-hidden="true" />
 							</Button>
 						</div>
 						{errors.notes && (

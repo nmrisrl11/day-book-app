@@ -1,11 +1,12 @@
 import { bind, setEnabled, setVolume } from "cuelume";
 import { GooeyToaster } from "goey-toast";
 import { NuqsAdapter } from "nuqs/adapters/react";
-import { lazy, Suspense, useEffect } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import { Footer } from "./components/layout/footer";
 import { PageLayout } from "./components/layout/page-layout";
 import { PWAPrompt } from "./components/pwa-prompt";
+import { StorageMigration } from "./components/storage-migration";
 import { AboutSkeleton } from "./features/about/components/about-skeleton";
 import { DashboardSkeleton } from "./features/dashboard/components/dashboard-skeleton";
 import { InvitationSkeleton } from "./features/invitation/components/invitation-skeleton";
@@ -88,71 +89,79 @@ function App() {
 		return null;
 	}
 
+	const [isMigrated, setIsMigrated] = useState(false);
+
 	return (
 		<BrowserRouter>
-			<ScrollToTop />
-			<NuqsAdapter>
-				<PageLayout>
-					<Routes>
-						<Route
-							path="/"
-							element={
-								<Suspense fallback={<DashboardSkeleton />}>
-									<Dashboard />
-								</Suspense>
-							}
-						/>
-						<Route
-							path="/manage"
-							element={
-								<Suspense fallback={<ManageBirthdaysSkeleton />}>
-									<ManageBirthdays />
-								</Suspense>
-							}
-						/>
-						<Route
-							path="/settings"
-							element={
-								<Suspense fallback={<SettingsSkeleton />}>
-									<Settings />
-								</Suspense>
-							}
-						/>
-						<Route
-							path="/about"
-							element={
-								<Suspense fallback={<AboutSkeleton />}>
-									<About />
-								</Suspense>
-							}
-						/>
-						<Route
-							path="/invite"
-							element={
-								<Suspense fallback={<InvitationSkeleton />}>
-									<Invitation />
-								</Suspense>
-							}
-						/>
-						<Route
-							path="/invite/response"
-							element={
-								<Suspense fallback={<ResponseSkeleton />}>
-									<Response />
-								</Suspense>
-							}
-						/>
-					</Routes>
-					<PWAPrompt />
-					<GooeyToaster
-						position="bottom-center"
-						theme={settings.theme}
-						closeOnEscape={false}
-						showTimestamp={false}
-					/>
-					<Footer />
-				</PageLayout>
-			</NuqsAdapter>
+			{/* TODO: Remove StorageMigration component and all related localStorage fallback logic in version 2.0.0 or later once all users have safely migrated to IndexedDB. */}
+			{!isMigrated && <StorageMigration onComplete={() => setIsMigrated(true)} />}
+			{isMigrated && (
+				<>
+					<ScrollToTop />
+					<NuqsAdapter>
+						<PageLayout>
+							<Routes>
+								<Route
+									path="/"
+									element={
+										<Suspense fallback={<DashboardSkeleton />}>
+											<Dashboard />
+										</Suspense>
+									}
+								/>
+								<Route
+									path="/manage"
+									element={
+										<Suspense fallback={<ManageBirthdaysSkeleton />}>
+											<ManageBirthdays />
+										</Suspense>
+									}
+								/>
+								<Route
+									path="/settings"
+									element={
+										<Suspense fallback={<SettingsSkeleton />}>
+											<Settings />
+										</Suspense>
+									}
+								/>
+								<Route
+									path="/about"
+									element={
+										<Suspense fallback={<AboutSkeleton />}>
+											<About />
+										</Suspense>
+									}
+								/>
+								<Route
+									path="/invite"
+									element={
+										<Suspense fallback={<InvitationSkeleton />}>
+											<Invitation />
+										</Suspense>
+									}
+								/>
+								<Route
+									path="/invite/response"
+									element={
+										<Suspense fallback={<ResponseSkeleton />}>
+											<Response />
+										</Suspense>
+									}
+								/>
+							</Routes>
+							<PWAPrompt />
+							<GooeyToaster
+								position="bottom-center"
+								theme={settings.theme}
+								closeOnEscape={false}
+								showTimestamp={false}
+							/>
+							<Footer />
+						</PageLayout>
+					</NuqsAdapter>
+				</>
+			)}
 		</BrowserRouter>
 	);
 }

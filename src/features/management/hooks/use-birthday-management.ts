@@ -1,4 +1,3 @@
-import { useDayBookStore } from "@/store/day-book-store";
 import { parseAsInteger, parseAsString, parseAsStringLiteral, useQueryState } from "nuqs";
 import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 
@@ -20,8 +19,11 @@ export const MONTH_OPTIONS = [
 export const SORT_OPTIONS = ["upcoming", "name-asc", "name-desc", "date-asc", "date-desc"] as const;
 export const PER_PAGE_OPTIONS = ["10", "20", "50", "100", "all"] as const;
 
+import { db } from "@/lib/db";
+import { useLiveQuery } from "dexie-react-hooks";
+
 export function useBirthdayManagement() {
-	const { birthdays } = useDayBookStore();
+	const birthdays = useLiveQuery(() => db.birthdays.toArray(), []) ?? [];
 
 	const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
 
@@ -114,15 +116,7 @@ export function useBirthdayManagement() {
 				itemsPerPage,
 			};
 		}
-	}, [
-		birthdays,
-		searchQuery,
-		monthFilter,
-		relationshipFilter,
-		sortOption,
-		itemsPerPage,
-		setCurrentPage,
-	]);
+	}, [searchQuery, monthFilter, relationshipFilter, sortOption, itemsPerPage, setCurrentPage]);
 
 	const handleSelectChange = useCallback((id: string, selected: boolean) => {
 		setSelectedIds((prev) => {
@@ -240,6 +234,7 @@ export function useBirthdayManagement() {
 	}, [totalPages, clampedPage]);
 
 	return {
+		birthdays,
 		searchQuery,
 		setSearchQuery,
 		localSearch,
