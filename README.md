@@ -64,6 +64,12 @@ If you are an AI agent or a developer looking to contribute to this project, ple
 5. **`docs/instructions.md`**: The original foundational product specification.
 6. **`docs/brand-guidelines.md`**: Design, typography, and personality rules.
 
+## License
+
+This project is open source and licensed under the MIT License.
+
+See the [LICENSE](./LICENSE) file for the full license text.
+
 ## Local Development
 
 ### Prerequisites

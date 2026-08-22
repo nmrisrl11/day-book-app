@@ -121,8 +121,9 @@ export function AboutScreen() {
 						of your data through JSON imports and exports.
 					</p>
 					<p className="text-muted-foreground text-base leading-relaxed">
-						We use Vercel Analytics and Speed Insights for basic usage and performance tracking to help
-						improve the app. Your personal birthday records always remain private on your device.
+						We use Vercel Analytics and Speed Insights for basic usage and performance tracking to
+						help improve the app. Your personal birthday records always remain private on your
+						device.
 					</p>
 				</section>
 

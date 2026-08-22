@@ -3,6 +3,8 @@
 	"private": true,
 	"version": "0.9.0",
 	"type": "module",
+	"author": "Nomer Israel",
+	"license": "MIT",
 	"scripts": {
 		"dev": "vite",
 		"build": "tsc -b && vite build",

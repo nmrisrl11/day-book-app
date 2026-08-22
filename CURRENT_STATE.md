@@ -61,6 +61,7 @@ Settings has grown into a full `/settings` route with 6 tabs managed by `nuqs` U
 - **Analytics**: Integrated `@vercel/analytics` and `@vercel/speed-insights` to provide fully anonymized basic usage and performance metrics without needing to collect or hash user IPs.
 - **Progressive Web App (PWA)**: Installable, offline-capable application built via `vite-plugin-pwa` with Workbox generating the service worker. It precaches all assets and fonts for complete offline functionality. It features a dedicated `/install` route for managing the installation experience seamlessly across different platforms (including custom iOS manual instructions), and playful gooey toast notifications that alert users when they lose connection or come back online.
 - **Centralized Branding**: The application brand name, title, description, keywords, and theme colors are strictly centralized in `src/constants/app-info.ts` ensuring a single source of truth that is dynamically injected into the PWA manifest, HTML templates via Vite plugin, and all static UI components.
+- **Open Source Licensing**: The repository is officially licensed under the **MIT License**, permitting unrestricted community adoption, forking, and modification.
 
 ## 4. Current Architecture Details
 

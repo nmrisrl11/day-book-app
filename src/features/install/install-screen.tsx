@@ -42,7 +42,8 @@ export function InstallScreen() {
 						Install {APP_INFO.name}
 					</h1>
 					<p className="text-muted-foreground mx-auto max-w-xl text-lg">
-						Enjoy a faster, full-screen experience that works offline. Install {APP_INFO.name} directly to your home screen or desktop without using an app store.
+						Enjoy a faster, full-screen experience that works offline. Install {APP_INFO.name}{" "}
+						directly to your home screen or desktop without using an app store.
 					</p>
 
 					{/* Action Area */}
@@ -73,7 +74,9 @@ export function InstallScreen() {
 								<div className="flex flex-col gap-1">
 									<h2 className="text-foreground font-bold">iOS Installation</h2>
 									<p className="text-muted-foreground text-sm leading-relaxed">
-										To install on your iPhone or iPad, tap the <strong className="text-foreground">Share</strong> icon in your browser menu, then select <strong className="text-foreground">Add to Home Screen</strong>.
+										To install on your iPhone or iPad, tap the{" "}
+										<strong className="text-foreground">Share</strong> icon in your browser menu,
+										then select <strong className="text-foreground">Add to Home Screen</strong>.
 									</p>
 								</div>
 							</div>
@@ -81,7 +84,8 @@ export function InstallScreen() {
 							<div className="bg-muted border-border flex w-full flex-col items-center gap-2 rounded-2xl border p-6 text-center">
 								<h2 className="text-foreground font-bold">Browser Not Supported</h2>
 								<p className="text-muted-foreground text-sm leading-relaxed">
-									Your current browser doesn't support direct installation. Try using Chrome, Edge, or Safari on iOS.
+									Your current browser doesn't support direct installation. Try using Chrome, Edge,
+									or Safari on iOS.
 								</p>
 							</div>
 						)}

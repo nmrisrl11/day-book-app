@@ -43,7 +43,7 @@ const Settings = lazy(() =>
 	})),
 );
 const InstallScreen = lazy(() =>
-	import("@/features/install/install-screen").then((m) => ({ default: m.InstallScreen }))
+	import("@/features/install/install-screen").then((m) => ({ default: m.InstallScreen })),
 );
 const Invitation = lazy(() =>
 	import("./features/invitation/invitation-screen").then((m) => ({

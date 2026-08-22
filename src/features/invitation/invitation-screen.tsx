@@ -106,7 +106,9 @@ export function InvitationScreen() {
 							<Label className="text-muted-foreground shrink-0 text-xs font-semibold uppercase">
 								Response Link
 							</Label>
-							<p className="overflow-hidden text-sm font-medium text-ellipsis whitespace-nowrap">{responseLink}</p>
+							<p className="overflow-hidden text-sm font-medium text-ellipsis whitespace-nowrap">
+								{responseLink}
+							</p>
 							<Button
 								variant="ghost"
 								size="icon"

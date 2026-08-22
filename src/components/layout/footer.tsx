@@ -20,7 +20,7 @@ export function Footer() {
 						</a>
 					</AnimateIcon>
 				</span>
-				<span className="hidden text-muted-foreground/30 sm:inline">•</span>
+				<span className="text-muted-foreground/30 hidden sm:inline">•</span>
 				<Link
 					to="/install"
 					className="text-[0.8rem] font-medium transition-colors hover:text-slate-800 dark:hover:text-slate-200"
