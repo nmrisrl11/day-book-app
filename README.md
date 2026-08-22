@@ -14,7 +14,7 @@
 
 ## Features
 
-- 🔒 **Privacy First**: All your birthday, relationship, and settings data stays on your device (`IndexedDB` and `localStorage`). Visitor analytics (unique visitor counting) use the `/api/visitors` flow with IP-based counting backed by Upstash Redis.
+- 🔒 **Privacy First**: All your birthday, relationship, and settings data stays on your device (`IndexedDB` and `localStorage`). Vercel Analytics handles fully anonymized basic usage insights.
 - 📱 **Installable PWA**: Install DayBook on your phone or desktop! Works offline, loads instantly, and detects updates in the background. It also includes specific iOS installation instructions and real-time offline status notifications.
 - ✨ **Beautiful Dashboard**: Celebratory "Happy Birthday" section with confetti, upcoming birthdays list, and an interactive 12-month calendar grid.
 - 🎨 **Rich Customization**:
@@ -30,13 +30,13 @@
 - 🖼️ **Dynamic Social Previews**: Vercel Edge-powered dynamic Open Graph images tailored specifically for the Invitation and Response shareable links.
 - ♿ **Highly Accessible**: Fully audited and optimized with robust semantic HTML and comprehensive ARIA screen-reader support.
 - ℹ️ **Product Overview**: A dedicated `/about` page detailing the app's features and an interactive changelog. It features a responsive "Line Nav" table of contents built with Framer Motion.
-- 📊 **Visitor Analytics**: Edge-hosted unique visitor tracking using Upstash Redis. _(See Privacy Disclaimer below)._
+- 📊 **Analytics**: Native Vercel Analytics and Speed Insights for basic usage and performance telemetry. _(See Privacy Disclaimer below)._
 
 ## Privacy & Data Disclaimer
 
 DayBook is strictly a **local-first** application. Your birthday records, relationship tags, and personalized settings are stored entirely on your device via IndexedDB and `localStorage`. We do not sync your personal data to any external cloud database.
 
-To combat spam, we implemented an edge-hosted visitor counter (`/api/visitors`). This counter processes incoming IP addresses but uses a one-way cryptographic hash (SHA-256) **before** the data reaches our Redis instance. This ensures that no Personally Identifiable Information (PII) is ever stored or tracked.
+To improve the application, we use Vercel Analytics and Speed Insights for basic performance and usage tracking. This data is completely anonymized by Vercel, and no Personally Identifiable Information (PII) is ever stored or tracked.
 
 ## Technology Stack
 
@@ -50,6 +50,7 @@ To combat spam, we implemented an edge-hosted visitor counter (`/api/visitors`).
 - ✨ **Animation & Feedback**: Framer Motion, `@animate-ui`, `goey-toast`
 - 🚀 **Performance**: `@tanstack/react-virtual`
 - ✅ **Validation**: Zod + React Hook Form
+- 🧪 **Testing**: Vitest
 - 🔗 **URL State**: `nuqs`
 
 ## AI Agent Documentation
@@ -83,18 +84,10 @@ npm install
 npm run dev
 ```
 
-### Environment Variables
-
-For the visitor tracking API to function locally, you will need a Vercel Upstash Redis database and the following variables in a `.env.local` file:
-
-```env
-KV_REST_API_URL="your-upstash-url"
-KV_REST_API_TOKEN="your-upstash-token"
-```
-
 ## Available Scripts
 
 - `npm run dev` - Starts the Vite development server.
 - `npm run build` - Builds the app for production.
+- `npm run test` - Runs the Vitest test suite.
 - `npm run lint` - Lints the codebase using Oxlint.
 - `npm run preview` - Previews the production build locally.

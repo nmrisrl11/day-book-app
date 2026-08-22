@@ -21,4 +21,4 @@ DayBook is a stylish, lightweight, local-first web application designed to help 
 - **Shareable Birthday Links**: Request your friends' birthdays effortlessly! Generate an invitation link, send it via chat, and process their response link directly into your local database. No backend required—links encode data via base64url.
 - **Dynamic Social Previews**: Vercel Edge-powered dynamic Open Graph images tailored specifically for the Invitation and Response shareable links.
 - **Data Portability**: Full JSON export and import for both your birthday data and your application settings.
-- **Visitor Analytics**: Edge-hosted unique visitor tracking using Upstash Redis.
+- **Analytics**: Native Vercel Analytics and Speed Insights for basic usage and performance telemetry.

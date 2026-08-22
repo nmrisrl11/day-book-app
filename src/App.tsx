@@ -1,3 +1,5 @@
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 import { bind, setEnabled, setVolume } from "cuelume";
 import { GooeyToaster } from "goey-toast";
 import { NuqsAdapter } from "nuqs/adapters/react";
@@ -150,6 +152,22 @@ function App() {
 									}
 								/>
 							</Routes>
+							<Analytics
+								beforeSend={(event) => {
+									if (event.url.includes("/invite")) {
+										return null;
+									}
+									return event;
+								}}
+							/>
+							<SpeedInsights
+								beforeSend={(event) => {
+									if (event.url.includes("/invite")) {
+										return null;
+									}
+									return event;
+								}}
+							/>
 							<PWAPrompt />
 							<GooeyToaster
 								position="bottom-center"
