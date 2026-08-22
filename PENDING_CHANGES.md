@@ -8,6 +8,7 @@
 
 ## Improved
 
+- Added a playful, lightweight micro-interaction to the DayBook logo across the app (About, Install, and Empty Dashboard screens) featuring a subtle jelly bounce and particle effect on click, while gracefully respecting reduced motion preferences.
 - Relocated the "Install App" link from the primary navigation header to the footer for a cleaner primary UI while maintaining PWA discoverability.
 - Consolidated navigation link buttons in the Page Layout to utilize the central `buttonVariants` for a single source of truth in styling.
 - Optimized the Settings tab ordering by prioritizing the Avatar configuration (moving it to the second position) and restoring Appearance as the default open tab.

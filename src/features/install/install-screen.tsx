@@ -1,4 +1,4 @@
-import { LogoIcon } from "@/components/icons/logo-icon";
+import { InteractiveLogo } from "@/components/interactive-logo";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { APP_INFO } from "@/constants/app-info";
@@ -34,7 +34,7 @@ export function InstallScreen() {
 
 				{/* Hero Section */}
 				<section className="flex flex-col items-center gap-4 text-center">
-					<LogoIcon className="mb-2 h-24 w-24 drop-shadow-sm" />
+					<InteractiveLogo type="icon" className="mb-2" iconClassName="h-24 w-24 drop-shadow-sm" />
 					<Badge variant="secondary" className="w-fit">
 						Get the App
 					</Badge>

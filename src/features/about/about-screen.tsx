@@ -1,5 +1,5 @@
 import { GithubIcon } from "@/components/icons/github-icon";
-import { LogoIcon } from "@/components/icons/logo-icon";
+import { InteractiveLogo } from "@/components/interactive-logo";
 import { LineNav, type LineNavItem } from "@/components/line-nav";
 import { MobileLineNav } from "@/components/mobile-line-nav";
 import { Badge } from "@/components/ui/badge";
@@ -65,7 +65,7 @@ export function AboutScreen() {
 					id="overview"
 					className="flex scroll-mt-24 flex-col items-center gap-4 text-center"
 				>
-					<LogoIcon className="mb-2 h-24 w-24 drop-shadow-sm" />
+					<InteractiveLogo type="icon" className="mb-2" iconClassName="h-24 w-24 drop-shadow-sm" />
 					<Badge variant="secondary" className="w-fit">
 						{APP_INFO.name} v{changelog[0]?.version}
 					</Badge>
