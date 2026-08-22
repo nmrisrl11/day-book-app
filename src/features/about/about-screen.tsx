@@ -65,7 +65,7 @@ export function AboutScreen() {
 					id="overview"
 					className="flex scroll-mt-24 flex-col items-center gap-4 text-center"
 				>
-					<LogoIcon className="mb-2 h-20 w-20" />
+					<LogoIcon className="mb-2 h-24 w-24 drop-shadow-sm" />
 					<Badge variant="secondary" className="w-fit">
 						{APP_INFO.name} v{changelog[0]?.version}
 					</Badge>
@@ -121,8 +121,9 @@ export function AboutScreen() {
 						of your data through JSON imports and exports.
 					</p>
 					<p className="text-muted-foreground text-base leading-relaxed">
-						We use Vercel Analytics and Speed Insights for basic usage and performance tracking to help
-						improve the app. Your personal birthday records always remain private on your device.
+						We use Vercel Analytics and Speed Insights for basic usage and performance tracking to
+						help improve the app. Your personal birthday records always remain private on your
+						device.
 					</p>
 				</section>
 

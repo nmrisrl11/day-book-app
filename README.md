@@ -14,7 +14,7 @@
 
 ## Features
 
-- 🔒 **Privacy First**: All your birthday, relationship, and settings data stays on your device (`IndexedDB` and `localStorage`). Vercel Analytics handles basic usage insights.
+- 🔒 **Privacy First**: All your stored birthday, relationship, and settings data stays on your device (`IndexedDB` and `localStorage`). Note that shareable invitation links encode birthday data that you may choose to copy or share.
 - 📱 **Installable PWA**: Install DayBook on your phone or desktop! Works offline, loads instantly, and detects updates in the background. It also includes specific iOS installation instructions and real-time offline status notifications.
 - ✨ **Beautiful Dashboard**: Celebratory "Happy Birthday" section with confetti, upcoming birthdays list, and an interactive 12-month calendar grid.
 - 🎨 **Rich Customization**:
@@ -34,9 +34,9 @@
 
 ## Privacy & Data Disclaimer
 
-DayBook is strictly a **local-first** application. Your birthday records, relationship tags, and personalized settings are stored entirely on your device via IndexedDB and `localStorage`. We do not sync your personal data to any external cloud database.
+DayBook is strictly a **local-first** application. Your stored birthday records, relationship tags, and personalized settings are stored entirely on your device via IndexedDB and `localStorage`. We do not sync your personal data to any external cloud database. Note that if you use the Birthday Links feature, the shareable URLs do encode birthday data for transmission.
 
-To improve the application, we use Vercel Analytics and Speed Insights for basic performance and usage tracking. We aggressively sanitize analytics events (e.g. dropping telemetry for invitation routes) to ensure no Personally Identifiable Information (PII) or encoded personal data is ever transmitted.
+To improve the application, we use Vercel Analytics and Speed Insights for basic performance and usage tracking. We aggressively sanitize analytics events—specifically, telemetry events for invitation and response routes are dropped.
 
 ## Technology Stack
 
@@ -63,6 +63,12 @@ If you are an AI agent or a developer looking to contribute to this project, ple
 4. **`docs/rules.md`**: Strict coding conventions, naming rules, and boundaries.
 5. **`docs/instructions.md`**: The original foundational product specification.
 6. **`docs/brand-guidelines.md`**: Design, typography, and personality rules.
+
+## License
+
+This project is open source and licensed under the MIT License.
+
+See the [LICENSE](./LICENSE) file for the full license text.
 
 ## Local Development
 

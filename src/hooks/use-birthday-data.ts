@@ -6,12 +6,14 @@ import {
 import { useDayBookStore } from "@/store/day-book-store";
 import { useMemo } from "react";
 
-import { db } from "@/lib/db";
+import { BirthdayRepository } from "@/lib/birthday-repository";
 import { useLiveQuery } from "dexie-react-hooks";
 
 export function useBirthdayData() {
 	const settings = useDayBookStore((state) => state.settings);
-	const birthdays = useLiveQuery(() => db.birthdays.toArray(), []) ?? [];
+	const birthdaysData = useLiveQuery(() => BirthdayRepository.getAll(), []);
+	const isLoading = birthdaysData === undefined;
+	const birthdays = birthdaysData ?? [];
 
 	return useMemo(() => {
 		const now = new Date();
@@ -31,6 +33,8 @@ export function useBirthdayData() {
 			upcomingBirthdays,
 			birthdaysByMonth,
 			currentDate,
+			isLoading,
+			birthdays,
 		};
-	}, [birthdays, settings.upcomingCount]);
+	}, [birthdays, isLoading, settings.upcomingCount]);
 }

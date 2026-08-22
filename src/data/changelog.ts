@@ -1,6 +1,6 @@
-export type ChangelogCategory = "added" | "improved" | "fixed" | "changed" | "removed";
+type ChangelogCategory = "added" | "improved" | "fixed" | "changed" | "removed";
 
-export interface ChangelogItem {
+interface ChangelogItem {
 	type: ChangelogCategory;
 	title: string;
 	description: string;

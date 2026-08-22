@@ -11,7 +11,7 @@ export function AboutSkeleton() {
 
 				{/* Hero Section */}
 				<section className="flex flex-col items-center gap-4 text-center">
-					<Skeleton className="h-20 w-20 rounded-full" />
+					<Skeleton className="mb-2 h-24 w-24 rounded-full" />
 					<Skeleton className="h-6 w-24 rounded-full" />
 					<Skeleton className="h-12 w-3/4 max-w-md rounded-md" />
 					<Skeleton className="h-20 w-full max-w-xl rounded-md" />

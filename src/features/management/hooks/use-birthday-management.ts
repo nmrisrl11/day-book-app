@@ -1,5 +1,5 @@
 import { parseAsInteger, parseAsString, parseAsStringLiteral, useQueryState } from "nuqs";
-import { useEffect, useMemo, useRef, useState, useCallback } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 export const MONTH_OPTIONS = [
 	"all",
@@ -19,11 +19,11 @@ export const MONTH_OPTIONS = [
 export const SORT_OPTIONS = ["upcoming", "name-asc", "name-desc", "date-asc", "date-desc"] as const;
 export const PER_PAGE_OPTIONS = ["10", "20", "50", "100", "all"] as const;
 
-import { db } from "@/lib/db";
+import { BirthdayRepository } from "@/lib/birthday-repository";
 import { useLiveQuery } from "dexie-react-hooks";
 
 export function useBirthdayManagement() {
-	const birthdaysData = useLiveQuery(() => db.birthdays.toArray(), []);
+	const birthdaysData = useLiveQuery(() => BirthdayRepository.getAll(), []);
 	const isLoading = birthdaysData === undefined;
 	const birthdays = birthdaysData ?? [];
 

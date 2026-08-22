@@ -11,11 +11,23 @@ import { PWAPrompt } from "./components/pwa-prompt";
 import { StorageMigration } from "./components/storage-migration";
 import { AboutSkeleton } from "./features/about/components/about-skeleton";
 import { DashboardSkeleton } from "./features/dashboard/components/dashboard-skeleton";
+import { InstallSkeleton } from "./features/install/components/install-skeleton";
 import { InvitationSkeleton } from "./features/invitation/components/invitation-skeleton";
 import { ResponseSkeleton } from "./features/invitation/components/response-skeleton";
 import { ManageBirthdaysSkeleton } from "./features/management/components/manage-birthdays-skeleton";
 import { SettingsSkeleton } from "./features/settings/components/settings-skeleton";
 import { useDayBookStore } from "./store/day-book-store";
+
+// Catch the install prompt as early as possible (before lazy-loaded screens)
+if (typeof window !== "undefined" && !window.__hasInstallListener) {
+	window.__hasInstallListener = true;
+	window.addEventListener("beforeinstallprompt", (e) => {
+		e.preventDefault();
+		window.__deferredPrompt = e as any;
+		window.__isInstallable = true;
+		window.dispatchEvent(new Event("app-installable"));
+	});
+}
 
 const Dashboard = lazy(() =>
 	import("./features/dashboard/dashboard").then((m) => ({ default: m.Dashboard })),
@@ -29,6 +41,9 @@ const Settings = lazy(() =>
 	import("./features/settings/settings-screen").then((m) => ({
 		default: m.SettingsScreen,
 	})),
+);
+const InstallScreen = lazy(() =>
+	import("@/features/install/install-screen").then((m) => ({ default: m.InstallScreen })),
 );
 const Invitation = lazy(() =>
 	import("./features/invitation/invitation-screen").then((m) => ({
@@ -123,6 +138,14 @@ function App() {
 									element={
 										<Suspense fallback={<AboutSkeleton />}>
 											<About />
+										</Suspense>
+									}
+								/>
+								<Route
+									path="/install"
+									element={
+										<Suspense fallback={<InstallSkeleton />}>
+											<InstallScreen />
 										</Suspense>
 									}
 								/>
