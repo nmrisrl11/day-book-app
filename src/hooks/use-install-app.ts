@@ -87,12 +87,14 @@ export function useInstallApp() {
 		const { outcome } = await deferredPrompt.userChoice;
 		if (outcome === "accepted") {
 			console.log("User accepted the install prompt");
-			// We no longer need the prompt. Clear it up.
 			setDeferredPrompt(null);
 			setIsInstallable(false);
 		} else {
 			console.log("User dismissed the install prompt");
 		}
+		// The prompt is single-use; clear shared window values regardless of outcome
+		window.__deferredPrompt = null;
+		window.__isInstallable = false;
 	};
 
 	return {
