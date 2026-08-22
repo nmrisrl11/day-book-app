@@ -152,8 +152,22 @@ function App() {
 									}
 								/>
 							</Routes>
-							<Analytics />
-							<SpeedInsights />
+							<Analytics
+								beforeSend={(event) => {
+									if (event.url.includes("/invite")) {
+										return null;
+									}
+									return event;
+								}}
+							/>
+							<SpeedInsights
+								beforeSend={(event) => {
+									if (event.url.includes("/invite")) {
+										return null;
+									}
+									return event;
+								}}
+							/>
 							<PWAPrompt />
 							<GooeyToaster
 								position="bottom-center"
