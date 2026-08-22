@@ -40,11 +40,12 @@ export function parseImportedBirthdays(fileText: string): Birthday[] {
 				if (isNaN(dateObj.getTime()) || dateObj.toISOString().split("T")[0] !== item.birthday) {
 					return false;
 				}
-				if (item.avatar !== undefined) {
+				if (item.avatar !== undefined && item.avatar !== null && item.avatar !== "") {
 					if (typeof item.avatar !== "string") return false;
 					if (
 						!item.avatar.startsWith("data:image/jpeg;base64,") &&
-						!item.avatar.startsWith("data:image/png;base64,")
+						!item.avatar.startsWith("data:image/png;base64,") &&
+						!item.avatar.startsWith("data:image/webp;base64,")
 					) {
 						return false;
 					}
@@ -71,7 +72,7 @@ export function parseImportedBirthdays(fileText: string): Birthday[] {
 					id: item.id,
 					name: item.name,
 					birthday: item.birthday,
-					avatar: item.avatar,
+					avatar: typeof item.avatar === "string" ? item.avatar : undefined,
 					relationship: typeof item.relationship === "string" ? item.relationship : "Other",
 					notes: parsedNotes,
 				};
