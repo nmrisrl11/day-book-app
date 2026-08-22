@@ -23,6 +23,8 @@
 		"clsx": "^2.1.1",
 		"cuelume": "^0.2.2",
 		"date-fns": "^4.4.0",
+		"dexie": "^4.4.5",
+		"dexie-react-hooks": "^4.4.0",
 		"goey-toast": "^0.5.0",
 		"lucide-react": "^1.31.0",
 		"motion": "^13.1.0",

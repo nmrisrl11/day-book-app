@@ -3,14 +3,15 @@ import { Input } from "@/components/ui/input";
 import { CalendarExportDialog } from "@/features/calendar/components/calendar-export-dialog";
 import { ImportPreviewDialog } from "@/features/settings/components/import-preview-dialog";
 import { parseIcsForBirthdays } from "@/helpers/calendar-import";
-import { exportBirthdays, parseImportedBirthdays } from "@/helpers/import-export";
-import { useDayBookStore } from "@/store/day-book-store";
+import { parseImportedBirthdays, exportBirthdays } from "@/helpers/import-export";
 import type { Birthday } from "@/types/birthday";
+import { db } from "@/lib/db";
+import { useLiveQuery } from "dexie-react-hooks";
 import { CalendarIcon, DownloadIcon, UploadIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 export function BirthdaysDataManagement() {
-	const { birthdays } = useDayBookStore();
+	const birthdays = useLiveQuery(() => db.birthdays.toArray(), []) ?? [];
 
 	const fileInputBirthdaysRef = useRef<HTMLInputElement>(null);
 	const fileInputIcsRef = useRef<HTMLInputElement>(null);
@@ -99,27 +100,27 @@ export function BirthdaysDataManagement() {
 				{/* JSON DATA */}
 				<div className="flex flex-col gap-3">
 					<h3 className="text-base font-medium">Birthdays Data (JSON)</h3>
-					<div className="flex flex-col gap-3">
+					<div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
 						<Button
 							variant="outline"
 							onClick={handleExportBirthdays}
-							className="w-full justify-start"
+							className="hover:border-primary/50 flex h-24 flex-col items-center justify-center gap-2 rounded-xl border-dashed"
 							disabled={birthdays.length === 0}
 							aria-label="Export birthdays as JSON"
 						>
-							<DownloadIcon className="mr-2 h-4 w-4" />
-							Export Birthdays (JSON)
+							<DownloadIcon className="text-muted-foreground h-6 w-6" />
+							<span>Export JSON</span>
 						</Button>
 
 						<div className="flex flex-col gap-1.5">
 							<Button
 								variant="outline"
 								onClick={handleImportBirthdaysClick}
-								className="w-full justify-start"
+								className="hover:border-primary/50 flex h-24 flex-col items-center justify-center gap-2 rounded-xl border-dashed"
 								aria-label="Import birthdays from JSON"
 							>
-								<UploadIcon className="mr-2 h-4 w-4" />
-								Import Birthdays (JSON)
+								<UploadIcon className="text-muted-foreground h-6 w-6" />
+								<span>Import JSON</span>
 							</Button>
 							{importBirthdaysError && (
 								<p className="text-destructive mt-1.5 text-sm font-medium" role="alert">
@@ -142,27 +143,27 @@ export function BirthdaysDataManagement() {
 				{/* CALENDAR DATA */}
 				<div className="flex flex-col gap-3">
 					<h3 className="text-base font-medium">Calendar Integration</h3>
-					<div className="flex flex-col gap-3">
+					<div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
 						<Button
 							variant="outline"
 							onClick={handleExportCalendarClick}
-							className="w-full justify-start"
+							className="hover:border-primary/50 flex h-24 flex-col items-center justify-center gap-2 rounded-xl border-dashed"
 							aria-label="Export birthdays to Calendar"
 							disabled={birthdays.length === 0}
 						>
-							<CalendarIcon className="mr-2 h-4 w-4" />
-							Export All to Calendar
+							<CalendarIcon className="text-muted-foreground h-6 w-6" />
+							<span className="text-center">Export to Calendar</span>
 						</Button>
 
 						<div className="flex flex-col gap-1.5">
 							<Button
 								variant="outline"
 								onClick={handleImportIcsClick}
-								className="w-full justify-start"
+								className="hover:border-primary/50 flex h-24 flex-col items-center justify-center gap-2 rounded-xl border-dashed"
 								aria-label="Import birthdays from Calendar"
 							>
-								<UploadIcon className="mr-2 h-4 w-4" />
-								Import from Calendar (.ics)
+								<UploadIcon className="text-muted-foreground h-6 w-6" />
+								<span className="text-center">Import from (.ics)</span>
 							</Button>
 							{importIcsError && (
 								<p className="text-destructive mt-1.5 text-sm font-medium" role="alert">

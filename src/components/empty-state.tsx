@@ -1,5 +1,5 @@
 import { parseImportedBirthdays } from "@/helpers/import-export";
-import { useDayBookStore } from "@/store/day-book-store";
+import { BirthdayRepository } from "@/lib/birthday-repository";
 import { PlusIcon, UploadIcon } from "lucide-react";
 import { lazy, Suspense, useState } from "react";
 import { APP_INFO } from "@/constants/app-info";
@@ -13,7 +13,6 @@ const BirthdayFormModal = lazy(() =>
 
 export function EmptyState() {
 	const [formModalOpen, setFormModalOpen] = useState(false);
-	const { importData } = useDayBookStore();
 
 	const handleImportClick = () => {
 		const input = document.createElement("input");
@@ -25,7 +24,7 @@ export function EmptyState() {
 			try {
 				const text = await file.text();
 				const importedBirthdays = parseImportedBirthdays(text);
-				importData(importedBirthdays);
+				await BirthdayRepository.bulkSave(importedBirthdays);
 			} catch (err) {
 				alert(err instanceof Error ? err.message : "Failed to import data.");
 			}

@@ -28,9 +28,9 @@ DayBook is a fully functional, local-first React application. While originally s
 
 ### Core Birthday & People Management (Fully Implemented)
 
-- **Data Model**: Birthdays act as "Person Cards" with an ID, Name, Date, Avatar (Base64 or external ID), Relationship (Me, Family, Friend, Partner, Colleague, Other), and Notes (up to 5 lightweight string tags).
+- **Data Model**: Birthdays act as "Person Cards" with an ID, Name, Date, Avatar (Base64 or external ID), Relationship (Me, Family, Friend, Partner, Colleague, Other), and Notes (up to 5 lightweight string tags). Custom uploaded avatars are intelligently converted and optimized as WebP images to save IndexedDB space.
 - **CRUD & Bulk**: Create, Read, Update, Delete functionality for birthdays. Users can also select multiple people in the Management screen to assign relationships in bulk. The Management list uses virtualization (`@tanstack/react-virtual`) to effortlessly handle thousands of records without freezing.
-- **Persistence**: Handled entirely client-side via `localStorage` via Zustand `persist`. Backward compatible data migrations handle legacy formats.
+- **Persistence**: Handled client-side via IndexedDB (Dexie.js) for birthday records, enabling superior performance and massive storage limits. Application settings remain securely in `localStorage` via Zustand `persist`. A one-time backward-compatible data migration automatically upgrades users to IndexedDB.
 - **Validation**: Strict validation centralized in `validation-constants.ts` enforced via Zod schemas (`birthday-schema.ts`, `settings-schema.ts`) and native HTML `maxLength`/`minLength` attributes.
 - **Invitations / Links**: Fully local-first link sharing system. Users can generate an Invitation link (24h expiration, Base64Url token) to send to friends. Friends fill it out on the `/invite` route and generate a Response link (`/response`), allowing easy data ingestion without a backend. Receivers of the link can select a relationship upon importing.
 
@@ -51,14 +51,14 @@ Settings has grown into a full `/settings` route with 6 tabs managed by `nuqs` U
 3.  **Avatar**: Choose between `boring-avatars` (default) and `avvvatars`, and enable/disable custom image uploads.
 4.  **Messages & Greetings**: Manage the floating text items and the randomized greeting pool.
 5.  **Sound & Feedback**: Configure `cuelume` hover/click/success/error sound mappings and volume. UI feedback notifications use `goey-toast` for playful, premium animations.
-6.  **Data Management**: Unified virtualized Import Preview Dialog for both JSON and ICS files (handles duplicate reviewing and selective importing smoothly for 1,000+ items). Export Birthdays, Import/Export Settings separately, and Danger Zone (Delete All with export-first safety).
+6.  **Data Management**: Features a Storage Overview section to monitor browser data usage and enable Persistent Storage protection. Unified virtualized Import Preview Dialog for both JSON and ICS files (handles duplicate reviewing and selective importing smoothly for 1,000+ items). Export Birthdays, Import/Export Settings separately, and Danger Zone (Delete All with export-first safety).
 
 ### System Integrations
 
 - **Calendar**: Google Calendar add-event links and `.ics` file generation and download (`helpers/calendar-export.ts`). ICS Import correctly parses and restores relationships and notes from DayBook exports. On mobile devices, ICS exports utilize the Web Share API to invoke the native OS Share Sheet for seamless one-tap calendar importing.
 - **Dynamic Open Graph (OG) Previews**: Uses a lightweight Vercel Edge Function (`api/og-rewriter.ts`) and `vercel.json` rewrites to dynamically inject specific social media preview images (Twitter/Facebook cards) when sharing `/invite` or `/response` links.
 - **Visitor Tracking**: Public endpoint (`/api/visitors`) using Vercel Edge functions and Upstash Redis. Uses `INCR` and `SET NX EX 86400` for 24-hour unique visitor counting. IP addresses are completely anonymized via one-way SHA-256 hashing _before_ being used as lock keys, guaranteeing no PII is ever stored and maintaining the privacy-first architecture. Local development environments safely bypass this API to preserve limits.
-- **Progressive Web App (PWA)**: Installable, offline-capable application built via `vite-plugin-pwa` with Workbox generating the service worker. It precaches all assets and fonts for complete offline functionality. It includes a custom update prompt for graceful updates, custom iOS install instructions (to bypass Safari limitations), and gooey toast notifications for online/offline status changes.
+- **Progressive Web App (PWA)**: Installable, offline-capable application built via `vite-plugin-pwa` with Workbox generating the service worker. It precaches all assets and fonts for complete offline functionality. It includes a custom update prompt for graceful updates, custom iOS install instructions (to bypass Safari limitations), and playful gooey toast notifications that alert users when they lose connection or come back online.
 - **Centralized Branding**: The application brand name, title, description, keywords, and theme colors are strictly centralized in `src/constants/app-info.ts` ensuring a single source of truth that is dynamically injected into the PWA manifest, HTML templates via Vite plugin, and all static UI components.
 
 ## 4. Current Architecture Details
@@ -84,9 +84,10 @@ day-book-app/
 ### Known Issues & Technical Debt
 
 - **Stale Closures**: Because the settings state is tightly bound to the UI (e.g. debounced color pickers), `updateSettings` calls must frequently fetch the latest state inside the execution block using `useDayBookStore.getState()`. This pattern is established but fragile.
+- **Migration Code Cleanup**: The application currently mounts a `<StorageMigration />` component on initialization to migrate legacy `localStorage` birthday data to IndexedDB. This should be removed in a future release (e.g., v2.0.0) once all users are safely migrated, to reduce initialization overhead.
 
 ## 5. Current Development Focus
 
 - DayBook is currently in a highly stable, performant state.
-- A full performance audit and optimization pass was recently completed, resulting in near-perfect Lighthouse scores. This included aggressive route-level and component-level (avatar libraries) chunk splitting, SVG/heading DOM accessibility (A11y) improvements, and strict PWA static asset pre-caching.
+- A full performance audit and optimization pass was recently completed, resulting in near-perfect Lighthouse scores. This included aggressive route-level and component-level (avatar libraries) chunk splitting, semantic heading restructuring, and comprehensive screen-reader ARIA optimizations (labeling and decorative icon hiding) across the entire application, alongside strict PWA static asset pre-caching.
 - Ongoing monitoring of PWA behavior across devices.

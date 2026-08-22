@@ -6,8 +6,12 @@ import {
 import { useDayBookStore } from "@/store/day-book-store";
 import { useMemo } from "react";
 
+import { db } from "@/lib/db";
+import { useLiveQuery } from "dexie-react-hooks";
+
 export function useBirthdayData() {
-	const { birthdays, settings } = useDayBookStore();
+	const settings = useDayBookStore((state) => state.settings);
+	const birthdays = useLiveQuery(() => db.birthdays.toArray(), []) ?? [];
 
 	return useMemo(() => {
 		const now = new Date();

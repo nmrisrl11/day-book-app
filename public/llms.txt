@@ -3,7 +3,7 @@
 DayBook is a stylish, lightweight, local-first web application designed to help you remember the people you love by keeping track of their birthdays, relationships, and special notes. It acts as a lightweight "People CRM." It is built with React 19, TypeScript, and Vite 6.
 
 ## Core Architecture
-- **Local-First & Privacy-Focused**: All birthday, relationship, and settings data stays securely on your device using `localStorage`. There is no backend database for user data.
+- **Local-First & Privacy-Focused**: All birthday, relationship, and settings data stays securely on your device using IndexedDB and `localStorage`. There is no backend database for user data.
 - **State Management**: Uses Zustand 5 for global state management.
 - **Styling**: Tailwind CSS 4 with Radix UI (via shadcn/ui).
 - **PWA Integration**: Fully installable Progressive Web App with offline support and background updates via `vite-plugin-pwa` and Workbox.
