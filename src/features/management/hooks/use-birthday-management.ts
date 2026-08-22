@@ -23,7 +23,9 @@ import { db } from "@/lib/db";
 import { useLiveQuery } from "dexie-react-hooks";
 
 export function useBirthdayManagement() {
-	const birthdays = useLiveQuery(() => db.birthdays.toArray(), []) ?? [];
+	const birthdaysData = useLiveQuery(() => db.birthdays.toArray(), []);
+	const isLoading = birthdaysData === undefined;
+	const birthdays = birthdaysData ?? [];
 
 	const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
 
@@ -259,5 +261,6 @@ export function useBirthdayManagement() {
 		totalPages,
 		clampedPage,
 		generatePageNumbers,
+		isLoading,
 	};
 }

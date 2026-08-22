@@ -48,6 +48,8 @@ const AskBirthdayModal = lazy(() =>
 	import("./components/ask-birthday-modal").then((m) => ({ default: m.AskBirthdayModal })),
 );
 
+import { ManageBirthdaysSkeleton } from "./components/manage-birthdays-skeleton";
+
 export function BirthdayManagementScreen() {
 	const {
 		birthdays,
@@ -72,6 +74,7 @@ export function BirthdayManagementScreen() {
 		totalPages,
 		clampedPage,
 		generatePageNumbers,
+		isLoading,
 	} = useBirthdayManagement();
 
 	const [formModalOpen, setFormModalOpen] = useState(false);
@@ -121,6 +124,8 @@ export function BirthdayManagementScreen() {
 		estimateSize: () => 88,
 		overscan: 10,
 	});
+
+	if (isLoading) return <ManageBirthdaysSkeleton />;
 
 	return (
 		<div className="flex w-full flex-col gap-6">

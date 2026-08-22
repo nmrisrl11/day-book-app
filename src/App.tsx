@@ -4,7 +4,7 @@ import { bind, setEnabled, setVolume } from "cuelume";
 import { GooeyToaster } from "goey-toast";
 import { NuqsAdapter } from "nuqs/adapters/react";
 import { lazy, Suspense, useEffect, useState } from "react";
-import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Footer } from "./components/layout/footer";
 import { PageLayout } from "./components/layout/page-layout";
 import { PWAPrompt } from "./components/pwa-prompt";
@@ -83,14 +83,6 @@ function App() {
 		return () => window.removeEventListener("keydown", handleKeyDown);
 	}, []);
 
-	function ScrollToTop() {
-		const { pathname } = useLocation();
-		useEffect(() => {
-			window.scrollTo(0, 0);
-		}, [pathname]);
-		return null;
-	}
-
 	const [isMigrated, setIsMigrated] = useState(false);
 
 	return (
@@ -99,7 +91,6 @@ function App() {
 			{!isMigrated && <StorageMigration onComplete={() => setIsMigrated(true)} />}
 			{isMigrated && (
 				<>
-					<ScrollToTop />
 					<NuqsAdapter>
 						<PageLayout>
 							<Routes>
