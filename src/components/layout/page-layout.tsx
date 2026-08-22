@@ -4,13 +4,24 @@ import { BookUserIcon, InfoIcon, SettingsIcon } from "lucide-react";
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 
+import { buttonVariants } from "@/components/ui/button";
+import { type VariantProps } from "class-variance-authority";
+
 interface PageLayoutProps {
 	children: React.ReactNode;
 }
 
-const NAV_ITEMS = [
+type NavItem = {
+	name: string;
+	path: string;
+	icon: React.ElementType;
+	isIcon: boolean;
+	variant?: VariantProps<typeof buttonVariants>["variant"];
+};
+
+const NAV_ITEMS: NavItem[] = [
 	{ name: "About", path: "/about", icon: InfoIcon, isIcon: true },
-	{ name: "Birthdays", path: "/manage", icon: BookUserIcon },
+	{ name: "Birthdays", path: "/manage", icon: BookUserIcon, isIcon: true },
 	{ name: "Settings", path: "/settings", icon: SettingsIcon, isIcon: true },
 ];
 
@@ -33,28 +44,37 @@ export function PageLayout({ children }: PageLayoutProps) {
 							location.pathname === item.path || location.pathname.startsWith(item.path + "/");
 						const Icon = item.icon;
 
-						return item.isIcon ? (
+						if (item.isIcon) {
+							return (
+								<Button
+									key={item.path}
+									variant={isActive ? "secondary" : "ghost"}
+									size="icon-sm"
+									asChild
+									title={item.name}
+								>
+									<Link
+										to={item.path}
+										title={item.name}
+										aria-label={item.name}
+										aria-current={isActive ? "page" : undefined}
+									>
+										<Icon aria-hidden="true" />
+									</Link>
+								</Button>
+							);
+						}
+
+						return (
 							<Button
 								key={item.path}
-								variant={isActive ? "secondary" : "ghost"}
-								size="icon-sm"
+								variant={isActive ? "secondary" : item.variant || "ghost"}
+								size="sm"
 								asChild
-								title={item.name}
 							>
-								<Link
-									to={item.path}
-									title={item.name}
-									aria-label={item.name}
-									aria-current={isActive ? "page" : undefined}
-								>
-									<Icon aria-hidden="true" />
-								</Link>
-							</Button>
-						) : (
-							<Button key={item.path} variant={isActive ? "secondary" : "ghost"} size="sm" asChild>
 								<Link to={item.path} title={item.name} aria-current={isActive ? "page" : undefined}>
-									<Icon className="h-4 w-4 sm:mr-2" aria-hidden="true" />
-									<span className="hidden sm:inline">{item.name}</span>
+									<Icon className="mr-2 h-4 w-4" aria-hidden="true" />
+									<span className="inline">{item.name}</span>
 								</Link>
 							</Button>
 						);

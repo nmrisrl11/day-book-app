@@ -6,7 +6,7 @@ export interface BirthdayRecord extends Birthday {
 	day: number;
 }
 
-export class DayBookDatabase extends Dexie {
+class DayBookDatabase extends Dexie {
 	birthdays!: Table<BirthdayRecord, string>;
 
 	constructor() {

@@ -65,7 +65,7 @@ export function AboutScreen() {
 					id="overview"
 					className="flex scroll-mt-24 flex-col items-center gap-4 text-center"
 				>
-					<LogoIcon className="mb-2 h-20 w-20" />
+					<LogoIcon className="mb-2 h-24 w-24 drop-shadow-sm" />
 					<Badge variant="secondary" className="w-fit">
 						{APP_INFO.name} v{changelog[0]?.version}
 					</Badge>
