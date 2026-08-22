@@ -2,6 +2,7 @@ import { cn } from "@/lib/utils";
 import React, { useState } from "react";
 import { Logo } from "./icons/logo";
 import { LogoIcon } from "./icons/logo-icon";
+import { useDayBookStore } from "@/store/day-book-store";
 
 export interface InteractiveLogoProps {
 	type?: "icon" | "full";
@@ -17,10 +18,11 @@ export function InteractiveLogo({
 	asButton = true,
 }: InteractiveLogoProps) {
 	const [isAnimating, setIsAnimating] = useState(false);
+	const { animationsEnabled } = useDayBookStore((state) => state.settings);
 	const LogoComponent = type === "icon" ? LogoIcon : Logo;
 
 	const handleClick = () => {
-		if (isAnimating) return;
+		if (isAnimating || !animationsEnabled) return;
 		setIsAnimating(true);
 	};
 
@@ -40,10 +42,9 @@ export function InteractiveLogo({
 			<LogoComponent
 				className={cn(
 					"transition-transform duration-200 active:scale-90",
-					isAnimating && "animate-logo-jelly motion-reduce:animate-none",
+					isAnimating && "animate-logo-jelly",
 					iconClassName,
 				)}
-				onAnimationEnd={() => setIsAnimating(false)}
 			/>
 
 			{/* Particles */}
@@ -51,28 +52,29 @@ export function InteractiveLogo({
 				<div className="pointer-events-none absolute inset-0" aria-hidden="true">
 					{/* Particle 1: Top Right */}
 					<div
-						className="bg-primary animate-particle-out absolute top-[20%] left-[60%] h-1.5 w-1.5 rounded-full motion-reduce:hidden"
+						className="bg-primary animate-particle-out absolute top-[20%] left-[60%] h-1.5 w-1.5 rounded-full"
 						style={
 							{ "--tx": "15px", "--ty": "-20px", animationDelay: "0ms" } as React.CSSProperties
 						}
 					/>
 					{/* Particle 2: Top Left */}
 					<div
-						className="bg-primary animate-particle-out absolute top-[30%] left-[30%] h-1 w-1 rounded-full opacity-80 motion-reduce:hidden"
+						className="bg-primary animate-particle-out absolute top-[30%] left-[30%] h-1 w-1 rounded-full opacity-80"
 						style={
 							{ "--tx": "-20px", "--ty": "-15px", animationDelay: "50ms" } as React.CSSProperties
 						}
 					/>
 					{/* Particle 3: Bottom Right */}
 					<div
-						className="bg-primary animate-particle-out absolute top-[70%] left-[70%] h-1 w-1 rounded-full opacity-60 motion-reduce:hidden"
+						className="bg-primary animate-particle-out absolute top-[70%] left-[70%] h-1 w-1 rounded-full opacity-60"
 						style={
 							{ "--tx": "20px", "--ty": "10px", animationDelay: "100ms" } as React.CSSProperties
 						}
+						onAnimationEnd={() => setIsAnimating(false)}
 					/>
 					{/* Particle 4: Left */}
 					<div
-						className="bg-primary animate-particle-out absolute top-[60%] left-[20%] h-1.5 w-1.5 rounded-full opacity-90 motion-reduce:hidden"
+						className="bg-primary animate-particle-out absolute top-[60%] left-[20%] h-1.5 w-1.5 rounded-full opacity-90"
 						style={
 							{ "--tx": "-25px", "--ty": "5px", animationDelay: "20ms" } as React.CSSProperties
 						}
