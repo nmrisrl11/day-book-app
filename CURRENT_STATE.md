@@ -74,6 +74,19 @@ day-book-app/
 │   ├── components/  # Global components (Layout, UI primitives)
 │   ├── constants/   # Default configs, settings boundaries
 │   ├── features/    # Domain modules (dashboard, management, settings)
+│   │   ├── dashboard/
+│   │   │   ├── components/
+│   │   │   │   ├── today/       # Happy birthday & celebrants UI
+│   │   │   │   ├── upcoming/    # Upcoming birthdays list
+│   │   │   │   └── calendar/    # Monthly views
+│   │   │   └── dashboard.tsx
+│   │   └── settings/
+│   │       ├── components/
+│   │       │   ├── appearance/  # Theme, display settings
+│   │       │   ├── messages/    # Greetings, floating text
+│   │       │   ├── data/        # DB, imports, storage
+│   │       │   └── ...          # other tabs (sound, avatar, main-greeting)
+│   │       └── settings-screen.tsx
 │   ├── helpers/     # Utils (dates, calendar, import/export)
 │   ├── hooks/       # Custom React hooks (drag scroll, media query)
 │   ├── schema/      # Zod validation schemas

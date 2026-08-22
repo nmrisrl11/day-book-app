@@ -3,7 +3,7 @@ import { defaultSettings, useDayBookStore } from "@/store/day-book-store";
 import { lazy, Suspense, useState } from "react";
 
 const ResetSettingsModal = lazy(() =>
-	import("./reset-settings-modal").then((m) => ({ default: m.ResetSettingsModal })),
+	import("../reset-settings-modal").then((m) => ({ default: m.ResetSettingsModal })),
 );
 
 export function GlobalSettingsManagement() {

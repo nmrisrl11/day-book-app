@@ -16,6 +16,39 @@ export interface ChangelogRelease {
 
 export const changelog: ChangelogRelease[] = [
 	{
+		version: "0.9.0",
+		date: "2026-08-22",
+		title: "Performance, Privacy & Polish",
+		summary:
+			"A massive under-the-hood upgrade bringing lightning-fast performance, unlimited storage, and beautiful new interactions.",
+		changes: [
+			{
+				type: "added",
+				title: "Powerful Data Management",
+				description:
+					"We've completely overhauled how your data is stored. Our new storage architecture is blazing fast, handles thousands of birthdays without breaking a sweat, and gives you exact insights into your storage usage. You can even enable Persistent Storage to prevent your browser from ever accidentally clearing your data!",
+			},
+			{
+				type: "improved",
+				title: "The Import Experience",
+				description:
+					"Importing from a JSON backup now features a beautiful preview! You can review duplicates, see exactly what's being imported, and hand-select specific birthdays before they are added.",
+			},
+			{
+				type: "improved",
+				title: "Delightful Details",
+				description:
+					"We sprinkled magic all over the app! You'll notice smooth, gooey animations on notifications, seamless scrolling, a sleek new Data Management layout, and a helpful indicator showing exactly how many days are left until an upcoming birthday.",
+			},
+			{
+				type: "added",
+				title: "Bulletproof Offline Mode",
+				description:
+					"Your experience stays perfect even when the internet drops. The app now instantly notifies you of connection changes, caches all beautiful fonts for offline use, and provides tailored, easy-to-follow instructions for installing the app directly to your iPhone or iPad home screen.",
+			},
+		],
+	},
+	{
 		version: "0.8.0",
 		date: "2026-08-20",
 		title: "Remember the people you love",

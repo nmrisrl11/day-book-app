@@ -36,7 +36,7 @@ While originally conceived as a "birthday tracker," the product is evolving into
 
 ### Directory Structure Philosophy
 
-- **`src/features/`**: The core of the app. Domain-driven modules (e.g., `dashboard`, `management`, `settings`, `calendar`). Each feature encapsulates its own components and local logic.
+- **`src/features/`**: The core of the app. Domain-driven modules (e.g., `dashboard`, `management`, `settings`). Each feature encapsulates its own components and local logic. Complex features further nest their components into logical UI subfolders (e.g., tabs or sections) to prevent component sprawl, keeping shared feature components at the root of their `components/` folder.
 - **`src/components/`**: Global, reusable UI components (e.g., `user-avatar`, `empty-state`, layouts).
 - **`src/components/ui/`**: **STRICTLY** for shadcn/ui and external un-opinionated primitives (like `@animate-ui`). Do not put business components here.
 - **`src/store/`**: Global state management (Zustand).

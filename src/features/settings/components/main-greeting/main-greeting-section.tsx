@@ -17,7 +17,7 @@ import { defaultSettings, useDayBookStore } from "@/store/day-book-store";
 import type { GreetingTextColorType } from "@/types/settings";
 import { ArrowRightLeftIcon, DicesIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { RestoreDefaultsButton } from "./restore-defaults-button";
+import { RestoreDefaultsButton } from "../restore-defaults-button";
 
 function DebouncedColorPicker({
 	value,
