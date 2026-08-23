@@ -29,7 +29,7 @@ While originally conceived as a "birthday tracker," the product is evolving into
 - **Routing**: React Router DOM (v7)
 - **Styling**: Tailwind CSS (v4)
 - **UI Primitives**: shadcn/ui (Radix UI under the hood)
-- **Animation & Interactions**: Framer Motion, `@animate-ui`, `cuelume` (for sounds)
+- **Animation & Interactions**: Framer Motion, `@animate-ui`, `cuelume` (sounds), `react-joyride` (tours)
 - **Forms & Validation**: React Hook Form, Zod
 - **URL State Management**: `nuqs`
 - **Deployment**: Vercel (Edge Functions used for dynamic OG previews)

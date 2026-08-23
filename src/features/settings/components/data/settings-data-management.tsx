@@ -1,3 +1,4 @@
+import { InfoTooltip } from "@/components/info-tooltip";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { exportSettings, parseImportedSettings } from "@/helpers/import-export";
@@ -38,7 +39,19 @@ export function SettingsDataManagement() {
 
 	return (
 		<div className="flex flex-col gap-3">
-			<h3 className="text-base font-medium">Settings Data</h3>
+			<div className="flex items-center justify-between">
+				<h3 className="text-base font-medium">Settings Data</h3>
+				<InfoTooltip
+					ariaLabel="More information about Settings Data"
+					content={
+						<span>
+							Exporting your settings saves all your appearance, sounds, and personal preferences
+							into a JSON file, so you can easily transfer your setup to another device without
+							configuring it again.
+						</span>
+					}
+				/>
+			</div>
 			<div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
 				<Button
 					variant="outline"

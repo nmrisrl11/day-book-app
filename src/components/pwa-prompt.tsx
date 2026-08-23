@@ -5,7 +5,7 @@ import { useRegisterSW } from "virtual:pwa-register/react";
 
 export function PWAPrompt() {
 	const {
-		needRefresh: [needRefresh],
+		needRefresh: [needRefresh, setNeedRefresh],
 		updateServiceWorker,
 	} = useRegisterSW({
 		onRegistered(r) {
@@ -44,9 +44,12 @@ export function PWAPrompt() {
 						updateServiceWorker(true);
 					},
 				},
+				onDismiss: () => {
+					setNeedRefresh(false);
+				},
 			});
 		}
-	}, [needRefresh, updateServiceWorker]);
+	}, [needRefresh, setNeedRefresh, updateServiceWorker]);
 
 	// Handle Online/Offline Status
 	useEffect(() => {

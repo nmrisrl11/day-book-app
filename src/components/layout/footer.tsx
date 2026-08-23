@@ -1,11 +1,32 @@
 import { AnimateIcon } from "@/components/ui/animate-icon";
 import { BotIcon } from "@/components/ui/animated-icons/bot-icon";
+import { APP_INFO } from "@/constants/app-info";
+import { useDayBookStore } from "@/store/day-book-store";
 import { Link } from "react-router-dom";
 
 export function Footer() {
+	const { updateSettings } = useDayBookStore();
+
 	return (
 		<footer className="text-muted-foreground mt-auto flex w-full justify-center">
-			<div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
+			<div className="flex flex-col items-center justify-center gap-y-2">
+				<div className="flex items-center justify-center gap-x-2 text-[0.8rem] font-medium">
+					<Link
+						to="/install"
+						className="transition-colors hover:text-slate-800 dark:hover:text-slate-200"
+						title={`Install ${APP_INFO.name}`}
+					>
+						Install App
+					</Link>
+					<span className="text-muted-foreground/30">•</span>
+					<button
+						type="button"
+						onClick={() => updateSettings({ onboardingStatus: "in_progress", onboardingStep: 0 })}
+						className="cursor-pointer transition-colors hover:text-slate-800 dark:hover:text-slate-200"
+					>
+						Take a tour
+					</button>
+				</div>
 				<span className="text-[0.8rem]">
 					Developed by:
 					<AnimateIcon animateOnHover asChild>
@@ -20,13 +41,6 @@ export function Footer() {
 						</a>
 					</AnimateIcon>
 				</span>
-				<span className="text-muted-foreground/30 hidden sm:inline">•</span>
-				<Link
-					to="/install"
-					className="text-[0.8rem] font-medium transition-colors hover:text-slate-800 dark:hover:text-slate-200"
-				>
-					Install App
-				</Link>
 			</div>
 		</footer>
 	);

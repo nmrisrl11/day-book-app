@@ -4,6 +4,9 @@
 
 - Added standard open-source MIT License to the repository to explicitly clarify open-source distribution and encourage community adoption. Added proper authorship metadata to `package.json`.
 - Introduced a dedicated `/install` route and screen to manually manage the Progressive Web App (PWA) installation experience across different platforms, including providing clear manual instructions for iOS Safari where programmatic installation is unsupported.
+- Designed and implemented a route-aware, interactive first-time user onboarding tutorial using `react-joyride`. It employs a low-friction hint (via `goey-toast`) to start, guides the user through core features, triggers a custom logo animation upon completion.
+- Integrated a contextual, step-by-step educational tour within the Data Management settings tab to help non-technical users understand JSON and `.ics` file formats.
+- Created a reusable `<InfoTooltip />` component powered by Radix UI `Popover` for clean, mobile-friendly inline documentation across complex settings.
 - Introduced an `isLoading` state within the `useBirthdayManagement` and `useBirthdayData` hooks to ensure the skeleton loading UI persists until the IndexedDB fetch resolves, preventing a jarring flash of the "Empty State" UI on initial load across the Management and Dashboard screens.
 
 ## Improved
@@ -11,11 +14,14 @@
 - Refactored the `daybook_has_data` `localStorage` synchronization by moving it out of the React view layer (`useBirthdayData` hook) and directly into the `BirthdayRepository` data layer, guaranteeing atomic state updates alongside all database mutations (create, update, delete, import).
 - Eliminated the unnecessary skeleton loading screen for completely empty databases by instantly rendering the Empty State, ensuring zero layout shift on initial application load. Empty state buttons are gracefully disabled until the route chunk finishes downloading.
 - Abstracted and cleanly co-located Empty State components (`DashboardEmptyState`, `ManageEmptyState`) into their respective feature directories to improve architectural modularity.
+- Replaced the custom framer-motion `OnboardingHint` overlay with the existing `goey-toast` component for better design consistency and cleaner architecture.
 - Added a playful, lightweight micro-interaction to the DayBook logo across the app (About, Install, and Empty Dashboard screens) featuring a subtle jelly bounce and particle effect on click, while gracefully respecting reduced motion preferences.
-- Relocated the "Install App" link from the primary navigation header to the footer for a cleaner primary UI while maintaining PWA discoverability.
+- Relocated the "Install App" and manual "Take a tour" application tutorial triggers to the global Footer for a cleaner primary UI and better discoverability across all routes.
 - Consolidated navigation link buttons in the Page Layout to utilize the central `buttonVariants` for a single source of truth in styling.
 - Optimized the Settings tab ordering by prioritizing the Avatar configuration (moving it to the second position) and restoring Appearance as the default open tab.
 - Enhanced the UI layout of the shareable link displays (in both the Ask Birthday and Invitation Response screens) by explicitly enabling flex item shrinking (`min-w-0`), ensuring long encrypted URLs truncate cleanly via `text-ellipsis` and no longer break the modal layout bounds on narrow viewports.
+- Centralized application naming by replacing static text references of "DayBook" across UI components and unit tests, strictly delegating to the `APP_INFO.name` constant.
+- Improved accessibility of the `<InfoTooltip />` component by allowing contextual `aria-label` definitions and standardizing the underlying `<Popover />` title hierarchy.
 
 ## Fixed
 
@@ -23,7 +29,11 @@
 
 - Fixed a TypeScript build error by removing the unused `SettingsImport` local type in `settings-schema.ts`.
 - Fixed the "flash of empty state" when navigating to the Birthday Management screen and the Dashboard by properly tracking Dexie query resolution.
+- Fixed a bug where `react-joyride` tooltip styling broke and lost its background color when parsing CSS variables by supplying explicit hex colors based on the current active theme.
+- Fixed an issue where exporting user settings to JSON silently stripped the onboarding status and tutorial step progress due to missing schema definitions.
 - Fixed a race condition where the `beforeinstallprompt` event could be missed due to lazy-loaded routes by capturing the event globally on the `window` object in `main.tsx`/`App.tsx`.
+- Fixed a bug where programmatic dismissals of the onboarding hint toast (e.g., during React StrictMode cleanup) incorrectly marked the tutorial state as dismissed instead of preserving the "in progress" status.
+- Strengthened Settings schema validation to strictly ensure `onboardingStep` bounds are only enforced when the onboarding status is actively in progress.
 
 ## Changed
 

@@ -19,6 +19,8 @@ export const defaultSettings: Settings = {
 			? !window.matchMedia("(prefers-reduced-motion: reduce)").matches
 			: true,
 	greetingTextSettings: GREETING_TEXT_SETTINGS,
+	onboardingStatus: "not_started",
+	onboardingStep: 0,
 };
 
 interface DayBookState {
@@ -82,6 +84,8 @@ export const useDayBookStore = create<DayBookState>()(
 								...(state?.settings?.greetingTextSettings?.gradient || {}),
 							},
 						},
+						onboardingStatus: state?.settings?.onboardingStatus ?? defaultSettings.onboardingStatus,
+						onboardingStep: state?.settings?.onboardingStep ?? defaultSettings.onboardingStep,
 					},
 				} as DayBookState;
 			},

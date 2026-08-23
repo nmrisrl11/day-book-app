@@ -20,6 +20,7 @@ export type SoundName =
 	| "scan"
 	| "arrival";
 export type GreetingTextColorType = "solid" | "gradient";
+export type OnboardingStatus = "not_started" | "in_progress" | "completed" | "dismissed";
 
 export interface AvatarSettings {
 	allowCustomUploads: boolean;
@@ -62,4 +63,6 @@ export interface Settings {
 	soundSettings?: SoundSettings;
 	animationsEnabled?: boolean;
 	greetingTextSettings?: GreetingTextSettings;
+	onboardingStatus?: OnboardingStatus;
+	onboardingStep?: number;
 }
