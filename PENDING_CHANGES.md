@@ -6,6 +6,8 @@
 
 ## Improved
 
+- Added sound feedback to programmatic logo animations, specifically enhancing the completion of the onboarding tour.
+- Improved accessibility of the Quick Action Toolbar's minimized tab by utilizing semantic button elements.
 ## Fixed
 
 - Fixed a visual bug in the Quick Action Toolbar where docking to a new corner would trigger the incorrect exit animation direction.
