@@ -10,6 +10,10 @@ export const BirthdayRepository = {
 		return await db.birthdays.get(id);
 	},
 
+	async count(): Promise<number> {
+		return await db.birthdays.count();
+	},
+
 	async save(birthday: Birthday): Promise<void> {
 		const record = this.toRecord(birthday);
 		await db.birthdays.put(record);

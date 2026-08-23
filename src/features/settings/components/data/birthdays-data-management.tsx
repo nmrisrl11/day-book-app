@@ -196,9 +196,15 @@ export function BirthdaysDataManagement() {
 				<ImportPreviewDialog
 					source="ics"
 					open={importCalendarOpen}
-					onOpenChange={setImportCalendarOpen}
+					onOpenChange={(open) => {
+						setImportCalendarOpen(open);
+						if (!open) setFoundIcsBirthdays([]);
+					}}
 					foundBirthdays={foundIcsBirthdays}
-					onImportSuccess={() => setImportCalendarOpen(false)}
+					onImportSuccess={() => {
+						setImportCalendarOpen(false);
+						setFoundIcsBirthdays([]);
+					}}
 				/>
 			)}
 
@@ -206,9 +212,15 @@ export function BirthdaysDataManagement() {
 				<ImportPreviewDialog
 					source="json"
 					open={importJsonOpen}
-					onOpenChange={setImportJsonOpen}
+					onOpenChange={(open) => {
+						setImportJsonOpen(open);
+						if (!open) setFoundJsonBirthdays([]);
+					}}
 					foundBirthdays={foundJsonBirthdays}
-					onImportSuccess={() => setImportJsonOpen(false)}
+					onImportSuccess={() => {
+						setImportJsonOpen(false);
+						setFoundJsonBirthdays([]);
+					}}
 				/>
 			)}
 		</>

@@ -3,18 +3,17 @@ import { SpeedInsights } from "@vercel/speed-insights/react";
 import { bind, setEnabled, setVolume } from "cuelume";
 import { GooeyToaster } from "goey-toast";
 import { NuqsAdapter } from "nuqs/adapters/react";
-import { lazy, Suspense, useEffect, useState } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Footer } from "./components/layout/footer";
 import { PageLayout } from "./components/layout/page-layout";
 import { PWAPrompt } from "./components/pwa-prompt";
-import { StorageMigration } from "./components/storage-migration";
 import { AboutSkeleton } from "./features/about/components/about-skeleton";
-import { DashboardSkeleton } from "./features/dashboard/components/dashboard-skeleton";
+import { DashboardRouteFallback } from "./features/dashboard/components/dashboard-route-fallback";
 import { InstallSkeleton } from "./features/install/components/install-skeleton";
 import { InvitationSkeleton } from "./features/invitation/components/invitation-skeleton";
 import { ResponseSkeleton } from "./features/invitation/components/response-skeleton";
-import { ManageBirthdaysSkeleton } from "./features/management/components/manage-birthdays-skeleton";
+import { ManageRouteFallback } from "./features/management/components/manage-route-fallback";
 import { SettingsSkeleton } from "./features/settings/components/settings-skeleton";
 import { useDayBookStore } from "./store/day-book-store";
 
@@ -98,102 +97,94 @@ function App() {
 		return () => window.removeEventListener("keydown", handleKeyDown);
 	}, []);
 
-	const [isMigrated, setIsMigrated] = useState(false);
-
 	return (
 		<BrowserRouter>
-			{/* TODO: Remove StorageMigration component and all related localStorage fallback logic in version 2.0.0 or later once all users have safely migrated to IndexedDB. */}
-			{!isMigrated && <StorageMigration onComplete={() => setIsMigrated(true)} />}
-			{isMigrated && (
-				<>
-					<NuqsAdapter>
-						<PageLayout>
-							<Routes>
-								<Route
-									path="/"
-									element={
-										<Suspense fallback={<DashboardSkeleton />}>
-											<Dashboard />
-										</Suspense>
-									}
-								/>
-								<Route
-									path="/manage"
-									element={
-										<Suspense fallback={<ManageBirthdaysSkeleton />}>
-											<ManageBirthdays />
-										</Suspense>
-									}
-								/>
-								<Route
-									path="/settings"
-									element={
-										<Suspense fallback={<SettingsSkeleton />}>
-											<Settings />
-										</Suspense>
-									}
-								/>
-								<Route
-									path="/about"
-									element={
-										<Suspense fallback={<AboutSkeleton />}>
-											<About />
-										</Suspense>
-									}
-								/>
-								<Route
-									path="/install"
-									element={
-										<Suspense fallback={<InstallSkeleton />}>
-											<InstallScreen />
-										</Suspense>
-									}
-								/>
-								<Route
-									path="/invite"
-									element={
-										<Suspense fallback={<InvitationSkeleton />}>
-											<Invitation />
-										</Suspense>
-									}
-								/>
-								<Route
-									path="/invite/response"
-									element={
-										<Suspense fallback={<ResponseSkeleton />}>
-											<Response />
-										</Suspense>
-									}
-								/>
-							</Routes>
-							<Analytics
-								beforeSend={(event) => {
-									if (event.url.includes("/invite")) {
-										return null;
-									}
-									return event;
-								}}
-							/>
-							<SpeedInsights
-								beforeSend={(event) => {
-									if (event.url.includes("/invite")) {
-										return null;
-									}
-									return event;
-								}}
-							/>
-							<PWAPrompt />
-							<GooeyToaster
-								position="bottom-center"
-								theme={settings.theme}
-								closeOnEscape={false}
-								showTimestamp={false}
-							/>
-							<Footer />
-						</PageLayout>
-					</NuqsAdapter>
-				</>
-			)}
+			<NuqsAdapter>
+				<PageLayout>
+					<Routes>
+						<Route
+							path="/"
+							element={
+								<Suspense fallback={<DashboardRouteFallback />}>
+									<Dashboard />
+								</Suspense>
+							}
+						/>
+						<Route
+							path="/manage"
+							element={
+								<Suspense fallback={<ManageRouteFallback />}>
+									<ManageBirthdays />
+								</Suspense>
+							}
+						/>
+						<Route
+							path="/settings"
+							element={
+								<Suspense fallback={<SettingsSkeleton />}>
+									<Settings />
+								</Suspense>
+							}
+						/>
+						<Route
+							path="/about"
+							element={
+								<Suspense fallback={<AboutSkeleton />}>
+									<About />
+								</Suspense>
+							}
+						/>
+						<Route
+							path="/install"
+							element={
+								<Suspense fallback={<InstallSkeleton />}>
+									<InstallScreen />
+								</Suspense>
+							}
+						/>
+						<Route
+							path="/invite"
+							element={
+								<Suspense fallback={<InvitationSkeleton />}>
+									<Invitation />
+								</Suspense>
+							}
+						/>
+						<Route
+							path="/invite/response"
+							element={
+								<Suspense fallback={<ResponseSkeleton />}>
+									<Response />
+								</Suspense>
+							}
+						/>
+					</Routes>
+					<Analytics
+						beforeSend={(event) => {
+							if (event.url.includes("/invite")) {
+								return null;
+							}
+							return event;
+						}}
+					/>
+					<SpeedInsights
+						beforeSend={(event) => {
+							if (event.url.includes("/invite")) {
+								return null;
+							}
+							return event;
+						}}
+					/>
+					<PWAPrompt />
+					<GooeyToaster
+						position="bottom-center"
+						theme={settings.theme}
+						closeOnEscape={false}
+						showTimestamp={false}
+					/>
+					<Footer />
+				</PageLayout>
+			</NuqsAdapter>
 		</BrowserRouter>
 	);
 }
