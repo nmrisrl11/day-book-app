@@ -95,7 +95,7 @@ export function parseIcsForBirthdays(icsText: string): Birthday[] {
 					if (currentDescription) {
 						const relMatch = currentDescription.match(/Relationship:\s*(.+?)(?:\n|$)/i);
 						if (relMatch) {
-							relationship = relMatch[1].trim() as any;
+							relationship = relMatch[1].trim();
 						}
 					}
 

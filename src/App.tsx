@@ -18,12 +18,29 @@ import { ManageRouteFallback } from "./features/management/components/manage-rou
 import { SettingsSkeleton } from "./features/settings/components/settings-skeleton";
 import { useDayBookStore } from "./store/day-book-store";
 
+interface BeforeInstallPromptEvent extends Event {
+	readonly platforms: Array<string>;
+	readonly userChoice: Promise<{
+		outcome: "accepted" | "dismissed";
+		platform: string;
+	}>;
+	prompt(): Promise<void>;
+}
+
+declare global {
+	interface Window {
+		__hasInstallListener?: boolean;
+		__deferredPrompt?: BeforeInstallPromptEvent | null;
+		__isInstallable?: boolean;
+	}
+}
+
 // Catch the install prompt as early as possible (before lazy-loaded screens)
 if (typeof window !== "undefined" && !window.__hasInstallListener) {
 	window.__hasInstallListener = true;
 	window.addEventListener("beforeinstallprompt", (e) => {
 		e.preventDefault();
-		window.__deferredPrompt = e as any;
+		window.__deferredPrompt = e as BeforeInstallPromptEvent;
 		window.__isInstallable = true;
 		window.dispatchEvent(new Event("app-installable"));
 	});

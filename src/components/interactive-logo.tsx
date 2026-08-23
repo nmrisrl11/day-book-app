@@ -4,6 +4,7 @@ import { useDayBookStore } from "@/store/day-book-store";
 import React, { forwardRef, useImperativeHandle, useState } from "react";
 import { Logo } from "./icons/logo";
 import { LogoIcon } from "./icons/logo-icon";
+import { play } from "cuelume";
 
 export interface InteractiveLogoRef {
 	triggerAnimation: () => void;
@@ -14,11 +15,10 @@ export interface InteractiveLogoProps {
 	className?: string;
 	iconClassName?: string;
 	asButton?: boolean;
-	disableSound?: boolean;
 }
 
 export const InteractiveLogo = forwardRef<InteractiveLogoRef, InteractiveLogoProps>(
-	({ type = "icon", className, iconClassName, asButton = true, disableSound = false }, ref) => {
+	({ type = "icon", className, iconClassName, asButton = true }, ref) => {
 		const [isAnimating, setIsAnimating] = useState(false);
 		const { animationsEnabled } = useDayBookStore((state) => state.settings);
 		const LogoComponent = type === "icon" ? LogoIcon : Logo;
@@ -27,6 +27,7 @@ export const InteractiveLogo = forwardRef<InteractiveLogoRef, InteractiveLogoPro
 			triggerAnimation: () => {
 				if (isAnimating || !animationsEnabled) return;
 				setIsAnimating(true);
+				play("sparkle");
 			},
 		}));
 
@@ -46,7 +47,7 @@ export const InteractiveLogo = forwardRef<InteractiveLogoRef, InteractiveLogoPro
 				)}
 				onClick={handleClick}
 				aria-label={`Play ${APP_INFO.name} animation`}
-				{...(disableSound ? {} : { "data-cuelume-release": "sparkle" })}
+				data-cuelume-release="sparkle"
 			>
 				<LogoComponent
 					className={cn(
