@@ -16,6 +16,39 @@ export interface ChangelogRelease {
 
 export const changelog: ChangelogRelease[] = [
 	{
+		version: "1.0.0",
+		date: "2026-08-23",
+		title: "Interactive Tours & App Installation",
+		summary:
+			"Introducing a seamless first-time user tutorial, dedicated app installation support, and numerous UI polish updates across the board.",
+		changes: [
+			{
+				type: "added",
+				title: "Interactive Application Tours",
+				description:
+					"Added a beautifully designed, route-aware interactive tutorial to guide you through the app's core features, plus an on-demand educational tour to demystify JSON and .ics files in Settings.",
+			},
+			{
+				type: "added",
+				title: "Install Anywhere",
+				description:
+					"Introduced a dedicated /install screen to help you seamlessly install DayBook as an app on your phone, tablet, or desktop, complete with specific instructions for iOS users.",
+			},
+			{
+				type: "improved",
+				title: "Playful Micro-interactions",
+				description:
+					"The DayBook logo now features a delightful jelly bounce and sound effect when clicked. We also upgraded our floating notifications with a smoother, gooey design.",
+			},
+			{
+				type: "fixed",
+				title: "Stability & Polish",
+				description:
+					"Eliminated jarring layout shifts during initial load, patched memory leaks during file imports, and improved the layout for sharing long invitation links.",
+			},
+		],
+	},
+	{
 		version: "0.9.0",
 		date: "2026-08-22",
 		title: "Performance, Privacy & Polish",
