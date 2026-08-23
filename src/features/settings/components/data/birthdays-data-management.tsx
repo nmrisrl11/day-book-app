@@ -104,6 +104,7 @@ export function BirthdaysDataManagement() {
 					<div className="flex items-center justify-between">
 						<h3 className="text-base font-medium">Birthdays Data (JSON)</h3>
 						<InfoTooltip
+							ariaLabel="More information about JSON format"
 							content={
 								<span>
 									<strong>JSON</strong> is the standard format {APP_INFO.name} uses to save your raw
@@ -158,6 +159,7 @@ export function BirthdaysDataManagement() {
 					<div className="flex items-center justify-between">
 						<h3 className="text-base font-medium">Calendar Integration</h3>
 						<InfoTooltip
+							ariaLabel="More information about Calendar Integration"
 							content={
 								<span>
 									<strong>.ics (iCalendar)</strong> is a universal calendar format. Exporting an

@@ -9,6 +9,7 @@ export function OnboardingHint() {
 
 	useEffect(() => {
 		if (isVisible) {
+			let isUnmounting = false;
 			const toastId = gooeyToast.info(`Welcome to ${APP_INFO.name}!`, {
 				description: "Want a quick tour to see how everything works?",
 				duration: Infinity,
@@ -25,11 +26,14 @@ export function OnboardingHint() {
 					},
 				},
 				onDismiss: () => {
-					updateSettings({ onboardingStatus: "dismissed" });
+					if (!isUnmounting) {
+						updateSettings({ onboardingStatus: "dismissed" });
+					}
 				},
 			});
 
 			return () => {
+				isUnmounting = true;
 				gooeyToast.dismiss(toastId);
 			};
 		}

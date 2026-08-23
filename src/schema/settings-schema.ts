@@ -82,4 +82,18 @@ export const SettingsSchema = z
 		onboardingStatus: OnboardingStatusSchema.optional(),
 		onboardingStep: z.number().int().min(0).optional(),
 	})
-	.strict();
+	.strict()
+	.superRefine((data, ctx) => {
+		if (data.onboardingStatus === "in_progress") {
+			if (
+				data.onboardingStep !== undefined &&
+				(data.onboardingStep < 0 || data.onboardingStep > 4)
+			) {
+				ctx.addIssue({
+					code: z.ZodIssueCode.custom,
+					message: "onboardingStep must be between 0 and 4 when in_progress",
+					path: ["onboardingStep"],
+				});
+			}
+		}
+	});

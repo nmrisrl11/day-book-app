@@ -5,16 +5,17 @@ import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 interface InfoTooltipProps {
 	content: React.ReactNode;
 	label?: React.ReactNode;
+	ariaLabel?: string;
 }
 
-export function InfoTooltip({ content, label }: InfoTooltipProps) {
+export function InfoTooltip({ content, label, ariaLabel }: InfoTooltipProps) {
 	return (
 		<Popover>
 			<PopoverTrigger asChild>
 				<button
 					type="button"
 					className="text-muted-foreground hover:text-foreground inline-flex cursor-pointer items-center gap-1.5 transition-colors"
-					aria-label="More information"
+					aria-label={ariaLabel || "More information"}
 				>
 					{label && <span>{label}</span>}
 					<HelpCircleIcon className="h-4 w-4" />

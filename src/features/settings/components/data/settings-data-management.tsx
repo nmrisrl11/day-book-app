@@ -42,6 +42,7 @@ export function SettingsDataManagement() {
 			<div className="flex items-center justify-between">
 				<h3 className="text-base font-medium">Settings Data</h3>
 				<InfoTooltip
+					ariaLabel="More information about Settings Data"
 					content={
 						<span>
 							Exporting your settings saves all your appearance, sounds, and personal preferences

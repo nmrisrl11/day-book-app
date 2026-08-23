@@ -21,6 +21,7 @@
 - Optimized the Settings tab ordering by prioritizing the Avatar configuration (moving it to the second position) and restoring Appearance as the default open tab.
 - Enhanced the UI layout of the shareable link displays (in both the Ask Birthday and Invitation Response screens) by explicitly enabling flex item shrinking (`min-w-0`), ensuring long encrypted URLs truncate cleanly via `text-ellipsis` and no longer break the modal layout bounds on narrow viewports.
 - Centralized application naming by replacing static text references of "DayBook" across UI components and unit tests, strictly delegating to the `APP_INFO.name` constant.
+- Improved accessibility of the `<InfoTooltip />` component by allowing contextual `aria-label` definitions and standardizing the underlying `<Popover />` title hierarchy.
 
 ## Fixed
 
@@ -31,6 +32,8 @@
 - Fixed a bug where `react-joyride` tooltip styling broke and lost its background color when parsing CSS variables by supplying explicit hex colors based on the current active theme.
 - Fixed an issue where exporting user settings to JSON silently stripped the onboarding status and tutorial step progress due to missing schema definitions.
 - Fixed a race condition where the `beforeinstallprompt` event could be missed due to lazy-loaded routes by capturing the event globally on the `window` object in `main.tsx`/`App.tsx`.
+- Fixed a bug where programmatic dismissals of the onboarding hint toast (e.g., during React StrictMode cleanup) incorrectly marked the tutorial state as dismissed instead of preserving the "in progress" status.
+- Strengthened Settings schema validation to strictly ensure `onboardingStep` bounds are only enforced when the onboarding status is actively in progress.
 
 ## Changed
 
