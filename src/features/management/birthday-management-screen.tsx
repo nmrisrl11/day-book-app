@@ -12,6 +12,8 @@ import {
 import { FULL_MONTHS } from "@/constants/months";
 import { BirthdayRepository } from "@/lib/birthday-repository";
 import { RELATIONSHIP_OPTIONS, type Birthday } from "@/types/birthday";
+import { useVirtualizer } from "@tanstack/react-virtual";
+import { gooeyToast } from "goey-toast";
 import {
 	ChevronLeftIcon,
 	ChevronRightIcon,
@@ -20,16 +22,14 @@ import {
 	PlusIcon,
 	SearchIcon,
 } from "lucide-react";
-import { lazy, Suspense, useCallback, useState, useRef } from "react";
+import { lazy, Suspense, useCallback, useRef, useState } from "react";
 import { BirthdayListItem } from "./components/birthday-list-item";
-import { gooeyToast } from "goey-toast";
-import { useVirtualizer } from "@tanstack/react-virtual";
 
 import {
-	useBirthdayManagement,
 	MONTH_OPTIONS,
 	PER_PAGE_OPTIONS,
 	SORT_OPTIONS,
+	useBirthdayManagement,
 } from "./hooks/use-birthday-management";
 const BirthdayFormModal = lazy(() =>
 	import("./components/birthday-form-modal").then((m) => ({ default: m.BirthdayFormModal })),
@@ -48,7 +48,8 @@ const AskBirthdayModal = lazy(() =>
 	import("./components/ask-birthday-modal").then((m) => ({ default: m.AskBirthdayModal })),
 );
 
-import { ManageBirthdaysSkeleton } from "./components/manage-birthdays-skeleton";
+import { ManageEmptyState } from "./components/manage-empty-state";
+import { ManageRouteFallback } from "./components/manage-route-fallback";
 
 export function BirthdayManagementScreen() {
 	const {
@@ -125,7 +126,9 @@ export function BirthdayManagementScreen() {
 		overscan: 10,
 	});
 
-	if (isLoading) return <ManageBirthdaysSkeleton />;
+	if (isLoading) {
+		return <ManageRouteFallback />;
+	}
 
 	return (
 		<div className="flex w-full flex-col gap-6">
@@ -145,16 +148,7 @@ export function BirthdayManagementScreen() {
 			</div>
 
 			{birthdays.length === 0 ? (
-				<div className="border-border bg-card/50 flex flex-col items-center justify-center gap-4 rounded-xl border border-dashed px-4 py-16 text-center">
-					<div className="text-4xl">🎂</div>
-					<div className="max-w-md">
-						<h3 className="mb-2 text-lg font-semibold">No birthdays yet</h3>
-						<p className="text-muted-foreground mb-6">
-							Keep track of your family and friends' birthdays so you never forget one again.
-						</p>
-						<Button onClick={handleAdd}>Add Your First Birthday</Button>
-					</div>
-				</div>
+				<ManageEmptyState onAdd={handleAdd} />
 			) : (
 				<div className="flex flex-col gap-4">
 					<div className="flex flex-col gap-3 sm:flex-row sm:items-center">

@@ -8,6 +8,9 @@
 
 ## Improved
 
+- Refactored the `daybook_has_data` `localStorage` synchronization by moving it out of the React view layer (`useBirthdayData` hook) and directly into the `BirthdayRepository` data layer, guaranteeing atomic state updates alongside all database mutations (create, update, delete, import).
+- Eliminated the unnecessary skeleton loading screen for completely empty databases by instantly rendering the Empty State, ensuring zero layout shift on initial application load. Empty state buttons are gracefully disabled until the route chunk finishes downloading.
+- Abstracted and cleanly co-located Empty State components (`DashboardEmptyState`, `ManageEmptyState`) into their respective feature directories to improve architectural modularity.
 - Added a playful, lightweight micro-interaction to the DayBook logo across the app (About, Install, and Empty Dashboard screens) featuring a subtle jelly bounce and particle effect on click, while gracefully respecting reduced motion preferences.
 - Relocated the "Install App" link from the primary navigation header to the footer for a cleaner primary UI while maintaining PWA discoverability.
 - Consolidated navigation link buttons in the Page Layout to utilize the central `buttonVariants` for a single source of truth in styling.
@@ -15,6 +18,8 @@
 - Enhanced the UI layout of the shareable link displays (in both the Ask Birthday and Invitation Response screens) by explicitly enabling flex item shrinking (`min-w-0`), ensuring long encrypted URLs truncate cleanly via `text-ellipsis` and no longer break the modal layout bounds on narrow viewports.
 
 ## Fixed
+
+- Patched a memory leak within the JSON and ICS file import flow where large parsed datasets would persist in memory indefinitely if the preview dialog was cancelled.
 
 - Fixed a TypeScript build error by removing the unused `SettingsImport` local type in `settings-schema.ts`.
 - Fixed the "flash of empty state" when navigating to the Birthday Management screen and the Dashboard by properly tracking Dexie query resolution.
@@ -27,5 +32,6 @@
 
 ## Removed
 
+- Removed the legacy `<StorageMigration />` component and checking logic from the initial application load, as backward compatibility for transferring legacy `localStorage` birthday records is no longer required.
 - Removed the unused `ScrollToTop` component and associated `useLocation` import from `App.tsx` which was causing a bug with the avatar color randomization.
 - Removed unused `ui/avatar.tsx` component and unused export definitions across `changelog.ts`, `settings-schema.ts`, `use-is-in-view.ts`, and `db.ts` to keep the codebase lean and resolve static analysis warnings.

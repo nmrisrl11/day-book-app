@@ -99,7 +99,6 @@ day-book-app/
 ### Known Issues & Technical Debt
 
 - **Stale Closures**: Because the settings state is tightly bound to the UI (e.g. debounced color pickers), `updateSettings` calls must frequently fetch the latest state inside the execution block using `useDayBookStore.getState()`. This pattern is established but fragile.
-- **Migration Code Cleanup**: The application currently mounts a `<StorageMigration />` component on initialization to migrate legacy `localStorage` birthday data to IndexedDB. This should be removed in a future release (e.g., v2.0.0) once all users are safely migrated, to reduce initialization overhead.
 
 ## 5. Current Development Focus
 

@@ -1,18 +1,18 @@
+import { InteractiveLogo } from "@/components/interactive-logo";
+import { Button } from "@/components/ui/button";
 import { APP_INFO } from "@/constants/app-info";
 import { parseImportedBirthdays } from "@/helpers/import-export";
 import { BirthdayRepository } from "@/lib/birthday-repository";
 import { PlusIcon, UploadIcon } from "lucide-react";
 import { lazy, Suspense, useState } from "react";
-import { InteractiveLogo } from "./interactive-logo";
-import { Button } from "./ui/button";
 
 const BirthdayFormModal = lazy(() =>
-	import("../features/management/components/birthday-form-modal").then((m) => ({
+	import("@/features/management/components/birthday-form-modal").then((m) => ({
 		default: m.BirthdayFormModal,
 	})),
 );
 
-export function EmptyState() {
+export function DashboardEmptyState({ disabled }: { disabled?: boolean }) {
 	const [formModalOpen, setFormModalOpen] = useState(false);
 
 	const handleImportClick = () => {
@@ -56,6 +56,7 @@ export function EmptyState() {
 					size="lg"
 					className="w-full text-base sm:w-auto"
 					onClick={() => setFormModalOpen(true)}
+					disabled={disabled}
 				>
 					<PlusIcon className="mr-2 h-5 w-5" />
 					Add Your First Birthday
@@ -66,6 +67,7 @@ export function EmptyState() {
 					variant="outline"
 					className="w-full text-base sm:w-auto"
 					onClick={handleImportClick}
+					disabled={disabled}
 				>
 					<UploadIcon className="mr-2 h-5 w-5" />
 					Import Data

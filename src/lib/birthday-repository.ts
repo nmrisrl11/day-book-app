@@ -2,6 +2,11 @@ import type { Birthday } from "@/types/birthday";
 import { db, type BirthdayRecord } from "./db";
 
 export const BirthdayRepository = {
+	async updateHasDataHint(): Promise<void> {
+		const count = await db.birthdays.count();
+		localStorage.setItem("daybook_has_data", count > 0 ? "true" : "false");
+	},
+
 	async getAll(): Promise<Birthday[]> {
 		return await db.birthdays.toArray();
 	},
@@ -10,9 +15,14 @@ export const BirthdayRepository = {
 		return await db.birthdays.get(id);
 	},
 
+	async count(): Promise<number> {
+		return await db.birthdays.count();
+	},
+
 	async save(birthday: Birthday): Promise<void> {
 		const record = this.toRecord(birthday);
 		await db.birthdays.put(record);
+		await this.updateHasDataHint();
 	},
 
 	async update(id: string, updates: Partial<Birthday>): Promise<void> {
@@ -22,19 +32,23 @@ export const BirthdayRepository = {
 		} else {
 			await db.birthdays.update(id, updates);
 		}
+		await this.updateHasDataHint();
 	},
 
 	async delete(id: string): Promise<void> {
 		await db.birthdays.delete(id);
+		await this.updateHasDataHint();
 	},
 
 	async deleteAll(): Promise<void> {
 		await db.birthdays.clear();
+		await this.updateHasDataHint();
 	},
 
 	async bulkSave(birthdays: Birthday[]): Promise<void> {
 		const records = birthdays.map((b) => this.toRecord(b));
 		await db.birthdays.bulkPut(records);
+		await this.updateHasDataHint();
 	},
 
 	toRecord(birthday: Birthday): BirthdayRecord {

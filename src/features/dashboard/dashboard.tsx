@@ -1,7 +1,7 @@
-import { EmptyState } from "@/components/empty-state";
 import { useBirthdayData } from "@/hooks/use-birthday-data";
 import { Suspense } from "react";
-import { DashboardSkeleton } from "./components/dashboard-skeleton";
+import { DashboardEmptyState } from "./components/dashboard-empty-state";
+import { DashboardRouteFallback } from "./components/dashboard-route-fallback";
 
 import { BirthdaysSection } from "./components/calendar/birthdays-section";
 import { HappyBirthdaySection } from "./components/today/happy-birthday-section";
@@ -18,16 +18,15 @@ export function Dashboard() {
 	} = useBirthdayData();
 
 	if (isLoading) {
-		return <DashboardSkeleton />;
+		return <DashboardRouteFallback />;
 	}
-
 	if (birthdays.length === 0) {
-		return <EmptyState />;
+		return <DashboardEmptyState />;
 	}
 
 	return (
 		<div className="flex w-full flex-col items-center gap-16">
-			<Suspense fallback={<DashboardSkeleton />}>
+			<Suspense fallback={<DashboardRouteFallback />}>
 				<HappyBirthdaySection celebrants={todayCelebrants} currentDate={currentDate} />
 				<UpcomingBirthdaysSection upcomingBirthdays={upcomingBirthdays} currentDate={currentDate} />
 				<BirthdaysSection birthdaysByMonth={birthdaysByMonth} />

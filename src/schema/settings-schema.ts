@@ -80,4 +80,3 @@ export const SettingsSchema = z
 			.optional(),
 	})
 	.strict();
-
