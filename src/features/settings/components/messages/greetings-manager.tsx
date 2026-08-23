@@ -3,7 +3,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { defaultSettings, useDayBookStore } from "@/store/day-book-store";
 import { PlusIcon, Trash2Icon } from "lucide-react";
 import { useEffect } from "react";
-import { RestoreDefaultsButton } from "../restore-defaults-button";
+import { RestoreDefaultsButton } from "@/components/restore-defaults-button";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";

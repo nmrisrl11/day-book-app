@@ -29,6 +29,7 @@ const SoundNameSchema = z.enum([
 ]);
 const GreetingTextColorTypeSchema = z.enum(["solid", "gradient"]);
 const OnboardingStatusSchema = z.enum(["not_started", "in_progress", "completed", "dismissed"]);
+const QuickActionsPositionSchema = z.enum(["top-left", "top-right", "bottom-left", "bottom-right"]);
 
 export const SettingsSchema = z
 	.object({
@@ -81,6 +82,9 @@ export const SettingsSchema = z
 			.optional(),
 		onboardingStatus: OnboardingStatusSchema.optional(),
 		onboardingStep: z.number().int().min(0).optional(),
+		quickActionsEnabled: z.boolean().optional(),
+		quickActionsPosition: QuickActionsPositionSchema.optional(),
+		quickActionsIsOpen: z.boolean().optional(),
 	})
 	.strict()
 	.superRefine((data, ctx) => {

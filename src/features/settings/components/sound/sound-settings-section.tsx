@@ -13,7 +13,7 @@ import { cn } from "@/lib/utils";
 import { defaultSettings, useDayBookStore } from "@/store/day-book-store";
 import { play, sounds, type SoundName } from "cuelume";
 import { useState, useEffect } from "react";
-import { RestoreDefaultsButton } from "../restore-defaults-button";
+import { RestoreDefaultsButton } from "@/components/restore-defaults-button";
 
 export function SoundSettingsSection() {
 	const { settings, updateSettings } = useDayBookStore();

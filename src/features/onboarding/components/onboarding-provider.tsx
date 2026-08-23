@@ -32,6 +32,14 @@ const TOUR_STEPS: Step[] = [
 		skipBeacon: true,
 	},
 	{
+		target: "#quick-action-tab",
+		placement: "left",
+		title: "Quick Customizations",
+		content:
+			"Click this tab to instantly change how avatars and greetings appear on your dashboard.",
+		skipBeacon: true,
+	},
+	{
 		target: "body",
 		placement: "center",
 		title: "Privacy First",
