@@ -8,6 +8,7 @@
 
 ## Improved
 
+- Refactored the `daybook_has_data` `localStorage` synchronization by moving it out of the React view layer (`useBirthdayData` hook) and directly into the `BirthdayRepository` data layer, guaranteeing atomic state updates alongside all database mutations (create, update, delete, import).
 - Eliminated the unnecessary skeleton loading screen for completely empty databases by instantly rendering the Empty State, ensuring zero layout shift on initial application load. Empty state buttons are gracefully disabled until the route chunk finishes downloading.
 - Abstracted and cleanly co-located Empty State components (`DashboardEmptyState`, `ManageEmptyState`) into their respective feature directories to improve architectural modularity.
 - Added a playful, lightweight micro-interaction to the DayBook logo across the app (About, Install, and Empty Dashboard screens) featuring a subtle jelly bounce and particle effect on click, while gracefully respecting reduced motion preferences.
