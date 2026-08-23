@@ -108,7 +108,8 @@ export function QuickActionToolbar() {
 	return (
 		<AnimatePresence mode="wait">
 			{!isOpen ? (
-				<motion.div
+				<motion.button
+					type="button"
 					key="closed-tab"
 					id="quick-action-tab"
 					variants={tabVariants}
@@ -131,7 +132,7 @@ export function QuickActionToolbar() {
 					aria-label="Open Quick Actions"
 				>
 					<ChevronIcon className="text-muted-foreground h-4 w-4" />
-				</motion.div>
+				</motion.button>
 			) : (
 				<motion.div
 					key="open-toolbar"
