@@ -1,6 +1,7 @@
-import { describe, it, expect } from "vitest";
-import { generateGoogleCalendarUrl, generateIcsContent } from "../calendar-export";
+import { APP_INFO } from "@/constants/app-info";
 import type { Birthday } from "@/types/birthday";
+import { describe, expect, it } from "vitest";
+import { generateGoogleCalendarUrl, generateIcsContent } from "../calendar-export";
 
 describe("calendar-export", () => {
 	const sampleBirthday: Birthday = {
@@ -27,7 +28,7 @@ describe("calendar-export", () => {
 			const details = urlObj.searchParams.get("details");
 			expect(details).toContain("Relationship: Friend");
 			expect(details).toContain("Notes: Loves coffee • Allergic to nuts");
-			expect(details).toContain("Imported from DayBook");
+			expect(details).toContain(`Imported from ${APP_INFO.name}`);
 		});
 
 		it("should handle birthdays without notes gracefully", () => {
@@ -52,14 +53,14 @@ describe("calendar-export", () => {
 
 			expect(ics).toContain("BEGIN:VCALENDAR");
 			expect(ics).toContain("VERSION:2.0");
-			expect(ics).toContain("PRODID:-//DayBook//Birthday Calendar//EN");
+			expect(ics).toContain(`PRODID:-//${APP_INFO.name}//Birthday Calendar//EN`);
 			expect(ics).toContain("BEGIN:VEVENT");
 			expect(ics).toContain("UID:daybook-123-abc@daybook.app");
 			expect(ics).toContain("DTSTART;VALUE=DATE:19900515");
 			expect(ics).toContain("DTEND;VALUE=DATE:19900516");
 			expect(ics).toContain("SUMMARY:John Doe's Birthday");
 			expect(ics).toContain(
-				"DESCRIPTION:Relationship: Friend\\nNotes: Loves coffee • Allergic to nuts\\n\\nImported from DayBook.",
+				`DESCRIPTION:Relationship: Friend\\nNotes: Loves coffee • Allergic to nuts\\n\\nImported from ${APP_INFO.name}.`,
 			);
 			expect(ics).toContain("X-DAYBOOK-NOTE:Loves coffee");
 			expect(ics).toContain("X-DAYBOOK-NOTE:Allergic to nuts");

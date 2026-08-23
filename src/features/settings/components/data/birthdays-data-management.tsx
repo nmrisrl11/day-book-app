@@ -1,5 +1,7 @@
+import { InfoTooltip } from "@/components/info-tooltip";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { APP_INFO } from "@/constants/app-info";
 import { CalendarExportDialog } from "@/features/calendar/components/calendar-export-dialog";
 import { parseIcsForBirthdays } from "@/helpers/calendar-import";
 import { exportBirthdays, parseImportedBirthdays } from "@/helpers/import-export";
@@ -99,7 +101,18 @@ export function BirthdaysDataManagement() {
 			<div className="flex flex-col gap-6">
 				{/* JSON DATA */}
 				<div className="flex flex-col gap-3">
-					<h3 className="text-base font-medium">Birthdays Data (JSON)</h3>
+					<div className="flex items-center justify-between">
+						<h3 className="text-base font-medium">Birthdays Data (JSON)</h3>
+						<InfoTooltip
+							content={
+								<span>
+									<strong>JSON</strong> is the standard format {APP_INFO.name} uses to save your raw
+									data. Exporting this creates a complete backup of all your people, dates, and
+									notes, which you can safely import into another device.
+								</span>
+							}
+						/>
+					</div>
 					<div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
 						<Button
 							variant="outline"
@@ -142,7 +155,18 @@ export function BirthdaysDataManagement() {
 
 				{/* CALENDAR DATA */}
 				<div className="flex flex-col gap-3">
-					<h3 className="text-base font-medium">Calendar Integration</h3>
+					<div className="flex items-center justify-between">
+						<h3 className="text-base font-medium">Calendar Integration</h3>
+						<InfoTooltip
+							content={
+								<span>
+									<strong>.ics (iCalendar)</strong> is a universal calendar format. Exporting an
+									.ics file allows you to seamlessly add your birthdays to Apple Calendar, Google
+									Calendar, or Outlook!
+								</span>
+							}
+						/>
+					</div>
 					<div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
 						<Button
 							variant="outline"

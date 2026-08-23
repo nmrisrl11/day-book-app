@@ -1,8 +1,8 @@
 import { z } from "zod";
 import {
-	GREETINGS_MAX_LENGTH,
-	FLOATING_MESSAGE_MAX_LENGTH,
 	CUSTOM_GREETING_MAX_LENGTH,
+	FLOATING_MESSAGE_MAX_LENGTH,
+	GREETINGS_MAX_LENGTH,
 } from "./validation-constants";
 
 const AvatarLibrarySchema = z.enum(["avvvatars", "boring-avatars"]);
@@ -28,6 +28,7 @@ const SoundNameSchema = z.enum([
 	"arrival",
 ]);
 const GreetingTextColorTypeSchema = z.enum(["solid", "gradient"]);
+const OnboardingStatusSchema = z.enum(["not_started", "in_progress", "completed", "dismissed"]);
 
 export const SettingsSchema = z
 	.object({
@@ -78,5 +79,7 @@ export const SettingsSchema = z
 			})
 			.strict()
 			.optional(),
+		onboardingStatus: OnboardingStatusSchema.optional(),
+		onboardingStep: z.number().int().min(0).optional(),
 	})
 	.strict();
