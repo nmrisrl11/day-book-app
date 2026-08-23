@@ -5,7 +5,7 @@ import { useDragScroll } from "@/hooks/use-drag-scroll";
 import { cn } from "@/lib/utils";
 import { defaultSettings, useDayBookStore } from "@/store/day-book-store";
 import { useEffect, useState } from "react";
-import { RestoreDefaultsButton } from "../restore-defaults-button";
+import { RestoreDefaultsButton } from "@/components/restore-defaults-button";
 
 export function DisplaySettingsSection() {
 	const { settings, updateSettings } = useDayBookStore();
@@ -115,6 +115,25 @@ export function DisplaySettingsSection() {
 
 				<p className="text-muted-foreground text-sm">
 					Play confetti and other visual effects. Turn this off if you prefer reduced motion.
+				</p>
+			</div>
+
+			<div className="flex flex-col gap-1.5 rounded-xl border p-3">
+				<div className="flex items-center justify-between">
+					<Label className="text-base" htmlFor="enable-quick-actions">
+						Show Quick Action Toolbar
+					</Label>
+
+					<Switch
+						id="enable-quick-actions"
+						checked={settings.quickActionsEnabled ?? true}
+						onCheckedChange={(checked) => updateSettings({ quickActionsEnabled: checked })}
+					/>
+				</div>
+
+				<p className="text-muted-foreground text-sm">
+					Show a floating toolbar on the dashboard for quick access to avatar and greeting
+					customization.
 				</p>
 			</div>
 		</div>

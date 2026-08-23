@@ -21,6 +21,7 @@ export type SoundName =
 	| "arrival";
 export type GreetingTextColorType = "solid" | "gradient";
 export type OnboardingStatus = "not_started" | "in_progress" | "completed" | "dismissed";
+export type QuickActionsPosition = "top-left" | "top-right" | "bottom-left" | "bottom-right";
 
 export interface AvatarSettings {
 	allowCustomUploads: boolean;
@@ -65,4 +66,7 @@ export interface Settings {
 	greetingTextSettings?: GreetingTextSettings;
 	onboardingStatus?: OnboardingStatus;
 	onboardingStep?: number;
+	quickActionsEnabled?: boolean;
+	quickActionsPosition?: QuickActionsPosition;
+	quickActionsIsOpen?: boolean;
 }

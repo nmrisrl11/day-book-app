@@ -4,6 +4,7 @@ import { DashboardEmptyState } from "./components/dashboard-empty-state";
 import { DashboardRouteFallback } from "./components/dashboard-route-fallback";
 
 import { BirthdaysSection } from "./components/calendar/birthdays-section";
+import { QuickActionToolbar } from "./components/quick-actions/quick-action-toolbar";
 import { HappyBirthdaySection } from "./components/today/happy-birthday-section";
 import { UpcomingBirthdaysSection } from "./components/upcoming/upcoming-birthdays-section";
 
@@ -31,6 +32,7 @@ export function Dashboard() {
 				<UpcomingBirthdaysSection upcomingBirthdays={upcomingBirthdays} currentDate={currentDate} />
 				<BirthdaysSection birthdaysByMonth={birthdaysByMonth} />
 			</Suspense>
+			<QuickActionToolbar />
 		</div>
 	);
 }

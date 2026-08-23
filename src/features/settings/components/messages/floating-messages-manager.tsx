@@ -11,7 +11,7 @@ import {
 	FLOATING_MESSAGE_MAX_LENGTH,
 	FLOATING_MESSAGE_MIN_LENGTH,
 } from "@/schema/validation-constants";
-import { RestoreDefaultsButton } from "../restore-defaults-button";
+import { RestoreDefaultsButton } from "@/components/restore-defaults-button";
 
 const floatingMessagesSchema = z.object({
 	messages: z

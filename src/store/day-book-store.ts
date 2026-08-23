@@ -21,6 +21,9 @@ export const defaultSettings: Settings = {
 	greetingTextSettings: GREETING_TEXT_SETTINGS,
 	onboardingStatus: "not_started",
 	onboardingStep: 0,
+	quickActionsEnabled: true,
+	quickActionsPosition: "bottom-right",
+	quickActionsIsOpen: false,
 };
 
 interface DayBookState {
@@ -86,6 +89,15 @@ export const useDayBookStore = create<DayBookState>()(
 						},
 						onboardingStatus: state?.settings?.onboardingStatus ?? defaultSettings.onboardingStatus,
 						onboardingStep: state?.settings?.onboardingStep ?? defaultSettings.onboardingStep,
+						quickActionsEnabled:
+							state?.settings?.quickActionsEnabled ?? defaultSettings.quickActionsEnabled,
+						quickActionsPosition:
+							state?.settings?.quickActionsPosition &&
+							["top-left", "top-right", "bottom-left", "bottom-right"].includes(
+								state.settings.quickActionsPosition,
+							)
+								? state.settings.quickActionsPosition
+								: defaultSettings.quickActionsPosition,
 					},
 				} as DayBookState;
 			},
