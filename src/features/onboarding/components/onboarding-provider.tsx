@@ -28,7 +28,7 @@ const TOUR_STEPS: Step[] = [
 		placement: "bottom",
 		title: "Personalize & Backup",
 		content:
-			"Change themes, customize your avatars, configure sounds, and manage your data backups here.",
+			"Change themes, customize your avatars, configure sounds, and securely sync your devices here.",
 		skipBeacon: true,
 	},
 	{
@@ -43,7 +43,7 @@ const TOUR_STEPS: Step[] = [
 		target: "body",
 		placement: "center",
 		title: "Privacy First",
-		content: `${APP_INFO.name} is truly private. Your data stays securely on your device unless you choose to export it.`,
+		content: `${APP_INFO.name} is truly private. Your data stays securely on your device unless you choose to export or sync it.`,
 		skipBeacon: true,
 	},
 	{

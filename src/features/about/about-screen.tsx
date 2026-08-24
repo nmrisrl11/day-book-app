@@ -12,9 +12,11 @@ import {
 	CalendarIcon,
 	HeartIcon,
 	LinkIcon,
+	PaletteIcon,
 	ShieldCheckIcon,
 	SmartphoneIcon,
 	ThumbsUpIcon,
+	WifiIcon,
 } from "lucide-react";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
@@ -97,6 +99,16 @@ export function AboutScreen() {
 							description="Ask friends and family for their birthday through a shareable link. Import their response instantly."
 						/>
 						<FeatureCard
+							icon={<WifiIcon className="h-5 w-5" />}
+							title="Device Sync"
+							description="Securely sync your entire database directly between your devices over the local network via WebRTC."
+						/>
+						<FeatureCard
+							icon={<PaletteIcon className="h-5 w-5" />}
+							title="Rich Personalization"
+							description="Make it yours. Choose from custom avatars, light/dark themes, gradient greetings, and satisfying sound effects."
+						/>
+						<FeatureCard
 							icon={<CalendarIcon className="h-5 w-5" />}
 							title="Calendar Support"
 							description="Export birthdays directly to Google Calendar or as an .ics file for Apple Calendar and Outlook."
@@ -121,7 +133,7 @@ export function AboutScreen() {
 						{APP_INFO.name} is designed around <strong>local-first storage</strong>. Your birthday
 						information stays on your device rather than being stored in a central database or
 						requiring an account. We do not sync your data to the cloud. You are in complete control
-						of your data through JSON imports and exports.
+						of your data through JSON imports, exports, and local network device syncing.
 					</p>
 					<p className="text-muted-foreground text-base leading-relaxed">
 						We use Vercel Analytics and Speed Insights for basic usage and performance tracking to

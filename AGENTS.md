@@ -68,13 +68,14 @@ While originally conceived as a "birthday tracker," the product is evolving into
 
 ### System Integrations
 
-1.  **Avatar System**: Supports `avvvatars` and `boring-avatars`, plus local file uploads (Base64). Managed in `src/components/user-avatar.tsx`.
-2.  **Calendar System**: Generates Google Calendar URLs and `.ics` files. See `src/helpers/calendar-export.ts`.
-3.  **Sound System**: Uses `cuelume` for hover/click/success feedback based on customizable settings.
-4.  **Analytics & Performance**: Uses `@vercel/analytics` and `@vercel/speed-insights` for basic usage and performance telemetry. All telemetry is anonymized by Vercel and completely external to the application itself.
-5.  **Birthday Links & Data Ingestion**: Client-side parsing of Base64Url JSON tokens (`helpers/invitation-token.ts`) enables users to request and respond to birthday invites without a backend. Parse functions gracefully tolerate missing optional fields.
-6.  **Dynamic Open Graph (OG) Previews**: Utilizes a Vercel Edge Function (`api/og-rewriter.ts`) alongside `vercel.json` rewrites to intercept `/invite(.*)` and `/response(.*)` to inject tailored preview images for social sharing.
-7.  **Branding & Meta**: All application branding (name, title, description, keywords, theme colors) is centralized in `src/constants/app-info.ts`. This single source of truth is injected dynamically into the Vite PWA manifest, HTML meta tags, and React components.
+1.  **Device Sync (P2P)**: Supports direct database synchronization via WebRTC. Relies on PeerJS Cloud for connection signaling and public TURN servers for traversal. Utilizes a strict `AUTH` packet handshake to authorize connections before data transmission.
+2.  **Avatar System**: Supports `avvvatars` and `boring-avatars`, plus local file uploads (Base64). Managed in `src/components/user-avatar.tsx`.
+3.  **Calendar System**: Generates Google Calendar URLs and `.ics` files. See `src/helpers/calendar-export.ts`.
+4.  **Sound System**: Uses `cuelume` for hover/click/success feedback based on customizable settings.
+5.  **Analytics & Performance**: Uses `@vercel/analytics` and `@vercel/speed-insights` for basic usage and performance telemetry. All telemetry is anonymized by Vercel and completely external to the application itself.
+6.  **Birthday Links & Data Ingestion**: Client-side parsing of Base64Url JSON tokens (`helpers/invitation-token.ts`) enables users to request and respond to birthday invites without a backend. Parse functions gracefully tolerate missing optional fields.
+7.  **Dynamic Open Graph (OG) Previews**: Utilizes a Vercel Edge Function (`api/og-rewriter.ts`) alongside `vercel.json` rewrites to intercept `/invite(.*)` and `/response(.*)` to inject tailored preview images for social sharing.
+8.  **Branding & Meta**: All application branding (name, title, description, keywords, theme colors) is centralized in `src/constants/app-info.ts`. This single source of truth is injected dynamically into the Vite PWA manifest, HTML meta tags, and React components.
 
 ## 4. Agent Workflow Rules
 
