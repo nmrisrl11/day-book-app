@@ -1,3 +1,4 @@
+import { AnimatedLogo } from "@/components/icons/animated-logo";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -42,7 +43,14 @@ export function InvitationScreen() {
 		return (
 			<div className="flex w-full flex-col items-center justify-center pt-24 pb-32">
 				<div className="border-border bg-card/50 flex w-full max-w-md flex-col items-center justify-center gap-4 rounded-xl border border-dashed px-4 py-16 text-center">
-					<div className="mb-2 text-6xl">😕</div>
+					<AnimatedLogo
+						key="warning"
+						autoPlay
+						variant="warning"
+						type="icon"
+						className="mx-auto mb-2"
+						iconClassName="h-24 w-24 drop-shadow-sm"
+					/>
 					<h3 className="mb-2 text-lg font-semibold">Invalid or Expired Link</h3>
 					<p className="text-muted-foreground mb-6">
 						This birthday link isn't valid, has been corrupted, or has expired after 24 hours.
@@ -91,8 +99,15 @@ export function InvitationScreen() {
 	if (responseLink) {
 		return (
 			<div className="mx-auto flex w-full max-w-md flex-col gap-6 pt-10 pb-20">
-				<div className="flex flex-col gap-2 text-center">
-					<div className="mb-4 text-6xl">🎉</div>
+				<div className="flex flex-col items-center gap-2 text-center">
+					<AnimatedLogo
+						key="share"
+						autoPlay
+						variant="share"
+						type="icon"
+						className="mb-4"
+						iconClassName="h-24 w-24 drop-shadow-sm"
+					/>
 					<h2 className="text-2xl font-bold tracking-tight">Your birthday is ready to share!</h2>
 					<p className="text-muted-foreground">
 						Send this link back to <strong>{invitation.n}</strong> so they can remember your special
@@ -143,8 +158,15 @@ export function InvitationScreen() {
 
 	return (
 		<div className="mx-auto flex w-full max-w-md flex-col gap-6 pt-10 pb-20">
-			<div className="flex flex-col gap-2 text-center">
-				<div className="mb-2 text-6xl">👋</div>
+			<div className="flex flex-col items-center gap-2 text-center">
+				<AnimatedLogo
+					key="invite"
+					autoPlay
+					variant="invite"
+					type="icon"
+					className="mb-2"
+					iconClassName="h-24 w-24 drop-shadow-sm"
+				/>
 				<h2 className="text-2xl font-bold tracking-tight">
 					Help {invitation.n} remember your birthday
 				</h2>

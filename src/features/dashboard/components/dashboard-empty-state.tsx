@@ -1,4 +1,4 @@
-import { InteractiveLogo } from "@/components/interactive-logo";
+import { AnimatedLogo } from "@/components/icons/animated-logo";
 import { Button } from "@/components/ui/button";
 import { APP_INFO } from "@/constants/app-info";
 import { parseImportedBirthdays } from "@/helpers/import-export";
@@ -39,7 +39,7 @@ export function DashboardEmptyState({ disabled }: { disabled?: boolean }) {
 			<div className="absolute inset-0 -z-10 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] mask-[radial-gradient(ellipse_60%_60%_at_50%_50%,#000_70%,transparent_100%)] bg-size-[24px_24px]" />
 
 			<div className="animate-float-idle mb-6 flex justify-center drop-shadow-md motion-reduce:animate-none">
-				<InteractiveLogo type="icon" className="h-24 w-24" iconClassName="h-full w-full" />
+				<AnimatedLogo type="icon" className="h-24 w-24" iconClassName="h-full w-full" />
 			</div>
 
 			<h1 className="mb-4 text-center text-4xl font-extrabold tracking-tight md:text-5xl">

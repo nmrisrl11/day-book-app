@@ -1,7 +1,7 @@
-import { InteractiveLogo, type InteractiveLogoRef } from "@/components/interactive-logo";
+import { AnimatedLogo } from "@/components/icons/animated-logo";
 import { APP_INFO } from "@/constants/app-info";
 import { useDayBookStore } from "@/store/day-book-store";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import type { EventData, Step } from "react-joyride";
 import { EVENTS, Joyride, STATUS } from "react-joyride";
 import { OnboardingHint } from "./onboarding-hint";
@@ -56,24 +56,9 @@ const TOUR_STEPS: Step[] = [
 ];
 
 function OnboardingFinalLogo() {
-	const logoRef = useRef<InteractiveLogoRef>(null);
-
-	useEffect(() => {
-		// Trigger animation shortly after mount
-		const timer = setTimeout(() => {
-			logoRef.current?.triggerAnimation();
-		}, 300);
-		return () => clearTimeout(timer);
-	}, []);
-
 	return (
 		<div className="flex flex-col items-center justify-center gap-4 py-4">
-			<InteractiveLogo
-				ref={logoRef}
-				type="icon"
-				className="h-20 w-20"
-				iconClassName="h-full w-full"
-			/>
+			<AnimatedLogo type="icon" autoPlay className="h-20 w-20" iconClassName="h-full w-full" />
 			<p className="text-center font-medium">Enjoy remembering the people you love.</p>
 		</div>
 	);

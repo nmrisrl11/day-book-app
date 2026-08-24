@@ -1,35 +1,85 @@
 import { APP_INFO } from "@/constants/app-info";
 import { cn } from "@/lib/utils";
 import { useDayBookStore } from "@/store/day-book-store";
-import React, { forwardRef, useImperativeHandle, useState } from "react";
-import { Logo } from "./icons/logo";
-import { LogoIcon } from "./icons/logo-icon";
 import { play } from "cuelume";
+import React, { forwardRef, useEffect, useImperativeHandle, useState, useRef } from "react";
+import { Logo } from "./logo";
+import { LogoIcon } from "./logo-icon";
+import { LogoInviteIcon } from "./logo-invite-icon";
+import { LogoResponseIcon } from "./logo-response-icon";
+import { LogoShareIcon } from "./logo-share-icon";
+import { LogoWarningIcon } from "./logo-warning-icon";
 
-export interface InteractiveLogoRef {
+export interface AnimatedLogoRef {
 	triggerAnimation: () => void;
 }
 
-export interface InteractiveLogoProps {
+export type AnimatedLogoVariant = "default" | "invite" | "warning" | "share" | "response";
+
+export interface AnimatedLogoProps {
 	type?: "icon" | "full";
+	variant?: AnimatedLogoVariant;
 	className?: string;
 	iconClassName?: string;
 	asButton?: boolean;
+	autoPlay?: boolean;
 }
 
-export const InteractiveLogo = forwardRef<InteractiveLogoRef, InteractiveLogoProps>(
-	({ type = "icon", className, iconClassName, asButton = true }, ref) => {
+const variantComponents: Record<
+	AnimatedLogoVariant,
+	React.ComponentType<React.SVGProps<SVGSVGElement>>
+> = {
+	default: LogoIcon,
+	invite: LogoInviteIcon,
+	warning: LogoWarningIcon,
+	share: LogoShareIcon,
+	response: LogoResponseIcon,
+};
+
+export const AnimatedLogo = forwardRef<AnimatedLogoRef, AnimatedLogoProps>(
+	(
+		{
+			type = "icon",
+			variant = "default",
+			className,
+			iconClassName,
+			asButton = true,
+			autoPlay = false,
+		},
+		ref,
+	) => {
 		const [isAnimating, setIsAnimating] = useState(false);
 		const { animationsEnabled } = useDayBookStore((state) => state.settings);
-		const LogoComponent = type === "icon" ? LogoIcon : Logo;
+
+		const isAnimatingRef = useRef(isAnimating);
+		useEffect(() => {
+			isAnimatingRef.current = isAnimating;
+		}, [isAnimating]);
+
+		const LogoComponent = type === "full" ? Logo : variantComponents[variant];
+
+		const trigger = () => {
+			if (isAnimating || !animationsEnabled) return;
+			setIsAnimating(true);
+			play("sparkle");
+		};
 
 		useImperativeHandle(ref, () => ({
-			triggerAnimation: () => {
-				if (isAnimating || !animationsEnabled) return;
-				setIsAnimating(true);
-				play("sparkle");
-			},
+			triggerAnimation: trigger,
 		}));
+
+		useEffect(() => {
+			if (autoPlay) {
+				const timer = setTimeout(() => {
+					const currentAnimationsEnabled = useDayBookStore.getState().settings.animationsEnabled;
+					if (isAnimatingRef.current || !currentAnimationsEnabled) return;
+					setIsAnimating(true);
+					play("sparkle");
+				}, 500);
+				return () => clearTimeout(timer);
+			}
+			// eslint-disable-next-line react-hooks/exhaustive-deps
+		}, [autoPlay]);
 
 		const handleClick = () => {
 			if (isAnimating || !animationsEnabled) return;
@@ -42,7 +92,7 @@ export const InteractiveLogo = forwardRef<InteractiveLogoRef, InteractiveLogoPro
 			<Wrapper
 				type={asButton ? "button" : undefined}
 				className={cn(
-					"group focus-visible:ring-ring relative inline-flex cursor-pointer items-center justify-center rounded-3xl transition-transform outline-none focus-visible:ring-2",
+					"group focus-visible:ring-ring relative inline-flex cursor-pointer items-center justify-center rounded-3xl transition-transform outline-none select-none [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none] focus-visible:ring-2",
 					className,
 				)}
 				onClick={handleClick}
@@ -95,3 +145,5 @@ export const InteractiveLogo = forwardRef<InteractiveLogoRef, InteractiveLogoPro
 		);
 	},
 );
+
+AnimatedLogo.displayName = "AnimatedLogo";

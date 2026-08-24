@@ -33,7 +33,7 @@ DayBook is a fully functional, local-first React application. While originally s
 - **CRUD & Bulk**: Create, Read, Update, Delete functionality for birthdays. Users can also select multiple people in the Management screen to assign relationships in bulk. The Management list uses virtualization (`@tanstack/react-virtual`) to effortlessly handle thousands of records without freezing.
 - **Persistence**: Handled client-side via IndexedDB (Dexie.js) for birthday records, enabling superior performance and massive storage limits. Application settings remain securely in `localStorage` via Zustand `persist`. A one-time backward-compatible data migration automatically upgrades users to IndexedDB.
 - **Validation**: Strict validation centralized in `validation-constants.ts` enforced via Zod schemas (`birthday-schema.ts`, `settings-schema.ts`) and native HTML `maxLength`/`minLength` attributes.
-- **Invitations / Links**: Fully local-first link sharing system. Users can generate an Invitation link (24h expiration, Base64Url token) to send to friends. Friends fill it out on the `/invite` route and generate a Response link (`/response`), allowing easy data ingestion without a backend. Receivers of the link can select a relationship upon importing.
+- **Invitations / Links**: Fully local-first link sharing system. Users can generate an Invitation link (24h expiration, Base64Url token) to send to friends. Friends fill it out on the `/invite` route and generate a Response link (`/invite/response`), allowing easy data ingestion without a backend. Receivers of the link can select a relationship upon importing. The sharing flow features delightful animated SVG icons representing the current state (Invite, Share, Response, Warning).
 
 ### Dashboard & Views (Fully Implemented)
 
@@ -41,7 +41,7 @@ DayBook is a fully functional, local-first React application. While originally s
 - **Upcoming Birthdays**: Scrollable list of the next N birthdays (N is configurable in Settings), complete with "days until" indicators.
 - **Birthdays by Month**: 12-month grid indicating which months have birthdays. Clickable month modals showing grouped celebrants.
 - **Quick Action Toolbar**: A draggable, edge-dockable floating toolbar on the dashboard providing instant access to Avatar and Main Greeting customizations.
-- **Empty States**: Beautiful empty states when no birthdays exist, featuring an animated interactive brand logo.
+- **Empty States**: Beautiful empty states when no birthdays exist, featuring an animated interactive brand logo (`AnimatedLogo`).
 - **Interactive Onboarding**: A route-aware, first-time user tutorial powered by `react-joyride` that gently introduces the app's core value proposition. It utilizes a low-friction approach (floating toast hint) rather than a forced auto-start, and safely persists state to `localStorage`. It also features contextual, on-demand educational tours for complex areas like Data Management.
 - **About Page (Product Overview)**: A dedicated `/about` page detailing the app's features, privacy-first principles, open-source architecture, and a user-friendly changelog. Features a dynamic "Line Nav" table of contents that tracks scroll position on desktop and slides in as a mobile drawer via Framer Motion, with smooth scrolling behavior globally enabled.
 
@@ -76,6 +76,7 @@ day-book-app/
 ├── public/          # Static assets, webmanifest
 ├── src/
 │   ├── components/  # Global components (Layout, UI primitives)
+│   │   ├── icons/   # AnimatedLogo and individual SVG React components
 │   ├── constants/   # Default configs, settings boundaries
 │   ├── features/    # Domain modules (dashboard, management, settings)
 │   │   ├── dashboard/
