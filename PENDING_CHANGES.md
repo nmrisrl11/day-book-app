@@ -14,6 +14,7 @@
 - Redesigned the `/invite` and `/response` states to dynamically feature the new animated SVG icons instead of static text emojis, improving branding and engagement.
 - Automated jelly and sparkle animation triggers for important interaction milestones (opening invite links, receiving a birthday, generating a share link).
 - Improved overall app accessibility by adding comprehensive ARIA labels, semantic `alt` attributes, and `title` tags to interactive elements and links across all screens.
+- Standardized `public/llms.txt` format to comply with `llmstxt.org` specifications and Lighthouse agentic browsing guidelines, adding structural Markdown links and summaries.
 
 ## Fixed
 
