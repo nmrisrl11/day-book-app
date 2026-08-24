@@ -16,6 +16,45 @@ export interface ChangelogRelease {
 
 export const changelog: ChangelogRelease[] = [
 	{
+		version: "1.1.0",
+		date: "2026-08-24",
+		title: "Device Sync & Quick Actions",
+		summary:
+			"Instantly and securely sync your entire database directly between your devices over the local network, and customize your dashboard with the new Quick Action Toolbar.",
+		changes: [
+			{
+				type: "added",
+				title: "Device Sync",
+				description:
+					"Securely sync your entire DayBook database directly between your devices over your local network using a 6-character connection code. No cloud storage or complicated file transfers required.",
+			},
+			{
+				type: "added",
+				title: "Quick Action Toolbar",
+				description:
+					"Instantly customize how your avatars and greetings look with the new draggable, edge-dockable Quick Action Toolbar right on your dashboard.",
+			},
+			{
+				type: "added",
+				title: "Animated Invite Icons",
+				description:
+					"Added beautiful, custom animated icons for the invitation feature to make requesting and receiving birthdays even more delightful.",
+			},
+			{
+				type: "improved",
+				title: "Data Management Redesign",
+				description:
+					"Completely redesigned the Data Management settings with a cleaner, card-based layout to make managing your backups and syncs easier than ever.",
+			},
+			{
+				type: "fixed",
+				title: "Under the Hood",
+				description:
+					"Fixed timezone bugs affecting birthday selection, added strict calendar validation, improved overall app accessibility, and enhanced the security and transparency of our new sync feature.",
+			},
+		],
+	},
+	{
 		version: "1.0.0",
 		date: "2026-08-23",
 		title: "Interactive Tours & App Installation",
