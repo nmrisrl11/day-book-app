@@ -14,4 +14,6 @@
 
 ## Changed
 
+- Documented native telemetry support for `@vercel/analytics` and `@vercel/speed-insights` across architecture docs.
+
 ## Removed
