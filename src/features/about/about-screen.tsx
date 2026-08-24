@@ -14,6 +14,7 @@ import {
 	LinkIcon,
 	ShieldCheckIcon,
 	SmartphoneIcon,
+	ThumbsUpIcon,
 } from "lucide-react";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
@@ -27,6 +28,7 @@ export function AboutScreen() {
 		{ id: "overview", label: "Overview" },
 		{ id: "features", label: "Features" },
 		{ id: "open-source", label: "Open Source" },
+		{ id: "community", label: "Community" },
 		{
 			id: "whats-new",
 			label: "What's New",
@@ -41,6 +43,7 @@ export function AboutScreen() {
 		"overview",
 		"features",
 		"open-source",
+		"community",
 		"whats-new",
 		...visibleReleases.map((r) => `changelog-${r.version}`),
 	];
@@ -152,6 +155,33 @@ export function AboutScreen() {
 						>
 							<GithubIcon aria-hidden="true" className="mr-2 h-4 w-4" />
 							View Repository on GitHub
+						</a>
+					</Button>
+				</section>
+
+				{/* Community Section */}
+				<section
+					id="community"
+					className="bg-card border-border flex scroll-mt-24 flex-col gap-4 rounded-3xl border p-6 sm:p-8"
+				>
+					<div className="flex items-center gap-3">
+						<div className="bg-primary/10 text-primary flex h-10 w-10 shrink-0 items-center justify-center rounded-full">
+							<ThumbsUpIcon className="h-5 w-5" />
+						</div>
+						<h2 className="text-foreground text-2xl font-semibold">Support the Project</h2>
+					</div>
+					<p className="text-muted-foreground text-base leading-relaxed">
+						Love using {APP_INFO.name}? Help us grow by showing your support on App Builders PH!
+						Your upvotes and feedback help us reach more people and continue improving the app.
+					</p>
+					<Button variant="outline" className="mt-2 w-fit" asChild>
+						<a
+							href="https://appbuildersph.com/apps/daybook"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							<ThumbsUpIcon aria-hidden="true" className="mr-2 h-4 w-4" />
+							Upvote on App Builders PH
 						</a>
 					</Button>
 				</section>
