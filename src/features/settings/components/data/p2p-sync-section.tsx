@@ -10,6 +10,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { parseImportedBirthdays, parseImportedSettings } from "@/helpers/import-export";
 import { useP2PSync } from "@/hooks/use-p2p-sync";
+import { BirthdayRepository } from "@/lib/birthday-repository";
 import { db } from "@/lib/db";
 import { useDayBookStore } from "@/store/day-book-store";
 import { gooeyToast } from "goey-toast";
@@ -30,7 +31,7 @@ export function P2PSyncSection() {
 		startHosting(
 			async (send) => {
 				try {
-					const birthdays = await db.birthdays.toArray();
+					const birthdays = await BirthdayRepository.getAll();
 					const settings = useDayBookStore.getState().settings;
 					const payload = { birthdays, settings };
 					const blob = new Blob([JSON.stringify(payload)], { type: "application/json" });
@@ -121,6 +122,7 @@ export function P2PSyncSection() {
 					showTimestamp: false,
 					classNames: { content: "items-center text-center", title: "text-center w-full" },
 				});
+				cancelSync();
 			}
 		});
 	};
@@ -154,8 +156,9 @@ export function P2PSyncSection() {
 						ariaLabel="More information about P2P Sync"
 						content={
 							<span>
-								Securely transfer your entire database (birthdays, avatars, settings) directly
-								between devices over the network using WebRTC. Data never touches our servers.
+								Securely transfer your entire database directly between devices using WebRTC. (Note:
+								This relies on the third-party PeerJS Cloud for connection signaling and may use
+								public TURN servers for network traversal).
 							</span>
 						}
 					/>

@@ -2,7 +2,7 @@
 
 ## Added
 
-- Peer-to-Peer Device Sync (WebRTC): Users can now securely sync their entire DayBook database directly between devices over the local network using a 6-digit connection code, eliminating the need for JSON file transfers or a backend server.
+- Peer-to-Peer Device Sync (WebRTC): Users can now securely sync their entire DayBook database directly between devices over the local network using a 6-character connection code, eliminating the need for JSON file transfers or a backend server.
 - Quick Action Toolbar on the dashboard for instant Avatar and Greeting customizations (draggable, edge-dockable, and state-persistent).
 - Added a "Support the Project" section on the About page to promote upvoting DayBook on App Builders PH.
 - New responsive custom SVG icon variants (Invite, Share, Response, Warning) designed specifically for the invitation feature, fully animated.
@@ -21,6 +21,9 @@
 ## Fixed
 
 - Fixed a timezone bug that prevented users from selecting the current day as a birthday, and ensured that imported data strictly blocks future dates.
+- Enforced strict calendar rollover validation to block native JS impossible dates (like Feb 30th) across all schemas and imports.
+- Fixed a security gap in P2P Sync by adding an explicit AUTH handshake before database transmission begins, preventing untrusted peers from querying the Host unexpectedly.
+- Added accurate transparency disclosures around P2P sync relying on PeerJS Cloud signaling and default TURN servers, updating documentation to correct previous "data never touches external servers" claims.
 - Fixed a visual bug in the Quick Action Toolbar where docking to a new corner would trigger the incorrect exit animation direction.
 - Fixed a mobile browser bug where long-pressing the interactive brand logos would unintentionally trigger the native image context menu or highlight surrounding text.
 

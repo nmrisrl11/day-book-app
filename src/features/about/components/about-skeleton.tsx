@@ -21,7 +21,7 @@ export function AboutSkeleton() {
 				<section className="flex flex-col gap-6">
 					<Skeleton className="h-8 w-48 rounded-md" />
 					<div className="grid gap-4 sm:grid-cols-2">
-						{Array.from({ length: 4 }).map((_, i) => (
+						{Array.from({ length: 6 }).map((_, i) => (
 							<div
 								key={i}
 								className="bg-card border-border flex flex-col gap-3 rounded-2xl border p-5"

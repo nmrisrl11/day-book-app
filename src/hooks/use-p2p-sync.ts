@@ -44,6 +44,9 @@ export function useP2PSync() {
 			const fullId = `DAYBOOK-${code}`;
 
 			try {
+				// Initialize Peer using PeerJS Cloud for signaling and default TURN for traversal.
+				// If third-party infrastructure must be avoided, pass a config object here with:
+				// { host: 'your-server', port: 9000, path: '/myapp', config: { iceServers: [...] } }
 				const peer = new Peer(fullId);
 				peerRef.current = peer;
 
@@ -60,14 +63,29 @@ export function useP2PSync() {
 					connRef.current = conn;
 					updateSyncState("connecting");
 
+					let isAuthorized = false;
+
 					conn.on("open", () => {
-						updateSyncState("transferring");
-						onReadyToSend((data: Blob) => {
-							conn.send(data);
-						});
+						// Wait for AUTH packet from receiver before sending data
 					});
 
 					conn.on("data", (data) => {
+						// Authorization step
+						if (!isAuthorized) {
+							if (
+								typeof data === "object" &&
+								data !== null &&
+								(data as Record<string, unknown>).type === "AUTH"
+							) {
+								isAuthorized = true;
+								updateSyncState("transferring");
+								onReadyToSend((payload: Blob) => {
+									conn.send(payload);
+								});
+							}
+							return;
+						}
+
 						// Expecting acknowledgment from receiver
 						let isAck = false;
 						if (
@@ -96,13 +114,7 @@ export function useP2PSync() {
 					});
 
 					conn.on("close", () => {
-						if (
-							peerRef.current &&
-							peerRef.current.id === fullId &&
-							syncStateRef.current !== "success"
-						) {
-							updateSyncState("idle");
-						}
+						cleanup();
 					});
 
 					conn.on("error", (err) => {
@@ -152,6 +164,9 @@ export function useP2PSync() {
 			updateSyncState("connecting");
 
 			try {
+				// Initialize Peer using PeerJS Cloud for signaling and default TURN for traversal.
+				// If third-party infrastructure must be avoided, pass a config object here with:
+				// { host: 'your-server', port: 9000, path: '/myapp', config: { iceServers: [...] } }
 				const peer = new Peer(); // Auto generated ID
 				peerRef.current = peer;
 
@@ -161,6 +176,7 @@ export function useP2PSync() {
 					connRef.current = conn;
 
 					conn.on("open", () => {
+						conn.send({ type: "AUTH" });
 						updateSyncState("transferring");
 					});
 
@@ -191,7 +207,7 @@ export function useP2PSync() {
 					});
 
 					conn.on("close", () => {
-						// Connection closed
+						cleanup();
 					});
 
 					conn.on("error", (err) => {
