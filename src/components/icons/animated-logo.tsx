@@ -2,7 +2,7 @@ import { APP_INFO } from "@/constants/app-info";
 import { cn } from "@/lib/utils";
 import { useDayBookStore } from "@/store/day-book-store";
 import { play } from "cuelume";
-import React, { forwardRef, useEffect, useImperativeHandle, useState } from "react";
+import React, { forwardRef, useEffect, useImperativeHandle, useState, useRef } from "react";
 import { Logo } from "./logo";
 import { LogoIcon } from "./logo-icon";
 import { LogoInviteIcon } from "./logo-invite-icon";
@@ -51,6 +51,11 @@ export const AnimatedLogo = forwardRef<AnimatedLogoRef, AnimatedLogoProps>(
 		const [isAnimating, setIsAnimating] = useState(false);
 		const { animationsEnabled } = useDayBookStore((state) => state.settings);
 
+		const isAnimatingRef = useRef(isAnimating);
+		useEffect(() => {
+			isAnimatingRef.current = isAnimating;
+		}, [isAnimating]);
+
 		const LogoComponent = type === "full" ? Logo : variantComponents[variant];
 
 		const trigger = () => {
@@ -65,7 +70,12 @@ export const AnimatedLogo = forwardRef<AnimatedLogoRef, AnimatedLogoProps>(
 
 		useEffect(() => {
 			if (autoPlay) {
-				const timer = setTimeout(trigger, 500);
+				const timer = setTimeout(() => {
+					const currentAnimationsEnabled = useDayBookStore.getState().settings.animationsEnabled;
+					if (isAnimatingRef.current || !currentAnimationsEnabled) return;
+					setIsAnimating(true);
+					play("sparkle");
+				}, 500);
 				return () => clearTimeout(timer);
 			}
 			// eslint-disable-next-line react-hooks/exhaustive-deps
