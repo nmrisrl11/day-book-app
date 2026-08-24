@@ -40,6 +40,14 @@ export function parseImportedBirthdays(fileText: string): Birthday[] {
 				if (isNaN(dateObj.getTime()) || dateObj.toISOString().split("T")[0] !== item.birthday) {
 					return false;
 				}
+
+				const [year, month, day] = item.birthday.split("-").map(Number);
+				const localDate = new Date(year, month - 1, day);
+				const today = new Date();
+				today.setHours(0, 0, 0, 0);
+				if (localDate > today) {
+					return false;
+				}
 				if (typeof item.avatar === "string" && item.avatar !== "") {
 					if (
 						!item.avatar.startsWith("data:image/jpeg;base64,") &&

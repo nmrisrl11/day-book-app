@@ -100,9 +100,12 @@ export function BirthdaysDataManagement() {
 		<>
 			<div className="flex flex-col gap-6">
 				{/* JSON DATA */}
-				<div className="flex flex-col gap-3">
+				<div className="bg-card flex flex-col gap-4 rounded-xl border p-4 shadow-sm">
 					<div className="flex items-center justify-between">
-						<h3 className="text-base font-medium">Birthdays Data (JSON)</h3>
+						<div>
+							<h3 className="text-base font-semibold">Birthdays Data (JSON)</h3>
+							<p className="text-muted-foreground text-sm">Backup or restore your raw data</p>
+						</div>
 						<InfoTooltip
 							ariaLabel="More information about JSON format"
 							content={
@@ -118,11 +121,11 @@ export function BirthdaysDataManagement() {
 						<Button
 							variant="outline"
 							onClick={handleExportBirthdays}
-							className="hover:border-primary/50 flex h-24 flex-col items-center justify-center gap-2 rounded-xl border-dashed"
+							className="h-12 w-full gap-2 rounded-lg"
 							disabled={birthdays.length === 0}
 							aria-label="Export birthdays as JSON"
 						>
-							<DownloadIcon className="text-muted-foreground h-6 w-6" />
+							<DownloadIcon className="h-4 w-4" />
 							<span>Export JSON</span>
 						</Button>
 
@@ -130,10 +133,10 @@ export function BirthdaysDataManagement() {
 							<Button
 								variant="outline"
 								onClick={handleImportBirthdaysClick}
-								className="hover:border-primary/50 flex h-24 flex-col items-center justify-center gap-2 rounded-xl border-dashed"
+								className="h-12 w-full gap-2 rounded-lg"
 								aria-label="Import birthdays from JSON"
 							>
-								<UploadIcon className="text-muted-foreground h-6 w-6" />
+								<UploadIcon className="h-4 w-4" />
 								<span>Import JSON</span>
 							</Button>
 							{importBirthdaysError && (
@@ -155,9 +158,12 @@ export function BirthdaysDataManagement() {
 				</div>
 
 				{/* CALENDAR DATA */}
-				<div className="flex flex-col gap-3">
+				<div className="bg-card flex flex-col gap-4 rounded-xl border p-4 shadow-sm">
 					<div className="flex items-center justify-between">
-						<h3 className="text-base font-medium">Calendar Integration</h3>
+						<div>
+							<h3 className="text-base font-semibold">Calendar Integration</h3>
+							<p className="text-muted-foreground text-sm">Sync with your favorite calendar apps</p>
+						</div>
 						<InfoTooltip
 							ariaLabel="More information about Calendar Integration"
 							content={
@@ -173,11 +179,11 @@ export function BirthdaysDataManagement() {
 						<Button
 							variant="outline"
 							onClick={handleExportCalendarClick}
-							className="hover:border-primary/50 flex h-24 flex-col items-center justify-center gap-2 rounded-xl border-dashed"
+							className="h-12 w-full gap-2 rounded-lg"
 							aria-label="Export birthdays to Calendar"
 							disabled={birthdays.length === 0}
 						>
-							<CalendarIcon className="text-muted-foreground h-6 w-6" />
+							<CalendarIcon className="h-4 w-4" />
 							<span className="text-center">Export to Calendar</span>
 						</Button>
 
@@ -185,10 +191,10 @@ export function BirthdaysDataManagement() {
 							<Button
 								variant="outline"
 								onClick={handleImportIcsClick}
-								className="hover:border-primary/50 flex h-24 flex-col items-center justify-center gap-2 rounded-xl border-dashed"
+								className="h-12 w-full gap-2 rounded-lg"
 								aria-label="Import birthdays from Calendar"
 							>
-								<UploadIcon className="text-muted-foreground h-6 w-6" />
+								<UploadIcon className="h-4 w-4" />
 								<span className="text-center">Import from (.ics)</span>
 							</Button>
 							{importIcsError && (

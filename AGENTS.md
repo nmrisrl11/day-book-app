@@ -53,6 +53,13 @@ While originally conceived as a "birthday tracker," the product is evolving into
 - **Rule**: Components querying birthday data must use `useLiveQuery` coupled with `BirthdayRepository`. Direct database access should be avoided.
 - **Rule**: The `Birthday` type and `Settings` type are the fundamental data structures. See `src/types/`.
 
+### Date and Timezone Handling (Floating Dates)
+
+- **Rule**: Birthdays are treated as "floating dates" (timezone-less). A birthday on August 24 is always August 24 regardless of the user's location.
+- **Rule**: Birthdays MUST be stored strictly as `"YYYY-MM-DD"` strings alongside numerical `month` and `day` fields. **NEVER** use UTC Unix timestamps or timezone libraries (`date-fns-tz`, `moment.js`) for birthdays.
+- **Rule**: The app inherently respects the user's timezone by generating "today" via the local system clock (`new Date()`). By directly comparing the local system month/day with the stored `month` and `day`, the app correctly triggers celebrations at exactly local midnight without requiring explicit timezone math.
+- **Rule**: When parsing `"YYYY-MM-DD"` strings into Date objects (e.g. for validation), manually extract the `year`, `month`, and `day` to construct a local Date object (`new Date(year, month - 1, day)`). Passing the string directly to `new Date()` defaults to UTC and causes timezone boundary bugs.
+
 ### The Presentation Layer
 
 - **Derived Data**: The Dashboard derives `todayCelebrants`, `upcomingBirthdays`, and `birthdaysByMonth` dynamically from the store via `useBirthdayData`. Do not duplicate this logic.

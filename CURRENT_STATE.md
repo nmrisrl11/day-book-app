@@ -23,6 +23,7 @@ DayBook is a fully functional, local-first React application. While originally s
 - **Virtualization:** `@tanstack/react-virtual`
 - **URL State:** `nuqs`
 - **Database (App):** IndexedDB (Dexie.js)
+- **P2P Sync:** PeerJS (WebRTC)
 - **Testing:** Vitest
 
 ## 3. Implemented Features Inventory
@@ -54,7 +55,7 @@ Settings has grown into a full `/settings` route with 6 tabs managed by `nuqs` U
 3.  **Avatar**: Choose between `boring-avatars` (default) and `avvvatars`, and enable/disable custom image uploads.
 4.  **Messages & Greetings**: Manage the floating text items and the randomized greeting pool.
 5.  **Sound & Feedback**: Configure `cuelume` hover/click/success/error sound mappings and volume. UI feedback notifications use `goey-toast` for playful, premium animations.
-6.  **Data Management**: Features a Storage Overview section to monitor browser data usage and enable Persistent Storage protection. Unified virtualized Import Preview Dialog for both JSON and ICS files (handles duplicate reviewing and selective importing smoothly for 1,000+ items). Export Birthdays, Import/Export Settings separately, and Danger Zone (Delete All with export-first safety).
+6.  **Data Management**: Features a Storage Overview section to monitor browser data usage and enable Persistent Storage protection. **Device Sync (P2P)** enables direct, secure local network synchronization of the entire database via WebRTC without touching external servers. Unified virtualized Import Preview Dialog for both JSON and ICS files (handles duplicate reviewing and selective importing smoothly for 1,000+ items). Export Birthdays, Import/Export Settings separately, and Danger Zone (Delete All with export-first safety).
 
 ### System Integrations
 

@@ -38,9 +38,12 @@ export function SettingsDataManagement() {
 	};
 
 	return (
-		<div className="flex flex-col gap-3">
+		<div className="bg-card flex flex-col gap-4 rounded-xl border p-4 shadow-sm">
 			<div className="flex items-center justify-between">
-				<h3 className="text-base font-medium">Settings Data</h3>
+				<div>
+					<h3 className="text-base font-semibold">Settings Data</h3>
+					<p className="text-muted-foreground text-sm">Backup or restore your app configurations</p>
+				</div>
 				<InfoTooltip
 					ariaLabel="More information about Settings Data"
 					content={
@@ -56,10 +59,10 @@ export function SettingsDataManagement() {
 				<Button
 					variant="outline"
 					onClick={handleExportSettings}
-					className="hover:border-primary/50 flex h-24 flex-col items-center justify-center gap-2 rounded-xl border-dashed"
+					className="h-12 w-full gap-2 rounded-lg"
 					aria-label="Export settings"
 				>
-					<DownloadIcon className="text-muted-foreground h-6 w-6" />
+					<DownloadIcon className="h-4 w-4" />
 					<span>Export JSON</span>
 				</Button>
 
@@ -67,10 +70,10 @@ export function SettingsDataManagement() {
 					<Button
 						variant="outline"
 						onClick={handleImportSettingsClick}
-						className="hover:border-primary/50 flex h-24 flex-col items-center justify-center gap-2 rounded-xl border-dashed"
+						className="h-12 w-full gap-2 rounded-lg"
 						aria-label="Import settings"
 					>
-						<UploadIcon className="text-muted-foreground h-6 w-6" />
+						<UploadIcon className="h-4 w-4" />
 						<span>Import JSON</span>
 					</Button>
 					{importSettingsError && (
