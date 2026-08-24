@@ -81,7 +81,7 @@ export function CelebrantModal({ celebrant, isOpen, onClose, currentDate }: Cele
 									{age !== null && (
 										<Badge variant="destructive" className="p-3 text-sm font-bold">
 											<GiftIcon data-icon="inline-start" />
-											Turning {age}
+											Now {age} years old
 										</Badge>
 									)}
 								</div>

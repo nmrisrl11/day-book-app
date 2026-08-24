@@ -38,20 +38,13 @@ export function UpcomingBirthdayCard({ celebrant, currentDate }: UpcomingBirthda
 				<div className="mt-1 flex flex-wrap justify-center gap-1">
 					{daysUntil === 0 ? (
 						<Badge variant="default" className="px-2 py-0.5 font-semibold">
-							Today
-						</Badge>
-					) : daysUntil === 1 ? (
-						<Badge variant="secondary" className="px-2 py-0.5 font-semibold">
-							Tomorrow
+							Today{age !== null ? `, now ${age}` : ""}
 						</Badge>
 					) : (
 						<Badge variant="secondary" className="px-2 py-0.5 font-semibold">
-							In {daysUntil} days
-						</Badge>
-					)}
-					{age !== null && (
-						<Badge variant="secondary" className="px-2 py-0.5 font-semibold">
-							{age} years old
+							{age !== null
+								? `Turning ${age + 1} ${daysUntil === 1 ? "tomorrow" : `in ${daysUntil} days`}`
+								: `${daysUntil === 1 ? "Tomorrow" : `In ${daysUntil} days`}`}
 						</Badge>
 					)}
 				</div>

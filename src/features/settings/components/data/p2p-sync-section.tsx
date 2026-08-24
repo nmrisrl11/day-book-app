@@ -139,7 +139,7 @@ export function P2PSyncSection() {
 
 	return (
 		<>
-			<div className="bg-card flex flex-col gap-4 rounded-xl border p-4 shadow-sm">
+			<div className="bg-card flex flex-col gap-4 rounded-xl border p-4">
 				<div className="flex items-center justify-between">
 					<div>
 						<div className="flex items-center gap-2">
