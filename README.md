@@ -55,6 +55,7 @@ To improve the application, we use Vercel Analytics and Speed Insights for basic
 - 🚀 **Performance**: `@tanstack/react-virtual`
 - ✅ **Validation**: Zod + React Hook Form
 - 🧪 **Testing**: Vitest
+- 📊 **Analytics**: `@vercel/analytics`, `@vercel/speed-insights`
 - 🔗 **URL State**: `nuqs`
 
 ## AI Agent Documentation

@@ -1,10 +1,9 @@
 import { AnimatedLogo } from "@/components/icons/animated-logo";
 import { Button } from "@/components/ui/button";
 import { APP_INFO } from "@/constants/app-info";
-import { parseImportedBirthdays } from "@/helpers/import-export";
-import { BirthdayRepository } from "@/lib/birthday-repository";
 import { PlusIcon, UploadIcon } from "lucide-react";
 import { lazy, Suspense, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const BirthdayFormModal = lazy(() =>
 	import("@/features/management/components/birthday-form-modal").then((m) => ({
@@ -14,23 +13,10 @@ const BirthdayFormModal = lazy(() =>
 
 export function DashboardEmptyState({ disabled }: { disabled?: boolean }) {
 	const [formModalOpen, setFormModalOpen] = useState(false);
+	const navigate = useNavigate();
 
 	const handleImportClick = () => {
-		const input = document.createElement("input");
-		input.type = "file";
-		input.accept = ".json,application/json";
-		input.onchange = async (e) => {
-			const file = (e.target as HTMLInputElement).files?.[0];
-			if (!file) return;
-			try {
-				const text = await file.text();
-				const importedBirthdays = parseImportedBirthdays(text);
-				await BirthdayRepository.bulkSave(importedBirthdays);
-			} catch (err) {
-				alert(err instanceof Error ? err.message : "Failed to import data.");
-			}
-		};
-		input.click();
+		navigate("/settings?tab=data");
 	};
 
 	return (
@@ -59,7 +45,7 @@ export function DashboardEmptyState({ disabled }: { disabled?: boolean }) {
 					disabled={disabled}
 				>
 					<PlusIcon className="mr-2 h-5 w-5" />
-					Add Your First Birthday
+					Add a Person
 				</Button>
 
 				<Button
@@ -70,7 +56,7 @@ export function DashboardEmptyState({ disabled }: { disabled?: boolean }) {
 					disabled={disabled}
 				>
 					<UploadIcon className="mr-2 h-5 w-5" />
-					Import Data
+					Import or Sync
 				</Button>
 			</div>
 
