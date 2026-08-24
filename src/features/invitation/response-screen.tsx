@@ -1,11 +1,5 @@
+import { AnimatedLogo } from "@/components/icons/animated-logo";
 import { Button } from "@/components/ui/button";
-import { parseResponseToken } from "@/helpers/invitation-token";
-import { APP_INFO } from "@/constants/app-info";
-import { BirthdayRepository } from "@/lib/birthday-repository";
-import { db } from "@/lib/db";
-import { useLiveQuery } from "dexie-react-hooks";
-import { AlertTriangleIcon, CalendarIcon, HomeIcon, UserIcon } from "lucide-react";
-import { useQueryState } from "nuqs";
 import { Label } from "@/components/ui/label";
 import {
 	Select,
@@ -14,7 +8,14 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
+import { APP_INFO } from "@/constants/app-info";
+import { parseResponseToken } from "@/helpers/invitation-token";
+import { BirthdayRepository } from "@/lib/birthday-repository";
+import { db } from "@/lib/db";
 import { RELATIONSHIP_OPTIONS, type Relationship } from "@/types/birthday";
+import { useLiveQuery } from "dexie-react-hooks";
+import { AlertTriangleIcon, CalendarIcon, HomeIcon, UserIcon } from "lucide-react";
+import { useQueryState } from "nuqs";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -32,7 +33,14 @@ export function ResponseScreen() {
 		return (
 			<div className="flex w-full flex-col items-center justify-center pt-24 pb-32">
 				<div className="border-border bg-card/50 flex w-full max-w-md flex-col items-center justify-center gap-4 rounded-xl border border-dashed px-4 py-16 text-center">
-					<div className="mb-2 text-6xl">😕</div>
+					<AnimatedLogo
+						key="warning"
+						autoPlay
+						variant="warning"
+						type="icon"
+						className="mx-auto mb-2"
+						iconClassName="h-24 w-24 drop-shadow-sm"
+					/>
 					<h3 className="mb-2 text-lg font-semibold">Invalid or Expired Response</h3>
 					<p className="text-muted-foreground mb-6">
 						We couldn't read the birthday information from this link. It might be corrupted or has
@@ -73,7 +81,14 @@ export function ResponseScreen() {
 		return (
 			<div className="flex w-full flex-col items-center justify-center pt-24 pb-32">
 				<div className="border-border bg-card/50 flex w-full max-w-md flex-col items-center justify-center gap-4 rounded-xl border border-dashed px-4 py-16 text-center">
-					<div className="mb-2 text-6xl">🎉</div>
+					<AnimatedLogo
+						key="share"
+						autoPlay
+						variant="share"
+						type="icon"
+						className="mx-auto mb-2"
+						iconClassName="h-24 w-24 drop-shadow-sm"
+					/>
 					<h3 className="mb-2 text-lg font-semibold">Birthday Added!</h3>
 					<p className="text-muted-foreground mb-6">
 						<strong>{response.n}</strong> has been added to your {APP_INFO.name}.
@@ -102,8 +117,15 @@ export function ResponseScreen() {
 
 	return (
 		<div className="mx-auto flex w-full max-w-md flex-col gap-6 pt-10 pb-20">
-			<div className="flex flex-col gap-2 text-center">
-				<div className="mb-2 text-6xl">🎁</div>
+			<div className="flex flex-col items-center gap-2 text-center">
+				<AnimatedLogo
+					key="response"
+					autoPlay
+					variant="response"
+					type="icon"
+					className="mb-2"
+					iconClassName="h-24 w-24 drop-shadow-sm"
+				/>
 				<h2 className="text-2xl font-bold tracking-tight">Birthday received!</h2>
 				<p className="text-muted-foreground">
 					<strong>{response.n}</strong> shared their birthday with you.

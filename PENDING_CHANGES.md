@@ -4,19 +4,27 @@
 
 - Quick Action Toolbar on the dashboard for instant Avatar and Greeting customizations (draggable, edge-dockable, and state-persistent).
 - Added a "Support the Project" section on the About page to promote upvoting DayBook on App Builders PH.
+- New responsive custom SVG icon variants (Invite, Share, Response, Warning) designed specifically for the invitation feature, fully animated.
 
 ## Improved
 
 - Improved TypeScript safety by eliminating `any` types in global PWA event listeners and ICS parsing logic.
 - Added sound feedback to programmatic logo animations, specifically enhancing the completion of the onboarding tour.
 - Improved accessibility of the Quick Action Toolbar's minimized tab by utilizing semantic button elements.
+- Redesigned the `/invite` and `/response` states to dynamically feature the new animated SVG icons instead of static text emojis, improving branding and engagement.
+- Automated jelly and sparkle animation triggers for important interaction milestones (opening invite links, receiving a birthday, generating a share link).
+- Improved overall app accessibility by adding comprehensive ARIA labels, semantic `alt` attributes, and `title` tags to interactive elements and links across all screens.
 
 ## Fixed
 
 - Fixed a visual bug in the Quick Action Toolbar where docking to a new corner would trigger the incorrect exit animation direction.
+- Fixed a mobile browser bug where long-pressing the interactive brand logos would unintentionally trigger the native image context menu or highlight surrounding text.
 
 ## Changed
 
 - Refactored `RestoreDefaultsButton` into a global reusable component and adapted it for compact icon-only usage in toolbars.
+- Extracted and centralized all logo interaction logic (sounds, particle effects, animations) from `InteractiveLogo` into a highly flexible `AnimatedLogo` component supporting multiple variants in `src/components/icons/`.
 
 ## Removed
+
+- Deprecated and deleted `interactive-logo.tsx` in favor of the new unified `AnimatedLogo`.
