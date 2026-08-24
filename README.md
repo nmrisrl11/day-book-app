@@ -25,6 +25,7 @@
   - 🖼️ Two integrated avatar systems (`avvvatars` and `boring-avatars`) plus custom photo uploads optimized as WebP images.
 - 🎵 **Sound & UI Feedback**: Satisfying, configurable audio feedback for interactions using `cuelume`, and delightful, gooey notification toasts via `goey-toast`.
 - 📅 **Calendar & External Integration**: Import/Export your birthdays via `.ics` or `JSON` format. Large imports are handled effortlessly through an advanced virtualized preview interface, allowing for duplicate review and selection without freezing.
+- 🔄 **Device Sync**: Securely sync your entire DayBook database (birthdays, avatars, settings) directly between devices over your local network using a 6-digit code via WebRTC. Data never touches our servers.
 - 💾 **Storage Protection**: Keep your data safe with a dedicated Storage Overview section that lets you monitor usage and easily enable Persistent Storage protection.
 - 🔗 **Birthday Links**: Request your friends' birthdays effortlessly! Generate an invitation link, send it via chat, and process their response link directly into your local database. Features delightful animated SVG icons representing the sharing status. No backend required.
 - 🏷️ **Centralized Branding**: Easily fork and rebrand the application by editing a single `app-info.ts` configuration file that syncs across PWA manifests, meta tags, and all UI components.
@@ -50,6 +51,7 @@ To improve the application, we use Vercel Analytics and Speed Insights for basic
 - 🛣️ **Routing**: React Router v7
 - 🧱 **UI Components**: Radix UI (via shadcn/ui)
 - ✨ **Animation & Feedback**: Framer Motion, `@animate-ui`, `goey-toast`
+- 🔄 **Sync**: PeerJS (WebRTC)
 - 🚀 **Performance**: `@tanstack/react-virtual`
 - ✅ **Validation**: Zod + React Hook Form
 - 🧪 **Testing**: Vitest

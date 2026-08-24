@@ -19,7 +19,17 @@ export const birthdaySchema = z.object({
 	birthday: z
 		.string()
 		.min(1, { message: "Birthday is required." })
-		.regex(/^\d{4}-\d{2}-\d{2}$/, { message: "Invalid date format." }),
+		.regex(/^\d{4}-\d{2}-\d{2}$/, { message: "Invalid date format." })
+		.refine(
+			(dateStr) => {
+				const [year, month, day] = dateStr.split("-").map(Number);
+				const date = new Date(year, month - 1, day);
+				const today = new Date();
+				today.setHours(0, 0, 0, 0);
+				return date <= today;
+			},
+			{ message: "Birthday cannot be in the future." },
+		),
 	avatar: z.string().optional(),
 	relationship: z.string().min(1, { message: "Relationship is required." }),
 	notes: z

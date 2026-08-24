@@ -116,97 +116,99 @@ function App() {
 	}, []);
 
 	return (
-		<BrowserRouter>
-			<NuqsAdapter>
-				<OnboardingProvider>
-					<PageLayout>
-						<Routes>
-							<Route
-								path="/"
-								element={
-									<Suspense fallback={<DashboardRouteFallback />}>
-										<Dashboard />
-									</Suspense>
-								}
+		<>
+			<BrowserRouter>
+				<NuqsAdapter>
+					<OnboardingProvider>
+						<PageLayout>
+							<Routes>
+								<Route
+									path="/"
+									element={
+										<Suspense fallback={<DashboardRouteFallback />}>
+											<Dashboard />
+										</Suspense>
+									}
+								/>
+								<Route
+									path="/manage"
+									element={
+										<Suspense fallback={<ManageRouteFallback />}>
+											<ManageBirthdays />
+										</Suspense>
+									}
+								/>
+								<Route
+									path="/settings"
+									element={
+										<Suspense fallback={<SettingsSkeleton />}>
+											<Settings />
+										</Suspense>
+									}
+								/>
+								<Route
+									path="/about"
+									element={
+										<Suspense fallback={<AboutSkeleton />}>
+											<About />
+										</Suspense>
+									}
+								/>
+								<Route
+									path="/install"
+									element={
+										<Suspense fallback={<InstallSkeleton />}>
+											<InstallScreen />
+										</Suspense>
+									}
+								/>
+								<Route
+									path="/invite"
+									element={
+										<Suspense fallback={<InvitationSkeleton />}>
+											<Invitation />
+										</Suspense>
+									}
+								/>
+								<Route
+									path="/invite/response"
+									element={
+										<Suspense fallback={<ResponseSkeleton />}>
+											<Response />
+										</Suspense>
+									}
+								/>
+							</Routes>
+							<Analytics
+								beforeSend={(event) => {
+									if (event.url.includes("/invite")) {
+										return null;
+									}
+									return event;
+								}}
 							/>
-							<Route
-								path="/manage"
-								element={
-									<Suspense fallback={<ManageRouteFallback />}>
-										<ManageBirthdays />
-									</Suspense>
-								}
+							<SpeedInsights
+								beforeSend={(event) => {
+									if (event.url.includes("/invite")) {
+										return null;
+									}
+									return event;
+								}}
 							/>
-							<Route
-								path="/settings"
-								element={
-									<Suspense fallback={<SettingsSkeleton />}>
-										<Settings />
-									</Suspense>
-								}
-							/>
-							<Route
-								path="/about"
-								element={
-									<Suspense fallback={<AboutSkeleton />}>
-										<About />
-									</Suspense>
-								}
-							/>
-							<Route
-								path="/install"
-								element={
-									<Suspense fallback={<InstallSkeleton />}>
-										<InstallScreen />
-									</Suspense>
-								}
-							/>
-							<Route
-								path="/invite"
-								element={
-									<Suspense fallback={<InvitationSkeleton />}>
-										<Invitation />
-									</Suspense>
-								}
-							/>
-							<Route
-								path="/invite/response"
-								element={
-									<Suspense fallback={<ResponseSkeleton />}>
-										<Response />
-									</Suspense>
-								}
-							/>
-						</Routes>
-						<Analytics
-							beforeSend={(event) => {
-								if (event.url.includes("/invite")) {
-									return null;
-								}
-								return event;
-							}}
-						/>
-						<SpeedInsights
-							beforeSend={(event) => {
-								if (event.url.includes("/invite")) {
-									return null;
-								}
-								return event;
-							}}
-						/>
-						<PWAPrompt />
-						<GooeyToaster
-							position="bottom-center"
-							theme={settings.theme}
-							closeOnEscape={false}
-							showTimestamp={false}
-							closeButton="top-right"
-						/>
-						<Footer />
-					</PageLayout>
-				</OnboardingProvider>
-			</NuqsAdapter>
-		</BrowserRouter>
+							<PWAPrompt />
+							<Footer />
+						</PageLayout>
+					</OnboardingProvider>
+				</NuqsAdapter>
+			</BrowserRouter>
+			<GooeyToaster
+				position="bottom-center"
+				theme={settings.theme}
+				closeOnEscape={false}
+				showTimestamp={false}
+				closeButton="top-right"
+			/>
+		</>
 	);
 }
 
