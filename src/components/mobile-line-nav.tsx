@@ -47,7 +47,7 @@ export function MobileLineNav({ items, activeId }: MobileLineNavProps) {
 								<h3 className="text-foreground font-semibold">On this page</h3>
 								<button
 									onClick={() => setIsOpen(false)}
-									className="text-muted-foreground hover:bg-muted rounded-md p-1"
+									className="text-muted-foreground hover:bg-muted -m-1 rounded-md p-2"
 								>
 									<XIcon className="h-4 w-4" />
 								</button>

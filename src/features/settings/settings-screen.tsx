@@ -7,10 +7,11 @@ import { Volume2Icon } from "@/components/ui/animated-icons/volume-2-icon";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { exportBirthdays } from "@/helpers/import-export";
+import { exportBirthdays, exportInvitations } from "@/helpers/import-export";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { BirthdayRepository } from "@/lib/birthday-repository";
 import { db } from "@/lib/db";
+import { InvitationRepository } from "@/lib/invitation-repository";
 import { useLiveQuery } from "dexie-react-hooks";
 import { ArrowLeftIcon, DatabaseIcon, DownloadIcon } from "lucide-react";
 import { parseAsString, useQueryState } from "nuqs";
@@ -25,9 +26,9 @@ const FloatingMessagesManager = lazy(() =>
 const GreetingsManager = lazy(() =>
 	import("./components/messages/greetings-manager").then((m) => ({ default: m.GreetingsManager })),
 );
-const DeleteConfirmationModal = lazy(() =>
-	import("@/components/delete-confirmation-modal").then((m) => ({
-		default: m.DeleteConfirmationModal,
+const ActionConfirmationModal = lazy(() =>
+	import("@/components/action-confirmation-modal").then((m) => ({
+		default: m.ActionConfirmationModal,
 	})),
 );
 const ThemeSection = lazy(() =>
@@ -53,9 +54,7 @@ const DataManagementSection = lazy(() =>
 		default: m.DataManagementSection,
 	})),
 );
-const DangerZoneSection = lazy(() =>
-	import("./components/data/danger-zone-section").then((m) => ({ default: m.DangerZoneSection })),
-);
+
 const SoundSettingsSection = lazy(() =>
 	import("./components/sound/sound-settings-section").then((m) => ({
 		default: m.SoundSettingsSection,
@@ -102,19 +101,30 @@ const AnimatedTabTrigger = ({ tab, isActiveTab }: { tab: SettingsTab; isActiveTa
 
 export function SettingsScreen() {
 	const birthdays = useLiveQuery(() => db.birthdays.toArray(), []) ?? [];
+	const invitations = useLiveQuery(() => InvitationRepository.getAll(), []) ?? [];
 	const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+	const [deleteTarget, setDeleteTarget] = useState<"birthdays" | "invitations" | null>(null);
 	const navigate = useNavigate();
 	const isDesktop = useMediaQuery("(min-width: 768px)");
 
 	const [activeTab, setActiveTab] = useQueryState("tab", parseAsString.withDefault("appearance"));
 
 	const handleConfirmDeleteAll = async () => {
-		await BirthdayRepository.deleteAll();
+		if (deleteTarget === "birthdays") {
+			await BirthdayRepository.deleteAll();
+		} else if (deleteTarget === "invitations") {
+			await InvitationRepository.deleteAll();
+		}
 		setDeleteModalOpen(false);
+		setDeleteTarget(null);
 	};
 
 	const handleExport = () => {
-		exportBirthdays(birthdays);
+		if (deleteTarget === "birthdays") {
+			exportBirthdays(birthdays);
+		} else if (deleteTarget === "invitations") {
+			exportInvitations(invitations);
+		}
 	};
 
 	const tabs = [
@@ -215,10 +225,18 @@ export function SettingsScreen() {
 									<SoundSettingsSection />
 								</TabsContent>
 								<TabsContent value="data" className="space-y-6">
-									<DataManagementSection />
-									{birthdays.length > 0 && (
-										<DangerZoneSection onDeleteAllClick={() => setDeleteModalOpen(true)} />
-									)}
+									<DataManagementSection
+										onDeleteAllClick={() => {
+											setDeleteTarget("birthdays");
+											setDeleteModalOpen(true);
+										}}
+										onDeleteAllInvitationsClick={() => {
+											setDeleteTarget("invitations");
+											setDeleteModalOpen(true);
+										}}
+										birthdaysCount={birthdays.length}
+										invitationsCount={invitations.length}
+									/>
 								</TabsContent>
 							</div>
 						</Suspense>
@@ -228,16 +246,20 @@ export function SettingsScreen() {
 
 			{deleteModalOpen && (
 				<Suspense fallback={null}>
-					<DeleteConfirmationModal
+					<ActionConfirmationModal
 						open={deleteModalOpen}
-						onOpenChange={setDeleteModalOpen}
-						title="Delete All Birthdays"
+						onOpenChange={(open) => {
+							setDeleteModalOpen(open);
+							if (!open) setDeleteTarget(null);
+						}}
+						title={`Delete All ${deleteTarget === "invitations" ? "Invitations" : "Birthdays"}`}
 						description={
 							<div className="flex flex-col gap-4">
 								<p>
 									Are you sure you want to delete{" "}
-									<span className="text-foreground font-semibold">ALL</span> birthdays? This action
-									cannot be undone.
+									<span className="text-foreground font-semibold">ALL</span>{" "}
+									{deleteTarget === "invitations" ? "invitations" : "birthdays"}? This action cannot
+									be undone.
 								</p>
 								<div className="bg-muted/50 rounded-lg border p-3">
 									<p className="mb-3 text-sm">
@@ -260,7 +282,10 @@ export function SettingsScreen() {
 								<Button
 									id="cancel-delete-btn"
 									variant="ghost"
-									onClick={() => setDeleteModalOpen(false)}
+									onClick={() => {
+										setDeleteModalOpen(false);
+										setDeleteTarget(null);
+									}}
 								>
 									Cancel
 								</Button>

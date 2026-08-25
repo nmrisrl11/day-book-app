@@ -49,7 +49,7 @@ export function PageLayout({ children }: PageLayoutProps) {
 								<Button
 									key={item.path}
 									variant={isActive ? "secondary" : "ghost"}
-									size="icon-sm"
+									size="icon"
 									asChild
 									title={item.name}
 								>
@@ -69,7 +69,7 @@ export function PageLayout({ children }: PageLayoutProps) {
 							<Button
 								key={item.path}
 								variant={isActive ? "secondary" : item.variant || "ghost"}
-								size="sm"
+								size="default"
 								asChild
 							>
 								<Link to={item.path} title={item.name} aria-current={isActive ? "page" : undefined}>

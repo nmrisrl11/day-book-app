@@ -14,7 +14,7 @@ export function Footer() {
 					<Link
 						to="/install"
 						onClick={() => window.scrollTo(0, 0)}
-						className="transition-colors hover:text-slate-800 dark:hover:text-slate-200"
+						className="-m-2 p-2 transition-colors hover:text-slate-800 dark:hover:text-slate-200"
 						title={`Install ${APP_INFO.name}`}
 					>
 						Install App
@@ -23,7 +23,7 @@ export function Footer() {
 					<button
 						type="button"
 						onClick={() => updateSettings({ onboardingStatus: "in_progress", onboardingStep: 0 })}
-						className="cursor-pointer transition-colors hover:text-slate-800 dark:hover:text-slate-200"
+						className="-m-2 cursor-pointer p-2 transition-colors hover:text-slate-800 dark:hover:text-slate-200"
 					>
 						Take a tour
 					</button>
@@ -31,7 +31,7 @@ export function Footer() {
 					<Link
 						to="/about"
 						onClick={() => window.scrollTo(0, 0)}
-						className="transition-colors hover:text-slate-800 dark:hover:text-slate-200"
+						className="-m-2 p-2 transition-colors hover:text-slate-800 dark:hover:text-slate-200"
 						title={`About ${APP_INFO.name}`}
 					>
 						About {APP_INFO.name}
