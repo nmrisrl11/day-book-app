@@ -12,7 +12,7 @@ import { useMediaQuery } from "@/hooks/use-media-query";
 import { BirthdayRepository } from "@/lib/birthday-repository";
 import { db } from "@/lib/db";
 import { useLiveQuery } from "dexie-react-hooks";
-import { ArrowLeftIcon, DatabaseIcon } from "lucide-react";
+import { ArrowLeftIcon, DatabaseIcon, DownloadIcon } from "lucide-react";
 import { parseAsString, useQueryState } from "nuqs";
 import { lazy, Suspense, useEffect, useRef, useState, type ElementType } from "react";
 import { useNavigate } from "react-router-dom";
@@ -26,7 +26,7 @@ const GreetingsManager = lazy(() =>
 	import("./components/messages/greetings-manager").then((m) => ({ default: m.GreetingsManager })),
 );
 const DeleteConfirmationModal = lazy(() =>
-	import("../management/components/delete-confirmation-modal").then((m) => ({
+	import("@/components/delete-confirmation-modal").then((m) => ({
 		default: m.DeleteConfirmationModal,
 	})),
 );
@@ -231,9 +231,48 @@ export function SettingsScreen() {
 					<DeleteConfirmationModal
 						open={deleteModalOpen}
 						onOpenChange={setDeleteModalOpen}
-						onConfirm={handleConfirmDeleteAll}
-						isDeleteAll={true}
-						onExport={handleExport}
+						title="Delete All Birthdays"
+						description={
+							<div className="flex flex-col gap-4">
+								<p>
+									Are you sure you want to delete{" "}
+									<span className="text-foreground font-semibold">ALL</span> birthdays? This action
+									cannot be undone.
+								</p>
+								<div className="bg-muted/50 rounded-lg border p-3">
+									<p className="mb-3 text-sm">
+										Before deleting, you can export your data to a file as a backup.
+									</p>
+									<Button
+										variant="secondary"
+										onClick={handleExport}
+										aria-label="Export Data"
+										className="w-full"
+									>
+										<DownloadIcon className="mr-2 h-4 w-4" />
+										Export Data
+									</Button>
+								</div>
+							</div>
+						}
+						footer={
+							<>
+								<Button
+									id="cancel-delete-btn"
+									variant="ghost"
+									onClick={() => setDeleteModalOpen(false)}
+								>
+									Cancel
+								</Button>
+								<Button
+									variant="destructive"
+									onClick={handleConfirmDeleteAll}
+									aria-label="Delete All"
+								>
+									Delete All
+								</Button>
+							</>
+						}
 					/>
 				</Suspense>
 			)}

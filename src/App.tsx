@@ -12,6 +12,7 @@ import { PWAPrompt } from "./components/pwa-prompt";
 import { AboutSkeleton } from "./features/about/components/about-skeleton";
 import { DashboardRouteFallback } from "./features/dashboard/components/dashboard-route-fallback";
 import { InstallSkeleton } from "./features/install/components/install-skeleton";
+import { InvitationRouteFallback } from "./features/invitation/components/invitation-route-fallback";
 import { InvitationSkeleton } from "./features/invitation/components/invitation-skeleton";
 import { ResponseSkeleton } from "./features/invitation/components/response-skeleton";
 import { ManageRouteFallback } from "./features/management/components/manage-route-fallback";
@@ -42,6 +43,11 @@ const Dashboard = lazy(() =>
 const ManageBirthdays = lazy(() =>
 	import("./features/management/birthday-management-screen").then((m) => ({
 		default: m.BirthdayManagementScreen,
+	})),
+);
+const InvitationManagementScreen = lazy(() =>
+	import("./features/invitation/invitation-management-screen").then((m) => ({
+		default: m.InvitationManagementScreen,
 	})),
 );
 const Settings = lazy(() =>
@@ -125,6 +131,14 @@ function App() {
 									element={
 										<Suspense fallback={<ManageRouteFallback />}>
 											<ManageBirthdays />
+										</Suspense>
+									}
+								/>
+								<Route
+									path="/invitations"
+									element={
+										<Suspense fallback={<InvitationRouteFallback />}>
+											<InvitationManagementScreen />
 										</Suspense>
 									}
 								/>

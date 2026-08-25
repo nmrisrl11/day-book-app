@@ -37,9 +37,12 @@ function decodeBase64Url(str: string): string {
  *
  * Example Result: "eyJ2IjoxLCJuIjoiSm9obiIsImUiOjE3MTkwMDAwMDAwMDB9"
  */
-export function generateInvitationToken(name: string): string {
-	const expiration = Date.now() + 24 * 60 * 60 * 1000; // 24 hours
-	const payload: InvitationPayload = { v: 1, n: name.trim(), e: expiration };
+export function generateInvitationToken(name: string, expirationTime?: number | null): string {
+	// For "no expiration", use the maximum safe integer for backward compatibility
+	const e =
+		expirationTime ??
+		(expirationTime === null ? 8640000000000000 : Date.now() + 24 * 60 * 60 * 1000);
+	const payload: InvitationPayload = { v: 1, n: name.trim(), e };
 	return encodeBase64Url(JSON.stringify(payload));
 }
 
@@ -58,8 +61,7 @@ export function parseInvitationToken(token: string): InvitationPayload | null {
 			payload &&
 			payload.v === 1 &&
 			typeof payload.n === "string" &&
-			typeof payload.e === "number" &&
-			Date.now() <= payload.e
+			(payload.e === undefined || (typeof payload.e === "number" && Date.now() <= payload.e))
 		) {
 			return payload as InvitationPayload;
 		}

@@ -1,5 +1,6 @@
-import type { Birthday } from "@/types/birthday";
+import type { InvitationRecord } from "@/lib/db";
 import { SettingsSchema } from "@/schema/settings-schema";
+import type { Birthday } from "@/types/birthday";
 import type { z } from "zod";
 
 type SettingsState = z.infer<typeof SettingsSchema>;
@@ -92,6 +93,64 @@ export function parseImportedBirthdays(fileText: string): Birthday[] {
 		return validBirthdays;
 	} catch (error) {
 		throw new Error(error instanceof Error ? error.message : "Invalid JSON file.");
+	}
+}
+
+export function exportInvitations(invitations: InvitationRecord[]) {
+	const dataStr = JSON.stringify(invitations, null, 2);
+	const blob = new Blob([dataStr], { type: "application/json" });
+	const url = URL.createObjectURL(blob);
+
+	const a = document.createElement("a");
+	a.href = url;
+	a.download = `day-book-invitations-${new Date().toISOString().split("T")[0]}.json`;
+	document.body.appendChild(a);
+	a.click();
+	document.body.removeChild(a);
+	URL.revokeObjectURL(url);
+}
+
+export function parseImportedInvitations(fileText: string | undefined): InvitationRecord[] {
+	if (!fileText) return [];
+
+	try {
+		const parsed = JSON.parse(fileText);
+		if (!Array.isArray(parsed)) {
+			// Backward compatibility: If it's not an array, it might be an older backup without invitations
+			return [];
+		}
+
+		// Basic schema validation
+		const validInvitations = parsed
+			.filter((item) => {
+				if (typeof item !== "object" || item === null) return false;
+				if (typeof item.id !== "string" || !item.id) return false;
+				if (typeof item.name !== "string" || !item.name) return false;
+				if (typeof item.createdAt !== "number") return false;
+				if (typeof item.token !== "string" || !item.token) return false;
+				// expiresAt can be null, undefined, or number
+				if (
+					item.expiresAt !== undefined &&
+					item.expiresAt !== null &&
+					typeof item.expiresAt !== "number"
+				) {
+					return false;
+				}
+				return true;
+			})
+			.map((item: Record<string, unknown>) => ({
+				id: item.id,
+				name: item.name,
+				createdAt: item.createdAt,
+				expiresAt: item.expiresAt,
+				token: item.token,
+			})) as InvitationRecord[];
+
+		return validInvitations;
+	} catch (error) {
+		// If it fails to parse, it might be an older backup, just return empty array instead of throwing
+		// unless it's a completely invalid JSON in which case the birthdays parse would have already failed.
+		return [];
 	}
 }
 

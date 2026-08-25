@@ -1,8 +1,8 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
 	generateInvitationToken,
-	parseInvitationToken,
 	generateResponseToken,
+	parseInvitationToken,
 	parseResponseToken,
 } from "../invitation-token";
 
@@ -31,6 +31,16 @@ describe("invitation-token", () => {
 			const token = generateInvitationToken("  Bob  ");
 			const payload = parseInvitationToken(token);
 			expect(payload?.n).toBe("Bob");
+		});
+
+		it("should handle 'never' expiration correctly", () => {
+			// When expirationTime is null, it should use Number.MAX_SAFE_INTEGER equivalent
+			const token = generateInvitationToken("Eve", null);
+			const payload = parseInvitationToken(token);
+
+			expect(payload).not.toBeNull();
+			expect(payload?.n).toBe("Eve");
+			expect(payload?.e).toBe(8640000000000000);
 		});
 
 		it("should return null for expired invitation tokens", () => {

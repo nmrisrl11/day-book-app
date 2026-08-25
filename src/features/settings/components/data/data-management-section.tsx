@@ -6,6 +6,9 @@ const BirthdaysDataManagement = lazy(() =>
 const SettingsDataManagement = lazy(() =>
 	import("./settings-data-management").then((m) => ({ default: m.SettingsDataManagement })),
 );
+const InvitationsDataManagement = lazy(() =>
+	import("./invitations-data-management").then((m) => ({ default: m.InvitationsDataManagement })),
+);
 const GlobalSettingsManagement = lazy(() =>
 	import("./global-settings-management").then((m) => ({ default: m.GlobalSettingsManagement })),
 );
@@ -25,6 +28,7 @@ export function DataManagementSection() {
 						<Skeleton className="h-32 w-full rounded-xl" />
 						<Skeleton className="h-32 w-full rounded-xl" />
 						<Skeleton className="h-32 w-full rounded-xl" />
+						<Skeleton className="h-32 w-full rounded-xl" />
 						<Skeleton className="h-24 w-full rounded-xl" />
 					</div>
 				}
@@ -32,6 +36,7 @@ export function DataManagementSection() {
 				<StorageInfo />
 				<P2PSyncSection />
 				<BirthdaysDataManagement />
+				<InvitationsDataManagement />
 				<SettingsDataManagement />
 				<GlobalSettingsManagement />
 			</Suspense>

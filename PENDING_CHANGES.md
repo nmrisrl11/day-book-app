@@ -2,6 +2,10 @@
 
 ## Added
 
+- **Generated Links Management**: Added a new tab in the Manage screen to view, copy, share, and delete previously generated birthday invitation links.
+- Implemented variable link expiration support (24 hours, 7 days, 30 days, or "never") for generated invitations.
+- Included Invitation Records into the **Device Sync (P2P)** payload, ensuring generated links transition seamlessly when switching devices.
+- Added a dedicated "Invitations Data" backup section in **Settings -> Data Management** for exporting and importing active invitation links as JSON.
 - Added an "Import Response" feature to the "Ask for a Birthday" modal, allowing iOS and PWA users to manually paste response links to guarantee data is saved in their installed app's storage rather than an isolated browser tab.
 
 ## Improved
@@ -20,6 +24,9 @@
 
 ## Changed
 
+- Refactored `DeleteConfirmationModal` into a generic, lazy-loaded component, replacing all native `window.confirm` prompts across the app for better consistency.
+- Separated `invitation` UI and hook logic out of the `management` feature folder to strictly enforce domain-driven boundaries.
+- Standardized icon sizes across management UI action buttons for tighter visual consistency.
 - Documented native telemetry support for `@vercel/analytics` and `@vercel/speed-insights` across architecture docs.
 
 ## Removed

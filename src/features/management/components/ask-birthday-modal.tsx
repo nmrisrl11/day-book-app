@@ -9,18 +9,28 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { generateInvitationToken, parseResponseToken } from "@/helpers/invitation-token";
+import { InvitationRepository } from "@/lib/invitation-repository";
 import { birthdaySchema } from "@/schema/birthday-schema";
 import { NAME_MAX_LENGTH, NAME_MIN_LENGTH } from "@/schema/validation-constants";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CheckIcon, CopyIcon, ShareIcon } from "lucide-react";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 
-const askBirthdaySchema = birthdaySchema.pick({ name: true });
+const askBirthdaySchema = birthdaySchema.pick({ name: true }).extend({
+	expiration: z.enum(["24h", "7d", "never"]),
+});
 type AskBirthdayFormData = z.infer<typeof askBirthdaySchema>;
 
 interface AskBirthdayModalProps {
@@ -40,10 +50,11 @@ export function AskBirthdayModal({ open, onOpenChange }: AskBirthdayModalProps) 
 		register,
 		handleSubmit,
 		reset,
+		control,
 		formState: { errors, isValid },
 	} = useForm<AskBirthdayFormData>({
 		resolver: zodResolver(askBirthdaySchema),
-		defaultValues: { name: "" },
+		defaultValues: { name: "", expiration: "24h" },
 		mode: "onChange",
 	});
 
@@ -61,9 +72,25 @@ export function AskBirthdayModal({ open, onOpenChange }: AskBirthdayModalProps) 
 		onOpenChange(newOpen);
 	};
 
-	const onGenerate = (data: AskBirthdayFormData) => {
-		const token = generateInvitationToken(data.name);
+	const onGenerate = async (data: AskBirthdayFormData) => {
+		let expiresAt: number | null = null;
+		if (data.expiration === "24h") {
+			expiresAt = Date.now() + 24 * 60 * 60 * 1000;
+		} else if (data.expiration === "7d") {
+			expiresAt = Date.now() + 7 * 24 * 60 * 60 * 1000;
+		}
+
+		const token = generateInvitationToken(data.name, expiresAt);
 		const link = `${window.location.origin}/invite?t=${token}`;
+
+		await InvitationRepository.add({
+			id: crypto.randomUUID(),
+			token,
+			name: data.name.trim(),
+			createdAt: Date.now(),
+			expiresAt,
+		});
+
 		setGeneratedLink(link);
 	};
 
@@ -164,7 +191,26 @@ export function AskBirthdayModal({ open, onOpenChange }: AskBirthdayModalProps) 
 										{errors.name.message}
 									</p>
 								)}
-								<p className="text-muted-foreground text-xs">
+								<div className="flex w-full flex-col gap-2">
+									<Label htmlFor="expiration">Link Expiration</Label>
+									<Controller
+										control={control}
+										name="expiration"
+										render={({ field }) => (
+											<Select value={field.value} onValueChange={field.onChange}>
+												<SelectTrigger id="expiration" className="w-full">
+													<SelectValue placeholder="Select duration" />
+												</SelectTrigger>
+												<SelectContent position="popper">
+													<SelectItem value="24h">24 Hours</SelectItem>
+													<SelectItem value="7d">7 Days</SelectItem>
+													<SelectItem value="never">No expiration</SelectItem>
+												</SelectContent>
+											</Select>
+										)}
+									/>
+								</div>
+								<p className="text-muted-foreground mt-1 text-xs">
 									This will be shown to the person receiving the link so they know who is asking.
 								</p>
 							</form>

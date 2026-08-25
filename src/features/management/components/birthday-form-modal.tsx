@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/select";
 import { UserAvatar } from "@/components/user-avatar";
 import { APP_INFO } from "@/constants/app-info";
+import { BirthdayRepository } from "@/lib/birthday-repository";
 import { birthdaySchema, type BirthdayFormData } from "@/schema/birthday-schema";
 import {
 	NAME_MAX_LENGTH,
@@ -26,7 +27,6 @@ import {
 	NOTE_MAX_LENGTH,
 } from "@/schema/validation-constants";
 import { useDayBookStore } from "@/store/day-book-store";
-import { BirthdayRepository } from "@/lib/birthday-repository";
 import type { Birthday } from "@/types/birthday";
 import { RELATIONSHIP_OPTIONS } from "@/types/birthday";
 import { zodResolver } from "@hookform/resolvers/zod";
