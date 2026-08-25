@@ -9,6 +9,8 @@
 - Updated Dashboard empty state CTA buttons to more accurate "Add a Person" and "Import or Sync" copywriting, and correctly routed the import button to the Data Management settings tab.
 - Unified the Upcoming Birthdays badges to display a single, natural sentence (e.g. "Turning 28 in 5 days") that calculates future age dynamically.
 - Polished the Data Management Settings layout by removing redundant shadows for a cleaner, flatter card aesthetic.
+- Enhanced the PWA `/install` screen with a dedicated "Browser Installation" fallback state for desktop users to guide them toward manual browser-menu installation.
+- Improved the PWA display-mode detection to accurately track installation status across `standalone`, `window-controls-overlay`, and `fullscreen` transitions without state conflicts.
 
 ## Fixed
 

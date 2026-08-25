@@ -17,7 +17,8 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 export function InstallScreen() {
-	const { isInstallable, isInstalled, isIOS, isChecking, promptInstall } = useInstallApp();
+	const { isInstallable, isInstalled, isIOS, isDesktop, isChecking, promptInstall } =
+		useInstallApp();
 	const navigate = useNavigate();
 
 	return (
@@ -83,6 +84,20 @@ export function InstallScreen() {
 							</div>
 						) : isChecking ? (
 							<Skeleton className="h-14 w-full rounded-md" />
+						) : isDesktop ? (
+							<div className="bg-card border-border flex w-full flex-col items-center gap-4 rounded-2xl border p-6 text-center shadow-sm">
+								<div className="bg-primary/10 text-primary flex h-12 w-12 items-center justify-center rounded-full">
+									<MonitorSmartphoneIcon className="h-6 w-6" />
+								</div>
+								<div className="flex flex-col gap-1">
+									<h2 className="text-foreground font-bold">Browser Installation</h2>
+									<p className="text-muted-foreground text-sm leading-relaxed">
+										You can install this app manually. Look for an <strong>install icon</strong> in
+										your address bar, or check your browser's menu for{" "}
+										<strong className="text-foreground">Install App</strong>.
+									</p>
+								</div>
+							</div>
 						) : (
 							<div className="bg-muted border-border flex w-full flex-col items-center gap-2 rounded-2xl border p-6 text-center">
 								<div className="bg-primary/10 text-primary mb-1 flex h-10 w-10 items-center justify-center rounded-full">
