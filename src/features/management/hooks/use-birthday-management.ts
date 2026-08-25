@@ -32,7 +32,7 @@ export function useBirthdayManagement() {
 	const [searchQuery, setSearchQuery] = useQueryState("q", parseAsString.withDefault(""));
 	const [monthFilter, setMonthFilter] = useQueryState(
 		"month",
-		parseAsStringLiteral(MONTH_OPTIONS).withDefault("all"),
+		parseAsStringLiteral([...MONTH_OPTIONS]).withDefault("all"),
 	);
 	const [relationshipFilter, setRelationshipFilter] = useQueryState(
 		"relationship",
@@ -40,12 +40,12 @@ export function useBirthdayManagement() {
 	);
 	const [sortOption, setSortOption] = useQueryState(
 		"sort",
-		parseAsStringLiteral(SORT_OPTIONS).withDefault("upcoming"),
+		parseAsStringLiteral([...SORT_OPTIONS]).withDefault("upcoming"),
 	);
 	const [currentPage, setCurrentPage] = useQueryState("page", parseAsInteger.withDefault(1));
 	const [itemsPerPage, setItemsPerPage] = useQueryState(
 		"perPage",
-		parseAsStringLiteral(PER_PAGE_OPTIONS).withDefault("10"),
+		parseAsStringLiteral([...PER_PAGE_OPTIONS]).withDefault("10"),
 	);
 
 	const [localSearch, setLocalSearch] = useState(searchQuery);

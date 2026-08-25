@@ -35,7 +35,7 @@ const BirthdayFormModal = lazy(() =>
 	import("./components/birthday-form-modal").then((m) => ({ default: m.BirthdayFormModal })),
 );
 const DeleteConfirmationModal = lazy(() =>
-	import("./components/delete-confirmation-modal").then((m) => ({
+	import("@/components/delete-confirmation-modal").then((m) => ({
 		default: m.DeleteConfirmationModal,
 	})),
 );
@@ -112,6 +112,7 @@ export function BirthdayManagementScreen() {
 	const handleConfirmDelete = async () => {
 		if (deletingBirthday) {
 			await BirthdayRepository.delete(deletingBirthday.id);
+			gooeyToast.success("Birthday deleted", { showTimestamp: false });
 			setDeleteModalOpen(false);
 			setDeletingBirthday(null);
 		}
@@ -135,14 +136,17 @@ export function BirthdayManagementScreen() {
 			<div className="flex items-center justify-between">
 				<h2 className="text-foreground px-2 text-2xl font-bold tracking-tight">Manage Birthdays</h2>
 				<div className="flex items-center gap-2">
-					<Button variant="outline" onClick={() => setAskModalOpen(true)}>
-						<LinkIcon className="mr-2 h-4 w-4" aria-hidden="true" />
+					<Button
+						variant="outline"
+						onClick={() => setAskModalOpen(true)}
+						aria-label="Ask for Birthday"
+					>
+						<LinkIcon className="h-4 w-4 sm:mr-2" aria-hidden="true" />
 						<span className="hidden sm:inline">Ask for Birthday</span>
 					</Button>
-					<Button onClick={handleAdd}>
-						<PlusIcon className="mr-2 h-4 w-4" aria-hidden="true" />
+					<Button onClick={handleAdd} aria-label="Add Birthday">
+						<PlusIcon className="h-4 w-4 sm:mr-2" aria-hidden="true" />
 						<span className="hidden sm:inline">Add Birthday</span>
-						<span className="sm:hidden">Add</span>
 					</Button>
 				</div>
 			</div>
@@ -394,8 +398,28 @@ export function BirthdayManagementScreen() {
 					<DeleteConfirmationModal
 						open={deleteModalOpen}
 						onOpenChange={setDeleteModalOpen}
-						onConfirm={handleConfirmDelete}
-						birthdayName={deletingBirthday?.name}
+						title="Delete Birthday"
+						description={
+							<p>
+								Are you sure you want to delete the birthday for{" "}
+								<span className="text-foreground font-semibold">{deletingBirthday?.name}</span>?
+								This action cannot be undone.
+							</p>
+						}
+						footer={
+							<>
+								<Button
+									id="cancel-delete-btn"
+									variant="ghost"
+									onClick={() => setDeleteModalOpen(false)}
+								>
+									Cancel
+								</Button>
+								<Button variant="destructive" onClick={handleConfirmDelete} aria-label="Delete">
+									Delete
+								</Button>
+							</>
+						}
 					/>
 				</Suspense>
 			)}

@@ -53,7 +53,7 @@ export function InvitationScreen() {
 					/>
 					<h3 className="mb-2 text-lg font-semibold">Invalid or Expired Link</h3>
 					<p className="text-muted-foreground mb-6">
-						This birthday link isn't valid, has been corrupted, or has expired after 24 hours.
+						This birthday link isn't valid, has been corrupted, or has already expired.
 					</p>
 					<Button asChild variant="outline">
 						<Link to="/">

@@ -8,10 +8,15 @@ import {
 	DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { parseImportedBirthdays, parseImportedSettings } from "@/helpers/import-export";
+import {
+	parseImportedBirthdays,
+	parseImportedInvitations,
+	parseImportedSettings,
+} from "@/helpers/import-export";
 import { useP2PSync } from "@/hooks/use-p2p-sync";
 import { BirthdayRepository } from "@/lib/birthday-repository";
 import { db } from "@/lib/db";
+import { InvitationRepository } from "@/lib/invitation-repository";
 import { useDayBookStore } from "@/store/day-book-store";
 import { gooeyToast } from "goey-toast";
 import { DownloadCloudIcon, Loader2, SendIcon } from "lucide-react";
@@ -32,8 +37,9 @@ export function P2PSyncSection() {
 			async (send) => {
 				try {
 					const birthdays = await BirthdayRepository.getAll();
+					const invitations = await InvitationRepository.getAll();
 					const settings = useDayBookStore.getState().settings;
-					const payload = { birthdays, settings };
+					const payload = { birthdays, invitations, settings };
 					const blob = new Blob([JSON.stringify(payload)], { type: "application/json" });
 					send(blob);
 				} catch (err) {
@@ -91,9 +97,10 @@ export function P2PSyncSection() {
 				// Validate via our existing strict schemas
 				const parsedBirthdays = parseImportedBirthdays(JSON.stringify(payload.birthdays));
 				const parsedSettings = parseImportedSettings(JSON.stringify(payload.settings));
+				const parsedInvitations = parseImportedInvitations(JSON.stringify(payload.invitations));
 
-				// Upsert Birthdays
-				await db.transaction("rw", db.birthdays, async () => {
+				// Upsert Birthdays and Invitations
+				await db.transaction("rw", db.birthdays, db.invitations, async () => {
 					for (const b of parsedBirthdays) {
 						const [, monthStr, dayStr] = b.birthday.split("-");
 						await db.birthdays.put({
@@ -101,6 +108,9 @@ export function P2PSyncSection() {
 							month: parseInt(monthStr, 10),
 							day: parseInt(dayStr, 10),
 						});
+					}
+					for (const inv of parsedInvitations) {
+						await db.invitations.put(inv);
 					}
 				});
 

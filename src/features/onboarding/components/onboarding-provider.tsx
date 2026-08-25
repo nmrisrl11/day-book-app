@@ -24,6 +24,13 @@ const TOUR_STEPS: Step[] = [
 		skipBeacon: true,
 	},
 	{
+		target: "a[href='/invitations']",
+		placement: "bottom",
+		title: "Birthday Links",
+		content: "Generate secure invitation links to easily request birthdays from your friends.",
+		skipBeacon: true,
+	},
+	{
 		target: "a[href='/settings']",
 		placement: "bottom",
 		title: "Personalize & Backup",

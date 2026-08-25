@@ -91,7 +91,7 @@ export const BirthdayListItem = memo(function BirthdayListItem({
 					<Button
 						variant="ghost"
 						size="icon"
-						className="text-destructive hover:bg-destructive/10 hover:text-destructive"
+						className="hover:bg-destructive/10 hover:text-destructive"
 						onClick={() => onDelete(birthday)}
 						title="Delete"
 						aria-label="Delete"
