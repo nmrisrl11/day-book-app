@@ -29,9 +29,9 @@ const AskBirthdayModal = lazy(() =>
 	})),
 );
 
-const DeleteConfirmationModal = lazy(() =>
-	import("@/components/delete-confirmation-modal").then((m) => ({
-		default: m.DeleteConfirmationModal,
+const ActionConfirmationModal = lazy(() =>
+	import("@/components/action-confirmation-modal").then((m) => ({
+		default: m.ActionConfirmationModal,
 	})),
 );
 
@@ -278,7 +278,7 @@ export function InvitationManagementScreen() {
 
 			{deleteModalOpen && (
 				<Suspense fallback={null}>
-					<DeleteConfirmationModal
+					<ActionConfirmationModal
 						open={deleteModalOpen}
 						onOpenChange={(open) => {
 							if (!open) {
@@ -325,7 +325,7 @@ export function InvitationManagementScreen() {
 
 			{bulkDeleteModalOpen && (
 				<Suspense fallback={null}>
-					<DeleteConfirmationModal
+					<ActionConfirmationModal
 						open={bulkDeleteModalOpen}
 						onOpenChange={setBulkDeleteModalOpen}
 						title="Delete Selected Invitations?"

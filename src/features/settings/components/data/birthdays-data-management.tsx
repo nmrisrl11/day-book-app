@@ -98,14 +98,11 @@ export function BirthdaysDataManagement() {
 
 	return (
 		<>
-			<div className="flex flex-col gap-6">
-				{/* JSON DATA */}
-				<div className="bg-card flex flex-col gap-4 rounded-xl border p-4">
-					<div className="flex items-center justify-between">
-						<div>
-							<h3 className="text-base font-semibold">Birthdays Data (JSON)</h3>
-							<p className="text-muted-foreground text-sm">Backup or restore your raw data</p>
-						</div>
+			{/* JSON DATA */}
+			<div className="flex flex-col gap-4 border-b py-4 sm:flex-row sm:items-center sm:justify-between">
+				<div className="flex flex-col gap-1 pr-4">
+					<div className="flex items-center gap-2">
+						<h4 className="text-sm font-semibold">Birthdays Data (JSON)</h4>
 						<InfoTooltip
 							ariaLabel="More information about JSON format"
 							content={
@@ -117,53 +114,58 @@ export function BirthdaysDataManagement() {
 							}
 						/>
 					</div>
-					<div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+					<p className="text-muted-foreground text-sm">Backup or restore your raw data</p>
+				</div>
+				<div className="mt-2 grid w-full grid-cols-2 gap-2 sm:mt-0 sm:flex sm:w-auto sm:items-center">
+					<Button
+						variant="outline"
+						size="sm"
+						onClick={handleExportBirthdays}
+						disabled={birthdays.length === 0}
+						aria-label="Export birthdays as JSON"
+						className="w-full gap-2 sm:w-auto"
+					>
+						<DownloadIcon className="h-3.5 w-3.5" />
+						Export
+					</Button>
+
+					<div className="flex w-full flex-col items-center gap-1 sm:w-auto sm:items-end">
 						<Button
 							variant="outline"
-							onClick={handleExportBirthdays}
-							className="h-12 w-full gap-2 rounded-lg"
-							disabled={birthdays.length === 0}
-							aria-label="Export birthdays as JSON"
+							size="sm"
+							onClick={handleImportBirthdaysClick}
+							aria-label="Import birthdays from JSON"
+							className="w-full gap-2 sm:w-auto"
 						>
-							<DownloadIcon className="h-4 w-4" />
-							<span>Export JSON</span>
+							<UploadIcon className="h-3.5 w-3.5" />
+							Import
 						</Button>
-
-						<div className="flex flex-col gap-1.5">
-							<Button
-								variant="outline"
-								onClick={handleImportBirthdaysClick}
-								className="h-12 w-full gap-2 rounded-lg"
-								aria-label="Import birthdays from JSON"
+						{importBirthdaysError && (
+							<span
+								className="text-destructive text-center text-xs font-medium sm:text-right"
+								role="alert"
 							>
-								<UploadIcon className="h-4 w-4" />
-								<span>Import JSON</span>
-							</Button>
-							{importBirthdaysError && (
-								<p className="text-destructive mt-1.5 text-sm font-medium" role="alert">
-									{importBirthdaysError}
-								</p>
-							)}
-						</div>
-						<Input
-							id="import-birthdays-file"
-							type="file"
-							accept=".json,application/json"
-							className="hidden"
-							ref={fileInputBirthdaysRef}
-							onChange={handleBirthdaysFileChange}
-							aria-label="Select JSON file to import birthdays"
-						/>
+								{importBirthdaysError}
+							</span>
+						)}
 					</div>
+					<Input
+						id="import-birthdays-file"
+						type="file"
+						accept=".json,application/json"
+						className="hidden"
+						ref={fileInputBirthdaysRef}
+						onChange={handleBirthdaysFileChange}
+						aria-label="Select JSON file to import birthdays"
+					/>
 				</div>
+			</div>
 
-				{/* CALENDAR DATA */}
-				<div className="bg-card flex flex-col gap-4 rounded-xl border p-4">
-					<div className="flex items-center justify-between">
-						<div>
-							<h3 className="text-base font-semibold">Calendar Integration</h3>
-							<p className="text-muted-foreground text-sm">Sync with your favorite calendar apps</p>
-						</div>
+			{/* CALENDAR DATA */}
+			<div className="flex flex-col gap-4 border-b py-4 sm:flex-row sm:items-center sm:justify-between">
+				<div className="flex flex-col gap-1 pr-4">
+					<div className="flex items-center gap-2">
+						<h4 className="text-sm font-semibold">Calendar Integration</h4>
 						<InfoTooltip
 							ariaLabel="More information about Calendar Integration"
 							content={
@@ -175,44 +177,50 @@ export function BirthdaysDataManagement() {
 							}
 						/>
 					</div>
-					<div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+					<p className="text-muted-foreground text-sm">Sync with your favorite calendar apps</p>
+				</div>
+				<div className="mt-2 grid w-full grid-cols-2 gap-2 sm:mt-0 sm:flex sm:w-auto sm:items-center">
+					<Button
+						variant="outline"
+						size="sm"
+						onClick={handleExportCalendarClick}
+						disabled={birthdays.length === 0}
+						aria-label="Export birthdays to Calendar"
+						className="w-full gap-2 sm:w-auto"
+					>
+						<CalendarIcon className="h-3.5 w-3.5" />
+						Export
+					</Button>
+
+					<div className="flex w-full flex-col items-center gap-1 sm:w-auto sm:items-end">
 						<Button
 							variant="outline"
-							onClick={handleExportCalendarClick}
-							className="h-12 w-full gap-2 rounded-lg"
-							aria-label="Export birthdays to Calendar"
-							disabled={birthdays.length === 0}
+							size="sm"
+							onClick={handleImportIcsClick}
+							aria-label="Import birthdays from Calendar"
+							className="w-full gap-2 sm:w-auto"
 						>
-							<CalendarIcon className="h-4 w-4" />
-							<span className="text-center">Export to Calendar</span>
+							<UploadIcon className="h-3.5 w-3.5" />
+							Import
 						</Button>
-
-						<div className="flex flex-col gap-1.5">
-							<Button
-								variant="outline"
-								onClick={handleImportIcsClick}
-								className="h-12 w-full gap-2 rounded-lg"
-								aria-label="Import birthdays from Calendar"
+						{importIcsError && (
+							<span
+								className="text-destructive text-center text-xs font-medium sm:text-right"
+								role="alert"
 							>
-								<UploadIcon className="h-4 w-4" />
-								<span className="text-center">Import from (.ics)</span>
-							</Button>
-							{importIcsError && (
-								<p className="text-destructive mt-1.5 text-sm font-medium" role="alert">
-									{importIcsError}
-								</p>
-							)}
-						</div>
-						<Input
-							id="import-ics-file"
-							type="file"
-							accept=".ics,text/calendar"
-							className="hidden"
-							ref={fileInputIcsRef}
-							onChange={handleIcsFileChange}
-							aria-label="Select ICS file to import birthdays"
-						/>
+								{importIcsError}
+							</span>
+						)}
 					</div>
+					<Input
+						id="import-ics-file"
+						type="file"
+						accept=".ics,text/calendar"
+						className="hidden"
+						ref={fileInputIcsRef}
+						onChange={handleIcsFileChange}
+						aria-label="Select ICS file to import birthdays"
+					/>
 				</div>
 			</div>
 

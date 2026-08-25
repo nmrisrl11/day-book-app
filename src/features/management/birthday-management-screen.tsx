@@ -34,9 +34,9 @@ import {
 const BirthdayFormModal = lazy(() =>
 	import("./components/birthday-form-modal").then((m) => ({ default: m.BirthdayFormModal })),
 );
-const DeleteConfirmationModal = lazy(() =>
-	import("@/components/delete-confirmation-modal").then((m) => ({
-		default: m.DeleteConfirmationModal,
+const ActionConfirmationModal = lazy(() =>
+	import("@/components/action-confirmation-modal").then((m) => ({
+		default: m.ActionConfirmationModal,
 	})),
 );
 const CalendarExportDialog = lazy(() =>
@@ -395,7 +395,7 @@ export function BirthdayManagementScreen() {
 
 			{deleteModalOpen && (
 				<Suspense fallback={null}>
-					<DeleteConfirmationModal
+					<ActionConfirmationModal
 						open={deleteModalOpen}
 						onOpenChange={setDeleteModalOpen}
 						title="Delete Birthday"

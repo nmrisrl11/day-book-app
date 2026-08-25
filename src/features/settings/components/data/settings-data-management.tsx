@@ -38,48 +38,53 @@ export function SettingsDataManagement() {
 	};
 
 	return (
-		<div className="bg-card flex flex-col gap-4 rounded-xl border p-4">
-			<div className="flex items-center justify-between">
-				<div>
-					<h3 className="text-base font-semibold">Settings Data</h3>
-					<p className="text-muted-foreground text-sm">Backup or restore your app configurations</p>
+		<div className="flex flex-col gap-4 py-4 sm:flex-row sm:items-center sm:justify-between">
+			<div className="flex flex-col gap-1 pr-4">
+				<div className="flex items-center gap-2">
+					<h4 className="text-sm font-semibold">Settings Data (JSON)</h4>
+					<InfoTooltip
+						ariaLabel="More information about Settings Data"
+						content={
+							<span>
+								Exporting your settings saves all your appearance, sounds, and personal preferences
+								into a JSON file, so you can easily transfer your setup to another device without
+								configuring it again.
+							</span>
+						}
+					/>
 				</div>
-				<InfoTooltip
-					ariaLabel="More information about Settings Data"
-					content={
-						<span>
-							Exporting your settings saves all your appearance, sounds, and personal preferences
-							into a JSON file, so you can easily transfer your setup to another device without
-							configuring it again.
-						</span>
-					}
-				/>
+				<p className="text-muted-foreground text-sm">Backup or restore your app configurations</p>
 			</div>
-			<div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+			<div className="mt-2 grid w-full grid-cols-2 gap-2 sm:mt-0 sm:flex sm:w-auto sm:items-center">
 				<Button
 					variant="outline"
+					size="sm"
 					onClick={handleExportSettings}
-					className="h-12 w-full gap-2 rounded-lg"
 					aria-label="Export settings"
+					className="w-full gap-2 sm:w-auto"
 				>
-					<DownloadIcon className="h-4 w-4" />
-					<span>Export JSON</span>
+					<DownloadIcon className="h-3.5 w-3.5" />
+					Export
 				</Button>
 
-				<div className="flex flex-col gap-1.5">
+				<div className="flex w-full flex-col items-center gap-1 sm:w-auto sm:items-end">
 					<Button
 						variant="outline"
+						size="sm"
 						onClick={handleImportSettingsClick}
-						className="h-12 w-full gap-2 rounded-lg"
 						aria-label="Import settings"
+						className="w-full gap-2 sm:w-auto"
 					>
-						<UploadIcon className="h-4 w-4" />
-						<span>Import JSON</span>
+						<UploadIcon className="h-3.5 w-3.5" />
+						Import
 					</Button>
 					{importSettingsError && (
-						<p className="text-destructive mt-1.5 text-sm font-medium" role="alert">
+						<span
+							className="text-destructive text-center text-xs font-medium sm:text-right"
+							role="alert"
+						>
 							{importSettingsError}
-						</p>
+						</span>
 					)}
 				</div>
 				<Input

@@ -149,47 +149,46 @@ export function P2PSyncSection() {
 
 	return (
 		<>
-			<div className="bg-card flex flex-col gap-4 rounded-xl border p-4">
-				<div className="flex items-center justify-between">
-					<div>
-						<div className="flex items-center gap-2">
-							<h3 className="text-base font-semibold">Device Sync (P2P)</h3>
-							<span className="inline-flex items-center rounded-md border border-green-500/20 bg-green-500/10 px-2 py-0.5 text-xs font-semibold text-green-600 transition-colors">
-								Recommended
-							</span>
-						</div>
-						<p className="text-muted-foreground text-sm">
-							Transfer data instantly over local network
-						</p>
+			<div className="flex flex-col gap-4 py-4 sm:flex-row sm:items-center sm:justify-between">
+				<div className="flex flex-col gap-1 pr-4">
+					<div className="flex items-center gap-2">
+						<h4 className="text-sm font-semibold">Device Sync (P2P)</h4>
+						<span className="inline-flex items-center rounded-md border border-green-500/20 bg-green-500/10 px-2 py-0.5 text-xs font-semibold text-green-600 transition-colors">
+							Recommended
+						</span>
+						<InfoTooltip
+							ariaLabel="More information about P2P Sync"
+							content={
+								<span>
+									Securely transfer your entire database directly between devices using WebRTC.
+									(Note: This relies on the third-party PeerJS Cloud for connection signaling and
+									may use public TURN servers for network traversal).
+								</span>
+							}
+						/>
 					</div>
-					<InfoTooltip
-						ariaLabel="More information about P2P Sync"
-						content={
-							<span>
-								Securely transfer your entire database directly between devices using WebRTC. (Note:
-								This relies on the third-party PeerJS Cloud for connection signaling and may use
-								public TURN servers for network traversal).
-							</span>
-						}
-					/>
+					<p className="text-muted-foreground text-sm">
+						Transfer data instantly over local network
+					</p>
 				</div>
-				<div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+				<div className="mt-2 grid w-full grid-cols-2 gap-2 sm:mt-0 sm:flex sm:w-auto sm:items-center">
 					<Button
 						variant="outline"
+						size="sm"
 						onClick={handleHostSync}
-						className="h-12 w-full gap-2 rounded-lg"
+						className="w-full gap-2 sm:w-auto"
 					>
-						<SendIcon className="h-4 w-4" />
-						<span>Send Data to Device</span>
+						<SendIcon className="h-3.5 w-3.5" />
+						Send
 					</Button>
-
 					<Button
 						variant="outline"
+						size="sm"
 						onClick={handleReceiveSync}
-						className="h-12 w-full gap-2 rounded-lg"
+						className="w-full gap-2 sm:w-auto"
 					>
-						<DownloadCloudIcon className="h-4 w-4" />
-						<span>Receive Data</span>
+						<DownloadCloudIcon className="h-3.5 w-3.5" />
+						Receive
 					</Button>
 				</div>
 			</div>
@@ -252,6 +251,7 @@ export function P2PSyncSection() {
 									onChange={(e) => setConnectCode(e.target.value.toUpperCase())}
 									className="h-14 text-center font-mono text-2xl tracking-[0.2em] uppercase"
 									maxLength={6}
+									id="receive-code"
 								/>
 								<Button
 									className="h-12 w-full"

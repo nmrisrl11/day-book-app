@@ -27,4 +27,9 @@ export class InvitationRepository {
 		const count = await db.invitations.count();
 		if (count === 0) setHasInvitationsHint(false);
 	}
+
+	static async deleteAll(): Promise<void> {
+		await db.invitations.clear();
+		setHasInvitationsHint(false);
+	}
 }

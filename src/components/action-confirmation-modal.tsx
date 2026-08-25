@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/dialog";
 import { type ReactNode, useRef } from "react";
 
-interface DeleteConfirmationModalProps {
+interface ActionConfirmationModalProps {
 	open: boolean;
 	onOpenChange: (open: boolean) => void;
 	title?: ReactNode;
@@ -16,13 +16,13 @@ interface DeleteConfirmationModalProps {
 	footer?: ReactNode;
 }
 
-export function DeleteConfirmationModal({
+export function ActionConfirmationModal({
 	open,
 	onOpenChange,
 	title,
 	description,
 	footer,
-}: DeleteConfirmationModalProps) {
+}: ActionConfirmationModalProps) {
 	const contentRef = useRef<HTMLDivElement>(null);
 
 	return (
@@ -57,4 +57,4 @@ export function DeleteConfirmationModal({
 	);
 }
 
-export default DeleteConfirmationModal;
+export default ActionConfirmationModal;
