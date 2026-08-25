@@ -1,6 +1,7 @@
 import { AnimatedLogo } from "@/components/icons/animated-logo";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { APP_INFO } from "@/constants/app-info";
 import { useInstallApp } from "@/hooks/use-install-app";
 import {
@@ -16,7 +17,7 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 export function InstallScreen() {
-	const { isInstallable, isInstalled, isIOS, promptInstall } = useInstallApp();
+	const { isInstallable, isInstalled, isIOS, isChecking, promptInstall } = useInstallApp();
 	const navigate = useNavigate();
 
 	return (
@@ -80,12 +81,17 @@ export function InstallScreen() {
 									</p>
 								</div>
 							</div>
+						) : isChecking ? (
+							<Skeleton className="h-14 w-full rounded-md" />
 						) : (
 							<div className="bg-muted border-border flex w-full flex-col items-center gap-2 rounded-2xl border p-6 text-center">
-								<h2 className="text-foreground font-bold">Browser Not Supported</h2>
+								<div className="bg-primary/10 text-primary mb-1 flex h-10 w-10 items-center justify-center rounded-full">
+									<MonitorSmartphoneIcon className="h-5 w-5" />
+								</div>
+								<h2 className="text-foreground font-bold">Installation Unavailable</h2>
 								<p className="text-muted-foreground text-sm leading-relaxed">
-									Your current browser doesn't support direct installation. Try using Chrome, Edge,
-									or Safari on iOS.
+									The app might already be installed, or your browser doesn't support direct
+									installation.
 								</p>
 							</div>
 						)}

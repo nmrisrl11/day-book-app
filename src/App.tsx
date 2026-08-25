@@ -27,23 +27,13 @@ interface BeforeInstallPromptEvent extends Event {
 	prompt(): Promise<void>;
 }
 
+// Global types for PWA install prompt
 declare global {
 	interface Window {
 		__hasInstallListener?: boolean;
 		__deferredPrompt?: BeforeInstallPromptEvent | null;
 		__isInstallable?: boolean;
 	}
-}
-
-// Catch the install prompt as early as possible (before lazy-loaded screens)
-if (typeof window !== "undefined" && !window.__hasInstallListener) {
-	window.__hasInstallListener = true;
-	window.addEventListener("beforeinstallprompt", (e) => {
-		e.preventDefault();
-		window.__deferredPrompt = e as BeforeInstallPromptEvent;
-		window.__isInstallable = true;
-		window.dispatchEvent(new Event("app-installable"));
-	});
 }
 
 const Dashboard = lazy(() =>

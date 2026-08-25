@@ -2,6 +2,8 @@
 
 ## Added
 
+- Added an "Import Response" feature to the "Ask for a Birthday" modal, allowing iOS and PWA users to manually paste response links to guarantee data is saved in their installed app's storage rather than an isolated browser tab.
+
 ## Improved
 
 - Updated Dashboard empty state CTA buttons to more accurate "Add a Person" and "Import or Sync" copywriting, and correctly routed the import button to the Data Management settings tab.
@@ -11,6 +13,8 @@
 ## Fixed
 
 - Fixed the Today's Celebrant modal wording to gracefully say "Now 28 years old" instead of "Turning 28".
+- Fixed a layout bug in the "Ask for a Birthday" modal where long response links would stretch the UI out of bounds.
+- Fixed a race condition on the `/install` page where the "Install App Now" button would fail to appear (showing "Installation Unavailable" instead) due to timing conflicts between React's render lifecycle and Chrome's `beforeinstallprompt` event.
 
 ## Changed
 
