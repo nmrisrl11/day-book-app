@@ -86,13 +86,17 @@ export function InvitationManagementScreen() {
 	};
 
 	const executeBulkDelete = async () => {
-		await InvitationRepository.bulkDelete(Array.from(selectedIds));
-		const count = selectedIds.size;
-		setSelectedIds(new Set());
-		setBulkDeleteModalOpen(false);
-		gooeyToast.success(`${count} ${count === 1 ? "invitation" : "invitations"} deleted`, {
-			showTimestamp: false,
-		});
+		try {
+			await InvitationRepository.bulkDelete(Array.from(selectedIds));
+			const count = selectedIds.size;
+			setSelectedIds(new Set());
+			setBulkDeleteModalOpen(false);
+			gooeyToast.success(`${count} ${count === 1 ? "invitation" : "invitations"} deleted`, {
+				showTimestamp: false,
+			});
+		} catch (error) {
+			gooeyToast.error("Failed to delete selected invitations");
+		}
 	};
 
 	if (isLoading) {
@@ -364,7 +368,7 @@ export function InvitationManagementScreen() {
 			)}
 
 			{selectedIds.size > 0 && (
-				<div className="bg-popover text-popover-foreground animate-in fade-in slide-in-from-bottom-4 no-scrollbar fixed bottom-6 left-1/2 z-50 flex w-[max-content] max-w-[calc(100%-2rem)] -translate-x-1/2 items-center gap-3 overflow-x-auto rounded-full border px-4 py-2 shadow-lg">
+				<div className="bg-popover text-popover-foreground animate-in fade-in slide-in-from-bottom-4 no-scrollbar fixed bottom-6 left-1/2 z-50 flex w-max max-w-[calc(100%-2rem)] -translate-x-1/2 items-center gap-3 overflow-x-auto rounded-full border px-4 py-2 shadow-lg">
 					<div className="text-sm font-medium whitespace-nowrap">{selectedIds.size} selected</div>
 					<div className="bg-border h-4 w-px shrink-0" />
 					<Button

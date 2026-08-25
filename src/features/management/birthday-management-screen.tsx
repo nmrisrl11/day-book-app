@@ -125,13 +125,17 @@ export function BirthdayManagementScreen() {
 	};
 
 	const executeBulkDelete = async () => {
-		await BirthdayRepository.bulkDelete(Array.from(selectedIds));
-		const count = selectedIds.size;
-		setSelectedIds(new Set());
-		setBulkDeleteModalOpen(false);
-		gooeyToast.success(`${count} ${count === 1 ? "birthday" : "birthdays"} deleted`, {
-			showTimestamp: false,
-		});
+		try {
+			await BirthdayRepository.bulkDelete(Array.from(selectedIds));
+			const count = selectedIds.size;
+			setSelectedIds(new Set());
+			setBulkDeleteModalOpen(false);
+			gooeyToast.success(`${count} ${count === 1 ? "birthday" : "birthdays"} deleted`, {
+				showTimestamp: false,
+			});
+		} catch (error) {
+			gooeyToast.error("Failed to delete selected birthdays");
+		}
 	};
 
 	const parentRef = useRef<HTMLDivElement>(null);

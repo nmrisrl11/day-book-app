@@ -22,20 +22,21 @@ export const birthdaySchema = z.object({
 		.regex(/^\d{4}-\d{2}-\d{2}$/, { message: "Invalid date format." })
 		.superRefine((dateStr, ctx) => {
 			const [year, month, day] = dateStr.split("-").map(Number);
+
+			if (year < 1900) {
+				ctx.addIssue({
+					code: z.ZodIssueCode.custom,
+					message: "Year must be 1900 or later.",
+				});
+				return;
+			}
+
 			const date = new Date(year, month - 1, day);
 
 			if (date.getFullYear() !== year || date.getMonth() + 1 !== month || date.getDate() !== day) {
 				ctx.addIssue({
 					code: z.ZodIssueCode.custom,
 					message: "Invalid date.",
-				});
-				return;
-			}
-
-			if (year < 1900) {
-				ctx.addIssue({
-					code: z.ZodIssueCode.custom,
-					message: "Year must be 1900 or later.",
 				});
 				return;
 			}
