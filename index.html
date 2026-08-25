@@ -45,6 +45,17 @@
 		<meta name="twitter:title" content="%APP_TITLE%" />
 		<meta name="twitter:description" content="%APP_DESCRIPTION%" />
 		<meta name="twitter:image" content="/og-image.png" />
+
+		<!-- Catch install prompt early before React loads -->
+		<script>
+			window.__hasInstallListener = true;
+			window.addEventListener("beforeinstallprompt", (e) => {
+				e.preventDefault();
+				window.__deferredPrompt = e;
+				window.__isInstallable = true;
+				window.dispatchEvent(new Event("app-installable"));
+			});
+		</script>
 	</head>
 
 	<body>

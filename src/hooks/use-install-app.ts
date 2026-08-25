@@ -25,24 +25,38 @@ export function useInstallApp() {
 	const [isInstallable, setIsInstallable] = useState(window.__isInstallable || false);
 	const [isInstalled, setIsInstalled] = useState(false);
 	const [isIOS, setIsIOS] = useState(false);
+	const [isDesktop, setIsDesktop] = useState(false);
+	const [isChecking, setIsChecking] = useState(true);
 
 	useEffect(() => {
 		// Detect if already installed (standalone mode)
 		const checkIsInstalled = () => {
 			const nav = window.navigator as Navigator & { standalone?: boolean };
 			const standalone =
-				window.matchMedia("(display-mode: standalone)").matches || nav.standalone === true;
+				window.matchMedia("(display-mode: standalone)").matches ||
+				window.matchMedia("(display-mode: window-controls-overlay)").matches ||
+				window.matchMedia("(display-mode: fullscreen)").matches ||
+				nav.standalone === true;
 			setIsInstalled(standalone);
 		};
 
 		checkIsInstalled();
 
+		// Sync with global state immediately in case the event fired between initial render and this effect
+		if (window.__isInstallable) {
+			setIsInstallable(true);
+			setDeferredPrompt(window.__deferredPrompt || null);
+			setIsChecking(false);
+		}
+
 		// Listen for display mode changes
-		const mediaQuery = window.matchMedia("(display-mode: standalone)");
-		const handleChange = (e: MediaQueryListEvent) => {
-			setIsInstalled(e.matches);
-		};
-		mediaQuery.addEventListener("change", handleChange);
+		const mqStandalone = window.matchMedia("(display-mode: standalone)");
+		const mqWco = window.matchMedia("(display-mode: window-controls-overlay)");
+		const mqFullscreen = window.matchMedia("(display-mode: fullscreen)");
+
+		mqStandalone.addEventListener("change", checkIsInstalled);
+		mqWco.addEventListener("change", checkIsInstalled);
+		mqFullscreen.addEventListener("change", checkIsInstalled);
 
 		// Check if iOS (where beforeinstallprompt is not supported)
 		const checkIsIOS = () => {
@@ -52,6 +66,15 @@ export function useInstallApp() {
 			setIsIOS(ios);
 		};
 		checkIsIOS();
+
+		// Check if desktop (where manual browser menu installation is typically available)
+		const checkIsDesktop = () => {
+			const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobi/i.test(
+				navigator.userAgent,
+			);
+			setIsDesktop(!isMobile);
+		};
+		checkIsDesktop();
 
 		// Update state if the custom event fires while mounted
 		const handleAppInstallable = () => {
@@ -67,13 +90,21 @@ export function useInstallApp() {
 			window.__isInstallable = true;
 			setDeferredPrompt(window.__deferredPrompt);
 			setIsInstallable(true);
+			setIsChecking(false);
 		};
 		window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
 
+		const timer = setTimeout(() => {
+			setIsChecking(false);
+		}, 800);
+
 		return () => {
-			mediaQuery.removeEventListener("change", handleChange);
+			mqStandalone.removeEventListener("change", checkIsInstalled);
+			mqWco.removeEventListener("change", checkIsInstalled);
+			mqFullscreen.removeEventListener("change", checkIsInstalled);
 			window.removeEventListener("app-installable", handleAppInstallable);
 			window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+			clearTimeout(timer);
 		};
 	}, []);
 
@@ -101,6 +132,8 @@ export function useInstallApp() {
 		isInstallable,
 		isInstalled,
 		isIOS,
+		isDesktop,
+		isChecking,
 		promptInstall,
 	};
 }
