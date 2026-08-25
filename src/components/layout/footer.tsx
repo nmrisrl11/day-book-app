@@ -13,6 +13,7 @@ export function Footer() {
 				<div className="flex items-center justify-center gap-x-2 text-[0.8rem] font-medium">
 					<Link
 						to="/install"
+						onClick={() => window.scrollTo(0, 0)}
 						className="transition-colors hover:text-slate-800 dark:hover:text-slate-200"
 						title={`Install ${APP_INFO.name}`}
 					>
@@ -26,6 +27,15 @@ export function Footer() {
 					>
 						Take a tour
 					</button>
+					<span className="text-muted-foreground/30">•</span>
+					<Link
+						to="/about"
+						onClick={() => window.scrollTo(0, 0)}
+						className="transition-colors hover:text-slate-800 dark:hover:text-slate-200"
+						title={`About ${APP_INFO.name}`}
+					>
+						About {APP_INFO.name}
+					</Link>
 				</div>
 				<span className="text-[0.8rem]">
 					Developed by:

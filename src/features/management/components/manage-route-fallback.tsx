@@ -14,11 +14,11 @@ export function ManageRouteFallback() {
 			<div className="flex items-center justify-between">
 				<h2 className="text-foreground px-2 text-2xl font-bold tracking-tight">Manage Birthdays</h2>
 				<div className="flex items-center gap-2">
-					<Button variant="outline" disabled>
+					<Button variant="outline" disabled aria-label="Ask for Birthday">
 						<LinkIcon className="h-4 w-4 sm:mr-2" aria-hidden="true" />
 						<span className="hidden sm:inline">Ask for Birthday</span>
 					</Button>
-					<Button disabled>
+					<Button disabled aria-label="Add Birthday">
 						<PlusIcon className="h-4 w-4 sm:mr-2" aria-hidden="true" />
 						<span className="hidden sm:inline">Add Birthday</span>
 					</Button>

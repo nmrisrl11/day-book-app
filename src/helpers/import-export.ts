@@ -142,7 +142,7 @@ export function parseImportedInvitations(fileText: string | undefined): Invitati
 				id: item.id,
 				name: item.name,
 				createdAt: item.createdAt,
-				expiresAt: item.expiresAt,
+				expiresAt: item.expiresAt === undefined ? null : item.expiresAt,
 				token: item.token,
 			})) as InvitationRecord[];
 

@@ -6,7 +6,7 @@ import {
 	DialogHeader,
 	DialogTitle,
 } from "@/components/ui/dialog";
-import { type ReactNode } from "react";
+import { type ReactNode, useRef } from "react";
 
 interface DeleteConfirmationModalProps {
 	open: boolean;
@@ -23,12 +23,18 @@ export function DeleteConfirmationModal({
 	description,
 	footer,
 }: DeleteConfirmationModalProps) {
+	const contentRef = useRef<HTMLDivElement>(null);
+
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
 			<DialogContent
+				ref={contentRef}
 				onOpenAutoFocus={(e) => {
-					e.preventDefault();
-					document.getElementById("cancel-delete-btn")?.focus();
+					const cancelBtn = contentRef.current?.querySelector("#cancel-delete-btn") as HTMLElement;
+					if (cancelBtn) {
+						e.preventDefault();
+						cancelBtn.focus();
+					}
 				}}
 			>
 				<DialogHeader>

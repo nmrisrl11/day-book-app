@@ -12,7 +12,7 @@ export class InvitationRepository {
 	}
 
 	static async bulkAdd(invitations: InvitationRecord[]): Promise<void> {
-		await db.invitations.bulkAdd(invitations);
+		await db.invitations.bulkPut(invitations);
 		setHasInvitationsHint(true);
 	}
 

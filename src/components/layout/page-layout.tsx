@@ -1,6 +1,6 @@
 import { Logo } from "@/components/icons/logo";
 import { Button } from "@/components/ui/button";
-import { BookUserIcon, InfoIcon, LinkIcon, SettingsIcon } from "lucide-react";
+import { BookUserIcon, LinkIcon, SettingsIcon } from "lucide-react";
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 
@@ -20,7 +20,6 @@ type NavItem = {
 };
 
 const NAV_ITEMS: NavItem[] = [
-	{ name: "About", path: "/about", icon: InfoIcon, isIcon: true },
 	{ name: "Birthdays", path: "/manage", icon: BookUserIcon, isIcon: true },
 	{ name: "Invitations", path: "/invitations", icon: LinkIcon, isIcon: true },
 	{ name: "Settings", path: "/settings", icon: SettingsIcon, isIcon: true },

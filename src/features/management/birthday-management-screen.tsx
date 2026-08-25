@@ -136,11 +136,15 @@ export function BirthdayManagementScreen() {
 			<div className="flex items-center justify-between">
 				<h2 className="text-foreground px-2 text-2xl font-bold tracking-tight">Manage Birthdays</h2>
 				<div className="flex items-center gap-2">
-					<Button variant="outline" onClick={() => setAskModalOpen(true)}>
+					<Button
+						variant="outline"
+						onClick={() => setAskModalOpen(true)}
+						aria-label="Ask for Birthday"
+					>
 						<LinkIcon className="h-4 w-4 sm:mr-2" aria-hidden="true" />
 						<span className="hidden sm:inline">Ask for Birthday</span>
 					</Button>
-					<Button onClick={handleAdd}>
+					<Button onClick={handleAdd} aria-label="Add Birthday">
 						<PlusIcon className="h-4 w-4 sm:mr-2" aria-hidden="true" />
 						<span className="hidden sm:inline">Add Birthday</span>
 					</Button>

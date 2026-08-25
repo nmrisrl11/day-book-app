@@ -18,6 +18,7 @@ import { InvitationEmptyState } from "./components/invitation-empty-state";
 import { InvitationListItem } from "./components/invitation-list-item";
 import { InvitationRouteFallback } from "./components/invitation-route-fallback";
 import {
+	INVITATION_PER_PAGE_OPTIONS,
 	INVITATION_SORT_OPTIONS,
 	useInvitationManagement,
 } from "./hooks/use-invitation-management";
@@ -196,7 +197,12 @@ export function InvitationManagementScreen() {
 						<div className="mt-2 flex flex-col items-center justify-between gap-4 pb-8 sm:flex-row">
 							<div className="flex items-center gap-2 text-sm">
 								<span className="text-muted-foreground">Show</span>
-								<Select value={itemsPerPage} onValueChange={(val) => setItemsPerPage(val)}>
+								<Select
+									value={itemsPerPage}
+									onValueChange={(val) =>
+										setItemsPerPage(val as (typeof INVITATION_PER_PAGE_OPTIONS)[number])
+									}
+								>
 									<SelectTrigger className="h-8 w-17.5">
 										<SelectValue placeholder="10" />
 									</SelectTrigger>

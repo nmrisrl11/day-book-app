@@ -3,7 +3,7 @@ import { inviteeSchema } from "@/schema/birthday-schema";
 export interface InvitationPayload {
 	v: number;
 	n: string; // Inviter name
-	e: number; // Expiration timestamp (ms)
+	e?: number; // Expiration timestamp (ms), optional for legacy
 }
 
 export interface ResponsePayload {
@@ -63,6 +63,9 @@ export function parseInvitationToken(token: string): InvitationPayload | null {
 			typeof payload.n === "string" &&
 			(payload.e === undefined || (typeof payload.e === "number" && Date.now() <= payload.e))
 		) {
+			if (payload.e === undefined) {
+				payload.e = Number.MAX_SAFE_INTEGER;
+			}
 			return payload as InvitationPayload;
 		}
 		return null;
