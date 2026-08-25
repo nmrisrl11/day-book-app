@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { APP_INFO } from "@/constants/app-info";
 import { generateResponseToken, parseInvitationToken } from "@/helpers/invitation-token";
+import { cn } from "@/lib/utils";
 import { inviteeSchema, type InviteeFormData } from "@/schema/birthday-schema";
 import { NAME_MAX_LENGTH, NAME_MIN_LENGTH } from "@/schema/validation-constants";
 import { useDayBookStore } from "@/store/day-book-store";
@@ -127,7 +128,12 @@ export function InvitationScreen() {
 							<Button
 								variant="ghost"
 								size="icon"
-								className="text-muted-foreground hover:text-foreground absolute top-2 right-2 h-8 w-8"
+								className={cn(
+									"absolute top-2 right-2 h-8 w-8 transition-colors",
+									copied
+										? "text-green-600 hover:bg-green-100 hover:text-green-600 dark:hover:bg-green-900/30"
+										: "text-muted-foreground hover:text-foreground",
+								)}
 								onClick={handleCopy}
 								title="Copy link"
 								aria-label="Copy link"

@@ -21,6 +21,7 @@ import {
 	LinkIcon,
 	PlusIcon,
 	SearchIcon,
+	Trash2Icon,
 } from "lucide-react";
 import { lazy, Suspense, useCallback, useRef, useState } from "react";
 import { BirthdayListItem } from "./components/birthday-list-item";
@@ -83,6 +84,7 @@ export function BirthdayManagementScreen() {
 
 	const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 	const [deletingBirthday, setDeletingBirthday] = useState<Birthday | null>(null);
+	const [bulkDeleteModalOpen, setBulkDeleteModalOpen] = useState(false);
 
 	const [exportModalOpen, setExportModalOpen] = useState(false);
 	const [exportingBirthday, setExportingBirthday] = useState<Birthday | null>(null);
@@ -115,6 +117,24 @@ export function BirthdayManagementScreen() {
 			gooeyToast.success("Birthday deleted", { showTimestamp: false });
 			setDeleteModalOpen(false);
 			setDeletingBirthday(null);
+		}
+	};
+
+	const handleBulkDelete = () => {
+		setBulkDeleteModalOpen(true);
+	};
+
+	const executeBulkDelete = async () => {
+		try {
+			await BirthdayRepository.bulkDelete(Array.from(selectedIds));
+			const count = selectedIds.size;
+			setSelectedIds(new Set());
+			setBulkDeleteModalOpen(false);
+			gooeyToast.success(`${count} ${count === 1 ? "birthday" : "birthdays"} deleted`, {
+				showTimestamp: false,
+			});
+		} catch (error) {
+			gooeyToast.error("Failed to delete selected birthdays");
 		}
 	};
 
@@ -434,6 +454,43 @@ export function BirthdayManagementScreen() {
 				</Suspense>
 			)}
 
+			{bulkDeleteModalOpen && (
+				<Suspense fallback={null}>
+					<ActionConfirmationModal
+						open={bulkDeleteModalOpen}
+						onOpenChange={setBulkDeleteModalOpen}
+						title="Delete Selected Birthdays?"
+						description={
+							<p>
+								Are you sure you want to delete{" "}
+								<span className="text-foreground font-semibold">
+									{selectedIds.size} {selectedIds.size === 1 ? "birthday" : "birthdays"}
+								</span>
+								? This cannot be undone.
+							</p>
+						}
+						footer={
+							<>
+								<Button
+									id="cancel-delete-btn"
+									variant="ghost"
+									onClick={() => setBulkDeleteModalOpen(false)}
+								>
+									Cancel
+								</Button>
+								<Button
+									variant="destructive"
+									onClick={executeBulkDelete}
+									aria-label="Delete Selected"
+								>
+									Delete Selected
+								</Button>
+							</>
+						}
+					/>
+				</Suspense>
+			)}
+
 			{askModalOpen && (
 				<Suspense fallback={null}>
 					<AskBirthdayModal open={askModalOpen} onOpenChange={setAskModalOpen} />
@@ -441,9 +498,13 @@ export function BirthdayManagementScreen() {
 			)}
 
 			{selectedIds.size > 0 && (
-				<div className="bg-popover text-popover-foreground animate-in fade-in slide-in-from-bottom-4 fixed bottom-6 left-1/2 z-50 flex -translate-x-1/2 items-center gap-3 rounded-full border px-4 py-2 shadow-lg">
-					<div className="text-sm font-medium whitespace-nowrap">{selectedIds.size} selected</div>
-					<div className="bg-border h-4 w-px" />
+				<div className="bg-popover text-popover-foreground animate-in fade-in slide-in-from-bottom-4 no-scrollbar fixed bottom-6 left-1/2 z-50 flex w-max max-w-[calc(100%-2rem)] -translate-x-1/2 items-center gap-2 overflow-x-auto rounded-full border px-4 py-2 shadow-lg sm:gap-3">
+					<div className="text-sm font-medium whitespace-nowrap">
+						{selectedIds.size} {selectedIds.size === 1 ? "selected" : "selected"}
+					</div>
+
+					<div className="bg-border h-4 w-px shrink-0" />
+
 					<Select
 						onValueChange={async (val) => {
 							const count = selectedIds.size;
@@ -454,7 +515,7 @@ export function BirthdayManagementScreen() {
 							);
 							setSelectedIds(new Set());
 							gooeyToast.success("People updated", {
-								description: `${count} people are now marked as ${val}.`,
+								description: `${count} ${count === 1 ? "person is" : "people are"} now marked as ${val}.`,
 								showTimestamp: false,
 								classNames: {
 									content: "items-center text-center",
@@ -464,7 +525,7 @@ export function BirthdayManagementScreen() {
 							});
 						}}
 					>
-						<SelectTrigger className="h-8 w-40 border-none bg-transparent px-2 shadow-none focus:ring-0">
+						<SelectTrigger className="h-8 w-35 border-none bg-transparent px-2 shadow-none focus:ring-0 sm:w-40">
 							<SelectValue placeholder="Set Relationship" />
 						</SelectTrigger>
 						<SelectContent position="popper" side="top">
@@ -475,11 +536,26 @@ export function BirthdayManagementScreen() {
 							))}
 						</SelectContent>
 					</Select>
-					<div className="bg-border h-4 w-px" />
+
+					<div className="bg-border h-4 w-px shrink-0" />
+
 					<Button
 						variant="ghost"
 						size="sm"
-						className="hover:bg-muted h-8 rounded-full px-3"
+						className="hover:bg-destructive/10 hover:text-destructive h-8 shrink-0 rounded-full px-3"
+						onClick={handleBulkDelete}
+						aria-label="Delete Selected"
+					>
+						<Trash2Icon className="h-4 w-4 sm:mr-2" aria-hidden="true" />
+						<span className="hidden sm:inline">Delete Selected</span>
+					</Button>
+
+					<div className="bg-border h-4 w-px shrink-0" />
+
+					<Button
+						variant="ghost"
+						size="sm"
+						className="hover:bg-muted h-8 shrink-0 rounded-full px-3"
 						onClick={() => setSelectedIds(new Set())}
 					>
 						Clear

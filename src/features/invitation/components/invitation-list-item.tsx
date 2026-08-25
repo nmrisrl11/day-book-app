@@ -111,11 +111,11 @@ export function InvitationListItem({
 					size="icon"
 					onClick={handleCopy}
 					aria-label="Copy link"
-					className={
-						hasCopied
-							? "text-green-600 hover:bg-green-100 hover:text-green-600 dark:hover:bg-green-900/30"
-							: ""
-					}
+					className={cn(
+						"transition-colors",
+						hasCopied &&
+							"text-green-600 hover:bg-green-100 hover:text-green-600 dark:hover:bg-green-900/30",
+					)}
 				>
 					{hasCopied ? (
 						<CheckIcon className="h-4 w-4" aria-hidden="true" />

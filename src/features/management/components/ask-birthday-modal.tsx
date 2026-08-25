@@ -22,6 +22,7 @@ import { InvitationRepository } from "@/lib/invitation-repository";
 import { birthdaySchema } from "@/schema/birthday-schema";
 import { NAME_MAX_LENGTH, NAME_MIN_LENGTH } from "@/schema/validation-constants";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { cn } from "@/lib/utils";
 import { CheckIcon, CopyIcon, ShareIcon } from "lucide-react";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -226,7 +227,12 @@ export function AskBirthdayModal({ open, onOpenChange }: AskBirthdayModalProps) 
 									<Button
 										variant="ghost"
 										size="icon"
-										className="text-muted-foreground hover:text-foreground absolute top-2 right-2 h-8 w-8"
+										className={cn(
+											"absolute top-2 right-2 h-8 w-8 transition-colors",
+											copied
+												? "text-green-600 hover:bg-green-100 hover:text-green-600 dark:hover:bg-green-900/30"
+												: "text-muted-foreground hover:text-foreground",
+										)}
 										onClick={handleCopy}
 										title="Copy link"
 										aria-label="Copy link"

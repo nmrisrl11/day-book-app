@@ -235,6 +235,11 @@
 	font-weight: 600 !important;
 }
 
+.gooey-actionButton {
+	color: var(--primary-foreground) !important;
+	background-color: var(--primary) !important;
+}
+
 .gooey-description {
 	text-align: center !important;
 }
