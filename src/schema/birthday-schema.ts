@@ -32,6 +32,14 @@ export const birthdaySchema = z.object({
 				return;
 			}
 
+			if (year < 1900) {
+				ctx.addIssue({
+					code: z.ZodIssueCode.custom,
+					message: "Year must be 1900 or later.",
+				});
+				return;
+			}
+
 			const today = new Date();
 			today.setHours(0, 0, 0, 0);
 			if (date > today) {

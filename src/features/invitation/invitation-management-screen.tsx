@@ -12,7 +12,7 @@ import type { InvitationRecord } from "@/lib/db";
 import { InvitationRepository } from "@/lib/invitation-repository";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { gooeyToast } from "goey-toast";
-import { ChevronLeftIcon, ChevronRightIcon, LinkIcon } from "lucide-react";
+import { ChevronLeftIcon, ChevronRightIcon, LinkIcon, Trash2Icon } from "lucide-react";
 import { lazy, Suspense, useCallback, useRef, useState } from "react";
 import { InvitationEmptyState } from "./components/invitation-empty-state";
 import { InvitationListItem } from "./components/invitation-list-item";
@@ -87,9 +87,12 @@ export function InvitationManagementScreen() {
 
 	const executeBulkDelete = async () => {
 		await InvitationRepository.bulkDelete(Array.from(selectedIds));
+		const count = selectedIds.size;
 		setSelectedIds(new Set());
 		setBulkDeleteModalOpen(false);
-		gooeyToast.success(`${selectedIds.size} invitations deleted`);
+		gooeyToast.success(`${count} ${count === 1 ? "invitation" : "invitations"} deleted`, {
+			showTimestamp: false,
+		});
 	};
 
 	if (isLoading) {
@@ -333,7 +336,7 @@ export function InvitationManagementScreen() {
 							<p>
 								Are you sure you want to delete{" "}
 								<span className="text-foreground font-semibold">
-									{selectedIds.size} invitations
+									{selectedIds.size} {selectedIds.size === 1 ? "invitation" : "invitations"}
 								</span>
 								? This cannot be undone.
 							</p>
@@ -361,22 +364,24 @@ export function InvitationManagementScreen() {
 			)}
 
 			{selectedIds.size > 0 && (
-				<div className="bg-popover text-popover-foreground animate-in fade-in slide-in-from-bottom-4 fixed bottom-6 left-1/2 z-50 flex -translate-x-1/2 items-center gap-3 rounded-full border px-4 py-2 shadow-lg">
+				<div className="bg-popover text-popover-foreground animate-in fade-in slide-in-from-bottom-4 no-scrollbar fixed bottom-6 left-1/2 z-50 flex w-[max-content] max-w-[calc(100%-2rem)] -translate-x-1/2 items-center gap-3 overflow-x-auto rounded-full border px-4 py-2 shadow-lg">
 					<div className="text-sm font-medium whitespace-nowrap">{selectedIds.size} selected</div>
-					<div className="bg-border h-4 w-px" />
-					<Button
-						variant="destructive"
-						size="sm"
-						className="h-8 rounded-full px-3"
-						onClick={handleBulkDelete}
-					>
-						Delete Selected
-					</Button>
-					<div className="bg-border h-4 w-px" />
+					<div className="bg-border h-4 w-px shrink-0" />
 					<Button
 						variant="ghost"
 						size="sm"
-						className="hover:bg-muted h-8 rounded-full px-3"
+						className="hover:bg-destructive/10 hover:text-destructive h-8 shrink-0 rounded-full px-3"
+						onClick={handleBulkDelete}
+						aria-label="Delete Selected"
+					>
+						<Trash2Icon className="h-4 w-4 sm:mr-2" aria-hidden="true" />
+						<span className="hidden sm:inline">Delete Selected</span>
+					</Button>
+					<div className="bg-border h-4 w-px shrink-0" />
+					<Button
+						variant="ghost"
+						size="sm"
+						className="hover:bg-muted h-8 shrink-0 rounded-full px-3"
 						onClick={() => setSelectedIds(new Set())}
 					>
 						Clear

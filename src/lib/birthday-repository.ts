@@ -45,6 +45,11 @@ export const BirthdayRepository = {
 		await this.updateHasDataHint();
 	},
 
+	async bulkDelete(ids: string[]): Promise<void> {
+		await db.birthdays.bulkDelete(ids);
+		await this.updateHasDataHint();
+	},
+
 	async bulkSave(birthdays: Birthday[]): Promise<void> {
 		const records = birthdays.map((b) => this.toRecord(b));
 		await db.birthdays.bulkPut(records);

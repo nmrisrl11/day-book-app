@@ -43,6 +43,19 @@ describe("birthdaySchema validation", () => {
 		}
 	});
 
+	it("should reject years before 1900", () => {
+		const result = birthdaySchema.safeParse({
+			name: "John Doe",
+			birthday: "1899-12-31",
+			relationship: "Friend",
+			notes: [],
+		});
+		expect(result.success).toBe(false);
+		if (!result.success) {
+			expect(result.error.issues[0].message).toBe("Year must be 1900 or later.");
+		}
+	});
+
 	it("should reject invalid rollover dates (e.g. Feb 30)", () => {
 		const result = birthdaySchema.safeParse({
 			name: "John Doe",
