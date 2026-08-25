@@ -16,6 +16,45 @@ export interface ChangelogRelease {
 
 export const changelog: ChangelogRelease[] = [
 	{
+		version: "1.2.0",
+		date: "2026-08-25",
+		title: "Invitation Links & Data Management Redesign",
+		summary:
+			"Introducing Generated Links Management to easily view and share previously created invitations, alongside a vastly improved Data Management experience and new touch accessibility improvements.",
+		changes: [
+			{
+				type: "added",
+				title: "Generated Links Management",
+				description:
+					"Added a brand new tab to view, copy, share, and delete previously generated birthday invitation links. Links now support variable expirations (24 hours, 7 days, or never), sync perfectly between devices, and can be backed up manually.",
+			},
+			{
+				type: "improved",
+				title: "Data Management Redesign",
+				description:
+					"Completely redesigned the Data Management settings tab to consolidate all backup, restore, and sync features into a cleaner, more compact list layout.",
+			},
+			{
+				type: "improved",
+				title: "Safer Danger Zone",
+				description:
+					"Separated the 'Delete All Data' action into distinct 'Delete All Birthdays' and 'Delete All Invitations' buttons, ensuring you have granular control and don't accidentally wipe data you want to keep.",
+			},
+			{
+				type: "improved",
+				title: "Mobile Accessibility",
+				description:
+					"Expanded touch targets across navigation buttons and footer links to make the app much easier to use on mobile devices and prevent frustrating mis-taps.",
+			},
+			{
+				type: "fixed",
+				title: "Under the Hood Polish",
+				description:
+					"Fixed a rare edge case with legacy invitation tokens, improved screen reader accessibility for management buttons, and patched a potential layout stretch issue with long links.",
+			},
+		],
+	},
+	{
 		version: "1.1.0",
 		date: "2026-08-24",
 		title: "Device Sync & Quick Actions",
