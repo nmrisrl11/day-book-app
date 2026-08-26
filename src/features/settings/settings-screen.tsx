@@ -10,7 +10,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { exportBirthdays, exportInvitations } from "@/helpers/import-export";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { BirthdayRepository } from "@/lib/birthday-repository";
-import { db } from "@/lib/db";
 import { InvitationRepository } from "@/lib/invitation-repository";
 import { useLiveQuery } from "dexie-react-hooks";
 import { ArrowLeftIcon, DatabaseIcon, DownloadIcon } from "lucide-react";
@@ -100,7 +99,7 @@ const AnimatedTabTrigger = ({ tab, isActiveTab }: { tab: SettingsTab; isActiveTa
 };
 
 export function SettingsScreen() {
-	const birthdays = useLiveQuery(() => db.birthdays.toArray(), []) ?? [];
+	const birthdays = useLiveQuery(() => BirthdayRepository.getAll());
 	const invitations = useLiveQuery(() => InvitationRepository.getAll(), []) ?? [];
 	const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 	const [deleteTarget, setDeleteTarget] = useState<"birthdays" | "invitations" | null>(null);
@@ -121,7 +120,7 @@ export function SettingsScreen() {
 
 	const handleExport = () => {
 		if (deleteTarget === "birthdays") {
-			exportBirthdays(birthdays);
+			exportBirthdays(birthdays || []);
 		} else if (deleteTarget === "invitations") {
 			exportInvitations(invitations);
 		}
@@ -191,7 +190,9 @@ export function SettingsScreen() {
 									<DisplaySettingsSection />
 								</TabsContent>
 								<TabsContent value="main-greeting">
-									{birthdays.length > 0 ? (
+									{birthdays === undefined ? (
+										<div className="bg-muted/50 h-64 w-full animate-pulse rounded-xl" />
+									) : birthdays.length > 0 ? (
 										<MainGreetingSection />
 									) : (
 										<div className="flex flex-col items-center justify-center py-12 text-center">
@@ -215,7 +216,9 @@ export function SettingsScreen() {
 									<AvatarSettingsSection />
 								</TabsContent>
 								<TabsContent value="messages" className="space-y-6">
-									{birthdays.length > 0 ? (
+									{birthdays === undefined ? (
+										<div className="bg-muted/50 h-64 w-full animate-pulse rounded-xl" />
+									) : birthdays.length > 0 ? (
 										<>
 											<FloatingMessagesManager />
 											<GreetingsManager />
@@ -252,7 +255,7 @@ export function SettingsScreen() {
 											setDeleteTarget("invitations");
 											setDeleteModalOpen(true);
 										}}
-										birthdaysCount={birthdays.length}
+										birthdaysCount={birthdays?.length || 0}
 										invitationsCount={invitations.length}
 									/>
 								</TabsContent>

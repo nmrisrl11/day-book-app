@@ -93,7 +93,7 @@ export function InvitationsDataManagement() {
 					</Button>
 					{importError && (
 						<span
-							className="text-destructive absolute top-full mt-1.5 w-max max-w-50 text-center text-[11px] leading-tight font-medium sm:right-0 sm:text-right"
+							className="text-destructive mt-1.5 w-max max-w-50 text-center text-[11px] leading-tight font-medium sm:text-right"
 							role="alert"
 						>
 							{importError}

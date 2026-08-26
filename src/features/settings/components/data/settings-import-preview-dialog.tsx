@@ -270,7 +270,7 @@ export function SettingsImportPreviewDialog({
 				soundChanges.push({
 					id: "soundVolume",
 					label: "Volume",
-					currentValue: `${Math.round((curr?.volume || 0.5) * 100)}%`,
+					currentValue: `${Math.round((curr?.volume ?? 0.5) * 100)}%`,
 					importedValue: `${Math.round(imp.volume * 100)}%`,
 					hasChanged: curr?.volume !== imp.volume,
 				});

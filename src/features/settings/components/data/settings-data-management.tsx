@@ -63,8 +63,7 @@ export function SettingsDataManagement() {
 	const handleDialogClose = (open: boolean) => {
 		setImportPreviewOpen(open);
 		if (!open) {
-			// Clear imported settings on close/cancel to free memory
-			setTimeout(() => setImportedSettings(null), 300); // Wait for exit animation
+			setImportedSettings(null);
 		}
 	};
 
