@@ -65,6 +65,7 @@ While originally conceived as a "birthday tracker," the product is evolving into
 - **Derived Data**: The Dashboard derives `todayCelebrants`, `upcomingBirthdays`, and `birthdaysByMonth` dynamically from the store via `useBirthdayData`. Do not duplicate this logic.
 - **Performance**: Use React `lazy` and `Suspense` for heavy or non-immediate routes/modals (e.g., in `settings-screen.tsx` and `App.tsx`).
 - **URL State**: Filters, sorting, pagination, and active tabs are frequently managed in the URL using `nuqs` (e.g., `?tab=avatar&page=2`).
+- **Tailwind CSS Styling**: Always prefer canonical Tailwind classes over arbitrary values (e.g., use `max-w-25` instead of `max-w-[100px]`) to maintain consistency and avoid linting warnings from `tailwindcss(suggestCanonicalClasses)`.
 
 ### System Integrations
 

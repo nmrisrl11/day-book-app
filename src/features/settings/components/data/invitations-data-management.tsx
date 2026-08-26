@@ -80,7 +80,7 @@ export function InvitationsDataManagement() {
 					Export
 				</Button>
 
-				<div className="flex w-full flex-col items-center gap-1 sm:w-auto sm:items-end">
+				<div className="relative flex w-full flex-col items-center sm:w-auto sm:items-end">
 					<Button
 						variant="outline"
 						size="sm"
@@ -93,7 +93,7 @@ export function InvitationsDataManagement() {
 					</Button>
 					{importError && (
 						<span
-							className="text-destructive text-center text-xs font-medium sm:text-right"
+							className="text-destructive mt-1.5 w-max max-w-50 text-center text-[11px] leading-tight font-medium sm:text-right"
 							role="alert"
 						>
 							{importError}

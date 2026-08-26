@@ -174,6 +174,7 @@ Use the following naming conventions consistently:
 ## Styling
 
 - Use **TailwindCSS** for styling.
+- Prefer canonical Tailwind classes over arbitrary values (e.g., use `max-w-25` instead of `max-w-[100px]`) to avoid linting warnings and maintain consistency.
 - Use **shadcn/ui** components whenever an appropriate component is available.
 - Do not use inline styles.
 - Do not introduce external UI/component libraries.

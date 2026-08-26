@@ -1,3 +1,4 @@
+import { PartyHat } from "@/components/icons/party-hat";
 import { RestoreDefaultsButton } from "@/components/restore-defaults-button";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -15,7 +16,7 @@ import { defaultSettings, useDayBookStore } from "@/store/day-book-store";
 import type { GreetingTextColorType } from "@/types/settings";
 import { DicesIcon } from "lucide-react";
 
-export function QuickActionGreeting() {
+export function QuickActionGreeting({ hasCelebrants = true }: { hasCelebrants?: boolean }) {
 	const { settings, updateSettings } = useDayBookStore();
 	const greetingSettings = settings.greetingTextSettings || defaultSettings.greetingTextSettings!;
 
@@ -50,6 +51,18 @@ export function QuickActionGreeting() {
 	};
 
 	const isCustomText = !MAIN_GREETINGS.includes(greetingSettings.text);
+
+	if (!hasCelebrants) {
+		return (
+			<div className="flex h-full min-h-35 w-full flex-col items-center justify-center gap-2 p-3 text-center md:min-w-62.5">
+				<PartyHat className="text-muted-foreground/30 h-8 w-8" />
+				<p className="text-muted-foreground text-xs font-medium">No birthdays today</p>
+				<p className="text-muted-foreground/70 text-[10px]">
+					Greeting customization will be available when someone is celebrating.
+				</p>
+			</div>
+		);
+	}
 
 	return (
 		<div className="flex w-full flex-col gap-3 p-3 md:min-w-62.5">
