@@ -16,6 +16,39 @@ export interface ChangelogRelease {
 
 export const changelog: ChangelogRelease[] = [
 	{
+		version: "1.3.0",
+		date: "2026-08-26",
+		title: "Bulk Actions & Custom Greetings",
+		summary:
+			"Clean up your records faster with bulk deletion tools, and personalize your experience further with custom birthday greetings and a completely redesigned Settings page.",
+		changes: [
+			{
+				type: "added",
+				title: "Bulk Actions",
+				description:
+					"Quickly manage your lists! You can now select and delete multiple birthdays or invitation links at once, saving you time when cleaning up.",
+			},
+			{
+				type: "added",
+				title: "Custom Birthday Greetings",
+				description:
+					"Make it truly yours. You can now define your own personalized birthday greeting messages to be displayed when celebrating a special day.",
+			},
+			{
+				type: "improved",
+				title: "Sleeker Settings",
+				description:
+					"We've completely redesigned the Settings page with a modern, compact layout that feels unified and is easier to navigate.",
+			},
+			{
+				type: "improved",
+				title: "Polished Interactions",
+				description:
+					"Buttons and floating menus have been fine-tuned. Actions on mobile are much cleaner, and accidental historical dates are now prevented.",
+			},
+		],
+	},
+	{
 		version: "1.2.0",
 		date: "2026-08-25",
 		title: "Invitation Links & Data Management Redesign",
