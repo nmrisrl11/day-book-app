@@ -191,7 +191,25 @@ export function SettingsScreen() {
 									<DisplaySettingsSection />
 								</TabsContent>
 								<TabsContent value="main-greeting">
-									<MainGreetingSection />
+									{birthdays.length > 0 ? (
+										<MainGreetingSection />
+									) : (
+										<div className="flex flex-col items-center justify-center py-12 text-center">
+											<StarIcon
+												className="text-muted-foreground/50 mb-4 h-12 w-12"
+												aria-hidden="true"
+											/>
+											<h3 className="text-foreground mb-2 text-lg font-semibold">
+												No Birthdays Added
+											</h3>
+											<p className="text-muted-foreground mb-6 max-w-sm text-sm">
+												You need to add at least one birthday to customize the main greeting.
+											</p>
+											<Button onClick={() => navigate("/")} variant="default">
+												Add Birthday
+											</Button>
+										</div>
+									)}
 								</TabsContent>
 								<TabsContent value="avatar">
 									<AvatarSettingsSection />

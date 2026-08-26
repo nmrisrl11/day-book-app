@@ -129,7 +129,7 @@ export function BirthdaysDataManagement() {
 						Export
 					</Button>
 
-					<div className="flex w-full flex-col items-center gap-1 sm:w-auto sm:items-end">
+					<div className="relative flex w-full flex-col items-center sm:w-auto sm:items-end">
 						<Button
 							variant="outline"
 							size="sm"
@@ -142,7 +142,7 @@ export function BirthdaysDataManagement() {
 						</Button>
 						{importBirthdaysError && (
 							<span
-								className="text-destructive text-center text-xs font-medium sm:text-right"
+								className="text-destructive max-w-50text-center absolute top-full mt-1.5 w-max text-[11px] leading-tight font-medium sm:right-0 sm:text-right"
 								role="alert"
 							>
 								{importBirthdaysError}
@@ -192,7 +192,7 @@ export function BirthdaysDataManagement() {
 						Export
 					</Button>
 
-					<div className="flex w-full flex-col items-center gap-1 sm:w-auto sm:items-end">
+					<div className="relative flex w-full flex-col items-center sm:w-auto sm:items-end">
 						<Button
 							variant="outline"
 							size="sm"
@@ -205,7 +205,7 @@ export function BirthdaysDataManagement() {
 						</Button>
 						{importIcsError && (
 							<span
-								className="text-destructive text-center text-xs font-medium sm:text-right"
+								className="text-destructive absolute top-full mt-1.5 w-max max-w-50 text-center text-[11px] leading-tight font-medium sm:right-0 sm:text-right"
 								role="alert"
 							>
 								{importIcsError}

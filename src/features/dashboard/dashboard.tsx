@@ -32,7 +32,7 @@ export function Dashboard() {
 				<UpcomingBirthdaysSection upcomingBirthdays={upcomingBirthdays} currentDate={currentDate} />
 				<BirthdaysSection birthdaysByMonth={birthdaysByMonth} />
 			</Suspense>
-			<QuickActionToolbar />
+			<QuickActionToolbar hasCelebrants={todayCelebrants.length > 0} />
 		</div>
 	);
 }

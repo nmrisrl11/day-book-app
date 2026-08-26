@@ -24,7 +24,7 @@
   - 💬 Floating messages and personalized birthday greetings.
   - 🖼️ Two integrated avatar systems (`avvvatars` and `boring-avatars`) plus custom photo uploads optimized as WebP images.
 - 🎵 **Sound & UI Feedback**: Satisfying, configurable audio feedback for interactions using `cuelume`, and delightful, gooey notification toasts via `goey-toast`.
-- 📅 **Calendar & External Integration**: Import/Export your birthdays via `.ics` or `JSON` format. Large imports are handled effortlessly through an advanced virtualized preview interface, allowing for duplicate review and selection without freezing.
+- 📅 **Calendar & External Integration**: Import/Export your birthdays via `.ics` or `JSON` format. Large imports are handled effortlessly through an advanced virtualized preview interface, allowing for duplicate review and selection without freezing. Settings imports feature a visual diff preview to compare changes before applying.
 - 🔄 **Device Sync**: Securely sync your entire DayBook database (birthdays, avatars, settings, invitations) directly between devices over your local network using a 6-character code via WebRTC. (Note: Connection signaling uses the free PeerJS Cloud service, and may utilize public TURN servers to traverse restrictive networks.)
 - 💾 **Storage Protection**: Keep your data safe with a dedicated Storage Overview section that lets you monitor usage and easily enable Persistent Storage protection.
 - 🔗 **Birthday Links**: Request your friends' birthdays effortlessly! Generate an invitation link, send it via chat, and process their response link directly into your local database. Features delightful animated SVG icons representing the sharing status. No backend required.

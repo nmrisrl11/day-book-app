@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { QuickActionAvatar } from "./quick-action-avatar";
 import { QuickActionGreeting } from "./quick-action-greeting";
 
-export function QuickActionToolbar() {
+export function QuickActionToolbar({ hasCelebrants = false }: { hasCelebrants?: boolean }) {
 	const { settings, updateSettings } = useDayBookStore();
 	const isEnabled = settings.quickActionsEnabled ?? true;
 	const position = settings.quickActionsPosition ?? "bottom-right";
@@ -169,7 +169,7 @@ export function QuickActionToolbar() {
 						)}
 					>
 						<QuickActionAvatar />
-						<QuickActionGreeting />
+						<QuickActionGreeting hasCelebrants={hasCelebrants} />
 					</div>
 
 					<div className="bg-muted/30 flex shrink-0 flex-col items-center justify-center border-l p-1.5">
