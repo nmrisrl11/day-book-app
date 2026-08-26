@@ -11,6 +11,7 @@ export const defaultSettings: Settings = {
 	upcomingCount: 5,
 	theme: "light",
 	floatingMessages: FLOATING_MESSAGES,
+	customGreetingsEnabled: false,
 	greetings: GREETINGS,
 	avatarSettings: AVATAR_SETTINGS,
 	soundSettings: SOUND_SETTINGS,
@@ -67,6 +68,8 @@ export const useDayBookStore = create<DayBookState>()(
 							1,
 							Math.min(10, state?.settings?.upcomingCount ?? defaultSettings.upcomingCount),
 						),
+						customGreetingsEnabled:
+							state?.settings?.customGreetingsEnabled ?? defaultSettings.customGreetingsEnabled,
 						avatarSettings: {
 							...defaultSettings.avatarSettings,
 							...(state?.settings?.avatarSettings || {}),

@@ -36,6 +36,7 @@ export const SettingsSchema = z
 		upcomingCount: z.number().int().min(1).max(10),
 		theme: z.enum(["light", "dark"]),
 		floatingMessages: z.array(z.string().max(FLOATING_MESSAGE_MAX_LENGTH)).optional(),
+		customGreetingsEnabled: z.boolean().optional(),
 		greetings: z.array(z.string().max(GREETINGS_MAX_LENGTH)).optional(),
 		avatarSettings: z
 			.object({

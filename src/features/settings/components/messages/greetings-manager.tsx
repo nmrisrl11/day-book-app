@@ -1,13 +1,15 @@
+import { RestoreDefaultsButton } from "@/components/restore-defaults-button";
 import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
+import { GREETINGS_MAX_LENGTH, GREETINGS_MIN_LENGTH } from "@/schema/validation-constants";
 import { defaultSettings, useDayBookStore } from "@/store/day-book-store";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { PlusIcon, Trash2Icon } from "lucide-react";
 import { useEffect } from "react";
-import { RestoreDefaultsButton } from "@/components/restore-defaults-button";
-import { useForm, useFieldArray } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useFieldArray, useForm } from "react-hook-form";
 import { z } from "zod";
-import { GREETINGS_MAX_LENGTH, GREETINGS_MIN_LENGTH } from "@/schema/validation-constants";
 
 const greetingSchema = z.object({
 	greetings: z
@@ -82,107 +84,137 @@ export function GreetingsManager() {
 		}
 	};
 
-	const adjustTextareaHeight = (e: React.FormEvent<HTMLTextAreaElement>) => {
-		const target = e.currentTarget;
-		target.style.height = "auto";
-		target.style.height = `${target.scrollHeight}px`;
-		target.style.overflowY = target.scrollHeight > 128 ? "auto" : "hidden";
+	const handleToggleCustomGreetings = (checked: boolean) => {
+		updateSettings({ customGreetingsEnabled: checked });
 	};
 
 	return (
-		<div className="flex flex-col gap-3">
-			<div className="flex flex-col gap-1.5">
-				<div className="flex items-center justify-between">
-					<h3 className="text-base font-medium">Greetings</h3>
-					<div className="flex gap-2">
-						<RestoreDefaultsButton
-							onClick={handleRestoreDefaults}
-							ariaLabel="Restore default greetings"
-						/>
-						<Button
-							variant="ghost"
-							size="sm"
-							className="text-destructive hover:bg-destructive/10 hover:text-destructive h-8 text-xs"
-							onClick={handleClearAll}
-							disabled={fields.length === 0}
-							aria-label="Clear all greetings"
-							title="Clear all greetings"
-						>
-							<Trash2Icon className="h-3 w-3 sm:mr-1.5" aria-hidden="true" />
-							<span className="hidden sm:inline">Clear All</span>
-						</Button>
+		<div className="flex flex-col gap-6">
+			<div className="bg-card flex flex-col rounded-xl border">
+				<div className="bg-muted/30 rounded-t-xl border-b p-4">
+					<h3 className="text-base font-semibold">Greetings Settings</h3>
+					<p className="text-muted-foreground text-sm">
+						Manage how greetings are generated for birthdays.
+					</p>
+				</div>
+				<div className="flex flex-col px-4">
+					<div className="flex flex-col gap-1 py-4">
+						<div className="flex items-center justify-between gap-4">
+							<Label className="text-sm font-semibold" htmlFor="enable-custom-greetings">
+								Use Custom Greetings
+							</Label>
+							<div className="flex shrink-0 items-center">
+								<Switch
+									id="enable-custom-greetings"
+									checked={settings.customGreetingsEnabled}
+									onCheckedChange={handleToggleCustomGreetings}
+								/>
+							</div>
+						</div>
+						<p className="text-muted-foreground max-w-[85%] text-sm">
+							Enable to use your own custom greetings instead of the default ones.
+						</p>
 					</div>
 				</div>
-				<p className="text-muted-foreground text-sm">
-					Manage the birthday wishes that appear when you open a celebrant's special day.
-				</p>
 			</div>
 
-			<div className="border-border bg-card flex flex-col divide-y overflow-hidden rounded-xl border">
-				{fields.map((field, index) => (
-					<div
-						key={field.id}
-						className="hover:bg-muted/30 flex flex-col gap-2 p-3 transition-colors"
-					>
-						<div className="flex items-start gap-3">
-							<div className="flex flex-1 flex-col gap-1.5">
-								<Textarea
-									{...register(`greetings.${index}.text`)}
-									placeholder="New greeting"
-									minLength={GREETINGS_MIN_LENGTH}
-									maxLength={GREETINGS_MAX_LENGTH}
-									className="field-sizing-content max-h-32 min-h-0 w-full resize-none overflow-hidden border py-1.75 text-sm break-all transition-colors"
-									onInput={adjustTextareaHeight}
-									onFocus={adjustTextareaHeight}
-									autoComplete="off"
+			{settings.customGreetingsEnabled && (
+				<div className="bg-card flex flex-col rounded-xl border">
+					<div className="bg-muted/30 flex flex-col gap-1.5 rounded-t-xl border-b p-4">
+						<div className="flex items-center justify-between gap-4">
+							<h3 className="text-base font-semibold">Custom Greetings</h3>
+							<div className="flex shrink-0 items-center gap-2">
+								<RestoreDefaultsButton
+									onClick={handleRestoreDefaults}
+									ariaLabel="Restore default custom greetings"
 								/>
-								{errors.greetings?.[index]?.text && (
-									<p className="text-destructive text-xs">
-										{errors.greetings[index]?.text?.message}
-									</p>
+								<Button
+									variant="ghost"
+									size="sm"
+									className="text-destructive hover:bg-destructive/10 hover:text-destructive h-8 text-xs"
+									onClick={handleClearAll}
+									disabled={fields.length === 0}
+									aria-label="Clear all custom greetings"
+									title="Clear all custom greetings"
+								>
+									<Trash2Icon className="h-3 w-3 sm:mr-1.5" aria-hidden="true" />
+									<span className="hidden sm:inline">Clear All</span>
+								</Button>
+							</div>
+						</div>
+						<p className="text-muted-foreground max-w-[85%] text-sm">
+							Manage the specific messages available when generating a greeting.
+						</p>
+					</div>
+
+					<div className="flex flex-col gap-4 p-4">
+						<div className="bg-muted/30 min-h-32 content-center rounded-xl border border-dashed p-4">
+							<div className="flex flex-col gap-2">
+								{fields.map((field, index) => (
+									<div key={field.id} className="flex flex-col gap-1">
+										<div className="relative">
+											<Textarea
+												{...register(`greetings.${index}.text`)}
+												className="bg-background field-sizing-content min-h-15 resize-none rounded-lg pr-9 text-xs shadow-sm max-md:tracking-wide"
+												placeholder="Enter a greeting message"
+												minLength={GREETINGS_MIN_LENGTH}
+												maxLength={GREETINGS_MAX_LENGTH}
+											/>
+											<Button
+												size="icon"
+												variant="ghost"
+												className="hover:bg-destructive/20 hover:text-destructive absolute top-2 right-2 h-7 w-7 rounded-full"
+												onClick={() => remove(index)}
+												aria-label="Delete greeting"
+												title="Delete greeting"
+											>
+												<Trash2Icon aria-hidden="true" className="h-3 w-3" />
+											</Button>
+										</div>
+										{errors.greetings?.[index]?.text && (
+											<span className="text-destructive pl-2 text-xs">
+												{errors.greetings[index]?.text?.message}
+											</span>
+										)}
+									</div>
+								))}
+								{fields.length === 0 && (
+									<div className="text-muted-foreground w-full py-8 text-center text-sm italic">
+										No custom greetings added.
+									</div>
 								)}
 							</div>
-							<Button
-								size="icon"
-								variant="ghost"
-								className="hover:bg-destructive/10 hover:text-destructive h-8 w-8 shrink-0 rounded-full"
-								onClick={() => remove(index)}
-								aria-label="Delete greeting"
-								title="Delete greeting"
-							>
-								<Trash2Icon className="h-4 w-4" aria-hidden="true" />
-							</Button>
+						</div>
+
+						<div className="flex flex-col gap-3">
+							{fields.length < 10 ? (
+								<div className="flex flex-col gap-3">
+									<Button
+										onClick={handleAdd}
+										size="sm"
+										className="w-fit"
+										aria-label="Add custom greeting"
+										title="Add custom greeting"
+									>
+										<PlusIcon className="mr-1 h-4 w-4" aria-hidden="true" />
+										Add New Greeting
+									</Button>
+								</div>
+							) : (
+								<p className="text-sm font-medium text-amber-600">
+									Maximum of 10 greetings reached.
+								</p>
+							)}
+
+							{errors.greetings?.root && (
+								<p className="text-destructive text-sm font-medium" role="alert">
+									{errors.greetings.root.message}
+								</p>
+							)}
 						</div>
 					</div>
-				))}
-				{fields.length === 0 && (
-					<div className="text-muted-foreground p-6 text-center text-sm italic">
-						No greetings added.
-					</div>
-				)}
-			</div>
-
-			<div className="flex flex-col gap-3 border-t pt-3">
-				{fields.length < 10 ? (
-					<Button
-						onClick={handleAdd}
-						className="w-fit"
-						aria-label="Add new greeting"
-						title="Add new greeting"
-					>
-						<PlusIcon className="mr-2 h-4 w-4" aria-hidden="true" />
-						Add Greeting
-					</Button>
-				) : (
-					<p className="text-sm font-medium text-amber-600">Maximum of 10 greetings reached.</p>
-				)}
-
-				{errors.greetings?.root && (
-					<p className="text-destructive text-sm font-medium" role="alert">
-						{errors.greetings.root.message}
-					</p>
-				)}
-			</div>
+				</div>
+			)}
 		</div>
 	);
 }

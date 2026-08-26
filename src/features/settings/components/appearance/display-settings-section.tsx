@@ -1,45 +1,38 @@
-import { Input } from "@/components/ui/input";
+import { RestoreDefaultsButton } from "@/components/restore-defaults-button";
+import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { useDragScroll } from "@/hooks/use-drag-scroll";
-import { cn } from "@/lib/utils";
 import { defaultSettings, useDayBookStore } from "@/store/day-book-store";
-import { useEffect, useState } from "react";
-import { RestoreDefaultsButton } from "@/components/restore-defaults-button";
+import { MinusIcon, PlusIcon } from "lucide-react";
 
 export function DisplaySettingsSection() {
 	const { settings, updateSettings } = useDayBookStore();
+	const upcomingCount = settings.upcomingCount || defaultSettings.upcomingCount;
 
-	const { isDragging, handlers } = useDragScroll();
-	const [localCount, setLocalCount] = useState(settings.upcomingCount.toString());
-
-	useEffect(() => {
-		setLocalCount(settings.upcomingCount.toString());
-	}, [settings.upcomingCount]);
-
-	const handleUpcomingCountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const val = e.target.value;
-		setLocalCount(val);
-
-		const parsed = Number(val);
-		if (Number.isInteger(parsed) && parsed >= 1 && parsed <= 10) {
-			updateSettings({ upcomingCount: parsed });
+	const handleDecrement = () => {
+		if (upcomingCount > 1) {
+			updateSettings({ upcomingCount: upcomingCount - 1 });
 		}
 	};
 
-	const handleCommitCount = () => {
-		const parsed = Number(localCount);
-		if (!Number.isInteger(parsed) || parsed < 1 || parsed > 10) {
-			setLocalCount(settings.upcomingCount.toString());
+	const handleIncrement = () => {
+		if (upcomingCount < 10) {
+			updateSettings({ upcomingCount: upcomingCount + 1 });
 		}
 	};
 
 	return (
-		<div className="flex flex-col gap-6">
-			<div className="flex flex-col gap-3 rounded-xl border p-3">
-				<div className="flex flex-col gap-1.5">
-					<div className="flex items-center justify-between">
-						<Label htmlFor="upcoming-count" className="text-base">
+		<div className="bg-card flex flex-col rounded-xl border">
+			<div className="bg-muted/30 rounded-t-xl border-b p-4">
+				<h3 className="text-base font-semibold">Dashboard & Display</h3>
+				<p className="text-muted-foreground text-sm">
+					Manage how content and effects are displayed on your dashboard.
+				</p>
+			</div>
+			<div className="flex flex-col px-4">
+				<div className="flex flex-col gap-2 border-b py-4">
+					<div className="flex items-center justify-between gap-4">
+						<Label className="text-sm font-semibold" id="upcoming-count-label">
 							Upcoming Birthdays Display Count
 						</Label>
 						<RestoreDefaultsButton
@@ -47,94 +40,80 @@ export function DisplaySettingsSection() {
 							ariaLabel="Restore display defaults"
 						/>
 					</div>
-
-					<p className="text-muted-foreground text-sm">
-						Choose how many upcoming birthdays to show on the dashboard.
-					</p>
-				</div>
-
-				<Input
-					id="upcoming-count"
-					type="number"
-					min={1}
-					max={10}
-					step="1"
-					value={localCount}
-					onChange={handleUpcomingCountChange}
-					onBlur={handleCommitCount}
-					autoComplete="off"
-				/>
-
-				<div className="bg-accent/30 flex flex-col gap-2 rounded-xl border p-4">
-					<span className="text-muted-foreground text-xs font-semibold tracking-wider uppercase">
-						Preview
-					</span>
-					<div className="w-full overflow-x-auto rounded-xl mask-[linear-gradient(to_right,transparent,black_5%,black_95%,transparent)] whitespace-nowrap [&::-webkit-scrollbar]:hidden">
-						<div
-							className={cn(
-								"flex w-max space-x-4 p-4 pt-8 pb-4 select-none",
-								isDragging ? "cursor-grabbing" : "cursor-grab",
-							)}
-							{...handlers}
-						>
-							{Array.from({ length: Math.max(1, Math.min(10, settings.upcomingCount || 5)) }).map(
-								(_, i) => (
-									<div
-										key={i}
-										className="animate-in fade-in zoom-in-95 fill-mode-both border-border bg-card flex min-w-28 flex-col items-center rounded-2xl border p-3 shadow-sm duration-300 md:min-w-32"
-										style={{ animationDelay: `${i * 50}ms` }}
-									>
-										<div className="bg-background ring-border relative -mt-8 mb-3 rounded-full p-1 shadow-sm ring-1">
-											<div className="bg-primary/20 h-10 w-10 rounded-full md:h-12 md:w-12" />
-										</div>
-										<div className="flex w-full flex-col items-center gap-1.5 text-center">
-											<div className="bg-primary/20 h-3 w-16 rounded-full md:w-20" />
-											<div className="bg-primary/10 h-2 w-12 rounded-full md:w-16" />
-											<div className="bg-primary/10 mt-0.5 h-4 w-20 rounded-full md:w-24" />
-										</div>
-									</div>
-								),
-							)}
+					<div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+						<p className="text-muted-foreground text-sm sm:max-w-[85%]">
+							Choose how many upcoming birthdays to show on the dashboard.
+						</p>
+						<div className="flex shrink-0 items-center">
+							<div className="bg-muted flex items-center rounded-lg border p-1 shadow-sm">
+								<Button
+									variant="ghost"
+									size="icon"
+									className="h-8 w-8 rounded-md"
+									onClick={handleDecrement}
+									disabled={upcomingCount <= 1}
+									aria-label="Decrease count"
+								>
+									<MinusIcon className="h-4 w-4" />
+								</Button>
+								<div
+									className="flex w-12 items-center justify-center font-medium tabular-nums select-none"
+									aria-labelledby="upcoming-count-label"
+									aria-live="polite"
+								>
+									{upcomingCount}
+								</div>
+								<Button
+									variant="ghost"
+									size="icon"
+									className="h-8 w-8 rounded-md"
+									onClick={handleIncrement}
+									disabled={upcomingCount >= 10}
+									aria-label="Increase count"
+								>
+									<PlusIcon className="h-4 w-4" />
+								</Button>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
 
-			<div className="flex flex-col gap-1.5 rounded-xl border p-3">
-				<div className="flex items-center justify-between">
-					<Label className="text-base" htmlFor="enable-animations">
-						Enable Animations & Effects
-					</Label>
-
-					<Switch
-						id="enable-animations"
-						checked={settings.animationsEnabled ?? true}
-						onCheckedChange={(checked) => updateSettings({ animationsEnabled: checked })}
-					/>
+				<div className="flex flex-col gap-1 border-b py-4">
+					<div className="flex items-center justify-between gap-4">
+						<Label className="text-sm font-semibold" htmlFor="enable-animations">
+							Enable Animations & Effects
+						</Label>
+						<div className="flex shrink-0 items-center">
+							<Switch
+								id="enable-animations"
+								checked={settings.animationsEnabled ?? true}
+								onCheckedChange={(checked) => updateSettings({ animationsEnabled: checked })}
+							/>
+						</div>
+					</div>
+					<p className="text-muted-foreground max-w-[85%] text-sm">
+						Play confetti and other visual effects. Turn this off if you prefer reduced motion.
+					</p>
 				</div>
 
-				<p className="text-muted-foreground text-sm">
-					Play confetti and other visual effects. Turn this off if you prefer reduced motion.
-				</p>
-			</div>
-
-			<div className="flex flex-col gap-1.5 rounded-xl border p-3">
-				<div className="flex items-center justify-between">
-					<Label className="text-base" htmlFor="enable-quick-actions">
-						Show Quick Action Toolbar
-					</Label>
-
-					<Switch
-						id="enable-quick-actions"
-						checked={settings.quickActionsEnabled ?? true}
-						onCheckedChange={(checked) => updateSettings({ quickActionsEnabled: checked })}
-					/>
+				<div className="flex flex-col gap-1 py-4">
+					<div className="flex items-center justify-between gap-4">
+						<Label className="text-sm font-semibold" htmlFor="enable-quick-actions">
+							Show Quick Action Toolbar
+						</Label>
+						<div className="flex shrink-0 items-center">
+							<Switch
+								id="enable-quick-actions"
+								checked={settings.quickActionsEnabled ?? true}
+								onCheckedChange={(checked) => updateSettings({ quickActionsEnabled: checked })}
+							/>
+						</div>
+					</div>
+					<p className="text-muted-foreground max-w-[85%] text-sm">
+						Show a floating toolbar on the dashboard for quick access to avatar and greeting
+						customization.
+					</p>
 				</div>
-
-				<p className="text-muted-foreground text-sm">
-					Show a floating toolbar on the dashboard for quick access to avatar and greeting
-					customization.
-				</p>
 			</div>
 		</div>
 	);

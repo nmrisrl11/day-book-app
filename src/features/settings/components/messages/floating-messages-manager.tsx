@@ -1,17 +1,17 @@
+import { RestoreDefaultsButton } from "@/components/restore-defaults-button";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Kbd } from "@/components/ui/kbd";
+import {
+	FLOATING_MESSAGE_MAX_LENGTH,
+	FLOATING_MESSAGE_MIN_LENGTH,
+} from "@/schema/validation-constants";
 import { defaultSettings, useDayBookStore } from "@/store/day-book-store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PlusIcon, Trash2Icon } from "lucide-react";
 import { useEffect } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { z } from "zod";
-import {
-	FLOATING_MESSAGE_MAX_LENGTH,
-	FLOATING_MESSAGE_MIN_LENGTH,
-} from "@/schema/validation-constants";
-import { RestoreDefaultsButton } from "@/components/restore-defaults-button";
 
 const floatingMessagesSchema = z.object({
 	messages: z
@@ -93,11 +93,11 @@ export function FloatingMessagesManager() {
 	};
 
 	return (
-		<div className="flex flex-col gap-3">
-			<div className="flex flex-col gap-1.5">
-				<div className="flex items-center justify-between">
-					<h3 className="text-base font-medium">Floating Messages</h3>
-					<div className="flex gap-2">
+		<div className="bg-card flex flex-col rounded-xl border">
+			<div className="bg-muted/30 flex flex-col gap-1.5 rounded-t-xl border-b p-4">
+				<div className="flex items-center justify-between gap-4">
+					<h3 className="text-base font-semibold">Floating Messages</h3>
+					<div className="flex shrink-0 items-center gap-2">
 						<RestoreDefaultsButton
 							onClick={handleRestoreDefaults}
 							ariaLabel="Restore default floating messages"
@@ -116,74 +116,77 @@ export function FloatingMessagesManager() {
 						</Button>
 					</div>
 				</div>
-				<p className="text-muted-foreground text-sm">
+				<p className="text-muted-foreground max-w-[85%] text-sm">
 					Manage the messages that float across the screen when someone has a birthday. <br />(
 					<span className="font-bold">Tip:</span> You can use emojis with your system keyboard:{" "}
 					<Kbd>Win + .</Kbd> or <Kbd>Cmd + Ctrl + Space</Kbd>)
 				</p>
 			</div>
 
-			<div className="flex flex-wrap gap-1.5">
-				{fields.map((field, index) => (
-					<div key={field.id} className="flex flex-col gap-1">
-						<div className="relative">
-							<Input
-								{...register(`messages.${index}.text`)}
-								className="peer field-sizing-content h-9 rounded-full pe-9"
-								placeholder="Enter a message"
-								minLength={FLOATING_MESSAGE_MIN_LENGTH}
-								maxLength={FLOATING_MESSAGE_MAX_LENGTH}
-								autoComplete="off"
-							/>
-
-							<Button
-								size="icon"
-								variant="ghost"
-								className="hover:bg-destructive/20 hover:text-destructive absolute inset-y-0 inset-e-1 my-auto h-7 w-7 rounded-full"
-								onClick={() => remove(index)}
-								aria-label="Delete message"
-								title="Delete message"
-							>
-								<Trash2Icon aria-hidden="true" className="h-3 w-3" />
-							</Button>
-						</div>
-						{errors.messages?.[index]?.text && (
-							<span className="text-destructive max-w-55 pl-2 text-[10px]">
-								{errors.messages[index]?.text?.message}
-							</span>
+			<div className="flex flex-col gap-4 p-4">
+				<div className="bg-muted/30 min-h-32 content-center rounded-xl border border-dashed p-4">
+					<div className="flex flex-wrap gap-2">
+						{fields.map((field, index) => (
+							<div key={field.id} className="flex flex-col gap-1">
+								<div className="relative">
+									<Input
+										{...register(`messages.${index}.text`)}
+										className="bg-background peer field-sizing-content h-9 rounded-full pe-9 text-xs shadow-sm"
+										placeholder="Enter a message"
+										minLength={FLOATING_MESSAGE_MIN_LENGTH}
+										maxLength={FLOATING_MESSAGE_MAX_LENGTH}
+										autoComplete="off"
+									/>
+									<Button
+										size="icon"
+										variant="ghost"
+										className="hover:bg-destructive/20 hover:text-destructive absolute inset-y-0 inset-e-1 my-auto h-7 w-7 rounded-full"
+										onClick={() => remove(index)}
+										aria-label="Delete message"
+										title="Delete message"
+									>
+										<Trash2Icon aria-hidden="true" className="h-3 w-3" />
+									</Button>
+								</div>
+								{errors.messages?.[index]?.text && (
+									<span className="text-destructive max-w-55 pl-2 text-[10px]">
+										{errors.messages[index]?.text?.message}
+									</span>
+								)}
+							</div>
+						))}
+						{fields.length === 0 && (
+							<div className="text-muted-foreground w-full py-4 text-center text-sm italic">
+								No floating messages added.
+							</div>
 						)}
 					</div>
-				))}
-				{fields.length === 0 && (
-					<div className="text-muted-foreground py-2 text-sm italic">
-						No floating messages added.
-					</div>
-				)}
-			</div>
+				</div>
 
-			<div className="flex flex-col gap-3 border-t pt-3">
-				{fields.length < 10 ? (
-					<div className="flex flex-col gap-3">
-						<Button
-							onClick={handleAdd}
-							size="sm"
-							className="w-fit"
-							aria-label="Add floating message"
-							title="Add floating message"
-						>
-							<PlusIcon className="mr-1 h-4 w-4" aria-hidden="true" />
-							Add New Message
-						</Button>
-					</div>
-				) : (
-					<p className="text-sm font-medium text-amber-600">Maximum of 10 messages reached.</p>
-				)}
+				<div className="flex flex-col gap-3">
+					{fields.length < 10 ? (
+						<div className="flex flex-col gap-3">
+							<Button
+								onClick={handleAdd}
+								size="sm"
+								className="w-fit"
+								aria-label="Add floating message"
+								title="Add floating message"
+							>
+								<PlusIcon className="mr-1 h-4 w-4" aria-hidden="true" />
+								Add New Message
+							</Button>
+						</div>
+					) : (
+						<p className="text-sm font-medium text-amber-600">Maximum of 10 messages reached.</p>
+					)}
 
-				{errors.messages?.root && (
-					<p className="text-destructive text-sm font-medium" role="alert">
-						{errors.messages.root.message}
-					</p>
-				)}
+					{errors.messages?.root && (
+						<p className="text-destructive text-sm font-medium" role="alert">
+							{errors.messages.root.message}
+						</p>
+					)}
+				</div>
 			</div>
 		</div>
 	);

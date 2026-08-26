@@ -4,9 +4,11 @@
 
 - Added the ability to bulk delete multiple birthdays on the Manage Birthdays screen.
 - Added the ability to bulk delete multiple invitation links on the Invitation Links screen.
+- Added a Custom Greetings feature in Settings, allowing users to define their own personalized greeting messages for birthdays.
 
 ## Improved
 
+- Redesigned the Settings page to feature a modern, compact, and consistent layout across all tabs, offering a sleeker and more cohesive configuration experience.
 - Standardized copy button styling across all components to consistently use a text-based green success state instead of solid background fills.
 - Made the floating action bar in Manage Birthdays and Invitation Links screens responsive on mobile devices, including converting text buttons to icon-only variants for better space management.
 - Re-styled the "Delete Selected" bulk action button to use a ghost variant by default (turning red only on hover) to prevent it from aggressively drawing attention as the primary action.
