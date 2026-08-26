@@ -19,7 +19,7 @@ export function DashboardSkeleton() {
 				<Skeleton className="h-7 w-62.5 rounded-lg" />
 
 				<div className="flex w-max gap-4 p-4 pt-10 pb-6">
-					{[1, 2, 3, 4, 5].map((i) => (
+					{Array.from({ length: 5 }).map((_, i) => (
 						<div
 							key={i}
 							className="border-border bg-card flex min-w-40 flex-col items-center rounded-3xl border p-6 shadow-sm md:min-w-45"

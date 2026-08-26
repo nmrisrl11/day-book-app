@@ -187,7 +187,7 @@ export function GreetingsManager() {
 						</div>
 
 						<div className="flex flex-col gap-3">
-							{fields.length < 50 ? (
+							{fields.length < 10 ? (
 								<div className="flex flex-col gap-3">
 									<Button
 										onClick={handleAdd}
@@ -202,7 +202,7 @@ export function GreetingsManager() {
 								</div>
 							) : (
 								<p className="text-sm font-medium text-amber-600">
-									Maximum of 50 greetings reached.
+									Maximum of 10 greetings reached.
 								</p>
 							)}
 
