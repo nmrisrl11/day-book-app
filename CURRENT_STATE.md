@@ -50,12 +50,12 @@ DayBook is a fully functional, local-first React application. While originally s
 
 ### Settings & Customization (Beyond Original Scope)
 
-Settings has grown into a full `/settings` route with 6 tabs managed by `nuqs` URL state:
+Settings has grown into a full `/settings` route with 6 tabs managed by `nuqs` URL state, featuring a modern, cohesive, and fully responsive layout across all sections:
 
-1.  **Appearance**: Theme toggle (Light/Dark) and Display settings (Upcoming count limit).
+1.  **Appearance**: Theme toggle (Light/Dark) and Display settings (Upcoming count limit, animations, quick actions).
 2.  **Main Greeting**: Customize the dashboard "Happy Birthday" text, typography, and color styling (Solid/Gradient).
 3.  **Avatar**: Choose between `boring-avatars` (default) and `avvvatars`, and enable/disable custom image uploads.
-4.  **Messages & Greetings**: Manage the floating text items and the randomized greeting pool.
+4.  **Messages & Greetings**: Manage floating text items, enable custom greetings, and define personalized greeting messages for birthdays.
 5.  **Sound & Feedback**: Configure `cuelume` hover/click/success/error sound mappings and volume. UI feedback notifications use `goey-toast` for playful, premium animations.
 6.  **Data Management**: Features a Storage Overview section to monitor browser data usage and enable Persistent Storage protection. **Device Sync (P2P)** enables direct, secure local network synchronization of the entire database (birthdays, invitations, settings) via WebRTC (using PeerJS Cloud for connection signaling and public TURN servers for traversal). All Import/Export functions (Birthdays, Calendar, Invitations, Settings) are consolidated into a compact list layout. The virtualized Import Preview Dialog handles duplicate reviewing and selective importing smoothly for 1,000+ items. Finally, the Danger Zone provides explicitly separated destructive actions (Delete All Birthdays, Delete All Invitations, Reset All Settings) each guarded by a generic ActionConfirmationModal and export-first safety hints.
 

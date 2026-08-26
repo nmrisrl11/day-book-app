@@ -10,6 +10,7 @@ import {
 	DialogTitle,
 } from "@/components/ui/dialog";
 import { UserAvatar } from "@/components/user-avatar";
+import { GREETINGS } from "@/constants/greetings";
 import { CalendarExportDialog } from "@/features/calendar/components/calendar-export-dialog";
 import { calculateAge, formatBirthdayDisplay } from "@/helpers/birthday-utils";
 import { useDayBookStore } from "@/store/day-book-store";
@@ -32,12 +33,12 @@ export function CelebrantModal({ celebrant, isOpen, onClose, currentDate }: Cele
 	const greeting = useMemo(() => {
 		if (!celebrant) return "";
 		const greetingsList =
-			settings.greetings && settings.greetings.length > 0
+			settings.customGreetingsEnabled && settings.greetings && settings.greetings.length > 0
 				? settings.greetings
-				: ["Happy Birthday!"];
+				: GREETINGS;
 		const randomIndex = Math.floor(Math.random() * greetingsList.length);
 		return greetingsList[randomIndex];
-	}, [celebrant, settings.greetings]); // Re-roll greeting if a new celebrant is opened
+	}, [celebrant, settings.greetings, settings.customGreetingsEnabled]); // Re-roll greeting if a new celebrant is opened
 
 	if (!celebrant) return null;
 

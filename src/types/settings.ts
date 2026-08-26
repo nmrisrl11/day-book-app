@@ -59,6 +59,7 @@ export interface Settings {
 	upcomingCount: number;
 	theme: "light" | "dark";
 	floatingMessages?: string[];
+	customGreetingsEnabled?: boolean;
 	greetings?: string[];
 	avatarSettings?: AvatarSettings;
 	soundSettings?: SoundSettings;
