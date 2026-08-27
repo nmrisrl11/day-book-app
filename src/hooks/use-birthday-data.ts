@@ -3,6 +3,7 @@ import {
 	getTodayCelebrants,
 	getUpcomingBirthdays,
 } from "@/helpers/birthday-utils";
+import { useCurrentDate } from "@/hooks/use-current-date";
 import { useDayBookStore } from "@/store/day-book-store";
 import { useMemo } from "react";
 
@@ -15,10 +16,9 @@ export function useBirthdayData() {
 	const isLoading = birthdaysData === undefined;
 	const birthdays = birthdaysData ?? [];
 
-	return useMemo(() => {
-		const now = new Date();
-		const currentDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+	const currentDate = useCurrentDate();
 
+	return useMemo(() => {
 		const todayCelebrants = getTodayCelebrants(birthdays, currentDate);
 
 		const allUpcoming = getUpcomingBirthdays(birthdays, currentDate);
@@ -36,5 +36,5 @@ export function useBirthdayData() {
 			isLoading,
 			birthdays,
 		};
-	}, [birthdays, isLoading, settings.upcomingCount]);
+	}, [birthdays, isLoading, settings.upcomingCount, currentDate]);
 }

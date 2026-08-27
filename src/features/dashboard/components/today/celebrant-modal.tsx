@@ -12,7 +12,7 @@ import {
 import { UserAvatar } from "@/components/user-avatar";
 import { GREETINGS } from "@/constants/greetings";
 import { CalendarExportDialog } from "@/features/calendar/components/calendar-export-dialog";
-import { calculateAge, formatBirthdayDisplay } from "@/helpers/birthday-utils";
+import { formatAgeDisplay, formatBirthdayDisplay } from "@/helpers/birthday-utils";
 import { useDayBookStore } from "@/store/day-book-store";
 import { type Birthday } from "@/types/birthday";
 import { CalendarIcon, CalendarPlus, GiftIcon } from "lucide-react";
@@ -42,7 +42,7 @@ export function CelebrantModal({ celebrant, isOpen, onClose, currentDate }: Cele
 
 	if (!celebrant) return null;
 
-	const age = calculateAge(celebrant.birthday, currentDate);
+	const ageDisplay = formatAgeDisplay(celebrant.birthday, currentDate);
 	const formattedDate = formatBirthdayDisplay(celebrant.birthday);
 
 	return (
@@ -79,10 +79,10 @@ export function CelebrantModal({ celebrant, isOpen, onClose, currentDate }: Cele
 										{formattedDate}
 									</Badge>
 
-									{age !== null && (
+									{ageDisplay !== null && (
 										<Badge variant="destructive" className="p-3 text-sm font-bold">
 											<GiftIcon data-icon="inline-start" />
-											Now {age} years old
+											Now {ageDisplay}
 										</Badge>
 									)}
 								</div>

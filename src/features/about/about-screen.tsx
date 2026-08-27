@@ -101,7 +101,7 @@ export function AboutScreen() {
 						<FeatureCard
 							icon={<WifiIcon className="h-5 w-5" />}
 							title="Device Sync"
-							description="Securely sync your entire database directly between your devices over the local network via WebRTC."
+							description="Securely sync your entire database directly between your phones and computers over your local network—no cloud required."
 						/>
 						<FeatureCard
 							icon={<PaletteIcon className="h-5 w-5" />}
@@ -116,7 +116,7 @@ export function AboutScreen() {
 						<FeatureCard
 							icon={<SmartphoneIcon className="h-5 w-5" />}
 							title="App-like Experience"
-							description={`Install ${APP_INFO.name} as a Progressive Web App (PWA) for a fast, offline-capable experience on any device.`}
+							description={`Install ${APP_INFO.name} directly to your home screen for a fast, offline-capable experience that feels just like a native app.`}
 						/>
 					</div>
 				</section>

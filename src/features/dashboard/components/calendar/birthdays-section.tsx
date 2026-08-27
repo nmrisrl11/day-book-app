@@ -9,9 +9,10 @@ const MonthlyBirthdayModal = lazy(() =>
 
 interface BirthdaysSectionProps {
 	birthdaysByMonth: Record<number, Birthday[]>;
+	currentDate: Date;
 }
 
-export function BirthdaysSection({ birthdaysByMonth }: BirthdaysSectionProps) {
+export function BirthdaysSection({ birthdaysByMonth, currentDate }: BirthdaysSectionProps) {
 	const [selectedMonthIndex, setSelectedMonthIndex] = useState<number | null>(null);
 
 	const handleClose = () => setSelectedMonthIndex(null);
@@ -41,6 +42,7 @@ export function BirthdaysSection({ birthdaysByMonth }: BirthdaysSectionProps) {
 						birthdays={birthdaysByMonth[selectedMonthIndex] || []}
 						isOpen={true}
 						onClose={handleClose}
+						currentDate={currentDate}
 					/>
 				</Suspense>
 			)}

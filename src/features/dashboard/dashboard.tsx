@@ -30,7 +30,7 @@ export function Dashboard() {
 			<Suspense fallback={<DashboardRouteFallback />}>
 				<HappyBirthdaySection celebrants={todayCelebrants} currentDate={currentDate} />
 				<UpcomingBirthdaysSection upcomingBirthdays={upcomingBirthdays} currentDate={currentDate} />
-				<BirthdaysSection birthdaysByMonth={birthdaysByMonth} />
+				<BirthdaysSection birthdaysByMonth={birthdaysByMonth} currentDate={currentDate} />
 			</Suspense>
 			<QuickActionToolbar hasCelebrants={todayCelebrants.length > 0} />
 		</div>
