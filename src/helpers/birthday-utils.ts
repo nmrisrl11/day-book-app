@@ -112,19 +112,26 @@ export function formatAgeDisplay(dateString: string, currentDate: Date): string 
 	if (dateString.startsWith("0000")) return null;
 
 	const parsed = parseBirthday(dateString);
+	const todayMidnight = new Date(
+		currentDate.getFullYear(),
+		currentDate.getMonth(),
+		currentDate.getDate(),
+	);
 
-	const years = differenceInYears(currentDate, parsed);
+	const years = differenceInYears(todayMidnight, parsed);
 	if (years > 0) {
 		return `${years} ${years === 1 ? "year" : "years"} old`;
 	}
 
-	const months = differenceInMonths(currentDate, parsed);
+	const months = differenceInMonths(todayMidnight, parsed);
 	if (months > 0) {
 		return `${months} ${months === 1 ? "month" : "months"} old`;
 	}
 
-	const days = differenceInDays(currentDate, parsed);
-	if (days >= 0) {
+	const days = differenceInDays(todayMidnight, parsed);
+	if (days > 0) {
+		return `${days} ${days === 1 ? "day" : "days"} old`;
+	} else if (days === 0) {
 		return "Newborn";
 	}
 
