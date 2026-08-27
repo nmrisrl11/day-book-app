@@ -77,6 +77,7 @@ export function BirthdayManagementScreen() {
 		clampedPage,
 		generatePageNumbers,
 		isLoading,
+		currentDate,
 	} = useBirthdayManagement();
 
 	const [formModalOpen, setFormModalOpen] = useState(false);
@@ -320,6 +321,7 @@ export function BirthdayManagementScreen() {
 												selectable={true}
 												selected={selectedIds.has(birthday.id)}
 												onSelectChange={handleSelectChange}
+												currentDate={currentDate}
 											/>
 										</div>
 									);

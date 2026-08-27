@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { UserAvatar } from "@/components/user-avatar";
-import { formatBirthdayDisplay } from "@/helpers/birthday-utils";
+import { formatAgeDisplay, formatBirthdayDisplay } from "@/helpers/birthday-utils";
 import type { Birthday } from "@/types/birthday";
 
 interface MonthlyBirthdayModalProps {
@@ -15,6 +15,7 @@ interface MonthlyBirthdayModalProps {
 	birthdays: Birthday[];
 	isOpen: boolean;
 	onClose: () => void;
+	currentDate: Date;
 }
 
 export function MonthlyBirthdayModal({
@@ -22,6 +23,7 @@ export function MonthlyBirthdayModal({
 	birthdays,
 	isOpen,
 	onClose,
+	currentDate,
 }: MonthlyBirthdayModalProps) {
 	// Group birthdays by formatted date (e.g., "August 20")
 	const groupedBirthdays = birthdays.reduce(
@@ -63,23 +65,38 @@ export function MonthlyBirthdayModal({
 										{date}
 									</h4>
 									<div className="flex flex-col gap-4 p-3">
-										{celebrants.map((celebrant) => (
-											<div key={celebrant.id} className="flex items-center gap-4">
-												<div className="bg-muted ring-border rounded-full p-1 ring-1">
-													<UserAvatar birthday={celebrant} size={48} className="h-12 w-12" />
-												</div>
-												<div className="flex flex-col">
-													<span className="text-foreground text-lg font-semibold">
-														{celebrant.name}
-													</span>
-													{celebrant.relationship && (
-														<span className="text-muted-foreground text-xs font-medium tracking-widest uppercase">
-															{celebrant.relationship}
+										{celebrants.map((celebrant) => {
+											const ageDisplay = formatAgeDisplay(celebrant.birthday, currentDate);
+											return (
+												<div key={celebrant.id} className="flex items-center gap-4">
+													<div className="bg-muted ring-border rounded-full p-1 ring-1">
+														<UserAvatar birthday={celebrant} size={48} className="h-12 w-12" />
+													</div>
+													<div className="flex flex-col">
+														<span className="text-foreground text-lg font-semibold">
+															{celebrant.name}
 														</span>
-													)}
+														<div className="flex items-center gap-2">
+															{celebrant.relationship && (
+																<>
+																	<span className="text-muted-foreground text-xs font-medium tracking-widest uppercase">
+																		{celebrant.relationship}
+																	</span>
+																	{ageDisplay !== null && (
+																		<span className="text-muted-foreground/50 text-xs">•</span>
+																	)}
+																</>
+															)}
+															{ageDisplay !== null && (
+																<span className="text-muted-foreground text-xs font-medium">
+																	{ageDisplay}
+																</span>
+															)}
+														</div>
+													</div>
 												</div>
-											</div>
-										))}
+											);
+										})}
 									</div>
 								</div>
 							))}

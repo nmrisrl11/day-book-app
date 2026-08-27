@@ -1,5 +1,6 @@
 import { parseAsInteger, parseAsString, parseAsStringLiteral, useQueryState } from "nuqs";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCurrentDate } from "@/hooks/use-current-date";
 
 export const MONTH_OPTIONS = [
 	"all",
@@ -49,6 +50,8 @@ export function useBirthdayManagement() {
 	);
 
 	const [localSearch, setLocalSearch] = useState(searchQuery);
+
+	const currentDate = useCurrentDate();
 
 	useEffect(() => {
 		setLocalSearch(searchQuery);
@@ -151,9 +154,8 @@ export function useBirthdayManagement() {
 			result = result.filter((b) => b.relationship === relationshipFilter);
 		}
 
-		const today = new Date();
-		const currentMonth = today.getMonth() + 1;
-		const currentDay = today.getDate();
+		const currentMonth = currentDate.getMonth() + 1;
+		const currentDay = currentDate.getDate();
 
 		const mapped = result.map((b) => {
 			let timestamp = 0;
@@ -165,7 +167,7 @@ export function useBirthdayManagement() {
 				const [, m, d] = b.birthday.split("-");
 				const month = parseInt(m, 10);
 				const day = parseInt(d, 10);
-				let year = today.getFullYear();
+				let year = currentDate.getFullYear();
 				if (month < currentMonth || (month === currentMonth && day < currentDay)) {
 					year += 1;
 				}
@@ -191,7 +193,7 @@ export function useBirthdayManagement() {
 		});
 
 		return mapped.map((item) => item.b);
-	}, [birthdays, searchQuery, monthFilter, relationshipFilter, sortOption]);
+	}, [birthdays, searchQuery, monthFilter, relationshipFilter, sortOption, currentDate]);
 
 	const totalPages =
 		itemsPerPage === "all"
@@ -262,5 +264,6 @@ export function useBirthdayManagement() {
 		clampedPage,
 		generatePageNumbers,
 		isLoading,
+		currentDate,
 	};
 }

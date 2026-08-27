@@ -1,10 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { UserAvatar } from "@/components/user-avatar";
+import { formatAgeDisplay } from "@/helpers/birthday-utils";
 import { cn } from "@/lib/utils";
 import type { Birthday } from "@/types/birthday";
 import { CalendarIcon, Edit2Icon, Trash2Icon } from "lucide-react";
-import { memo } from "react";
+import { memo, useMemo } from "react";
 
 interface BirthdayListItemProps {
 	birthday: Birthday;
@@ -14,6 +15,7 @@ interface BirthdayListItemProps {
 	selectable?: boolean;
 	selected?: boolean;
 	onSelectChange?: (id: string, selected: boolean) => void;
+	currentDate: Date;
 }
 
 export const BirthdayListItem = memo(function BirthdayListItem({
@@ -24,6 +26,7 @@ export const BirthdayListItem = memo(function BirthdayListItem({
 	selectable = false,
 	selected = false,
 	onSelectChange,
+	currentDate,
 }: BirthdayListItemProps) {
 	// Parse the birthday string to display it nicely
 	const [year, month, day] = birthday.birthday.split("-");
@@ -34,6 +37,11 @@ export const BirthdayListItem = memo(function BirthdayListItem({
 			day: "numeric",
 			year: "numeric",
 		},
+	);
+
+	const ageDisplay = useMemo(
+		() => formatAgeDisplay(birthday.birthday, currentDate),
+		[birthday.birthday, currentDate],
 	);
 
 	return (
@@ -65,7 +73,15 @@ export const BirthdayListItem = memo(function BirthdayListItem({
 								</span>
 							)}
 						</span>
-						<span className="text-muted-foreground truncate text-xs sm:text-sm">{displayDate}</span>
+						<span className="text-muted-foreground truncate text-xs sm:text-sm">
+							{displayDate}
+							{ageDisplay !== null && (
+								<>
+									<span className="mx-2 opacity-50">•</span>
+									{ageDisplay}
+								</>
+							)}
+						</span>
 					</div>
 				</div>
 

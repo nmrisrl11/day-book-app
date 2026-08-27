@@ -10,13 +10,13 @@ import {
 } from "@/components/ui/dialog";
 import { APP_INFO } from "@/constants/app-info";
 import { FULL_MONTHS } from "@/constants/months";
-import { formatBirthdayDisplay } from "@/helpers/birthday-utils";
-import { cn } from "@/lib/utils";
+import { formatAgeDisplay, formatBirthdayDisplay } from "@/helpers/birthday-utils";
 import { BirthdayRepository } from "@/lib/birthday-repository";
 import { db } from "@/lib/db";
-import { useLiveQuery } from "dexie-react-hooks";
+import { cn } from "@/lib/utils";
 import type { Birthday } from "@/types/birthday";
 import { useVirtualizer, type VirtualItem as TanstackVirtualItem } from "@tanstack/react-virtual";
+import { useLiveQuery } from "dexie-react-hooks";
 import { gooeyToast } from "goey-toast";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -143,8 +143,20 @@ const VirtualBirthdayRow = React.memo(
 								</span>
 							)}
 						</div>
-						<span className="text-muted-foreground text-xs font-medium">
-							{formatBirthdayDisplay(b.birthday)}
+						<span className="text-muted-foreground flex items-center gap-1.5 text-xs font-medium">
+							<span>{formatBirthdayDisplay(b.birthday)}</span>
+							{(() => {
+								const ageDisplay = formatAgeDisplay(b.birthday, new Date());
+								if (ageDisplay !== null) {
+									return (
+										<>
+											<span className="opacity-50">•</span>
+											<span>{ageDisplay}</span>
+										</>
+									);
+								}
+								return null;
+							})()}
 						</span>
 					</div>
 					{duplicate && (

@@ -2,6 +2,8 @@ import type { Birthday } from "@/types/birthday";
 import {
 	compareAsc,
 	differenceInDays,
+	differenceInMonths,
+	differenceInYears,
 	format,
 	isBefore,
 	isSameDay,
@@ -104,6 +106,29 @@ export function calculateAge(dateString: string, currentDate: Date): number | nu
 	}
 
 	return age;
+}
+
+export function formatAgeDisplay(dateString: string, currentDate: Date): string | null {
+	if (dateString.startsWith("0000")) return null;
+
+	const parsed = parseBirthday(dateString);
+
+	const years = differenceInYears(currentDate, parsed);
+	if (years > 0) {
+		return `${years} ${years === 1 ? "year" : "years"} old`;
+	}
+
+	const months = differenceInMonths(currentDate, parsed);
+	if (months > 0) {
+		return `${months} ${months === 1 ? "month" : "months"} old`;
+	}
+
+	const days = differenceInDays(currentDate, parsed);
+	if (days >= 0) {
+		return "Newborn";
+	}
+
+	return null;
 }
 
 export function calculateDaysUntilBirthday(dateString: string, currentDate: Date): number {

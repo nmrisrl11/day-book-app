@@ -5,6 +5,7 @@ import {
 	getTodayCelebrants,
 	getBirthdaysByMonth,
 	formatBirthdayDisplay,
+	formatAgeDisplay,
 	calculateAge,
 	calculateDaysUntilBirthday,
 } from "../birthday-utils";
@@ -70,6 +71,31 @@ describe("birthday-utils", () => {
 		it("should format date correctly as 'Month Day'", () => {
 			expect(formatBirthdayDisplay("1990-05-15")).toBe("May 15");
 			expect(formatBirthdayDisplay("0000-01-01")).toBe("January 1");
+		});
+	});
+
+	describe("formatAgeDisplay", () => {
+		it("should return X years old for ages >= 1", () => {
+			expect(formatAgeDisplay("1990-05-15", mockDate)).toBe("34 years old");
+			expect(formatAgeDisplay("2023-01-01", mockDate)).toBe("1 year old");
+		});
+
+		it("should return months old for ages < 1 year but >= 1 month", () => {
+			expect(formatAgeDisplay("2024-03-15", mockDate)).toBe("2 months old");
+			expect(formatAgeDisplay("2024-04-15", mockDate)).toBe("1 month old");
+		});
+
+		it("should return days old for ages < 1 month but >= 1 day", () => {
+			expect(formatAgeDisplay("2024-05-10", mockDate)).toBe("5 days old");
+			expect(formatAgeDisplay("2024-05-14", mockDate)).toBe("1 day old");
+		});
+
+		it("should return Newborn for birthdays today (0 days old)", () => {
+			expect(formatAgeDisplay("2024-05-15", mockDate)).toBe("Newborn");
+		});
+
+		it("should return null if the year is 0000", () => {
+			expect(formatAgeDisplay("0000-05-15", mockDate)).toBeNull();
 		});
 	});
 
