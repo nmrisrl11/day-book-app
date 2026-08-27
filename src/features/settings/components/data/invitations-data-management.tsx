@@ -4,13 +4,13 @@ import { Input } from "@/components/ui/input";
 import { exportInvitations, parseImportedInvitations } from "@/helpers/import-export";
 import type { InvitationRecord } from "@/lib/db";
 import { InvitationRepository } from "@/lib/invitation-repository";
+import { gooeyToast } from "goey-toast";
 import { DownloadIcon, UploadIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 export function InvitationsDataManagement() {
 	const [invitations, setInvitations] = useState<InvitationRecord[]>([]);
 	const fileInputInvitationsRef = useRef<HTMLInputElement>(null);
-	const [importError, setImportError] = useState("");
 
 	useEffect(() => {
 		InvitationRepository.getAll().then(setInvitations);
@@ -25,7 +25,6 @@ export function InvitationsDataManagement() {
 	};
 
 	const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-		setImportError("");
 		const file = e.target.files?.[0];
 		if (!file) return;
 
@@ -40,7 +39,11 @@ export function InvitationsDataManagement() {
 				throw new Error("No valid invitations found in file.");
 			}
 		} catch (err) {
-			setImportError(err instanceof Error ? err.message : "Failed to import invitations.");
+			gooeyToast.error("Import Failed", {
+				id: "import-error",
+				description: err instanceof Error ? err.message : "Failed to import invitations.",
+				showTimestamp: false,
+			});
 		} finally {
 			if (fileInputInvitationsRef.current) {
 				fileInputInvitationsRef.current.value = "";
@@ -91,14 +94,6 @@ export function InvitationsDataManagement() {
 						<UploadIcon className="h-3.5 w-3.5" />
 						Import
 					</Button>
-					{importError && (
-						<span
-							className="text-destructive mt-1.5 w-max max-w-50 text-center text-[11px] leading-tight font-medium sm:text-right"
-							role="alert"
-						>
-							{importError}
-						</span>
-					)}
 				</div>
 				<Input
 					id="import-invitations-file"
