@@ -17,7 +17,6 @@ const SettingsImportPreviewDialog = lazy(() =>
 export function SettingsDataManagement() {
 	const { settings, updateSettings } = useDayBookStore();
 	const fileInputSettingsRef = useRef<HTMLInputElement>(null);
-	const [importSettingsError, setImportSettingsError] = useState("");
 	const [importPreviewOpen, setImportPreviewOpen] = useState(false);
 	const [importedSettings, setImportedSettings] = useState<Partial<Settings> | null>(null);
 
@@ -30,7 +29,6 @@ export function SettingsDataManagement() {
 	};
 
 	const handleSettingsFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-		setImportSettingsError("");
 		const file = e.target.files?.[0];
 		if (!file) return;
 
@@ -40,7 +38,11 @@ export function SettingsDataManagement() {
 			setImportedSettings(parsed);
 			setImportPreviewOpen(true);
 		} catch (err) {
-			setImportSettingsError(err instanceof Error ? err.message : "Failed to import settings.");
+			gooeyToast.error("Import Failed", {
+				id: "import-error",
+				description: err instanceof Error ? err.message : "Failed to import settings.",
+				showTimestamp: false,
+			});
 		} finally {
 			if (fileInputSettingsRef.current) {
 				fileInputSettingsRef.current.value = "";
@@ -109,14 +111,6 @@ export function SettingsDataManagement() {
 							<UploadIcon className="h-3.5 w-3.5" />
 							Import
 						</Button>
-						{importSettingsError && (
-							<span
-								className="text-destructive absolute top-full mt-1.5 w-max max-w-50 text-center text-[11px] leading-tight font-medium sm:right-0 sm:text-right"
-								role="alert"
-							>
-								{importSettingsError}
-							</span>
-						)}
 					</div>
 					<Input
 						id="import-settings-file"

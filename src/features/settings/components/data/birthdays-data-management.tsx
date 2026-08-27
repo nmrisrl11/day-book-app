@@ -8,6 +8,7 @@ import { exportBirthdays, parseImportedBirthdays } from "@/helpers/import-export
 import { db } from "@/lib/db";
 import type { Birthday } from "@/types/birthday";
 import { useLiveQuery } from "dexie-react-hooks";
+import { gooeyToast } from "goey-toast";
 import { CalendarIcon, DownloadIcon, UploadIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { ImportPreviewDialog } from "./import-preview-dialog";
@@ -17,9 +18,6 @@ export function BirthdaysDataManagement() {
 
 	const fileInputBirthdaysRef = useRef<HTMLInputElement>(null);
 	const fileInputIcsRef = useRef<HTMLInputElement>(null);
-
-	const [importBirthdaysError, setImportBirthdaysError] = useState("");
-	const [importIcsError, setImportIcsError] = useState("");
 
 	const [exportCalendarOpen, setExportCalendarOpen] = useState(false);
 	const [importCalendarOpen, setImportCalendarOpen] = useState(false);
@@ -45,7 +43,6 @@ export function BirthdaysDataManagement() {
 	};
 
 	const handleBirthdaysFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-		setImportBirthdaysError("");
 		const file = e.target.files?.[0];
 		if (!file) return;
 
@@ -60,7 +57,11 @@ export function BirthdaysDataManagement() {
 			setFoundJsonBirthdays(importedBirthdays);
 			setImportJsonOpen(true);
 		} catch (err) {
-			setImportBirthdaysError(err instanceof Error ? err.message : "Failed to import birthdays.");
+			gooeyToast.error("Import Failed", {
+				id: "import-error",
+				description: err instanceof Error ? err.message : "Failed to import birthdays.",
+				showTimestamp: false,
+			});
 		} finally {
 			if (fileInputBirthdaysRef.current) {
 				fileInputBirthdaysRef.current.value = "";
@@ -78,7 +79,6 @@ export function BirthdaysDataManagement() {
 	};
 
 	const handleIcsFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-		setImportIcsError("");
 		const file = e.target.files?.[0];
 		if (!file) return;
 
@@ -88,7 +88,11 @@ export function BirthdaysDataManagement() {
 			setFoundIcsBirthdays(parsed);
 			setImportCalendarOpen(true);
 		} catch (err) {
-			setImportIcsError(err instanceof Error ? err.message : "Failed to parse calendar file.");
+			gooeyToast.error("Import Failed", {
+				id: "import-error",
+				description: err instanceof Error ? err.message : "Failed to parse calendar file.",
+				showTimestamp: false,
+			});
 		} finally {
 			if (fileInputIcsRef.current) {
 				fileInputIcsRef.current.value = "";
@@ -140,14 +144,6 @@ export function BirthdaysDataManagement() {
 							<UploadIcon className="h-3.5 w-3.5" />
 							Import
 						</Button>
-						{importBirthdaysError && (
-							<span
-								className="text-destructive mt-1.5 w-max max-w-50 text-center text-[11px] leading-tight font-medium sm:text-right"
-								role="alert"
-							>
-								{importBirthdaysError}
-							</span>
-						)}
 					</div>
 					<Input
 						id="import-birthdays-file"
@@ -203,14 +199,6 @@ export function BirthdaysDataManagement() {
 							<UploadIcon className="h-3.5 w-3.5" />
 							Import
 						</Button>
-						{importIcsError && (
-							<span
-								className="text-destructive mt-1.5 w-max max-w-50 text-center text-[11px] leading-tight font-medium sm:text-right"
-								role="alert"
-							>
-								{importIcsError}
-							</span>
-						)}
 					</div>
 					<Input
 						id="import-ics-file"
