@@ -16,6 +16,45 @@ export interface ChangelogRelease {
 
 export const changelog: ChangelogRelease[] = [
 	{
+		version: "1.4.0",
+		date: "2026-08-28",
+		title: "Interactive Calendar & Granular Ages",
+		summary:
+			"A brand new interactive monthly calendar on your dashboard, enhanced import previews, and precise age tracking for the little ones.",
+		changes: [
+			{
+				type: "added",
+				title: "Interactive Birthday Calendar",
+				description:
+					"We've added a fully interactive, month-based calendar view on the dashboard! Easily browse and click on dates to see celebrants directly on the calendar grid.",
+			},
+			{
+				type: "added",
+				title: "Granular Baby Ages",
+				description:
+					"Age display is now much smarter for babies, precisely showing 'months old', 'days old', or 'Newborn' so you can track those early milestones.",
+			},
+			{
+				type: "added",
+				title: "Settings Import Preview",
+				description:
+					"Importing a settings backup? You can now visually review and compare the incoming settings against your current configuration before applying them.",
+			},
+			{
+				type: "improved",
+				title: "Smart Empty States",
+				description:
+					"Added helpful, animated empty states across the Quick Action Toolbar and Settings so you always know what to do when your lists are empty.",
+			},
+			{
+				type: "improved",
+				title: "Performance & Stability",
+				description:
+					"Major performance improvements! The heavy calendar components are now lazy-loaded, P2P sync edge cases are resolved, and import UX features elegant new notifications.",
+			},
+		],
+	},
+	{
 		version: "1.3.0",
 		date: "2026-08-26",
 		title: "Bulk Actions & Custom Greetings",
