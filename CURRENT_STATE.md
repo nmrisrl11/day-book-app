@@ -111,5 +111,5 @@ day-book-app/
 ## 5. Current Development Focus
 
 - DayBook is currently in a highly stable, performant state.
-- A full performance audit and optimization pass was recently completed, resulting in near-perfect Lighthouse scores. This included aggressive route-level and component-level (avatar libraries) chunk splitting, semantic heading restructuring, and comprehensive screen-reader ARIA optimizations (labeling and decorative icon hiding) across the entire application, alongside strict PWA static asset pre-caching.
+- A full performance audit and optimization pass was recently completed, resulting in near-perfect Lighthouse scores. This included aggressive route-level and component-level (avatar libraries) chunk splitting, semantic heading restructuring, and comprehensive screen-reader ARIA optimizations (labeling and decorative icon hiding) across the entire application, alongside strict PWA static asset pre-caching. The build configuration (`vite.config.ts`) has also been precisely tuned to isolate heavy dependencies (FullCalendar, Radix UI) and prevent oversized chunk warnings.
 - Ongoing monitoring of PWA behavior across devices.
