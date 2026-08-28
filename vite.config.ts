@@ -1,7 +1,7 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
+import react from "@vitejs/plugin-react";
 import path from "path";
+import { defineConfig } from "vite";
 
 import { VitePWA } from "vite-plugin-pwa";
 import { APP_INFO } from "./src/constants/app-info.ts";
@@ -35,16 +35,43 @@ export default defineConfig(({ command, mode }) => {
 				output: {
 					manualChunks(id) {
 						if (id.includes("node_modules")) {
-							if (id.includes("motion") || id.includes("framer-motion")) return "vendor-motion";
-							if (id.includes("lucide-react")) return "vendor-lucide";
-							if (id.includes("react") || id.includes("react-dom") || id.includes("react-router"))
-								return "vendor-react";
-							if (id.includes("radix-ui")) return "vendor-radix";
-							if (id.includes("date-fns")) return "vendor-date-fns";
-							if (id.includes("@tanstack")) return "vendor-tanstack";
-							if (id.includes("zod")) return "vendor-zod";
-							if (id.includes("hookform")) return "vendor-hookform";
+							// Heavy individual libraries
+							if (id.includes("@fullcalendar") || id.includes("@full-ui"))
+								return "vendor-fullcalendar";
+							if (
+								id.includes("framer-motion") ||
+								id.includes("motion-dom") ||
+								id.includes("motion-utils")
+							)
+								return "vendor-motion";
+
+							// Utilities & State
 							if (id.includes("dexie")) return "vendor-dexie";
+							if (id.includes("zod")) return "vendor-zod";
+							if (id.includes("date-fns")) return "vendor-date-fns";
+							if (id.includes("peerjs")) return "vendor-peerjs";
+
+							// React Ecosystem
+							if (id.includes("react-router")) return "vendor-react-router";
+							if (id.includes("@tanstack")) return "vendor-tanstack";
+							if (id.includes("react-hook-form") || id.includes("@hookform"))
+								return "vendor-hookform";
+
+							// UI & Styling
+							if (id.includes("lucide-react")) return "vendor-lucide";
+							if (id.includes("radix-ui")) return "vendor-radix";
+							if (id.includes("avvvatars") || id.includes("boring-avatars"))
+								return "vendor-avatars";
+
+							// Core React (Must be last among react-related to avoid catching others)
+							if (
+								id.includes("node_modules/react/") ||
+								id.includes("node_modules/react-dom/") ||
+								id.includes("scheduler")
+							) {
+								return "vendor-react";
+							}
+
 							return "vendor-core";
 						}
 					},
