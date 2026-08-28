@@ -28,7 +28,7 @@ While originally conceived as a "birthday tracker," the product is evolving into
 - **State & Persistence**: Zustand (with `persist` middleware to `localStorage` for settings), IndexedDB (via Dexie.js for birthday records)
 - **Routing**: React Router DOM (v7)
 - **Styling**: Tailwind CSS (v4)
-- **UI Primitives**: shadcn/ui (Radix UI under the hood)
+- **UI Primitives**: shadcn/ui (Radix UI under the hood), FullCalendar
 - **Animation & Interactions**: Framer Motion, `@animate-ui`, `cuelume` (sounds), `react-joyride` (tours)
 - **Forms & Validation**: React Hook Form, Zod
 - **URL State Management**: `nuqs`
@@ -65,7 +65,8 @@ While originally conceived as a "birthday tracker," the product is evolving into
 - **Derived Data**: The Dashboard derives `todayCelebrants`, `upcomingBirthdays`, and `birthdaysByMonth` dynamically from the store via `useBirthdayData`. Do not duplicate this logic.
 - **Performance**: Use React `lazy` and `Suspense` for heavy or non-immediate routes/modals (e.g., in `settings-screen.tsx` and `App.tsx`).
 - **URL State**: Filters, sorting, pagination, and active tabs are frequently managed in the URL using `nuqs` (e.g., `?tab=avatar&page=2`).
-- **Tailwind CSS Styling**: Always prefer canonical Tailwind classes over arbitrary values (e.g., use `max-w-25` instead of `max-w-[100px]`) to maintain consistency and avoid linting warnings from `tailwindcss(suggestCanonicalClasses)`.
+- **Tailwind CSS Styling (STRICT)**: ALWAYS use exact canonical Tailwind scale classes instead of arbitrary pixel or rem values (e.g., use `w-30` instead of `w-[120px]`, `max-h-75` instead of `max-h-[300px]`, `-m-1.5` instead of `-m-[6px]`). Using arbitrary sizing values when a standard Tailwind scale exists triggers `tailwindcss(suggestCanonicalClasses)` lint warnings and is considered a violation of project rules.
+  - _Exception_: Components generated or imported from 3rd-party UI libraries (e.g., `shadcn/ui` in `src/components/ui/`) are exempt. Do not modify them to fix these warnings.
 
 ### System Integrations
 

@@ -16,7 +16,7 @@ DayBook is a fully functional, local-first React application. While originally s
 - **Styling:** Tailwind CSS 4.x
 - **State Management:** Zustand 5.x
 - **Routing:** React Router DOM 7.x
-- **UI Components:** Radix UI primitives via shadcn/ui
+- **UI Components:** Radix UI primitives via shadcn/ui, FullCalendar
 - **Animation:** Framer Motion, `@animate-ui`, `react-joyride` (tours)
 - **Form & Validation:** React Hook Form, Zod
 - **Audio & UI Feedback:** `cuelume`, `goey-toast`
@@ -42,7 +42,7 @@ DayBook is a fully functional, local-first React application. While originally s
 
 - **Happy Birthday Section**: Displays today's celebrants with random confetti. Interactive modals for celebrant details.
 - **Upcoming Birthdays**: Scrollable list of the next N birthdays (N is configurable in Settings), complete with "days until" indicators.
-- **Birthdays by Month**: 12-month grid indicating which months have birthdays. Clickable month modals showing grouped celebrants.
+- **Birthdays by Month**: 12-month grid indicating which months have birthdays. Clickable month modals showing grouped celebrants, alongside a fully interactive FullCalendar month view accessible via a tab toggle on the dashboard.
 - **Quick Action Toolbar**: A draggable, edge-dockable floating toolbar on the dashboard providing instant access to Avatar and Main Greeting customizations.
 - **Empty States**: Beautiful empty states when no birthdays exist, featuring an animated interactive brand logo (`AnimatedLogo`).
 - **Interactive Onboarding**: A route-aware, first-time user tutorial powered by `react-joyride` that gently introduces the app's core value proposition (including Birthdays, Invitations, and Settings). It utilizes a low-friction approach (floating toast hint) rather than a forced auto-start, and safely persists state to `localStorage`. It also features contextual, on-demand educational tours for complex areas like Data Management.
