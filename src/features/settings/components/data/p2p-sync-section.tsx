@@ -114,7 +114,11 @@ export function P2PSyncSection() {
 					}
 				});
 
-				await BirthdayRepository.updateHasDataHint();
+				try {
+					await BirthdayRepository.updateHasDataHint();
+				} catch (err) {
+					console.error("Failed to update data hint after sync", err);
+				}
 
 				// Overwrite Settings
 				useDayBookStore.getState().updateSettings(parsedSettings);

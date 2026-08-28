@@ -12,9 +12,11 @@
 - **Settings Management**: Improved UX and memory management when importing settings, ensuring graceful cancellation without memory leaks.
 - **Data Management UX**: Replaced inline import error messages with elegant toast notifications, resolving layout shifting issues and preventing screen clutter.
 - **Tailwind CSS Consistency**: Removed arbitrary Tailwind CSS values in favor of canonical classes across recent UI components.
+- **Device Sync (P2P)**: Disabled autocomplete and autofill on the receive-code input to prevent keyboard suggestions from interfering with code entry.
 
 ## Fixed
 
 - **Dashboard Loading State**: Fixed an issue where the dashboard would incorrectly display an empty state fallback instead of a skeleton loading state after receiving data via Device Sync (P2P).
+- **Device Sync (P2P)**: Fixed an issue where the data existence hint was not correctly refreshed immediately after importing data, ensuring the app recognizes new data on subsequent renders.
 
 ## Changed
