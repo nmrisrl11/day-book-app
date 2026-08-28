@@ -5,7 +5,6 @@ import {
 	DialogHeader,
 	DialogTitle,
 } from "@/components/ui/dialog";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { UserAvatar } from "@/components/user-avatar";
 import { formatAgeDisplay, formatBirthdayDisplay } from "@/helpers/birthday-utils";
 import type { Birthday } from "@/types/birthday";
@@ -52,7 +51,7 @@ export function MonthlyBirthdayModal({
 					</DialogDescription>
 				</DialogHeader>
 
-				<ScrollArea className="max-h-[60vh] pr-4">
+				<div className="custom-scrollbar max-h-[60vh] overflow-y-auto pr-4">
 					{birthdays.length === 0 ? (
 						<div className="text-muted-foreground py-12 text-center italic">
 							No birthdays to celebrate in {monthName}.
@@ -102,7 +101,7 @@ export function MonthlyBirthdayModal({
 							))}
 						</div>
 					)}
-				</ScrollArea>
+				</div>
 			</DialogContent>
 		</Dialog>
 	);

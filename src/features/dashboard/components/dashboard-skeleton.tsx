@@ -5,7 +5,7 @@ export function DashboardSkeleton() {
 		<div className="flex w-full flex-col items-center gap-16">
 			{/* Hero / Happy Birthday Section */}
 			<div className="relative z-10 flex min-h-[50vh] w-full flex-col items-center justify-center overflow-hidden rounded-[2.5rem] py-16 text-center">
-				<Skeleton className="mb-8 h-16 w-[320px] rounded-xl sm:w-120 md:mb-12" />
+				<Skeleton className="mb-8 h-16 w-80 rounded-xl sm:w-120 md:mb-12" />
 
 				<div className="flex flex-col items-center gap-4 p-6">
 					<Skeleton className="h-40 w-40 rounded-full" />
@@ -38,7 +38,10 @@ export function DashboardSkeleton() {
 
 			{/* Birthdays Grid Section */}
 			<div className="flex w-full flex-col gap-6">
-				<Skeleton className="h-8 w-50 rounded-lg" />
+				<div className="flex flex-col gap-4 px-2 sm:flex-row sm:items-center sm:justify-between">
+					<Skeleton className="h-8 w-32 rounded-lg" />
+					<Skeleton className="h-8 w-full rounded-lg sm:w-50" />
+				</div>
 
 				<div className="grid grid-cols-2 gap-x-4 gap-y-6 px-2 md:grid-cols-4 md:gap-y-8 lg:grid-cols-6">
 					{[...Array(12)].map((_, i) => (
