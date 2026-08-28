@@ -114,6 +114,12 @@ export function P2PSyncSection() {
 					}
 				});
 
+				try {
+					await BirthdayRepository.updateHasDataHint();
+				} catch (err) {
+					console.error("Failed to update data hint after sync", err);
+				}
+
 				// Overwrite Settings
 				useDayBookStore.getState().updateSettings(parsedSettings);
 
@@ -252,6 +258,7 @@ export function P2PSyncSection() {
 									className="h-14 text-center font-mono text-2xl tracking-[0.2em] uppercase"
 									maxLength={6}
 									id="receive-code"
+									autoComplete="off"
 								/>
 								<Button
 									className="h-12 w-full"

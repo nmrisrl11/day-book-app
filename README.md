@@ -22,6 +22,7 @@
   - 🌓 Theme toggling (Light/Dark).
   - 🅰️ Main greeting typography and gradient styling.
   - 💬 Floating messages and personalized birthday greetings.
+  - 👶 Precise age calculation for babies with fractional ages ("months old", "days old").
   - 🖼️ Two integrated avatar systems (`avvvatars` and `boring-avatars`) plus custom photo uploads optimized as WebP images.
 - 🎵 **Sound & UI Feedback**: Satisfying, configurable audio feedback for interactions using `cuelume`, and delightful, gooey notification toasts via `goey-toast`.
 - 📅 **Calendar & External Integration**: Import/Export your birthdays via `.ics` or `JSON` format. Large imports are handled effortlessly through an advanced virtualized preview interface, allowing for duplicate review and selection without freezing. Settings imports feature a visual diff preview to compare changes before applying.
