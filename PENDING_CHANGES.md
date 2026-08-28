@@ -15,6 +15,6 @@
 
 ## Fixed
 
-## Changed
+- **Dashboard Loading State**: Fixed an issue where the dashboard would incorrectly display an empty state fallback instead of a skeleton loading state after receiving data via Device Sync (P2P).
 
-## Removed
+## Changed

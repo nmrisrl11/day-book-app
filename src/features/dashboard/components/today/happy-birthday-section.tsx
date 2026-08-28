@@ -59,7 +59,7 @@ export function HappyBirthdaySection({ celebrants, currentDate }: HappyBirthdayS
 
 				<h1
 					className={cn(
-						"max-w-full px-4 pb-2 text-5xl leading-normal font-extrabold tracking-tight break-all drop-shadow-sm md:text-7xl",
+						"max-w-full px-4 pb-4 text-5xl leading-normal font-extrabold tracking-tight break-all drop-shadow-sm md:text-7xl",
 						greetingSettings.type === "gradient" ? "bg-clip-text text-transparent" : "",
 					)}
 					style={{

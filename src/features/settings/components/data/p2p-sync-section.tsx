@@ -114,6 +114,8 @@ export function P2PSyncSection() {
 					}
 				});
 
+				await BirthdayRepository.updateHasDataHint();
+
 				// Overwrite Settings
 				useDayBookStore.getState().updateSettings(parsedSettings);
 
@@ -252,6 +254,7 @@ export function P2PSyncSection() {
 									className="h-14 text-center font-mono text-2xl tracking-[0.2em] uppercase"
 									maxLength={6}
 									id="receive-code"
+									autoComplete="off"
 								/>
 								<Button
 									className="h-12 w-full"
