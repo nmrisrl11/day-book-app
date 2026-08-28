@@ -54,7 +54,6 @@ export function EventCalendar({
 				hasBorderBottom && hasBorderX && "rounded-b-lg",
 				!isHeightAuto && "overflow-hidden",
 			)}
-			style={{ height }}
 			dir={direction === "rtl" ? "rtl" : undefined}
 		>
 			<EventCalendarToolbar

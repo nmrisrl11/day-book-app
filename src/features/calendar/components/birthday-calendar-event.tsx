@@ -1,11 +1,8 @@
 import { UserAvatar } from "@/components/user-avatar";
 import type { Birthday } from "@/types/birthday";
+import type { EventDisplayInfo } from "@fullcalendar/react";
 
-export function BirthdayCalendarEvent({
-	event,
-}: {
-	event: { extendedProps: Record<string, unknown> };
-}) {
+export function BirthdayCalendarEvent({ event }: EventDisplayInfo) {
 	const celebrants = event.extendedProps.celebrants as Birthday[];
 	if (!celebrants || celebrants.length === 0) return null;
 

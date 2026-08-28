@@ -1,4 +1,10 @@
 import type { Birthday } from "@/types/birthday";
+import type {
+	DateClickInfo,
+	DatesSetInfo,
+	EventClickInfo,
+	EventDisplayInfo,
+} from "@fullcalendar/react";
 import { lazy, Suspense, useState } from "react";
 import { useBirthdayCalendar } from "../hooks/use-birthday-calendar";
 import { BirthdayCalendarEvent } from "./birthday-calendar-event";
@@ -16,7 +22,7 @@ export function BirthdayCalendar() {
 	const [selectedCelebrants, setSelectedCelebrants] = useState<Birthday[]>([]);
 	const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-	const handleDateClick = (arg: { date: Date; dateStr: string }) => {
+	const handleDateClick = (arg: DateClickInfo) => {
 		// Find events on this date
 		const dateEvents = events.filter((e) => e.date === arg.dateStr);
 		if (dateEvents.length > 0) {
@@ -27,7 +33,16 @@ export function BirthdayCalendar() {
 		}
 	};
 
-	const handleDatesSet = (arg: { view: { currentStart: Date; currentEnd: Date } }) => {
+	const handleEventClick = (arg: EventClickInfo) => {
+		const celebrants = arg.event.extendedProps.celebrants as Birthday[];
+		if (arg.event.start && celebrants) {
+			setSelectedDate(arg.event.start);
+			setSelectedCelebrants(celebrants);
+			setIsDialogOpen(true);
+		}
+	};
+
+	const handleDatesSet = (arg: DatesSetInfo) => {
 		setViewRange((prev: { start: Date; end: Date }) => {
 			if (
 				prev.start.getTime() === arg.view.currentStart.getTime() &&
@@ -45,12 +60,11 @@ export function BirthdayCalendar() {
 				className="w-full"
 				availableViews={["dayGridMonth"]}
 				events={events}
-				eventContent={(arg: { event: { extendedProps: Record<string, unknown> } }) => (
-					<BirthdayCalendarEvent {...arg} />
-				)}
+				eventContent={(arg: EventDisplayInfo) => <BirthdayCalendarEvent {...arg} />}
 				dateClick={handleDateClick}
+				eventClick={handleEventClick}
 				datesSet={handleDatesSet}
-				height="auto"
+				eventInteractive={true}
 				// Add cell hover and pointer cursor when it has events
 				dayCellClass={(arg: { date: Date }) => {
 					const localDateStr = `${arg.date.getFullYear()}-${String(arg.date.getMonth() + 1).padStart(2, "0")}-${String(arg.date.getDate()).padStart(2, "0")}`;

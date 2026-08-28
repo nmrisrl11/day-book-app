@@ -1,13 +1,11 @@
 import type { Birthday } from "@/types/birthday";
+import type { EventInput } from "@fullcalendar/react";
 
-export interface CalendarEventInput {
-	id: string;
-	date: string;
-	allDay: boolean;
+export type BirthdayEventInput = EventInput & {
 	extendedProps: {
 		celebrants: Birthday[];
 	};
-}
+};
 
 /**
  * Transforms Birthday records into FullCalendar EventInputs for the visible date range.
@@ -17,8 +15,8 @@ export function generateBirthdayEvents(
 	birthdays: Birthday[],
 	viewStart: Date,
 	viewEnd: Date,
-): CalendarEventInput[] {
-	const events: CalendarEventInput[] = [];
+): BirthdayEventInput[] {
+	const events: BirthdayEventInput[] = [];
 
 	const startYear = viewStart.getFullYear();
 	const endYear = viewEnd.getFullYear();
@@ -30,7 +28,16 @@ export function generateBirthdayEvents(
 		const [_, monthStr, dayStr] = person.birthday.split("-");
 
 		for (let year = startYear; year <= endYear; year++) {
-			const eventDateStr = `${year}-${monthStr}-${dayStr}`;
+			let eventDay = dayStr;
+
+			if (monthStr === "02" && dayStr === "29") {
+				const isLeapYear = (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+				if (!isLeapYear) {
+					eventDay = "28"; // Display Feb 29 birthdays on Feb 28 in non-leap years
+				}
+			}
+
+			const eventDateStr = `${year}-${monthStr}-${eventDay}`;
 
 			if (!eventsByDate.has(eventDateStr)) {
 				eventsByDate.set(eventDateStr, []);

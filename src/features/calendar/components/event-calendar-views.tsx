@@ -233,7 +233,7 @@ export function EventCalendarViews({ views: userViews, ...restOptions }: EventCa
 								info.hasNavLink && "outline-ring/50 group-focus-visible:outline-3",
 							)}
 						>
-							{info.dayNumberText}s
+							{info.dayNumberText}
 						</div>
 					)}
 				</>

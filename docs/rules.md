@@ -175,7 +175,7 @@ Use the following naming conventions consistently:
 
 - Use **TailwindCSS** for styling.
 - **Strict Canonical Classes**: NEVER use arbitrary pixel or rem values (e.g., `w-[120px]`, `max-h-[300px]`, `-m-[6px]`) when an exact canonical Tailwind scale class exists (e.g., `w-30`, `max-h-75`, `-m-1.5`). You MUST use the canonical class to prevent `tailwindcss(suggestCanonicalClasses)` lint warnings and ensure theme consistency.
-  - _Exception_: Third-party UI library components (e.g., `shadcn/ui` in `src/components/ui/`) are exempt. Do not modify these files to fix canonical classes unless explicitly instructed.
+  - _Exception_: Third-party UI library components (e.g., `shadcn/ui` in `src/components/ui/`) and FullCalendar usage are exempt. Do not modify these files or required classes to fix canonical classes unless explicitly instructed.
 - Use **shadcn/ui** components whenever an appropriate component is available.
 - Do not use inline styles.
 - Do not introduce external UI/component libraries.
