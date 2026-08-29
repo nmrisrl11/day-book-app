@@ -44,7 +44,7 @@ To improve the application, we use Vercel Analytics and Speed Insights for basic
 
 ## Technology Stack
 
-- ⚡ **Framework**: React 19 (with React Compiler) + Vite 6
+- ⚡ **Framework**: React 19 (with React Compiler) + Vite 8
 - 📱 **PWA**: vite-plugin-pwa + Workbox
 - 📘 **Language**: TypeScript
 - 🎨 **Styling**: Tailwind CSS 4
