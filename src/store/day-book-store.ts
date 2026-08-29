@@ -34,8 +34,10 @@ interface DayBookState {
 
 const getInitialSettings = (): Settings => {
 	try {
-		const saved = localStorage.getItem("daybook_settings");
-		if (saved) return { ...defaultSettings, ...JSON.parse(saved) };
+		if (typeof window !== "undefined" && window.localStorage) {
+			const saved = localStorage.getItem("daybook_settings");
+			if (saved) return { ...defaultSettings, ...JSON.parse(saved) };
+		}
 	} catch (e) {
 		console.error(e);
 	}
@@ -63,6 +65,29 @@ function deepMerge<T>(target: any, source: any): T {
 	return output as T;
 }
 
+export const mergeState = (persistedState: unknown, currentState: DayBookState) => {
+	const state = persistedState as Partial<DayBookState>;
+	const safeSettings = isObject(state?.settings) ? state.settings : {};
+	const mergedSettings = deepMerge<Settings>(defaultSettings, safeSettings);
+
+	// Apply necessary constraints/clamping after the deep merge
+	mergedSettings.upcomingCount = Math.max(1, Math.min(10, mergedSettings.upcomingCount));
+
+	const validPositions = ["top-left", "top-right", "bottom-left", "bottom-right"];
+	if (
+		!mergedSettings.quickActionsPosition ||
+		!validPositions.includes(mergedSettings.quickActionsPosition as string)
+	) {
+		mergedSettings.quickActionsPosition = defaultSettings.quickActionsPosition;
+	}
+
+	return {
+		...currentState,
+		...state,
+		settings: mergedSettings,
+	} as DayBookState;
+};
+
 export const useDayBookStore = create<DayBookState>()(
 	persist(
 		(set) => ({
@@ -76,27 +101,7 @@ export const useDayBookStore = create<DayBookState>()(
 		{
 			name: "daybook-storage",
 			partialize: (state) => ({ settings: state.settings }), // Only persist settings
-			merge: (persistedState: unknown, currentState) => {
-				const state = persistedState as Partial<DayBookState>;
-				const mergedSettings = deepMerge<Settings>(defaultSettings, state?.settings || {});
-
-				// Apply necessary constraints/clamping after the deep merge
-				mergedSettings.upcomingCount = Math.max(1, Math.min(10, mergedSettings.upcomingCount));
-
-				const validPositions = ["top-left", "top-right", "bottom-left", "bottom-right"];
-				if (
-					!mergedSettings.quickActionsPosition ||
-					!validPositions.includes(mergedSettings.quickActionsPosition as string)
-				) {
-					mergedSettings.quickActionsPosition = defaultSettings.quickActionsPosition;
-				}
-
-				return {
-					...currentState,
-					...state,
-					settings: mergedSettings,
-				} as DayBookState;
-			},
+			merge: mergeState,
 		},
 	),
 );
