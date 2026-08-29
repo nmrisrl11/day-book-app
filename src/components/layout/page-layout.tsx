@@ -30,6 +30,12 @@ export function PageLayout({ children }: PageLayoutProps) {
 
 	return (
 		<div className="bg-background text-foreground relative flex min-h-screen flex-col overflow-x-clip font-sans">
+			<a
+				href="#main-content"
+				className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:bg-background focus:p-4 focus:text-foreground"
+			>
+				Skip to main content
+			</a>
 			<header className="relative z-20 mx-auto flex w-full max-w-4xl items-center justify-between p-4 md:px-4 md:py-6">
 				<Link
 					to="/"
@@ -82,7 +88,10 @@ export function PageLayout({ children }: PageLayoutProps) {
 				</div>
 			</header>
 
-			<main className="relative z-10 mx-auto flex w-full max-w-4xl flex-1 flex-col gap-12 px-4 py-4 md:gap-16 md:py-6">
+			<main
+				id="main-content"
+				className="relative z-10 mx-auto flex w-full max-w-4xl flex-1 flex-col gap-12 px-4 py-4 md:gap-16 md:py-6"
+			>
 				{children}
 			</main>
 		</div>
