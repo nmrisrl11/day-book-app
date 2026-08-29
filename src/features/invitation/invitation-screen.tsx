@@ -10,7 +10,8 @@ import { NAME_MAX_LENGTH, NAME_MIN_LENGTH } from "@/schema/validation-constants"
 import { useDayBookStore } from "@/store/day-book-store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { play } from "cuelume";
-import { CheckIcon, CopyIcon, HomeIcon, ShareIcon } from "lucide-react";
+import { CheckIcon, CopyIcon, ShareIcon } from "lucide-react";
+import { motion } from "motion/react";
 import { useQueryState } from "nuqs";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -42,28 +43,37 @@ export function InvitationScreen() {
 
 	if (!token || !invitation) {
 		return (
-			<div className="flex w-full flex-col items-center justify-center pt-24 pb-32">
-				<div className="border-border bg-card/50 flex w-full max-w-md flex-col items-center justify-center gap-4 rounded-xl border border-dashed px-4 py-16 text-center">
+			<main className="flex min-h-[75vh] flex-col items-center justify-center space-y-8 p-6 text-center">
+				<motion.div
+					initial={{ scale: 0.8, opacity: 0 }}
+					animate={{ scale: 1, opacity: 1 }}
+					transition={{ type: "spring", bounce: 0.5 }}
+					className="flex justify-center"
+				>
 					<AnimatedLogo
 						key="warning"
 						autoPlay
 						variant="warning"
 						type="icon"
-						className="mx-auto mb-2"
-						iconClassName="h-24 w-24 drop-shadow-sm"
+						className="h-24 w-24 sm:h-32 sm:w-32"
+						iconClassName="h-full w-full drop-shadow-sm"
 					/>
-					<h3 className="mb-2 text-lg font-semibold">Invalid or Expired Link</h3>
-					<p className="text-muted-foreground mb-6">
-						This birthday link isn't valid, has been corrupted, or has already expired.
+				</motion.div>
+
+				<div className="space-y-3">
+					<h1 className="text-foreground text-3xl font-extrabold tracking-tight sm:text-4xl">
+						Link Expired
+					</h1>
+					<p className="text-muted-foreground mx-auto max-w-md text-lg">
+						This invitation is no longer valid. It may have expired or been corrupted. Ask your
+						friend for a new link!
 					</p>
-					<Button asChild variant="outline">
-						<Link to="/">
-							<HomeIcon className="mr-2 h-4 w-4" aria-hidden="true" />
-							Go Home
-						</Link>
-					</Button>
 				</div>
-			</div>
+
+				<Button asChild size="lg" className="mt-4 transition-shadow hover:shadow-md">
+					<Link to="/">Back to Dashboard</Link>
+				</Button>
+			</main>
 		);
 	}
 

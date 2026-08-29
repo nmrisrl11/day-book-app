@@ -16,7 +16,7 @@ export function NotFoundScreen() {
 				<AnimatedLogo
 					variant="404"
 					type="icon"
-					className="h-40 w-40 sm:h-56 sm:w-56"
+					className="h-24 w-24 sm:h-32 sm:w-32"
 					iconClassName="h-full w-full"
 					autoPlay
 				/>
