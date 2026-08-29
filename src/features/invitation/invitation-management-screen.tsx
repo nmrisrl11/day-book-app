@@ -94,7 +94,7 @@ export function InvitationManagementScreen() {
 			gooeyToast.success(`${count} ${count === 1 ? "invitation" : "invitations"} deleted`, {
 				showTimestamp: false,
 			});
-		} catch (error) {
+		} catch {
 			gooeyToast.error("Failed to delete selected invitations");
 		}
 	};

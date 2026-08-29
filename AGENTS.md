@@ -24,7 +24,7 @@ While originally conceived as a "birthday tracker," the product is evolving into
 
 ### Technology Stack (Actual)
 
-- **Core**: React 19, TypeScript, Vite 6
+- **Core**: React 19 (with React Compiler), TypeScript, Vite 6
 - **State & Persistence**: Zustand (with `persist` middleware to `localStorage` for settings), IndexedDB (via Dexie.js for birthday records)
 - **Routing**: React Router DOM (v7)
 - **Styling**: Tailwind CSS (v4)
@@ -34,6 +34,7 @@ While originally conceived as a "birthday tracker," the product is evolving into
 - **URL State Management**: `nuqs`
 - **Deployment**: Vercel (Edge Functions used for dynamic OG previews)
 - **Testing**: Vitest
+- **Linting & Formatting**: Oxlint, Oxc Formatter (`oxfmt`)
 
 ### Directory Structure Philosophy
 

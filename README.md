@@ -44,7 +44,7 @@ To improve the application, we use Vercel Analytics and Speed Insights for basic
 
 ## Technology Stack
 
-- ⚡ **Framework**: React 19 + Vite 6
+- ⚡ **Framework**: React 19 (with React Compiler) + Vite 8
 - 📱 **PWA**: vite-plugin-pwa + Workbox
 - 📘 **Language**: TypeScript
 - 🎨 **Styling**: Tailwind CSS 4
@@ -55,7 +55,7 @@ To improve the application, we use Vercel Analytics and Speed Insights for basic
 - 🔄 **Sync**: PeerJS (WebRTC)
 - 🚀 **Performance**: `@tanstack/react-virtual`
 - ✅ **Validation**: Zod + React Hook Form
-- 🧪 **Testing**: Vitest
+- 🧪 **Testing & Tooling**: Vitest, Oxlint, Oxc Formatter
 - 📊 **Analytics**: `@vercel/analytics`, `@vercel/speed-insights`
 - 🔗 **URL State**: `nuqs`
 

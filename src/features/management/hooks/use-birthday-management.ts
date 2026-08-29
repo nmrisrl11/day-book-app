@@ -1,6 +1,6 @@
-import { parseAsInteger, parseAsString, parseAsStringLiteral, useQueryState } from "nuqs";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useCurrentDate } from "@/hooks/use-current-date";
+import { parseAsInteger, parseAsString, parseAsStringLiteral, useQueryState } from "nuqs";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 export const MONTH_OPTIONS = [
 	"all",
@@ -21,12 +21,15 @@ export const SORT_OPTIONS = ["upcoming", "name-asc", "name-desc", "date-asc", "d
 export const PER_PAGE_OPTIONS = ["10", "20", "50", "100", "all"] as const;
 
 import { BirthdayRepository } from "@/lib/birthday-repository";
+import { type Birthday } from "@/types/birthday";
 import { useLiveQuery } from "dexie-react-hooks";
+
+const EMPTY_BIRTHDAYS: Birthday[] = [];
 
 export function useBirthdayManagement() {
 	const birthdaysData = useLiveQuery(() => BirthdayRepository.getAll(), []);
 	const isLoading = birthdaysData === undefined;
-	const birthdays = birthdaysData ?? [];
+	const birthdays = birthdaysData ?? EMPTY_BIRTHDAYS;
 
 	const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
 
@@ -73,7 +76,7 @@ export function useBirthdayManagement() {
 		sortOption !== "upcoming" ||
 		itemsPerPage !== "10";
 
-	const handleClearFilters = useCallback(() => {
+	const handleClearFilters = () => {
 		setLocalSearch("");
 		setSearchQuery("");
 		setMonthFilter("all");
@@ -81,14 +84,7 @@ export function useBirthdayManagement() {
 		setSortOption("upcoming");
 		setItemsPerPage("10");
 		setCurrentPage(1);
-	}, [
-		setSearchQuery,
-		setMonthFilter,
-		setRelationshipFilter,
-		setSortOption,
-		setItemsPerPage,
-		setCurrentPage,
-	]);
+	};
 
 	const prevDeps = useRef({
 		birthdays,
@@ -121,9 +117,17 @@ export function useBirthdayManagement() {
 				itemsPerPage,
 			};
 		}
-	}, [searchQuery, monthFilter, relationshipFilter, sortOption, itemsPerPage, setCurrentPage]);
+	}, [
+		birthdays,
+		searchQuery,
+		monthFilter,
+		relationshipFilter,
+		sortOption,
+		itemsPerPage,
+		setCurrentPage,
+	]);
 
-	const handleSelectChange = useCallback((id: string, selected: boolean) => {
+	const handleSelectChange = (id: string, selected: boolean) => {
 		setSelectedIds((prev) => {
 			const next = new Set(prev);
 			if (selected) {
@@ -133,7 +137,7 @@ export function useBirthdayManagement() {
 			}
 			return next;
 		});
-	}, []);
+	};
 
 	const filteredAndSortedBirthdays = useMemo(() => {
 		let result = [...birthdays];
@@ -202,14 +206,14 @@ export function useBirthdayManagement() {
 
 	const clampedPage = Math.max(1, Math.min(currentPage, totalPages));
 
-	const paginatedBirthdays = useMemo(() => {
-		if (itemsPerPage === "all") return filteredAndSortedBirthdays;
+	let paginatedBirthdays = filteredAndSortedBirthdays;
+	if (itemsPerPage !== "all") {
 		const size = parseInt(itemsPerPage, 10);
 		const start = (clampedPage - 1) * size;
-		return filteredAndSortedBirthdays.slice(start, start + size);
-	}, [filteredAndSortedBirthdays, clampedPage, itemsPerPage]);
+		paginatedBirthdays = filteredAndSortedBirthdays.slice(start, start + size);
+	}
 
-	const generatePageNumbers = useCallback(() => {
+	const generatePageNumbers = () => {
 		if (totalPages <= 7) return Array.from({ length: totalPages }, (_, i) => i + 1);
 
 		if (clampedPage <= 4) {
@@ -235,7 +239,7 @@ export function useBirthdayManagement() {
 				totalPages,
 			];
 		}
-	}, [totalPages, clampedPage]);
+	};
 
 	return {
 		birthdays,
