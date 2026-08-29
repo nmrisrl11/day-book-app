@@ -10,7 +10,7 @@
 - **Accessibility**: Enhanced the P2P device sync interface with `aria-live="polite"` to dynamically announce connection status changes to screen readers. Resolved multiple WCAG compliance findings, including adding a "Skip to main content" link for keyboard navigation, enforcing proper semantic heading (`<h1>`) hierarchy on the Dashboard and Settings, increasing footer touch targets to 44x44px minimums, and improving text color contrast in Light mode.
 - **Privacy & Security**:
   - Mitigated risks around unencrypted URL response tokens by shortening their lifetime from 24 hours to 12 hours, and added an explicit warning to the UI advising users not to post these convenience links publicly.
-  - Obfuscated predictable `localStorage` keys (e.g., `daybook-storage` to base64 hashes) to prevent automated discovery by third-party scripts, including an automatic backward-compatible migration strategy.
+  - Obfuscated predictable `localStorage` keys (e.g., `daybook-storage` to base64 hashes). Note that this reversible encoding only reduces casual lookup and does not prevent automated discovery or same-origin scripts from reading keys and values. The update includes an automatic backward-compatible migration strategy.
 - **Tooling**: Migrated codebase formatting and linting to Oxc (`oxfmt` and `oxlint`) for significantly faster and more robust code validation.
 
 ## Fixed
