@@ -31,6 +31,7 @@ export function Dashboard() {
 
 	return (
 		<div className="flex w-full flex-col items-center gap-16">
+			<h1 className="sr-only">Dashboard</h1>
 			<Suspense fallback={<DashboardRouteFallback />}>
 				<HappyBirthdaySection
 					celebrants={activeCelebrants}

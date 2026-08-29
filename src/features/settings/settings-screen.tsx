@@ -153,7 +153,7 @@ export function SettingsScreen() {
 					<ArrowLeftIcon className="h-5 w-5" aria-hidden="true" />
 				</Button>
 				<div>
-					<h2 className="text-2xl font-bold tracking-tight">Settings</h2>
+					<h1 className="text-2xl font-bold tracking-tight">Settings</h1>
 					<p className="text-muted-foreground">Manage your preferences and data.</p>
 				</div>
 			</div>
