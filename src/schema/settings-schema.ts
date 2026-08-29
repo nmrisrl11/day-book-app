@@ -86,6 +86,8 @@ export const SettingsSchema = z
 		quickActionsEnabled: z.boolean().optional(),
 		quickActionsPosition: QuickActionsPositionSchema.optional(),
 		quickActionsIsOpen: z.boolean().optional(),
+		lastBackupDate: z.string().optional(),
+		lastBackupReminderDismissedAt: z.string().optional(),
 	})
 	.strict()
 	.superRefine((data, ctx) => {

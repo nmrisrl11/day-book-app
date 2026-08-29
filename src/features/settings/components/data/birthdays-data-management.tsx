@@ -8,6 +8,7 @@ import { exportBirthdays, parseImportedBirthdays } from "@/helpers/import-export
 import { useCurrentDate } from "@/hooks/use-current-date";
 import { db } from "@/lib/db";
 import type { Birthday } from "@/types/birthday";
+import { useDayBookStore } from "@/store/day-book-store";
 import { useLiveQuery } from "dexie-react-hooks";
 import { gooeyToast } from "goey-toast";
 import { CalendarIcon, DownloadIcon, UploadIcon } from "lucide-react";
@@ -17,6 +18,7 @@ import { ImportPreviewDialog } from "./import-preview-dialog";
 export function BirthdaysDataManagement() {
 	const currentDate = useCurrentDate();
 	const birthdays = useLiveQuery(() => db.birthdays.toArray(), []) ?? [];
+	const updateSettings = useDayBookStore((state) => state.updateSettings);
 
 	const fileInputBirthdaysRef = useRef<HTMLInputElement>(null);
 	const fileInputIcsRef = useRef<HTMLInputElement>(null);
@@ -38,6 +40,7 @@ export function BirthdaysDataManagement() {
 	// --- JSON IMPORT/EXPORT ---
 	const handleExportBirthdays = () => {
 		exportBirthdays(birthdays);
+		updateSettings({ lastBackupDate: new Date().toISOString() });
 	};
 
 	const handleImportBirthdaysClick = () => {

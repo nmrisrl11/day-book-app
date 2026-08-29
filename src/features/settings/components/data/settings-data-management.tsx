@@ -52,10 +52,14 @@ export function SettingsDataManagement() {
 
 	const confirmImport = () => {
 		if (importedSettings) {
-			// Strip out internal system states that shouldn't be overridden by imports
-			// eslint-disable-next-line @typescript-eslint/no-unused-vars
-			const { onboardingStatus, onboardingStep, quickActionsIsOpen, ...safeSettingsToImport } =
-				importedSettings as Settings;
+			const {
+				onboardingStatus: _onboardingStatus,
+				onboardingStep: _onboardingStep,
+				quickActionsIsOpen: _quickActionsIsOpen,
+				lastBackupDate: _lastBackupDate,
+				lastBackupReminderDismissedAt: _lastBackupReminderDismissedAt,
+				...safeSettingsToImport
+			} = importedSettings as Settings;
 
 			updateSettings(safeSettingsToImport as Settings);
 			gooeyToast.success("Settings synced successfully.", { showTimestamp: false });

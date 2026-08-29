@@ -125,8 +125,16 @@ export function P2PSyncSection() {
 					console.error("Failed to update data hint after sync", err);
 				}
 
-				// Overwrite Settings
-				useDayBookStore.getState().updateSettings(parsedSettings);
+				// Overwrite Settings (strip device-specific state)
+				const {
+					onboardingStatus: _onboardingStatus,
+					onboardingStep: _onboardingStep,
+					quickActionsIsOpen: _quickActionsIsOpen,
+					lastBackupDate: _lastBackupDate,
+					lastBackupReminderDismissedAt: _lastBackupReminderDismissedAt,
+					...safeSettingsToImport
+				} = parsedSettings;
+				useDayBookStore.getState().updateSettings(safeSettingsToImport);
 
 				ack();
 				gooeyToast.success("Sync Complete!", {

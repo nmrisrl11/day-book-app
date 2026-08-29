@@ -10,7 +10,13 @@ import {
 	setYear,
 } from "date-fns";
 
+const parseCache = new Map<string, number>();
+
 export function parseBirthday(dateString: string): Date {
+	if (parseCache.has(dateString)) {
+		return new Date(parseCache.get(dateString)!);
+	}
+
 	// If it starts with 0000, substitute 2000 (a leap year) so that calculations
 	// (like month/day matching and Feb 29 logic) still work correctly.
 	const safeDateString = dateString.startsWith("0000")
@@ -18,7 +24,9 @@ export function parseBirthday(dateString: string): Date {
 		: dateString;
 
 	const [year, month, day] = safeDateString.split("-").map(Number);
-	return new Date(year, month - 1, day);
+	const date = new Date(year, month - 1, day);
+	parseCache.set(dateString, date.getTime());
+	return date;
 }
 
 export function getUpcomingBirthdays(birthdays: Birthday[], currentDate: Date): Birthday[] {

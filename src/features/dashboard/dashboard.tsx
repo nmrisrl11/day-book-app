@@ -1,5 +1,6 @@
 import { useBirthdayData } from "@/hooks/use-birthday-data";
 import { Suspense, useState } from "react";
+import { BackupReminderBanner } from "./components/backup-reminder-banner";
 import { DashboardEmptyState } from "./components/dashboard-empty-state";
 import { DashboardRouteFallback } from "./components/dashboard-route-fallback";
 
@@ -43,6 +44,7 @@ export function Dashboard() {
 				/>
 				<UpcomingBirthdaysSection upcomingBirthdays={upcomingBirthdays} currentDate={currentDate} />
 				<BirthdaysSection birthdaysByMonth={birthdaysByMonth} currentDate={currentDate} />
+				<BackupReminderBanner birthdaysCount={birthdays.length} />
 			</Suspense>
 			<QuickActionToolbar hasCelebrants={activeCelebrants.length > 0} />
 		</div>

@@ -25,6 +25,8 @@ export const defaultSettings: Settings = {
 	quickActionsEnabled: true,
 	quickActionsPosition: "bottom-right",
 	quickActionsIsOpen: false,
+	lastBackupDate: undefined,
+	lastBackupReminderDismissedAt: undefined,
 };
 
 interface DayBookState {
