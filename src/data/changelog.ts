@@ -16,6 +16,45 @@ export interface ChangelogRelease {
 
 export const changelog: ChangelogRelease[] = [
 	{
+		version: "1.5.0",
+		date: "2026-08-29",
+		title: "Playful Feedback & Smoother Connections",
+		summary:
+			"We've added beautiful new interactive logos, vastly improved the Device Sync experience, and optimized the app's performance under the hood.",
+		changes: [
+			{
+				type: "added",
+				title: "Playful Feedback & Recovery",
+				description:
+					"Added brand new animated logo variations for empty states, plus a beautifully designed 404 page to gracefully guide you back if you ever get lost.",
+			},
+			{
+				type: "improved",
+				title: "Smoother Device Sync",
+				description:
+					"Syncing your data across devices is now less stressful! We added granular, step-by-step visual and audio feedback so you know exactly when the connection is waiting or transferring.",
+			},
+			{
+				type: "improved",
+				title: "First-Time Magic",
+				description:
+					"New to the app? We added a 'Preview Celebration' mode so you can instantly experience the confetti and floating messages right after adding your first person.",
+			},
+			{
+				type: "improved",
+				title: "Focusing on People",
+				description:
+					"We've refined our wording across the app—like changing 'Add Birthday' to 'Add a Person'—to better reflect that this app is about the relationships you cherish.",
+			},
+			{
+				type: "fixed",
+				title: "Under the Hood Power-Ups",
+				description:
+					"We optimized our build process for even faster load times, fortified the data recovery mechanisms during startup, and laid the architectural groundwork for the future of React.",
+			},
+		],
+	},
+	{
 		version: "1.4.0",
 		date: "2026-08-28",
 		title: "Interactive Calendar & Granular Ages",

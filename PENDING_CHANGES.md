@@ -2,30 +2,9 @@
 
 ## Added
 
-- **Animated Logo Variants**: Introduced new interactive SVG logo components (404, Backup, Crystal Ball, Notification) mapped to the `AnimatedLogo` component for expanded system feedback and empty states.
-- **404 Route**: Added a beautiful "Not Found" page to guide users back if they navigate to an invalid or non-existent URL route, featuring a custom animated 404 logo and suggested navigation cards.
-
 ## Improved
 
-- **Accessibility**: Audited and improved the FullCalendar `dayGridMonth` integration. Calendar events are now natively focusable via keyboard navigation (<kbd>Tab</kbd> / <kbd>Enter</kbd>) and dynamically generate screen-reader accessible `aria-label` tags describing the celebrants on that date. Additionally, added screen-reader live regions (`aria-live="polite"`) to dynamic Device Sync (P2P) connection states, ensuring users are audibly notified when waiting for host confirmation or data transfer.
-- **P2P Sync Experience**: Enhanced the Device Sync connection flow to provide granular, step-by-step visual feedback. The UI now explicitly indicates when it is "Waiting for other device to confirm..." during the WebRTC AUTH handshake, reducing user anxiety during peer discovery.
-- **First-Time User Experience**: Enhanced the Dashboard empty state with a "Preview Celebration" mode, allowing new users to instantly experience the app's celebratory features (confetti, floating messages, animated greetings) right after adding their first person.
-- **Settings Navigation Friction**: Improved empty states within Settings (Main Greeting, Messages) so that clicking "Add a Person" now seamlessly routes to the Manage screen and automatically opens the Add Person modal.
-- **Copywriting Consistency**: Standardized UI buttons across the app to use "Add a Person" instead of "Add Birthday," better reflecting the app's evolution into a relationship-centric People CRM.
-- **Icon Organization**: Restructured the global icons directory by consolidating all SVG logo components into a dedicated `src/components/icons/logos/` folder for better maintainability.
-- **Code Maintainability**: Refactored the main `BirthdayManagementScreen` component, extracting its complex filtering, floating bulk action bar, and modal orchestration logic into dedicated, reusable sub-components and a custom `useModalManager` hook. Additionally, centralized PWA TypeScript declarations to prevent code duplication.
-- **Formatting Tools**: Migrated from Prettier to the ultra-fast Oxc Formatter (`oxfmt`), updating workspace configurations and scripts to leverage the high-performance Oxc ecosystem.
-- **Architecture**: Unified the repository pattern for consistency (converted `InvitationRepository` to a plain object literal). Eliminated reliance on external date parsing libraries (`date-fns` `parse()`) in favor of strict, native local Date instantiation to prevent timezone boundary fragmentation. Fortified the Zustand state rehydration with a robust `deepMerge` utility to prevent settings data loss on future updates.
-- **React Compiler Readiness**: Modernized core components (`AnimatedLogo`, `ImportPreviewDialog`) by removing legacy React patterns (`displayName`), stabilizing `useMemo` dependency arrays to fix exhaustive-deps warnings, and eliminating manual state synchronization refs (`isAnimatingRef`). These architectural optimizations ensure components are fully compatible with future React Compiler auto-memoization while preserving strict performance boundaries for highly virtualized lists.
-
-- **About Screen Navigation**: Desktop table of contents (`LineNav`) now gracefully handles long release histories by utilizing a vertically centered layout with a maximum height and elegant custom scrollbar styling.
-- **Build Performance**: Optimized Vite `manualChunks` configuration to explicitly isolate heavy dependencies (FullCalendar, Radix UI, PeerJS) into dedicated chunks. This resolved the "chunks larger than 500 kB" warning, reduced the size of the core React vendor chunk by ~72%, and significantly improves caching behavior and initial load times.
-
 ## Fixed
-
-- **Resilient Data Recovery**: Improved the app's startup sequence to gracefully recover if browser settings data becomes corrupted or malformed, preventing startup crashes.
-- **Visual Glitches**: Fixed a transparent cutout rendering issue with the 404 animated logo variant.
-- **Test Integrity**: Standardized the use of local Date constructors in tests to align with strict timezone architectural rules.
 
 ## Changed
 
