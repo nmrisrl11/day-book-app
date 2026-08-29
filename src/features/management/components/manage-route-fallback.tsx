@@ -18,9 +18,9 @@ export function ManageRouteFallback() {
 						<LinkIcon className="h-4 w-4 sm:mr-2" aria-hidden="true" />
 						<span className="hidden sm:inline">Ask for Birthday</span>
 					</Button>
-					<Button disabled aria-label="Add Birthday">
+					<Button disabled aria-label="Add a Person">
 						<PlusIcon className="h-4 w-4 sm:mr-2" aria-hidden="true" />
-						<span className="hidden sm:inline">Add Birthday</span>
+						<span className="hidden sm:inline">Add a Person</span>
 					</Button>
 				</div>
 			</div>
