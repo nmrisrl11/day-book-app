@@ -87,8 +87,8 @@ describe("invitation-token", () => {
 		it("should return null for expired response tokens", () => {
 			const token = generateResponseToken("Frank", "1999-12-31");
 
-			// Fast-forward time by 24 hours + 1 second
-			vi.advanceTimersByTime(24 * 60 * 60 * 1000 + 1000);
+			// Fast-forward time by 12 hours + 1 second
+			vi.advanceTimersByTime(12 * 60 * 60 * 1000 + 1000);
 
 			const payload = parseResponseToken(token);
 			expect(payload).toBeNull();

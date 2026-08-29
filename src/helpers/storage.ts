@@ -1,23 +1,25 @@
+import { STORAGE_KEYS } from "@/constants/storage-keys";
+
 export const getHasDataHint = () => {
-	return localStorage.getItem("daybook_has_data") === "true";
+	return localStorage.getItem(STORAGE_KEYS.HAS_DATA) === "true";
 };
 
 export const setHasDataHint = (hasData: boolean) => {
 	if (hasData) {
-		localStorage.setItem("daybook_has_data", "true");
+		localStorage.setItem(STORAGE_KEYS.HAS_DATA, "true");
 	} else {
-		localStorage.removeItem("daybook_has_data");
+		localStorage.removeItem(STORAGE_KEYS.HAS_DATA);
 	}
 };
 
 export const getHasInvitationsHint = () => {
-	return localStorage.getItem("daybook_has_invitations") === "true";
+	return localStorage.getItem(STORAGE_KEYS.HAS_INVITATIONS) === "true";
 };
 
 export const setHasInvitationsHint = (hasData: boolean) => {
 	if (hasData) {
-		localStorage.setItem("daybook_has_invitations", "true");
+		localStorage.setItem(STORAGE_KEYS.HAS_INVITATIONS, "true");
 	} else {
-		localStorage.removeItem("daybook_has_invitations");
+		localStorage.removeItem(STORAGE_KEYS.HAS_INVITATIONS);
 	}
 };

@@ -155,7 +155,9 @@ export function InvitationScreen() {
 					</div>
 					<div className="bg-primary/10 text-primary mt-2 rounded-md p-3 text-xs leading-relaxed">
 						<strong>Privacy Note:</strong> This is a local-first application. The link contains your
-						encoded name and birthday. Only share this link with people you trust.
+						encoded name and birthday and expires in 12 hours.{" "}
+						<strong>Do not post this link publicly.</strong> Only share it privately with people you
+						trust.
 					</div>
 				</div>
 			</div>

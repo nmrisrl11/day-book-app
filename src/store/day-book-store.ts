@@ -3,9 +3,13 @@ import { FLOATING_MESSAGES } from "@/constants/floating-messages";
 import { GREETINGS } from "@/constants/greetings";
 import { GREETING_TEXT_SETTINGS } from "@/constants/main-greeting";
 import { SOUND_SETTINGS } from "@/constants/sounds-settings";
+import { STORAGE_KEYS, migrateStorageKeys } from "@/constants/storage-keys";
 import type { Settings } from "@/types/settings";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+
+// Run storage key migration on initialization
+migrateStorageKeys();
 
 export const defaultSettings: Settings = {
 	upcomingCount: 5,
@@ -37,7 +41,7 @@ interface DayBookState {
 const getInitialSettings = (): Settings => {
 	try {
 		if (typeof window !== "undefined" && window.localStorage) {
-			const saved = localStorage.getItem("daybook_settings");
+			const saved = localStorage.getItem(STORAGE_KEYS.LEGACY_SETTINGS);
 			if (saved) return { ...defaultSettings, ...JSON.parse(saved) };
 		}
 	} catch (e) {
@@ -104,7 +108,7 @@ export const useDayBookStore = create<DayBookState>()(
 				})),
 		}),
 		{
-			name: "daybook-storage",
+			name: STORAGE_KEYS.ZUSTAND_STORE,
 			partialize: (state) => ({ settings: state.settings }), // Only persist settings
 			merge: mergeState,
 		},
