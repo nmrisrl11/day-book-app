@@ -72,7 +72,8 @@ export function BirthdayCalendar() {
 					return hasEvents ? "cursor-pointer hover:bg-muted/50 transition-colors" : "";
 				}}
 				// Ensure events are completely transparent and center their contents
-				eventClass="!bg-transparent !border-none !shadow-none pointer-events-none"
+				// Removed pointer-events-none so they receive keyboard focus
+				eventClass="!bg-transparent !border-none !shadow-none"
 				// Basic config
 				fixedWeekCount={false}
 				showNonCurrentDates={false}

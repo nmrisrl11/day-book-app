@@ -47,8 +47,10 @@ export function generateBirthdayEvents(
 	}
 
 	for (const [dateStr, celebrants] of eventsByDate.entries()) {
+		const title = `Birthdays: ${celebrants.map((c) => c.name).join(", ")}`;
 		events.push({
 			id: dateStr,
+			title,
 			date: dateStr,
 			allDay: true,
 			extendedProps: {

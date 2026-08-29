@@ -222,20 +222,36 @@ export function P2PSyncSection() {
 								<div className="bg-muted flex h-24 w-full items-center justify-center rounded-xl font-mono text-4xl tracking-[0.25em]">
 									{peerId || <Loader2 className="text-muted-foreground animate-spin" />}
 								</div>
-								<div className="text-muted-foreground flex items-center gap-2 text-sm">
+								<div
+									className="text-muted-foreground flex items-center gap-2 text-sm"
+									aria-live="polite"
+								>
 									<Loader2 className="h-4 w-4 animate-spin" />
 									Waiting for connection...
 								</div>
 							</>
-						) : syncState === "connecting" || syncState === "transferring" ? (
+						) : syncState === "connecting" ? (
 							<>
 								<div className="bg-primary/10 text-primary flex h-24 w-full items-center justify-center rounded-xl">
 									<Loader2 className="h-10 w-10 animate-spin" />
 								</div>
-								<div className="text-primary text-sm font-medium">Transferring data...</div>
+								<div className="text-primary text-sm font-medium" aria-live="polite">
+									Waiting for other device to confirm...
+								</div>
+							</>
+						) : syncState === "transferring" ? (
+							<>
+								<div className="bg-primary/10 text-primary flex h-24 w-full items-center justify-center rounded-xl">
+									<Loader2 className="h-10 w-10 animate-spin" />
+								</div>
+								<div className="text-primary text-sm font-medium" aria-live="polite">
+									Transferring data...
+								</div>
 							</>
 						) : (
-							<div className="text-destructive text-sm">Connection ended or failed.</div>
+							<div className="text-destructive text-sm" aria-live="polite">
+								Connection ended or failed.
+							</div>
 						)}
 					</div>
 				</DialogContent>
@@ -273,13 +289,22 @@ export function P2PSyncSection() {
 									Connect & Sync
 								</Button>
 							</>
-						) : syncState === "connecting" || syncState === "transferring" ? (
+						) : syncState === "connecting" ? (
 							<>
 								<div className="bg-primary/10 text-primary flex h-24 w-full items-center justify-center rounded-xl">
 									<Loader2 className="h-10 w-10 animate-spin" />
 								</div>
-								<div className="text-primary text-sm font-medium">
-									Connecting & Receiving data...
+								<div className="text-primary text-sm font-medium" aria-live="polite">
+									Connecting to host...
+								</div>
+							</>
+						) : syncState === "transferring" ? (
+							<>
+								<div className="bg-primary/10 text-primary flex h-24 w-full items-center justify-center rounded-xl">
+									<Loader2 className="h-10 w-10 animate-spin" />
+								</div>
+								<div className="text-primary text-sm font-medium" aria-live="polite">
+									Waiting for host to send data...
 								</div>
 							</>
 						) : null}
