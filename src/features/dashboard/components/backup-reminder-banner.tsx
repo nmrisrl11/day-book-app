@@ -1,7 +1,7 @@
 import { AnimatedLogo } from "@/components/icons/animated-logo";
 import { Button } from "@/components/ui/button";
 import { useDayBookStore } from "@/store/day-book-store";
-import { differenceInDays, parseISO } from "date-fns";
+import { addDays, isAfter, parseISO } from "date-fns";
 import { XIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
@@ -16,46 +16,69 @@ export function BackupReminderBanner({ birthdaysCount }: BackupReminderBannerPro
 	const [shouldShow, setShouldShow] = useState(false);
 
 	useEffect(() => {
-		// Only consider showing if they have meaningful data (at least 5 records)
-		if (birthdaysCount < 5) {
-			setShouldShow(false);
-			return;
-		}
+		let timeoutId: ReturnType<typeof setTimeout>;
 
-		// Don't show if the welcome tour or hint is currently active
-		if (
-			settings.onboardingStatus === "not_started" ||
-			settings.onboardingStatus === "in_progress"
-		) {
-			setShouldShow(false);
-			return;
-		}
-
-		const now = new Date();
-
-		// Check when it was last dismissed
-		if (settings.lastBackupReminderDismissedAt) {
-			const dismissedDate = parseISO(settings.lastBackupReminderDismissedAt);
-			if (differenceInDays(now, dismissedDate) < 30) {
+		const checkVisibility = () => {
+			// Only consider showing if they have meaningful data (at least 5 records)
+			if (birthdaysCount < 5) {
 				setShouldShow(false);
 				return;
 			}
-		}
 
-		// Check when the last backup was
-		if (settings.lastBackupDate) {
-			const backupDate = parseISO(settings.lastBackupDate);
-			if (differenceInDays(now, backupDate) < 30) {
+			// Don't show if the welcome tour or hint is currently active
+			if (
+				settings.onboardingStatus === "not_started" ||
+				settings.onboardingStatus === "in_progress"
+			) {
 				setShouldShow(false);
 				return;
 			}
-		}
 
-		// If we reach here, it means:
-		// 1. > 5 birthdays
-		// 2. Either never backed up, or backed up > 30 days ago
-		// 3. Either never dismissed, or dismissed > 30 days ago
-		setShouldShow(true);
+			const now = new Date();
+			let nextDeadline: Date | null = null;
+
+			// Check when it was last dismissed
+			if (settings.lastBackupReminderDismissedAt) {
+				const dismissedDate = parseISO(settings.lastBackupReminderDismissedAt);
+				const deadline = addDays(dismissedDate, 30);
+				if (isAfter(deadline, now)) {
+					nextDeadline = deadline;
+				}
+			}
+
+			// Check when the last backup was
+			if (settings.lastBackupDate) {
+				const backupDate = parseISO(settings.lastBackupDate);
+				const deadline = addDays(backupDate, 30);
+				if (isAfter(deadline, now)) {
+					// The effective deadline is the later of the two
+					if (!nextDeadline || isAfter(deadline, nextDeadline)) {
+						nextDeadline = deadline;
+					}
+				}
+			}
+
+			if (nextDeadline) {
+				setShouldShow(false);
+				const timeRemaining = nextDeadline.getTime() - now.getTime();
+				// Max setTimeout is ~24.8 days (2147483647 ms)
+				const delay = Math.min(timeRemaining, 2147483647);
+				timeoutId = setTimeout(checkVisibility, delay);
+				return;
+			}
+
+			// If we reach here, it means:
+			// 1. > 5 birthdays
+			// 2. Either never backed up, or backed up > 30 days ago
+			// 3. Either never dismissed, or dismissed > 30 days ago
+			setShouldShow(true);
+		};
+
+		checkVisibility();
+
+		return () => {
+			if (timeoutId) clearTimeout(timeoutId);
+		};
 	}, [
 		birthdaysCount,
 		settings.lastBackupDate,

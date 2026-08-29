@@ -12,6 +12,9 @@
 
 ## Fixed
 
+- **Timezone Robustness**: Fixed an edge-case where displayed birthdays might shift across calendar boundaries if a user traveled between timezones while the app remained open. The internal date parsing cache now dynamically adapts to the current runtime timezone.
+- **Backup Banner State**: Fixed the dashboard backup reminder banner so its visibility actively recalculates and triggers automatically without requiring a full page reload if the 30-day deadline expires while the application is open.
+
 ## Changed
 
 ## Removed

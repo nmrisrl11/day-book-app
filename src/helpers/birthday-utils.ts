@@ -10,11 +10,12 @@ import {
 	setYear,
 } from "date-fns";
 
-const parseCache = new Map<string, number>();
+const parseCache = new Map<string, readonly [number, number, number]>();
 
 export function parseBirthday(dateString: string): Date {
 	if (parseCache.has(dateString)) {
-		return new Date(parseCache.get(dateString)!);
+		const [y, m, d] = parseCache.get(dateString)!;
+		return new Date(y, m - 1, d);
 	}
 
 	// If it starts with 0000, substitute 2000 (a leap year) so that calculations
@@ -24,9 +25,8 @@ export function parseBirthday(dateString: string): Date {
 		: dateString;
 
 	const [year, month, day] = safeDateString.split("-").map(Number);
-	const date = new Date(year, month - 1, day);
-	parseCache.set(dateString, date.getTime());
-	return date;
+	parseCache.set(dateString, [year, month, day]);
+	return new Date(year, month - 1, day);
 }
 
 export function getUpcomingBirthdays(birthdays: Birthday[], currentDate: Date): Birthday[] {

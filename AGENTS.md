@@ -87,6 +87,7 @@ While originally conceived as a "birthday tracker," the product is evolving into
 2.  **Verify Assumptions**: If `instructions.md` says "Use Satoshi font", but the codebase uses `@fontsource-variable/fredoka`, the codebase wins.
 3.  **Respect Boundaries**: Do not add dependencies if an existing tool does the job. Do not move feature-specific components into the global `src/components/` folder unless they are actually reused.
 4.  **Documentation Maintenance**: Update `CURRENT_STATE.md` **only** when the implementation state or architecture has materially changed. Do not update it for every minor bug fix.
+5.  **Strict TypeScript Typing**: **NEVER** use the `any` type in TypeScript under any circumstances. This is a strict project boundary. Always prioritize defining and using proper, explicit types first. If the data shape is truly unpredictable, use `unknown` or `Record<string, unknown>` as a fallback (never `any`), and leverage TypeScript type guards for safe narrowing.
 
 ## 5. Changelog, Versioning & Development Workflow
 
