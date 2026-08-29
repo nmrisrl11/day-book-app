@@ -2,7 +2,7 @@ import type { InvitationRecord } from "@/lib/db";
 import { InvitationRepository } from "@/lib/invitation-repository";
 import { useLiveQuery } from "dexie-react-hooks";
 import { parseAsInteger, parseAsStringLiteral, useQueryState } from "nuqs";
-import { useCallback, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 
 export const INVITATION_SORT_OPTIONS = ["date-desc", "date-asc", "status"] as const;
 export const INVITATION_PER_PAGE_OPTIONS = ["10", "20", "50", "100", "all"] as const;
@@ -50,14 +50,14 @@ export function useInvitationManagement() {
 			: Math.max(1, Math.ceil(sortedInvitations.length / parseInt(itemsPerPage, 10)));
 	const clampedPage = Math.max(1, Math.min(currentPage, totalPages));
 
-	const paginatedInvitations = useMemo(() => {
-		if (itemsPerPage === "all") return sortedInvitations;
+	let paginatedInvitations = sortedInvitations;
+	if (itemsPerPage !== "all") {
 		const size = parseInt(itemsPerPage, 10);
 		const startIndex = (clampedPage - 1) * size;
-		return sortedInvitations.slice(startIndex, startIndex + size);
-	}, [sortedInvitations, clampedPage, itemsPerPage]);
+		paginatedInvitations = sortedInvitations.slice(startIndex, startIndex + size);
+	}
 
-	const generatePageNumbers = useCallback(() => {
+	const generatePageNumbers = () => {
 		if (totalPages <= 7) return Array.from({ length: totalPages }, (_, i) => i + 1);
 
 		if (clampedPage <= 4) {
@@ -83,7 +83,7 @@ export function useInvitationManagement() {
 				totalPages,
 			];
 		}
-	}, [totalPages, clampedPage]);
+	};
 
 	const handleSelectChange = (id: string, checked: boolean) => {
 		const newSet = new Set(selectedIds);

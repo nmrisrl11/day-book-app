@@ -1,7 +1,7 @@
 import { BirthdayRepository } from "@/lib/birthday-repository";
 import { type Birthday } from "@/types/birthday";
 import { gooeyToast } from "goey-toast";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 
 interface UseModalManagerProps {
 	selectedIds: Set<string>;
@@ -21,29 +21,29 @@ export function useModalManager({ selectedIds, setSelectedIds }: UseModalManager
 
 	const [askModalOpen, setAskModalOpen] = useState(false);
 
-	const handleAdd = useCallback(() => {
+	const handleAdd = () => {
 		setEditingBirthday(null);
 		setFormModalOpen(true);
-	}, []);
+	};
 
-	const handleEdit = useCallback((birthday: Birthday) => {
+	const handleEdit = (birthday: Birthday) => {
 		setEditingBirthday(birthday);
 		setFormModalOpen(true);
-	}, []);
+	};
 
-	const handleDeleteClick = useCallback((birthday: Birthday) => {
+	const handleDeleteClick = (birthday: Birthday) => {
 		setDeletingBirthday(birthday);
 		setDeleteModalOpen(true);
-	}, []);
+	};
 
-	const handleExport = useCallback((birthday: Birthday) => {
+	const handleExport = (birthday: Birthday) => {
 		setExportingBirthday(birthday);
 		setExportModalOpen(true);
-	}, []);
+	};
 
-	const handleBulkDelete = useCallback(() => {
+	const handleBulkDelete = () => {
 		setBulkDeleteModalOpen(true);
-	}, []);
+	};
 
 	const handleConfirmDelete = async () => {
 		if (deletingBirthday) {
@@ -63,7 +63,7 @@ export function useModalManager({ selectedIds, setSelectedIds }: UseModalManager
 			gooeyToast.success(`${count} ${count === 1 ? "birthday" : "birthdays"} deleted`, {
 				showTimestamp: false,
 			});
-		} catch (error) {
+		} catch {
 			gooeyToast.error("Failed to delete selected birthdays");
 		}
 	};

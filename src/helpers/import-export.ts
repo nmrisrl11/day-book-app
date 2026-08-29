@@ -150,7 +150,7 @@ export function parseImportedInvitations(fileText: string | undefined): Invitati
 			})) as InvitationRecord[];
 
 		return validInvitations;
-	} catch (error) {
+	} catch {
 		// If it fails to parse, it might be an older backup, just return empty array instead of throwing
 		// unless it's a completely invalid JSON in which case the birthdays parse would have already failed.
 		return [];
