@@ -3,6 +3,7 @@
 ## Added
 
 - **Animated Logo Variants**: Introduced new interactive SVG logo components (404, Backup, Crystal Ball, Notification) mapped to the `AnimatedLogo` component for expanded system feedback and empty states.
+- **404 Route**: Added a beautiful "Not Found" page to guide users back if they navigate to an invalid or non-existent URL route, featuring a custom animated 404 logo and suggested navigation cards.
 
 ## Improved
 
@@ -14,6 +15,10 @@
 - **Build Performance**: Optimized Vite `manualChunks` configuration to explicitly isolate heavy dependencies (FullCalendar, Radix UI, PeerJS) into dedicated chunks. This resolved the "chunks larger than 500 kB" warning, reduced the size of the core React vendor chunk by ~72%, and significantly improves caching behavior and initial load times.
 
 ## Fixed
+
+- **Resilient Data Recovery**: Improved the app's startup sequence to gracefully recover if browser settings data becomes corrupted or malformed, preventing startup crashes.
+- **Visual Glitches**: Fixed a transparent cutout rendering issue with the 404 animated logo variant.
+- **Test Integrity**: Standardized the use of local Date constructors in tests to align with strict timezone architectural rules.
 
 ## Changed
 
