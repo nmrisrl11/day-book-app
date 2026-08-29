@@ -21,7 +21,7 @@ export function exportBirthdays(birthdays: Birthday[]) {
 	URL.revokeObjectURL(url);
 }
 
-export function parseImportedBirthdays(fileText: string): Birthday[] {
+export function parseImportedBirthdays(fileText: string, currentDate: Date): Birthday[] {
 	try {
 		const parsed = JSON.parse(fileText);
 		if (!Array.isArray(parsed)) {
@@ -44,8 +44,11 @@ export function parseImportedBirthdays(fileText: string): Birthday[] {
 
 				const [year, month, day] = item.birthday.split("-").map(Number);
 				const localDate = new Date(year, month - 1, day);
-				const today = new Date();
-				today.setHours(0, 0, 0, 0);
+				const today = new Date(
+					currentDate.getFullYear(),
+					currentDate.getMonth(),
+					currentDate.getDate(),
+				);
 				if (localDate > today) {
 					return false;
 				}

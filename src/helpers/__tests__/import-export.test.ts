@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 import { parseImportedBirthdays } from "../import-export";
 
 describe("parseImportedBirthdays", () => {
@@ -12,7 +12,7 @@ describe("parseImportedBirthdays", () => {
 				notes: ["Cool guy"],
 			},
 		]);
-		const result = parseImportedBirthdays(validData);
+		const result = parseImportedBirthdays(validData, new Date("2026-08-29"));
 		expect(result).toHaveLength(1);
 		expect(result[0].name).toBe("John Doe");
 	});
@@ -27,7 +27,7 @@ describe("parseImportedBirthdays", () => {
 				relationship: "Family",
 			},
 		]);
-		const result = parseImportedBirthdays(dataWithNonStringAvatar);
+		const result = parseImportedBirthdays(dataWithNonStringAvatar, new Date("2026-08-29"));
 		expect(result).toHaveLength(1);
 		expect(result[0].name).toBe("Jane Doe");
 		expect(result[0].avatar).toBeUndefined();
@@ -43,7 +43,7 @@ describe("parseImportedBirthdays", () => {
 				relationship: "Other",
 			},
 		]);
-		const result = parseImportedBirthdays(dataWithEmptyAvatar);
+		const result = parseImportedBirthdays(dataWithEmptyAvatar, new Date("2026-08-29"));
 		expect(result).toHaveLength(1);
 		expect(result[0].name).toBe("Alice");
 		expect(result[0].avatar).toBeUndefined();

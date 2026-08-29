@@ -59,6 +59,7 @@ While originally conceived as a "birthday tracker," the product is evolving into
 - **Rule**: Birthdays MUST be stored strictly as `"YYYY-MM-DD"` strings alongside numerical `month` and `day` fields. **NEVER** use UTC Unix timestamps or timezone libraries (`date-fns-tz`, `moment.js`) for birthdays.
 - **Rule**: The app inherently respects the user's timezone by comparing the local system month/day with the stored `month` and `day`. The single source of truth for "today" is the `useCurrentDate` hook (which is also exposed via `useBirthdayData` and `useBirthdayManagement`). **Never instantiate `new Date()` manually in components for today's date**, as it fragments state and breaks the automatic midnight rollover synchronization.
 - **Rule**: When parsing `"YYYY-MM-DD"` strings into Date objects (e.g. for validation), manually extract the `year`, `month`, and `day` to construct a local Date object (`new Date(year, month - 1, day)`). Passing the string directly to `new Date()` defaults to UTC and causes timezone boundary bugs.
+  - _Exception_: Static Zod validation schemas (like `birthdaySchema`) may safely use `new Date()` internally when checking for future dates to avoid the performance penalty of converting the schema into a dynamic factory function for React Hook Form.
 
 ### The Presentation Layer
 

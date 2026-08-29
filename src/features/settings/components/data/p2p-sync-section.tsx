@@ -13,6 +13,7 @@ import {
 	parseImportedInvitations,
 	parseImportedSettings,
 } from "@/helpers/import-export";
+import { useCurrentDate } from "@/hooks/use-current-date";
 import { useP2PSync } from "@/hooks/use-p2p-sync";
 import { BirthdayRepository } from "@/lib/birthday-repository";
 import { db } from "@/lib/db";
@@ -25,6 +26,7 @@ import { useNavigate } from "react-router-dom";
 
 export function P2PSyncSection() {
 	const navigate = useNavigate();
+	const currentDate = useCurrentDate();
 	const { syncState, peerId, startHosting, connectToHost, cancelSync } = useP2PSync();
 
 	const [isHostModalOpen, setIsHostModalOpen] = useState(false);
@@ -95,7 +97,10 @@ export function P2PSyncSection() {
 				const payload = JSON.parse(text);
 
 				// Validate via our existing strict schemas
-				const parsedBirthdays = parseImportedBirthdays(JSON.stringify(payload.birthdays));
+				const parsedBirthdays = parseImportedBirthdays(
+					JSON.stringify(payload.birthdays),
+					currentDate,
+				);
 				const parsedSettings = parseImportedSettings(JSON.stringify(payload.settings));
 				const parsedInvitations = parseImportedInvitations(JSON.stringify(payload.invitations));
 

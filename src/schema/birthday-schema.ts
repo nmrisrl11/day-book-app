@@ -41,6 +41,10 @@ export const birthdaySchema = z.object({
 				return;
 			}
 
+			// EXCEPTION: We instantiate `new Date()` directly here rather than using `useCurrentDate()`
+			// to avoid converting the statically exported Zod schema into a dynamic factory function
+			// (which would cause unnecessary re-initialization overhead in React Hook Form).
+			// A midnight rollover during form interaction is an acceptable edge case tradeoff.
 			const today = new Date();
 			today.setHours(0, 0, 0, 0);
 			if (date > today) {
