@@ -25,6 +25,7 @@ DayBook is a fully functional, local-first React application. While originally s
 - **Database (App):** IndexedDB (Dexie.js)
 - **P2P Sync:** PeerJS (WebRTC)
 - **Testing:** Vitest
+- **Linting & Formatting:** Oxlint, Oxc Formatter (`oxfmt`)
 - **Analytics & Monitoring:** `@vercel/analytics`, `@vercel/speed-insights`
 
 ## 3. Implemented Features Inventory

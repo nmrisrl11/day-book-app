@@ -1,17 +1,17 @@
 {
 	"name": "daybook-app",
-	"private": true,
 	"version": "1.4.0",
-	"type": "module",
-	"author": "Nomer Israel",
+	"private": true,
 	"license": "MIT",
+	"author": "Nomer Israel",
+	"type": "module",
 	"scripts": {
 		"dev": "vite",
 		"build": "tsc -b && vite build",
 		"lint": "oxlint",
 		"preview": "vite preview",
-		"format": "prettier . --write",
-		"format:check": "prettier . --check",
+		"format": "oxfmt . --write --ignore-path=.oxfmtignore",
+		"format:check": "oxfmt . --check --ignore-path=.oxfmtignore",
 		"test": "vitest run"
 	},
 	"dependencies": {
@@ -58,9 +58,8 @@
 		"@types/react": "^19.2.17",
 		"@types/react-dom": "^19.2.3",
 		"@vitejs/plugin-react": "^6.0.4",
+		"oxfmt": "^0.65.0",
 		"oxlint": "^1.75.0",
-		"prettier": "^3.9.6",
-		"prettier-plugin-tailwindcss": "^0.8.1",
 		"typescript": "~6.0.2",
 		"vite": "^8.2.0",
 		"vite-plugin-pwa": "^1.3.0",

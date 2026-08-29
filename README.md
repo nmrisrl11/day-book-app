@@ -102,4 +102,5 @@ npm run dev
 - `npm run build` - Builds the app for production.
 - `npm run test` - Runs the Vitest test suite.
 - `npm run lint` - Lints the codebase using Oxlint.
+- `npm run format` - Formats the codebase using Oxc Formatter.
 - `npm run preview` - Previews the production build locally.
