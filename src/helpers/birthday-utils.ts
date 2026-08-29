@@ -7,18 +7,18 @@ import {
 	format,
 	isBefore,
 	isSameDay,
-	parse,
 	setYear,
 } from "date-fns";
 
 export function parseBirthday(dateString: string): Date {
-	// Parse YYYY-MM-DD
-	// date-fns parse fails on year 0000. We substitute 2000 (a leap year) for parsing purposes
-	// so that calculations (like month/day matching) still work correctly.
+	// If it starts with 0000, substitute 2000 (a leap year) so that calculations
+	// (like month/day matching and Feb 29 logic) still work correctly.
 	const safeDateString = dateString.startsWith("0000")
 		? `2000${dateString.substring(4)}`
 		: dateString;
-	return parse(safeDateString, "yyyy-MM-dd", new Date());
+
+	const [year, month, day] = safeDateString.split("-").map(Number);
+	return new Date(year, month - 1, day);
 }
 
 export function getUpcomingBirthdays(birthdays: Birthday[], currentDate: Date): Birthday[] {

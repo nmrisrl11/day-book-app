@@ -5,6 +5,7 @@ import { APP_INFO } from "@/constants/app-info";
 import { CalendarExportDialog } from "@/features/calendar/components/calendar-export-dialog";
 import { parseIcsForBirthdays } from "@/helpers/calendar-import";
 import { exportBirthdays, parseImportedBirthdays } from "@/helpers/import-export";
+import { useCurrentDate } from "@/hooks/use-current-date";
 import { db } from "@/lib/db";
 import type { Birthday } from "@/types/birthday";
 import { useLiveQuery } from "dexie-react-hooks";
@@ -14,6 +15,7 @@ import { useEffect, useRef, useState } from "react";
 import { ImportPreviewDialog } from "./import-preview-dialog";
 
 export function BirthdaysDataManagement() {
+	const currentDate = useCurrentDate();
 	const birthdays = useLiveQuery(() => db.birthdays.toArray(), []) ?? [];
 
 	const fileInputBirthdaysRef = useRef<HTMLInputElement>(null);
@@ -53,7 +55,7 @@ export function BirthdaysDataManagement() {
 				return;
 			}
 
-			const importedBirthdays = parseImportedBirthdays(text);
+			const importedBirthdays = parseImportedBirthdays(text, currentDate);
 			setFoundJsonBirthdays(importedBirthdays);
 			setImportJsonOpen(true);
 		} catch (err) {
