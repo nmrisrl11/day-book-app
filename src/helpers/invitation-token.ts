@@ -77,12 +77,12 @@ export function parseInvitationToken(token: string): InvitationPayload | null {
 /**
  * Generates a Base64Url-encoded response payload from the invitee.
  * Note: This is an unencrypted, forgeable client-side convenience token.
- * It contains the invitee's name, birthday, version, and a 24-hour expiration timestamp.
+ * It contains the invitee's name, birthday, version, and a 12-hour expiration timestamp.
  *
  * Example Result: "eyJ2IjoxLCJuIjoiU2FyYWgiLCJiIjoiMTk5NS0wMS0xNSIsImUiOjE3MTkwMDAwMDAwMDB9"
  */
 export function generateResponseToken(name: string, birthday: string): string {
-	const expiration = Date.now() + 24 * 60 * 60 * 1000; // 24 hours
+	const expiration = Date.now() + 12 * 60 * 60 * 1000; // 12 hours
 	const payload: ResponsePayload = { v: 1, n: name.trim(), b: birthday, e: expiration };
 	return encodeBase64Url(JSON.stringify(payload));
 }

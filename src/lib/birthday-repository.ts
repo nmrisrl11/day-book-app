@@ -1,10 +1,11 @@
+import { STORAGE_KEYS } from "@/constants/storage-keys";
 import type { Birthday } from "@/types/birthday";
 import { db, type BirthdayRecord } from "./db";
 
 export const BirthdayRepository = {
 	async updateHasDataHint(): Promise<void> {
 		const count = await db.birthdays.count();
-		localStorage.setItem("daybook_has_data", count > 0 ? "true" : "false");
+		localStorage.setItem(STORAGE_KEYS.HAS_DATA, count > 0 ? "true" : "false");
 	},
 
 	async getAll(): Promise<Birthday[]> {
