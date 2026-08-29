@@ -2,7 +2,8 @@ import { APP_INFO } from "@/constants/app-info";
 import { cn } from "@/lib/utils";
 import { useDayBookStore } from "@/store/day-book-store";
 import { play } from "cuelume";
-import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
+import type { ComponentType, CSSProperties, SVGProps } from "react";
 import { Logo } from "./logos/logo";
 import { Logo404Icon } from "./logos/logo-404-icon";
 import { LogoBackupIcon } from "./logos/logo-backup-icon";
@@ -38,10 +39,7 @@ export interface AnimatedLogoProps {
 	autoPlay?: boolean;
 }
 
-const variantComponents: Record<
-	AnimatedLogoVariant,
-	React.ComponentType<React.SVGProps<SVGSVGElement>>
-> = {
+const variantComponents: Record<AnimatedLogoVariant, ComponentType<SVGProps<SVGSVGElement>>> = {
 	default: LogoIcon,
 	invite: LogoInviteIcon,
 	warning: LogoWarningIcon,
@@ -66,42 +64,40 @@ export const AnimatedLogo = forwardRef<AnimatedLogoRef, AnimatedLogoProps>(
 		ref,
 	) => {
 		const [isAnimating, setIsAnimating] = useState(false);
-		const { animationsEnabled } = useDayBookStore((state) => state.settings);
-
-		const isAnimatingRef = useRef(isAnimating);
-		useEffect(() => {
-			isAnimatingRef.current = isAnimating;
-		}, [isAnimating]);
+		const animationsEnabled = useDayBookStore((state) => state.settings.animationsEnabled);
 
 		const LogoComponent = type === "full" ? Logo : variantComponents[variant];
 
-		const trigger = () => {
+		const startAnimation = (isManualPlay = false) => {
 			if (isAnimating || !animationsEnabled) return;
 			setIsAnimating(true);
-			play("sparkle");
+			if (isManualPlay) {
+				play("sparkle");
+			}
 		};
 
 		useImperativeHandle(ref, () => ({
-			triggerAnimation: trigger,
+			triggerAnimation: () => startAnimation(true),
 		}));
 
 		useEffect(() => {
-			if (autoPlay) {
-				const timer = setTimeout(() => {
-					const currentAnimationsEnabled = useDayBookStore.getState().settings.animationsEnabled;
-					if (isAnimatingRef.current || !currentAnimationsEnabled) return;
-					setIsAnimating(true);
-					play("sparkle");
-				}, 500);
-				return () => clearTimeout(timer);
-			}
-			// eslint-disable-next-line react-hooks/exhaustive-deps
-		}, [autoPlay]);
+			if (!autoPlay) return;
 
-		const handleClick = () => {
-			if (isAnimating || !animationsEnabled) return;
-			setIsAnimating(true);
-		};
+			const timer = setTimeout(() => {
+				setIsAnimating((prev) => {
+					if (prev) return prev;
+					// Fetch the latest state to avoid stale closure issues if not fully synchronized,
+					// though we are in a mount effect, it's safer to check current store state.
+					const currentAnimationsEnabled = useDayBookStore.getState().settings.animationsEnabled;
+					if (!currentAnimationsEnabled) return false;
+
+					play("sparkle");
+					return true;
+				});
+			}, 500);
+
+			return () => clearTimeout(timer);
+		}, [autoPlay]);
 
 		const Wrapper = asButton ? "button" : "div";
 
@@ -112,7 +108,7 @@ export const AnimatedLogo = forwardRef<AnimatedLogoRef, AnimatedLogoProps>(
 					"group focus-visible:ring-ring relative inline-flex cursor-pointer items-center justify-center rounded-3xl transition-transform outline-none select-none [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none] focus-visible:ring-2",
 					className,
 				)}
-				onClick={handleClick}
+				onClick={() => startAnimation(false)}
 				aria-label={`Play ${APP_INFO.name} animation`}
 				data-cuelume-release="sparkle"
 			>
@@ -130,31 +126,23 @@ export const AnimatedLogo = forwardRef<AnimatedLogoRef, AnimatedLogoProps>(
 						{/* Particle 1: Top Right */}
 						<div
 							className="bg-primary animate-particle-out absolute top-[20%] left-[60%] h-1.5 w-1.5 rounded-full"
-							style={
-								{ "--tx": "15px", "--ty": "-20px", animationDelay: "0ms" } as React.CSSProperties
-							}
+							style={{ "--tx": "15px", "--ty": "-20px", animationDelay: "0ms" } as CSSProperties}
 						/>
 						{/* Particle 2: Top Left */}
 						<div
 							className="bg-primary animate-particle-out absolute top-[30%] left-[30%] h-1 w-1 rounded-full opacity-80"
-							style={
-								{ "--tx": "-20px", "--ty": "-15px", animationDelay: "50ms" } as React.CSSProperties
-							}
+							style={{ "--tx": "-20px", "--ty": "-15px", animationDelay: "50ms" } as CSSProperties}
 						/>
 						{/* Particle 3: Bottom Right */}
 						<div
 							className="bg-primary animate-particle-out absolute top-[70%] left-[70%] h-1 w-1 rounded-full opacity-60"
-							style={
-								{ "--tx": "20px", "--ty": "10px", animationDelay: "100ms" } as React.CSSProperties
-							}
+							style={{ "--tx": "20px", "--ty": "10px", animationDelay: "100ms" } as CSSProperties}
 							onAnimationEnd={() => setIsAnimating(false)}
 						/>
 						{/* Particle 4: Left */}
 						<div
 							className="bg-primary animate-particle-out absolute top-[60%] left-[20%] h-1.5 w-1.5 rounded-full opacity-90"
-							style={
-								{ "--tx": "-25px", "--ty": "5px", animationDelay: "20ms" } as React.CSSProperties
-							}
+							style={{ "--tx": "-25px", "--ty": "5px", animationDelay: "20ms" } as CSSProperties}
 						/>
 					</div>
 				)}
@@ -162,5 +150,3 @@ export const AnimatedLogo = forwardRef<AnimatedLogoRef, AnimatedLogoProps>(
 		);
 	},
 );
-
-AnimatedLogo.displayName = "AnimatedLogo";
