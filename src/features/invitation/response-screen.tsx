@@ -15,6 +15,7 @@ import { db } from "@/lib/db";
 import { RELATIONSHIP_OPTIONS, type Relationship } from "@/types/birthday";
 import { useLiveQuery } from "dexie-react-hooks";
 import { AlertTriangleIcon, CalendarIcon, HomeIcon, UserIcon } from "lucide-react";
+import { motion } from "motion/react";
 import { useQueryState } from "nuqs";
 import { useState } from "react";
 import { Link } from "react-router-dom";
@@ -31,29 +32,37 @@ export function ResponseScreen() {
 
 	if (!token || !response) {
 		return (
-			<div className="flex w-full flex-col items-center justify-center pt-24 pb-32">
-				<div className="border-border bg-card/50 flex w-full max-w-md flex-col items-center justify-center gap-4 rounded-xl border border-dashed px-4 py-16 text-center">
+			<main className="flex min-h-[75vh] flex-col items-center justify-center space-y-8 p-6 text-center">
+				<motion.div
+					initial={{ scale: 0.8, opacity: 0 }}
+					animate={{ scale: 1, opacity: 1 }}
+					transition={{ type: "spring", bounce: 0.5 }}
+					className="flex justify-center"
+				>
 					<AnimatedLogo
 						key="warning"
 						autoPlay
 						variant="warning"
 						type="icon"
-						className="mx-auto mb-2"
-						iconClassName="h-24 w-24 drop-shadow-sm"
+						className="h-24 w-24 sm:h-32 sm:w-32"
+						iconClassName="h-full w-full drop-shadow-sm"
 					/>
-					<h3 className="mb-2 text-lg font-semibold">Invalid or Expired Response</h3>
-					<p className="text-muted-foreground mb-6">
-						We couldn't read the birthday information from this link. It might be corrupted or has
-						expired.
+				</motion.div>
+
+				<div className="space-y-3">
+					<h1 className="text-foreground text-3xl font-extrabold tracking-tight sm:text-4xl">
+						Response Expired
+					</h1>
+					<p className="text-muted-foreground mx-auto max-w-md text-lg">
+						We couldn't read the birthday from this link. It might have expired or been corrupted.
+						Please ask for it to be sent again!
 					</p>
-					<Button asChild variant="outline">
-						<Link to="/">
-							<HomeIcon className="mr-2 h-4 w-4" />
-							Go Home
-						</Link>
-					</Button>
 				</div>
-			</div>
+
+				<Button asChild size="lg" className="mt-4 transition-shadow hover:shadow-md">
+					<Link to="/">Back to Dashboard</Link>
+				</Button>
+			</main>
 		);
 	}
 

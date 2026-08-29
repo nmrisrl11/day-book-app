@@ -20,4 +20,6 @@
 
 ## Changed
 
+- **Error States UI**: Completely redesigned the "Expired Link" and "Invalid Response" screens (`/invite` and `/invite/response`) to adopt the clean, centered layout and smooth spring animations of the 404 page. Scaled down the Animated Logo across all error and missing pages for better visual hierarchy and updated the copywriting to be more conversational and direct.
+
 ## Removed
