@@ -206,8 +206,8 @@ export function SettingsScreen() {
 											<p className="text-muted-foreground mb-6 max-w-sm text-sm">
 												You need to add at least one birthday to customize the main greeting.
 											</p>
-											<Button onClick={() => navigate("/")} variant="default">
-												Add Birthday
+											<Button onClick={() => navigate("/manage?action=new")} variant="default">
+												Add a Person
 											</Button>
 										</div>
 									)}
@@ -236,8 +236,8 @@ export function SettingsScreen() {
 												You need to add at least one birthday to manage floating messages and
 												greetings.
 											</p>
-											<Button onClick={() => navigate("/")} variant="default">
-												Add Birthday
+											<Button onClick={() => navigate("/manage?action=new")} variant="default">
+												Add a Person
 											</Button>
 										</div>
 									)}

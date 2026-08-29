@@ -10,7 +10,8 @@ import {
 } from "@/components/ui/select";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { ChevronLeftIcon, ChevronRightIcon, LinkIcon, PlusIcon } from "lucide-react";
-import { lazy, Suspense, useRef } from "react";
+import { parseAsString, useQueryState } from "nuqs";
+import { lazy, Suspense, useEffect, useRef } from "react";
 
 import { BirthdayFilters } from "./components/birthday-filters";
 import { BirthdayListItem } from "./components/birthday-list-item";
@@ -77,6 +78,16 @@ export function BirthdayManagementScreen() {
 		overscan: 10,
 	});
 
+	const [actionParam, setActionParam] = useQueryState("action", parseAsString);
+	const handleAdd = modalManager.handleAdd;
+
+	useEffect(() => {
+		if (actionParam === "new") {
+			handleAdd();
+			setActionParam(null); // Clear URL
+		}
+	}, [actionParam, handleAdd, setActionParam]);
+
 	if (isLoading) {
 		return <ManageRouteFallback />;
 	}
@@ -94,9 +105,9 @@ export function BirthdayManagementScreen() {
 						<LinkIcon className="h-4 w-4 sm:mr-2" aria-hidden="true" />
 						<span className="hidden sm:inline">Ask for Birthday</span>
 					</Button>
-					<Button onClick={modalManager.handleAdd} aria-label="Add Birthday">
+					<Button onClick={modalManager.handleAdd} aria-label="Add a Person">
 						<PlusIcon className="h-4 w-4 sm:mr-2" aria-hidden="true" />
-						<span className="hidden sm:inline">Add Birthday</span>
+						<span className="hidden sm:inline">Add a Person</span>
 					</Button>
 				</div>
 			</div>

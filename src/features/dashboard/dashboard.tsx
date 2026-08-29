@@ -1,5 +1,5 @@
 import { useBirthdayData } from "@/hooks/use-birthday-data";
-import { Suspense } from "react";
+import { Suspense, useState } from "react";
 import { DashboardEmptyState } from "./components/dashboard-empty-state";
 import { DashboardRouteFallback } from "./components/dashboard-route-fallback";
 
@@ -18,6 +18,8 @@ export function Dashboard() {
 		birthdays,
 	} = useBirthdayData();
 
+	const [previewMode, setPreviewMode] = useState(false);
+
 	if (isLoading) {
 		return <DashboardRouteFallback />;
 	}
@@ -25,14 +27,23 @@ export function Dashboard() {
 		return <DashboardEmptyState />;
 	}
 
+	const activeCelebrants = previewMode && birthdays.length > 0 ? [birthdays[0]] : todayCelebrants;
+
 	return (
 		<div className="flex w-full flex-col items-center gap-16">
 			<Suspense fallback={<DashboardRouteFallback />}>
-				<HappyBirthdaySection celebrants={todayCelebrants} currentDate={currentDate} />
+				<HappyBirthdaySection
+					celebrants={activeCelebrants}
+					currentDate={currentDate}
+					isPreviewMode={previewMode}
+					onClosePreview={() => setPreviewMode(false)}
+					onStartPreview={() => setPreviewMode(true)}
+					hasDataToPreview={birthdays.length > 0}
+				/>
 				<UpcomingBirthdaysSection upcomingBirthdays={upcomingBirthdays} currentDate={currentDate} />
 				<BirthdaysSection birthdaysByMonth={birthdaysByMonth} currentDate={currentDate} />
 			</Suspense>
-			<QuickActionToolbar hasCelebrants={todayCelebrants.length > 0} />
+			<QuickActionToolbar hasCelebrants={activeCelebrants.length > 0} />
 		</div>
 	);
 }
