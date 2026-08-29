@@ -18,7 +18,7 @@ import type { Birthday } from "@/types/birthday";
 import { useVirtualizer, type VirtualItem as TanstackVirtualItem } from "@tanstack/react-virtual";
 import { useLiveQuery } from "dexie-react-hooks";
 import { gooeyToast } from "goey-toast";
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 interface ImportPreviewDialogProps {
@@ -33,7 +33,7 @@ type VirtualItem =
 	| { type: "header"; month: string; celebrants: Birthday[] }
 	| { type: "birthday"; birthday: Birthday };
 
-const VirtualHeaderRow = React.memo(
+const VirtualHeaderRow = memo(
 	({
 		item,
 		virtualRow,
@@ -74,9 +74,8 @@ const VirtualHeaderRow = React.memo(
 		);
 	},
 );
-VirtualHeaderRow.displayName = "VirtualHeaderRow";
 
-const VirtualBirthdayRow = React.memo(
+const VirtualBirthdayRow = memo(
 	({
 		b,
 		virtualRow,
@@ -169,7 +168,8 @@ const VirtualBirthdayRow = React.memo(
 		);
 	},
 );
-VirtualBirthdayRow.displayName = "VirtualBirthdayRow";
+
+const EMPTY_ARRAY: Birthday[] = [];
 
 export function ImportPreviewDialog({
 	source,
@@ -178,7 +178,7 @@ export function ImportPreviewDialog({
 	foundBirthdays,
 	onImportSuccess,
 }: ImportPreviewDialogProps) {
-	const existingBirthdays = useLiveQuery(() => db.birthdays.toArray(), []) ?? [];
+	const existingBirthdays = useLiveQuery(() => db.birthdays.toArray(), []) ?? EMPTY_ARRAY;
 	const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
 	const navigate = useNavigate();
 
