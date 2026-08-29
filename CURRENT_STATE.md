@@ -81,7 +81,8 @@ day-book-app/
 ├── public/          # Static assets, webmanifest
 ├── src/
 │   ├── components/  # Global components (Layout, UI primitives)
-│   │   ├── icons/   # AnimatedLogo and individual SVG React components
+│   │   ├── icons/   # AnimatedLogo and other global icons
+│   │   │   ├── logos/ # Individual SVG React components for logos
 │   ├── constants/   # Default configs, settings boundaries
 │   ├── features/    # Domain modules (dashboard, management, settings)
 │   │   ├── dashboard/

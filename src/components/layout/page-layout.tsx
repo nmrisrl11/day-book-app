@@ -1,4 +1,4 @@
-import { Logo } from "@/components/icons/logo";
+import { Logo } from "@/components/icons/logos/logo";
 import { Button } from "@/components/ui/button";
 import { BookUserIcon, LinkIcon, SettingsIcon } from "lucide-react";
 import React from "react";
