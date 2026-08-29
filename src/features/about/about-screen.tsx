@@ -262,9 +262,11 @@ export function AboutScreen() {
 			</div>
 
 			{/* Desktop Line Nav */}
-			<aside className="fixed top-32 right-4 hidden w-50 xl:block 2xl:right-16 2xl:w-60">
-				<h3 className="text-foreground mb-2 px-3 font-semibold">On this page</h3>
-				<LineNav items={navItems} activeId={activeId} />
+			<aside className="fixed top-1/2 right-4 hidden w-50 -translate-y-1/2 flex-col xl:flex 2xl:right-16 2xl:w-60">
+				<h3 className="text-foreground mb-2 shrink-0 px-3 font-semibold">On this page</h3>
+				<div className="custom-scrollbar max-h-[80vh] overflow-x-hidden overflow-y-auto pb-4">
+					<LineNav items={navItems} activeId={activeId} />
+				</div>
 			</aside>
 
 			{/* Mobile Line Nav */}

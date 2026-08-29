@@ -2,19 +2,32 @@ import { APP_INFO } from "@/constants/app-info";
 import { cn } from "@/lib/utils";
 import { useDayBookStore } from "@/store/day-book-store";
 import { play } from "cuelume";
-import React, { forwardRef, useEffect, useImperativeHandle, useState, useRef } from "react";
-import { Logo } from "./logo";
-import { LogoIcon } from "./logo-icon";
-import { LogoInviteIcon } from "./logo-invite-icon";
-import { LogoResponseIcon } from "./logo-response-icon";
-import { LogoShareIcon } from "./logo-share-icon";
-import { LogoWarningIcon } from "./logo-warning-icon";
+import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
+import { Logo } from "./logos/logo";
+import { Logo404Icon } from "./logos/logo-404-icon";
+import { LogoBackupIcon } from "./logos/logo-backup-icon";
+import { LogoCrystalBallIcon } from "./logos/logo-crystal-ball-icon";
+import { LogoIcon } from "./logos/logo-icon";
+import { LogoInviteIcon } from "./logos/logo-invite-icon";
+import { LogoNotificationIcon } from "./logos/logo-notification-icon";
+import { LogoResponseIcon } from "./logos/logo-response-icon";
+import { LogoShareIcon } from "./logos/logo-share-icon";
+import { LogoWarningIcon } from "./logos/logo-warning-icon";
 
 export interface AnimatedLogoRef {
 	triggerAnimation: () => void;
 }
 
-export type AnimatedLogoVariant = "default" | "invite" | "warning" | "share" | "response";
+export type AnimatedLogoVariant =
+	| "default"
+	| "invite"
+	| "warning"
+	| "share"
+	| "response"
+	| "404"
+	| "backup"
+	| "crystal-ball"
+	| "notification";
 
 export interface AnimatedLogoProps {
 	type?: "icon" | "full";
@@ -34,6 +47,10 @@ const variantComponents: Record<
 	warning: LogoWarningIcon,
 	share: LogoShareIcon,
 	response: LogoResponseIcon,
+	"404": Logo404Icon,
+	backup: LogoBackupIcon,
+	"crystal-ball": LogoCrystalBallIcon,
+	notification: LogoNotificationIcon,
 };
 
 export const AnimatedLogo = forwardRef<AnimatedLogoRef, AnimatedLogoProps>(
