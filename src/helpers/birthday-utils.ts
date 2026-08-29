@@ -10,7 +10,14 @@ import {
 	setYear,
 } from "date-fns";
 
+const parseCache = new Map<string, readonly [number, number, number]>();
+
 export function parseBirthday(dateString: string): Date {
+	if (parseCache.has(dateString)) {
+		const [y, m, d] = parseCache.get(dateString)!;
+		return new Date(y, m - 1, d);
+	}
+
 	// If it starts with 0000, substitute 2000 (a leap year) so that calculations
 	// (like month/day matching and Feb 29 logic) still work correctly.
 	const safeDateString = dateString.startsWith("0000")
@@ -18,6 +25,7 @@ export function parseBirthday(dateString: string): Date {
 		: dateString;
 
 	const [year, month, day] = safeDateString.split("-").map(Number);
+	parseCache.set(dateString, [year, month, day]);
 	return new Date(year, month - 1, day);
 }
 

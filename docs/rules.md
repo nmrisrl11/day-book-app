@@ -13,7 +13,7 @@ Follow these rules for all code changes and new implementations.
 ## TypeScript
 
 - Use **TypeScript** for all source files.
-- Do not use the `any` type.
+- **CRITICAL**: Do NOT use the `any` type under any circumstances. This rule is strictly enforced and must never be bypassed. Always prioritize defining proper, explicit types. Use `unknown` or `Record<string, unknown>` only as a fallback when the data shape is truly unpredictable, and leverage type guards for safe narrowing.
 - Prefer explicit types when they improve readability or type safety.
 - Use existing project types when available instead of redefining them.
 - Avoid unnecessary type assertions (`as`) unless they are required and safe.

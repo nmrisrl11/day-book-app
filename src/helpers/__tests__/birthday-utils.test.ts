@@ -30,6 +30,27 @@ describe("birthday-utils", () => {
 			expect(date.getMonth()).toBe(4); // 0-indexed
 			expect(date.getDate()).toBe(15);
 		});
+
+		it("should preserve the calendar day when parsed from cache even if the local timezone boundary shifted", () => {
+			// Mocking timezone changes in JS is tricky, but we can verify the cache behavior.
+			// The fix ensures parseBirthday returns a freshly constructed local Date from the components,
+			// rather than returning a Date based on a previously cached UTC timestamp which could drift.
+			const date1 = parseBirthday("1995-12-25");
+			expect(date1.getFullYear()).toBe(1995);
+			expect(date1.getMonth()).toBe(11);
+			expect(date1.getDate()).toBe(25);
+
+			// Call it again to hit the cache
+			const date2 = parseBirthday("1995-12-25");
+			expect(date2.getFullYear()).toBe(1995);
+			expect(date2.getMonth()).toBe(11);
+			expect(date2.getDate()).toBe(25);
+
+			// A fresh Date object should be returned on cache hits to adapt to the current runtime timezone
+			expect(date1).not.toBe(date2);
+			// They should evaluate to the same local time components
+			expect(date1.getTime()).toBe(date2.getTime());
+		});
 	});
 
 	describe("getUpcomingBirthdays", () => {

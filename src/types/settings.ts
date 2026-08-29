@@ -70,4 +70,6 @@ export interface Settings {
 	quickActionsEnabled?: boolean;
 	quickActionsPosition?: QuickActionsPosition;
 	quickActionsIsOpen?: boolean;
+	lastBackupDate?: string;
+	lastBackupReminderDismissedAt?: string;
 }

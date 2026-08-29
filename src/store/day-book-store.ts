@@ -25,6 +25,8 @@ export const defaultSettings: Settings = {
 	quickActionsEnabled: true,
 	quickActionsPosition: "bottom-right",
 	quickActionsIsOpen: false,
+	lastBackupDate: undefined,
+	lastBackupReminderDismissedAt: undefined,
 };
 
 interface DayBookState {
@@ -44,20 +46,23 @@ const getInitialSettings = (): Settings => {
 	return defaultSettings;
 };
 
-function isObject(item: unknown): boolean {
+function isObject(item: unknown): item is Record<string, unknown> {
 	return Boolean(item && typeof item === "object" && !Array.isArray(item));
 }
 
-function deepMerge<T>(target: any, source: any): T {
+function deepMerge<T>(target: unknown, source: unknown): T {
 	if (!isObject(target) || !isObject(source)) {
-		return source === undefined ? target : source;
+		return (source === undefined ? target : source) as T;
 	}
 
-	const output = { ...target };
+	const output: Record<string, unknown> = { ...target };
 	Object.keys(source).forEach((key) => {
 		if (isObject(source[key])) {
-			if (!(key in target)) Object.assign(output, { [key]: source[key] });
-			else output[key] = deepMerge(target[key], source[key]);
+			if (!(key in target)) {
+				Object.assign(output, { [key]: source[key] });
+			} else {
+				output[key] = deepMerge(target[key], source[key]);
+			}
 		} else {
 			Object.assign(output, { [key]: source[key] });
 		}
