@@ -227,7 +227,16 @@ export function P2PSyncSection() {
 									Waiting for connection...
 								</div>
 							</>
-						) : syncState === "connecting" || syncState === "transferring" ? (
+						) : syncState === "connecting" ? (
+							<>
+								<div className="bg-primary/10 text-primary flex h-24 w-full items-center justify-center rounded-xl">
+									<Loader2 className="h-10 w-10 animate-spin" />
+								</div>
+								<div className="text-primary text-sm font-medium">
+									Waiting for other device to confirm...
+								</div>
+							</>
+						) : syncState === "transferring" ? (
 							<>
 								<div className="bg-primary/10 text-primary flex h-24 w-full items-center justify-center rounded-xl">
 									<Loader2 className="h-10 w-10 animate-spin" />
@@ -273,13 +282,20 @@ export function P2PSyncSection() {
 									Connect & Sync
 								</Button>
 							</>
-						) : syncState === "connecting" || syncState === "transferring" ? (
+						) : syncState === "connecting" ? (
+							<>
+								<div className="bg-primary/10 text-primary flex h-24 w-full items-center justify-center rounded-xl">
+									<Loader2 className="h-10 w-10 animate-spin" />
+								</div>
+								<div className="text-primary text-sm font-medium">Connecting to host...</div>
+							</>
+						) : syncState === "transferring" ? (
 							<>
 								<div className="bg-primary/10 text-primary flex h-24 w-full items-center justify-center rounded-xl">
 									<Loader2 className="h-10 w-10 animate-spin" />
 								</div>
 								<div className="text-primary text-sm font-medium">
-									Connecting & Receiving data...
+									Waiting for host to send data...
 								</div>
 							</>
 						) : null}
