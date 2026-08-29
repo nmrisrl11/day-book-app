@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
 	Select,
@@ -9,29 +8,19 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import { FULL_MONTHS } from "@/constants/months";
-import { BirthdayRepository } from "@/lib/birthday-repository";
-import { RELATIONSHIP_OPTIONS, type Birthday } from "@/types/birthday";
 import { useVirtualizer } from "@tanstack/react-virtual";
-import { gooeyToast } from "goey-toast";
-import {
-	ChevronLeftIcon,
-	ChevronRightIcon,
-	FilterXIcon,
-	LinkIcon,
-	PlusIcon,
-	SearchIcon,
-	Trash2Icon,
-} from "lucide-react";
-import { lazy, Suspense, useCallback, useRef, useState } from "react";
-import { BirthdayListItem } from "./components/birthday-list-item";
+import { ChevronLeftIcon, ChevronRightIcon, LinkIcon, PlusIcon } from "lucide-react";
+import { lazy, Suspense, useRef } from "react";
 
-import {
-	MONTH_OPTIONS,
-	PER_PAGE_OPTIONS,
-	SORT_OPTIONS,
-	useBirthdayManagement,
-} from "./hooks/use-birthday-management";
+import { BirthdayFilters } from "./components/birthday-filters";
+import { BirthdayListItem } from "./components/birthday-list-item";
+import { BulkActionBar } from "./components/bulk-action-bar";
+import { ManageEmptyState } from "./components/manage-empty-state";
+import { ManageRouteFallback } from "./components/manage-route-fallback";
+
+import { PER_PAGE_OPTIONS, useBirthdayManagement } from "./hooks/use-birthday-management";
+import { useModalManager } from "./hooks/use-modal-manager";
+
 const BirthdayFormModal = lazy(() =>
 	import("./components/birthday-form-modal").then((m) => ({ default: m.BirthdayFormModal })),
 );
@@ -48,9 +37,6 @@ const CalendarExportDialog = lazy(() =>
 const AskBirthdayModal = lazy(() =>
 	import("./components/ask-birthday-modal").then((m) => ({ default: m.AskBirthdayModal })),
 );
-
-import { ManageEmptyState } from "./components/manage-empty-state";
-import { ManageRouteFallback } from "./components/manage-route-fallback";
 
 export function BirthdayManagementScreen() {
 	const {
@@ -80,64 +66,7 @@ export function BirthdayManagementScreen() {
 		currentDate,
 	} = useBirthdayManagement();
 
-	const [formModalOpen, setFormModalOpen] = useState(false);
-	const [editingBirthday, setEditingBirthday] = useState<Birthday | null>(null);
-
-	const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-	const [deletingBirthday, setDeletingBirthday] = useState<Birthday | null>(null);
-	const [bulkDeleteModalOpen, setBulkDeleteModalOpen] = useState(false);
-
-	const [exportModalOpen, setExportModalOpen] = useState(false);
-	const [exportingBirthday, setExportingBirthday] = useState<Birthday | null>(null);
-
-	const [askModalOpen, setAskModalOpen] = useState(false);
-
-	const handleAdd = () => {
-		setEditingBirthday(null);
-		setFormModalOpen(true);
-	};
-
-	const handleEdit = useCallback((birthday: Birthday) => {
-		setEditingBirthday(birthday);
-		setFormModalOpen(true);
-	}, []);
-
-	const handleDeleteClick = useCallback((birthday: Birthday) => {
-		setDeletingBirthday(birthday);
-		setDeleteModalOpen(true);
-	}, []);
-
-	const handleExport = useCallback((birthday: Birthday) => {
-		setExportingBirthday(birthday);
-		setExportModalOpen(true);
-	}, []);
-
-	const handleConfirmDelete = async () => {
-		if (deletingBirthday) {
-			await BirthdayRepository.delete(deletingBirthday.id);
-			gooeyToast.success("Birthday deleted", { showTimestamp: false });
-			setDeleteModalOpen(false);
-			setDeletingBirthday(null);
-		}
-	};
-
-	const handleBulkDelete = () => {
-		setBulkDeleteModalOpen(true);
-	};
-
-	const executeBulkDelete = async () => {
-		try {
-			await BirthdayRepository.bulkDelete(Array.from(selectedIds));
-			const count = selectedIds.size;
-			setSelectedIds(new Set());
-			setBulkDeleteModalOpen(false);
-			gooeyToast.success(`${count} ${count === 1 ? "birthday" : "birthdays"} deleted`, {
-				showTimestamp: false,
-			});
-		} catch (error) {
-			gooeyToast.error("Failed to delete selected birthdays");
-		}
-	};
+	const modalManager = useModalManager({ selectedIds, setSelectedIds });
 
 	const parentRef = useRef<HTMLDivElement>(null);
 
@@ -159,13 +88,13 @@ export function BirthdayManagementScreen() {
 				<div className="flex items-center gap-2">
 					<Button
 						variant="outline"
-						onClick={() => setAskModalOpen(true)}
+						onClick={() => modalManager.setAskModalOpen(true)}
 						aria-label="Ask for Birthday"
 					>
 						<LinkIcon className="h-4 w-4 sm:mr-2" aria-hidden="true" />
 						<span className="hidden sm:inline">Ask for Birthday</span>
 					</Button>
-					<Button onClick={handleAdd} aria-label="Add Birthday">
+					<Button onClick={modalManager.handleAdd} aria-label="Add Birthday">
 						<PlusIcon className="h-4 w-4 sm:mr-2" aria-hidden="true" />
 						<span className="hidden sm:inline">Add Birthday</span>
 					</Button>
@@ -173,89 +102,21 @@ export function BirthdayManagementScreen() {
 			</div>
 
 			{birthdays.length === 0 ? (
-				<ManageEmptyState onAdd={handleAdd} />
+				<ManageEmptyState onAdd={modalManager.handleAdd} />
 			) : (
 				<div className="flex flex-col gap-4">
-					<div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-						<div className="relative flex-1">
-							<SearchIcon
-								className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2"
-								aria-hidden="true"
-							/>
-							<Input
-								id="search-birthdays"
-								name="search-birthdays"
-								placeholder="Search by name..."
-								className="bg-background pl-9"
-								value={localSearch}
-								onChange={(e) => setLocalSearch(e.target.value)}
-								aria-label="Search by name"
-								autoComplete="off"
-							/>
-						</div>
-						<div className="flex flex-wrap items-center gap-2">
-							<Select
-								value={monthFilter}
-								onValueChange={(val) => setMonthFilter(val as (typeof MONTH_OPTIONS)[number])}
-							>
-								<SelectTrigger className="bg-background w-32.5" aria-label="Filter by month">
-									<SelectValue placeholder="Month" />
-								</SelectTrigger>
-								<SelectContent position="popper">
-									<SelectItem value="all">All Months</SelectItem>
-									{FULL_MONTHS.map((month, index) => (
-										<SelectItem key={month} value={(index + 1).toString()}>
-											{month}
-										</SelectItem>
-									))}
-								</SelectContent>
-							</Select>
-							<Select
-								value={relationshipFilter}
-								onValueChange={(val) => setRelationshipFilter(val)}
-							>
-								<SelectTrigger className="bg-background w-32.5" aria-label="Filter by relationship">
-									<SelectValue placeholder="Relationship" />
-								</SelectTrigger>
-								<SelectContent position="popper">
-									<SelectItem value="all">All People</SelectItem>
-									{RELATIONSHIP_OPTIONS.map((option) => (
-										<SelectItem key={option} value={option}>
-											{option}
-										</SelectItem>
-									))}
-								</SelectContent>
-							</Select>
-							<Select
-								value={sortOption}
-								onValueChange={(val) => setSortOption(val as (typeof SORT_OPTIONS)[number])}
-							>
-								<SelectTrigger className="bg-background w-40" aria-label="Sort birthdays">
-									<SelectValue placeholder="Sort by" />
-								</SelectTrigger>
-								<SelectContent position="popper">
-									<SelectItem value="upcoming">Upcoming First</SelectItem>
-									<SelectItem value="name-asc">Name (A-Z)</SelectItem>
-									<SelectItem value="name-desc">Name (Z-A)</SelectItem>
-									<SelectItem value="date-asc">Oldest to Youngest</SelectItem>
-									<SelectItem value="date-desc">Youngest to Oldest</SelectItem>
-								</SelectContent>
-							</Select>
-
-							{isFiltersActive && (
-								<Button
-									variant="ghost"
-									size="icon"
-									className="text-muted-foreground hover:bg-destructive/10 hover:text-destructive shrink-0"
-									onClick={handleClearFilters}
-									aria-label="Clear all filters"
-									title="Clear all filters"
-								>
-									<FilterXIcon className="h-4 w-4" aria-hidden="true" />
-								</Button>
-							)}
-						</div>
-					</div>
+					<BirthdayFilters
+						localSearch={localSearch}
+						setLocalSearch={setLocalSearch}
+						monthFilter={monthFilter}
+						setMonthFilter={setMonthFilter}
+						relationshipFilter={relationshipFilter}
+						setRelationshipFilter={setRelationshipFilter}
+						sortOption={sortOption}
+						setSortOption={setSortOption}
+						isFiltersActive={isFiltersActive}
+						handleClearFilters={handleClearFilters}
+					/>
 
 					{filteredAndSortedBirthdays.length > 0 && (
 						<div className="flex items-center justify-between px-1 py-2">
@@ -315,9 +176,9 @@ export function BirthdayManagementScreen() {
 										>
 											<BirthdayListItem
 												birthday={birthday}
-												onEdit={handleEdit}
-												onDelete={handleDeleteClick}
-												onExport={handleExport}
+												onEdit={modalManager.handleEdit}
+												onDelete={modalManager.handleDeleteClick}
+												onExport={modalManager.handleExport}
 												selectable={true}
 												selected={selectedIds.has(birthday.id)}
 												onSelectChange={handleSelectChange}
@@ -405,27 +266,29 @@ export function BirthdayManagementScreen() {
 				</div>
 			)}
 
-			{formModalOpen && (
+			{modalManager.formModalOpen && (
 				<Suspense fallback={null}>
 					<BirthdayFormModal
-						open={formModalOpen}
-						onOpenChange={setFormModalOpen}
-						birthday={editingBirthday}
+						open={modalManager.formModalOpen}
+						onOpenChange={modalManager.setFormModalOpen}
+						birthday={modalManager.editingBirthday}
 					/>
 				</Suspense>
 			)}
 
-			{deleteModalOpen && (
+			{modalManager.deleteModalOpen && (
 				<Suspense fallback={null}>
 					<ActionConfirmationModal
-						open={deleteModalOpen}
-						onOpenChange={setDeleteModalOpen}
+						open={modalManager.deleteModalOpen}
+						onOpenChange={modalManager.setDeleteModalOpen}
 						title="Delete Birthday"
 						description={
 							<p>
 								Are you sure you want to delete the birthday for{" "}
-								<span className="text-foreground font-semibold">{deletingBirthday?.name}</span>?
-								This action cannot be undone.
+								<span className="text-foreground font-semibold">
+									{modalManager.deletingBirthday?.name}
+								</span>
+								? This action cannot be undone.
 							</p>
 						}
 						footer={
@@ -433,11 +296,15 @@ export function BirthdayManagementScreen() {
 								<Button
 									id="cancel-delete-btn"
 									variant="ghost"
-									onClick={() => setDeleteModalOpen(false)}
+									onClick={() => modalManager.setDeleteModalOpen(false)}
 								>
 									Cancel
 								</Button>
-								<Button variant="destructive" onClick={handleConfirmDelete} aria-label="Delete">
+								<Button
+									variant="destructive"
+									onClick={modalManager.handleConfirmDelete}
+									aria-label="Delete"
+								>
 									Delete
 								</Button>
 							</>
@@ -446,21 +313,21 @@ export function BirthdayManagementScreen() {
 				</Suspense>
 			)}
 
-			{exportModalOpen && exportingBirthday && (
+			{modalManager.exportModalOpen && modalManager.exportingBirthday && (
 				<Suspense fallback={null}>
 					<CalendarExportDialog
-						open={exportModalOpen}
-						onOpenChange={setExportModalOpen}
-						birthdays={exportingBirthday}
+						open={modalManager.exportModalOpen}
+						onOpenChange={modalManager.setExportModalOpen}
+						birthdays={modalManager.exportingBirthday}
 					/>
 				</Suspense>
 			)}
 
-			{bulkDeleteModalOpen && (
+			{modalManager.bulkDeleteModalOpen && (
 				<Suspense fallback={null}>
 					<ActionConfirmationModal
-						open={bulkDeleteModalOpen}
-						onOpenChange={setBulkDeleteModalOpen}
+						open={modalManager.bulkDeleteModalOpen}
+						onOpenChange={modalManager.setBulkDeleteModalOpen}
 						title="Delete Selected Birthdays?"
 						description={
 							<p>
@@ -476,13 +343,13 @@ export function BirthdayManagementScreen() {
 								<Button
 									id="cancel-delete-btn"
 									variant="ghost"
-									onClick={() => setBulkDeleteModalOpen(false)}
+									onClick={() => modalManager.setBulkDeleteModalOpen(false)}
 								>
 									Cancel
 								</Button>
 								<Button
 									variant="destructive"
-									onClick={executeBulkDelete}
+									onClick={modalManager.executeBulkDelete}
 									aria-label="Delete Selected"
 								>
 									Delete Selected
@@ -493,77 +360,20 @@ export function BirthdayManagementScreen() {
 				</Suspense>
 			)}
 
-			{askModalOpen && (
+			{modalManager.askModalOpen && (
 				<Suspense fallback={null}>
-					<AskBirthdayModal open={askModalOpen} onOpenChange={setAskModalOpen} />
+					<AskBirthdayModal
+						open={modalManager.askModalOpen}
+						onOpenChange={modalManager.setAskModalOpen}
+					/>
 				</Suspense>
 			)}
 
-			{selectedIds.size > 0 && (
-				<div className="bg-popover text-popover-foreground animate-in fade-in slide-in-from-bottom-4 no-scrollbar fixed bottom-6 left-1/2 z-50 flex w-max max-w-[calc(100%-2rem)] -translate-x-1/2 items-center gap-2 overflow-x-auto rounded-full border px-4 py-2 shadow-lg sm:gap-3">
-					<div className="text-sm font-medium whitespace-nowrap">
-						{selectedIds.size} {selectedIds.size === 1 ? "selected" : "selected"}
-					</div>
-
-					<div className="bg-border h-4 w-px shrink-0" />
-
-					<Select
-						onValueChange={async (val) => {
-							const count = selectedIds.size;
-							await Promise.all(
-								Array.from(selectedIds).map((id) =>
-									BirthdayRepository.update(id, { relationship: val as Birthday["relationship"] }),
-								),
-							);
-							setSelectedIds(new Set());
-							gooeyToast.success("People updated", {
-								description: `${count} ${count === 1 ? "person is" : "people are"} now marked as ${val}.`,
-								showTimestamp: false,
-								classNames: {
-									content: "items-center text-center",
-									title: "text-center w-full",
-									description: "text-center justify-center flex w-full",
-								},
-							});
-						}}
-					>
-						<SelectTrigger className="h-8 w-35 border-none bg-transparent px-2 shadow-none focus:ring-0 sm:w-40">
-							<SelectValue placeholder="Set Relationship" />
-						</SelectTrigger>
-						<SelectContent position="popper" side="top">
-							{RELATIONSHIP_OPTIONS.map((option) => (
-								<SelectItem key={option} value={option}>
-									{option}
-								</SelectItem>
-							))}
-						</SelectContent>
-					</Select>
-
-					<div className="bg-border h-4 w-px shrink-0" />
-
-					<Button
-						variant="ghost"
-						size="sm"
-						className="hover:bg-destructive/10 hover:text-destructive h-8 shrink-0 rounded-full px-3"
-						onClick={handleBulkDelete}
-						aria-label="Delete Selected"
-					>
-						<Trash2Icon className="h-4 w-4 sm:mr-2" aria-hidden="true" />
-						<span className="hidden sm:inline">Delete Selected</span>
-					</Button>
-
-					<div className="bg-border h-4 w-px shrink-0" />
-
-					<Button
-						variant="ghost"
-						size="sm"
-						className="hover:bg-muted h-8 shrink-0 rounded-full px-3"
-						onClick={() => setSelectedIds(new Set())}
-					>
-						Clear
-					</Button>
-				</div>
-			)}
+			<BulkActionBar
+				selectedIds={selectedIds}
+				setSelectedIds={setSelectedIds}
+				handleBulkDelete={modalManager.handleBulkDelete}
+			/>
 		</div>
 	);
 }

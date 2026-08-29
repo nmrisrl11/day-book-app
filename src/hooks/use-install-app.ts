@@ -1,23 +1,5 @@
 import { useEffect, useState } from "react";
 
-// The BeforeInstallPromptEvent is not fully standard yet, so we define it here
-export interface BeforeInstallPromptEvent extends Event {
-	readonly platforms: Array<string>;
-	readonly userChoice: Promise<{
-		outcome: "accepted" | "dismissed";
-		platform: string;
-	}>;
-	prompt(): Promise<void>;
-}
-
-declare global {
-	interface Window {
-		__hasInstallListener?: boolean;
-		__deferredPrompt?: BeforeInstallPromptEvent | null;
-		__isInstallable?: boolean;
-	}
-}
-
 export function useInstallApp() {
 	const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(
 		window.__deferredPrompt || null,
