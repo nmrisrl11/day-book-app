@@ -19,24 +19,6 @@ import { ManageRouteFallback } from "./features/management/components/manage-rou
 import { SettingsSkeleton } from "./features/settings/components/settings-skeleton";
 import { useDayBookStore } from "./store/day-book-store";
 
-interface BeforeInstallPromptEvent extends Event {
-	readonly platforms: Array<string>;
-	readonly userChoice: Promise<{
-		outcome: "accepted" | "dismissed";
-		platform: string;
-	}>;
-	prompt(): Promise<void>;
-}
-
-// Global types for PWA install prompt
-declare global {
-	interface Window {
-		__hasInstallListener?: boolean;
-		__deferredPrompt?: BeforeInstallPromptEvent | null;
-		__isInstallable?: boolean;
-	}
-}
-
 const Dashboard = lazy(() =>
 	import("./features/dashboard/dashboard").then((m) => ({ default: m.Dashboard })),
 );

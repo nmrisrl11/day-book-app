@@ -91,6 +91,10 @@ day-book-app/
 │   │   │   │   ├── upcoming/    # Upcoming birthdays list
 │   │   │   │   └── calendar/    # Monthly views
 │   │   │   └── dashboard.tsx
+│   │   ├── management/
+│   │   │   ├── components/  # BirthdayFilters, BulkActionBar, modals
+│   │   │   ├── hooks/       # useModalManager, useBirthdayManagement
+│   │   │   └── birthday-management-screen.tsx
 │   │   └── settings/
 │   │       ├── components/
 │   │       │   ├── appearance/  # Theme, display settings
