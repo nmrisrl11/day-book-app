@@ -55,6 +55,11 @@ const About = lazy(() =>
 		default: m.AboutScreen,
 	})),
 );
+const NotFound = lazy(() =>
+	import("./features/not-found/not-found-screen").then((m) => ({
+		default: m.NotFoundScreen,
+	})),
+);
 
 function App() {
 	const settings = useDayBookStore((state) => state.settings);
@@ -161,6 +166,14 @@ function App() {
 									element={
 										<Suspense fallback={<ResponseSkeleton />}>
 											<Response />
+										</Suspense>
+									}
+								/>
+								<Route
+									path="*"
+									element={
+										<Suspense fallback={null}>
+											<NotFound />
 										</Suspense>
 									}
 								/>

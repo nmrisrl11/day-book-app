@@ -44,7 +44,7 @@ DayBook is a fully functional, local-first React application. While originally s
 - **Upcoming Birthdays**: Scrollable list of the next N birthdays (N is configurable in Settings), complete with "days until" indicators.
 - **Birthdays by Month**: 12-month grid indicating which months have birthdays. Clickable month modals showing grouped celebrants, alongside a fully interactive FullCalendar month view accessible via a tab toggle on the dashboard.
 - **Quick Action Toolbar**: A draggable, edge-dockable floating toolbar on the dashboard providing instant access to Avatar and Main Greeting customizations.
-- **Empty States & System Feedback**: Beautiful empty states, error pages, and backup prompts utilizing a dynamic, interactive brand logo (`AnimatedLogo`) which maps to specialized SVG components (404, Backup, Crystal Ball, Notification, Invite, Warning, Share) depending on the context.
+- **Empty States & System Feedback**: Beautiful empty states, error pages, and backup prompts utilizing a dynamic, interactive brand logo (`AnimatedLogo`) which maps to specialized SVG components (404, Backup, Crystal Ball, Notification, Invite, Warning, Share) depending on the context. Also includes a dedicated `404 Not Found` page with suggested exploration links for graceful error handling.
 - **Interactive Onboarding**: A route-aware, first-time user tutorial powered by `react-joyride` that gently introduces the app's core value proposition (including Birthdays, Invitations, and Settings). It utilizes a low-friction approach (floating toast hint) rather than a forced auto-start, and safely persists state to `localStorage`. It also features contextual, on-demand educational tours for complex areas like Data Management.
 - **Navigation Structure**: The primary header navigation strictly surfaces high-frequency features (Birthdays, Invitations, Settings). Secondary application routes (About, Install App) are deliberately housed in the global footer to prevent cognitive overload.
 - **About Page (Product Overview)**: A dedicated `/about` page detailing the app's features, privacy-first principles, open-source architecture, and a user-friendly changelog. Features a dynamic "Line Nav" table of contents that tracks scroll position on desktop and slides in as a mobile drawer via Framer Motion, with smooth scrolling behavior globally enabled.
@@ -95,6 +95,8 @@ day-book-app/
 │   │   │   ├── components/  # BirthdayFilters, BulkActionBar, modals
 │   │   │   ├── hooks/       # useModalManager, useBirthdayManagement
 │   │   │   └── birthday-management-screen.tsx
+│   │   ├── not-found/
+│   │   │   └── not-found-screen.tsx
 │   │   └── settings/
 │   │       ├── components/
 │   │       │   ├── appearance/  # Theme, display settings
