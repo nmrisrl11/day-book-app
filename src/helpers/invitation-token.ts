@@ -121,7 +121,12 @@ export function parseResponseToken(token: string): ResponsePayload | null {
 				giftIdeas: payload.g || [],
 			});
 			if (validation.success) {
-				return payload as ResponsePayload;
+				return {
+					...payload,
+					n: validation.data.name,
+					b: validation.data.birthday,
+					g: validation.data.giftIdeas,
+				} as ResponsePayload;
 			}
 		}
 		return null;

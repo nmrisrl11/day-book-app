@@ -82,7 +82,6 @@ const VirtualBirthdayRow = memo(
 		duplicate,
 		isSelected,
 		isBday,
-		details,
 		toggleSelection,
 	}: {
 		b: Birthday;
@@ -90,9 +89,17 @@ const VirtualBirthdayRow = memo(
 		duplicate: boolean;
 		isSelected: boolean;
 		isBday: boolean;
-		details: string[];
 		toggleSelection: (id: string) => void;
 	}) => {
+		const notesCount = b.notes?.length || 0;
+		const giftIdeasCount = b.giftIdeas?.length || 0;
+
+		const details = [
+			b.relationship && b.relationship !== "Other" ? b.relationship : null,
+			notesCount > 0 ? `${notesCount} ${notesCount === 1 ? "note" : "notes"}` : null,
+			giftIdeasCount > 0 ? `${giftIdeasCount} ${giftIdeasCount === 1 ? "idea" : "ideas"}` : null,
+		].filter(Boolean) as string[];
+
 		return (
 			<div
 				style={{
@@ -511,16 +518,6 @@ export function ImportPreviewDialog({
 									const duplicate = isDuplicate(b);
 									const isSelected = selectedIds.has(b.id);
 									const isBday = isCelebrating(b.birthday);
-									const notesCount = b.notes?.length || 0;
-									const giftIdeasCount = b.giftIdeas?.length || 0;
-
-									const details = [
-										b.relationship && b.relationship !== "Other" ? b.relationship : null,
-										notesCount > 0 ? `${notesCount} ${notesCount === 1 ? "note" : "notes"}` : null,
-										giftIdeasCount > 0
-											? `${giftIdeasCount} ${giftIdeasCount === 1 ? "idea" : "ideas"}`
-											: null,
-									].filter(Boolean) as string[];
 
 									return (
 										<VirtualBirthdayRow
@@ -530,7 +527,6 @@ export function ImportPreviewDialog({
 											duplicate={duplicate}
 											isSelected={isSelected}
 											isBday={isBday}
-											details={details}
 											toggleSelection={toggleSelection}
 										/>
 									);

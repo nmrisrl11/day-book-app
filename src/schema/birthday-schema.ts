@@ -66,7 +66,8 @@ export const birthdaySchema = z.object({
 				.min(1, { message: "Note cannot be empty." })
 				.max(NOTE_MAX_LENGTH, { message: `Note must be ${NOTE_MAX_LENGTH} characters or less.` }),
 		)
-		.max(NOTE_MAX_COUNT, { message: `You can only add up to ${NOTE_MAX_COUNT} notes.` }),
+		.max(NOTE_MAX_COUNT, { message: `You can only add up to ${NOTE_MAX_COUNT} notes.` })
+		.default([]),
 	giftIdeas: z
 		.array(
 			z
@@ -79,10 +80,13 @@ export const birthdaySchema = z.object({
 		)
 		.max(GIFT_IDEA_MAX_COUNT, {
 			message: `You can only add up to ${GIFT_IDEA_MAX_COUNT} gift ideas.`,
-		}),
+		})
+		.default([]),
 });
 
 export type BirthdayFormData = z.infer<typeof birthdaySchema>;
+export type BirthdayFormInput = z.input<typeof birthdaySchema>;
 
 export const inviteeSchema = birthdaySchema.pick({ name: true, birthday: true, giftIdeas: true });
 export type InviteeFormData = z.infer<typeof inviteeSchema>;
+export type InviteeFormInput = z.input<typeof inviteeSchema>;

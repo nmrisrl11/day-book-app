@@ -155,9 +155,9 @@ export function CelebrantModal({ celebrant, isOpen, onClose, currentDate }: Cele
 										Wishlist & Gift Ideas
 									</h4>
 									<div className="relative z-10 flex flex-wrap gap-2">
-										{celebrant.giftIdeas.map((idea) => (
+										{celebrant.giftIdeas.map((idea, index) => (
 											<Badge
-												key={idea}
+												key={index}
 												variant="outline"
 												className="border-amber-500/30 shadow-black/5 bg-background/50 h-auto max-w-full whitespace-normal wrap-break-word text-left shadow-sm backdrop-blur-sm"
 											>
@@ -184,9 +184,9 @@ export function CelebrantModal({ celebrant, isOpen, onClose, currentDate }: Cele
 										Notes & Details
 									</h4>
 									<div className="relative z-10 flex flex-wrap gap-2">
-										{celebrant.notes.map((note) => (
+										{celebrant.notes.map((note, index) => (
 											<Badge
-												key={note}
+												key={index}
 												variant="outline"
 												className="border-blue-500/30 shadow-black/5 bg-background/50 h-auto max-w-full whitespace-normal wrap-break-word text-left shadow-sm backdrop-blur-sm"
 											>

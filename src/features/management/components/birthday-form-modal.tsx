@@ -19,7 +19,8 @@ import {
 import { UserAvatar } from "@/components/user-avatar";
 import { APP_INFO } from "@/constants/app-info";
 import { BirthdayRepository } from "@/lib/birthday-repository";
-import { birthdaySchema, type BirthdayFormData } from "@/schema/birthday-schema";
+import type { BirthdayFormData, BirthdayFormInput } from "@/schema/birthday-schema";
+import { birthdaySchema } from "@/schema/birthday-schema";
 import {
 	GIFT_IDEA_MAX_COUNT,
 	GIFT_IDEA_MAX_LENGTH,
@@ -38,7 +39,7 @@ import { useEffect, useRef, useState } from "react";
 import { Controller, useForm, useWatch, type Control } from "react-hook-form";
 
 interface AvatarPreviewProps {
-	control: Control<BirthdayFormData>;
+	control: Control<BirthdayFormInput>;
 	avatarSettings: { allowCustomUploads: boolean };
 	onAvatarClick: () => void;
 	onRemoveAvatar: (e: React.MouseEvent) => void;
@@ -148,7 +149,7 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 	const [generalError, setGeneralError] = useState("");
 	const fileInputRef = useRef<HTMLInputElement>(null);
 
-	const form = useForm<BirthdayFormData>({
+	const form = useForm<BirthdayFormInput, unknown, BirthdayFormData>({
 		resolver: zodResolver(birthdaySchema),
 		defaultValues: {
 			name: "",
@@ -401,9 +402,9 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 
 						{notes.length > 0 && (
 							<div className="mb-2 flex flex-wrap gap-2">
-								{notes.map((note) => (
+								{notes.map((note, index) => (
 									<div
-										key={note}
+										key={index}
 										className="bg-primary/10 text-primary flex h-auto max-w-full items-center gap-1.5 whitespace-normal wrap-break-word rounded-2xl px-3 py-1 text-left text-xs font-medium"
 									>
 										<span className="min-w-0 flex-1 wrap-break-word">{note}</span>
@@ -413,7 +414,7 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 											onClick={() => {
 												form.setValue(
 													"notes",
-													notes.filter((n) => n !== note),
+													notes.filter((_, i) => i !== index),
 													{ shouldValidate: true },
 												);
 											}}
@@ -494,9 +495,9 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 
 						{giftIdeas.length > 0 && (
 							<div className="mb-2 flex flex-wrap gap-2">
-								{giftIdeas.map((idea) => (
+								{giftIdeas.map((idea, index) => (
 									<div
-										key={idea}
+										key={index}
 										className="bg-primary/10 text-primary flex h-auto max-w-full items-center gap-1.5 whitespace-normal wrap-break-word rounded-2xl px-3 py-1 text-left text-xs font-medium"
 									>
 										<span className="min-w-0 flex-1 wrap-break-word">{idea}</span>
@@ -506,7 +507,7 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 											onClick={() => {
 												form.setValue(
 													"giftIdeas",
-													giftIdeas.filter((g) => g !== idea),
+													giftIdeas.filter((_, i) => i !== index),
 													{ shouldValidate: true },
 												);
 											}}

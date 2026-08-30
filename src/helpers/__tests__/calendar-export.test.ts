@@ -66,6 +66,7 @@ describe("calendar-export", () => {
 			);
 			expect(ics).toContain("X-DAYBOOK-NOTE:Loves coffee");
 			expect(ics).toContain("X-DAYBOOK-NOTE:Allergic to nuts");
+			expect(ics).toContain("X-DAYBOOK-GIFTIDEA:Coffee grinder");
 			expect(ics).toContain("RRULE:FREQ=YEARLY");
 			expect(ics).toContain("END:VEVENT");
 			expect(ics).toContain("END:VCALENDAR");

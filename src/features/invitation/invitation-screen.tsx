@@ -5,7 +5,11 @@ import { Label } from "@/components/ui/label";
 import { APP_INFO } from "@/constants/app-info";
 import { generateResponseToken, parseInvitationToken } from "@/helpers/invitation-token";
 import { cn } from "@/lib/utils";
-import { inviteeSchema, type InviteeFormData } from "@/schema/birthday-schema";
+import {
+	inviteeSchema,
+	type InviteeFormData,
+	type InviteeFormInput,
+} from "@/schema/birthday-schema";
 import {
 	GIFT_IDEA_MAX_COUNT,
 	GIFT_IDEA_MAX_LENGTH,
@@ -35,7 +39,7 @@ export function InvitationScreen() {
 		setValue,
 		watch,
 		formState: { errors },
-	} = useForm<InviteeFormData>({
+	} = useForm<InviteeFormInput, unknown, InviteeFormData>({
 		resolver: zodResolver(inviteeSchema),
 		defaultValues: { name: "", birthday: "", giftIdeas: [] },
 	});

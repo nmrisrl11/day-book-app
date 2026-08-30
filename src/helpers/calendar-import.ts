@@ -1,3 +1,4 @@
+import { GIFT_IDEA_MAX_COUNT, GIFT_IDEA_MAX_LENGTH } from "@/schema/validation-constants";
 import type { Birthday } from "@/types/birthday";
 
 /**
@@ -105,8 +106,9 @@ export function parseIcsForBirthdays(icsText: string): Birthday[] {
 						if (giftMatch) {
 							giftIdeas = giftMatch[1]
 								.split(" • ")
-								.map((g) => g.trim())
-								.filter(Boolean);
+								.map((g) => g.trim().slice(0, GIFT_IDEA_MAX_LENGTH))
+								.filter(Boolean)
+								.slice(0, GIFT_IDEA_MAX_COUNT);
 						}
 					}
 
