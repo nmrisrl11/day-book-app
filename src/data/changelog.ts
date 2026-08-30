@@ -16,6 +16,39 @@ export interface ChangelogRelease {
 
 export const changelog: ChangelogRelease[] = [
 	{
+		version: "1.6.0",
+		date: "2026-08-30",
+		title: "Data Safety & Blazing Speed",
+		summary:
+			"We've added a smart backup reminder so your data is always safe, completely rebuilt the rendering engine for lightning-fast performance, and polished the overall look and feel.",
+		changes: [
+			{
+				type: "added",
+				title: "Smart Backup Reminders",
+				description:
+					"We've introduced a friendly, non-intrusive backup reminder on your dashboard. It gently nudges you to save a copy of your data if you haven't backed up in the last 30 days!",
+			},
+			{
+				type: "improved",
+				title: "Lightning Fast Performance",
+				description:
+					"We've integrated a powerful new engine under the hood that makes the app incredibly fast and responsive, especially when scrolling through hundreds of birthdays.",
+			},
+			{
+				type: "improved",
+				title: "Accessibility & Security",
+				description:
+					"Device sync is now much more screen-reader friendly, and we've added extra security layers to invitation links and your local storage.",
+			},
+			{
+				type: "fixed",
+				title: "Timezone Polish & UI Tweaks",
+				description:
+					"Fixed a few edge-cases involving timezones and made sure error pages look just as beautiful as the rest of the app.",
+			},
+		],
+	},
+	{
 		version: "1.5.0",
 		date: "2026-08-29",
 		title: "Playful Feedback & Smoother Connections",
