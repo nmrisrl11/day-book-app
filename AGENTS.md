@@ -20,7 +20,7 @@ DayBook is a local-first, client-side React application built with Vite. It has 
 
 ### Core Philosophy: Remember People, Not Just Dates
 
-While originally conceived as a "birthday tracker," the product is evolving into a lightweight "People CRM." A birthday record acts as a **person card**, holding relationship context and small pieces of personal information (notes/tags) to help the user remember the person holistically. All features should reflect this broader relationship-centric context.
+While originally conceived as a "birthday tracker," the product is evolving into a lightweight "People CRM." A birthday record acts as a **person card**, holding relationship context and small pieces of personal information (notes/tags, gift ideas) to help the user remember the person holistically. All features should reflect this broader relationship-centric context.
 
 ### Technology Stack (Actual)
 

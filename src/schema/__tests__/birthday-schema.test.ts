@@ -18,6 +18,7 @@ describe("birthdaySchema validation", () => {
 			birthday: "1990-05-15",
 			relationship: "Friend",
 			notes: [],
+			giftIdeas: [],
 		});
 		expect(result1.success).toBe(true);
 
@@ -26,6 +27,7 @@ describe("birthdaySchema validation", () => {
 			birthday: "2026-08-24", // Exact boundary
 			relationship: "Friend",
 			notes: [],
+			giftIdeas: [],
 		});
 		expect(result2.success).toBe(true);
 	});
@@ -92,6 +94,20 @@ describe("birthdaySchema validation", () => {
 		expect(result.success).toBe(false);
 		if (!result.success) {
 			expect(result.error.issues[0].message).toBe("Invalid date.");
+		}
+	});
+
+	it("should validate giftIdeas limits", () => {
+		const result = birthdaySchema.safeParse({
+			name: "John Doe",
+			birthday: "1990-05-15",
+			relationship: "Friend",
+			notes: [],
+			giftIdeas: Array(11).fill("Gift"), // exceeds GIFT_IDEA_MAX_COUNT (10)
+		});
+		expect(result.success).toBe(false);
+		if (!result.success) {
+			expect(result.error.issues[0].message).toBe("You can only add up to 10 gift ideas.");
 		}
 	});
 });

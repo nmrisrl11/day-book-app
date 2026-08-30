@@ -11,3 +11,6 @@ export const GREETINGS_MAX_LENGTH = 200;
 
 export const NOTE_MAX_LENGTH = 60;
 export const NOTE_MAX_COUNT = 5;
+
+export const GIFT_IDEA_MAX_LENGTH = 100;
+export const GIFT_IDEA_MAX_COUNT = 10;

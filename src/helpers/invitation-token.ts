@@ -11,6 +11,7 @@ export interface ResponsePayload {
 	n: string; // Invitee name
 	b: string; // Birthday (YYYY-MM-DD)
 	e: number; // Expiration timestamp (ms)
+	g?: string[]; // Gift ideas
 }
 
 function encodeBase64Url(str: string): string {
@@ -77,13 +78,21 @@ export function parseInvitationToken(token: string): InvitationPayload | null {
 /**
  * Generates a Base64Url-encoded response payload from the invitee.
  * Note: This is an unencrypted, forgeable client-side convenience token.
- * It contains the invitee's name, birthday, version, and a 12-hour expiration timestamp.
+ * It contains the invitee's name, birthday, version, optional gift ideas, and a 12-hour expiration timestamp.
  *
- * Example Result: "eyJ2IjoxLCJuIjoiU2FyYWgiLCJiIjoiMTk5NS0wMS0xNSIsImUiOjE3MTkwMDAwMDAwMDB9"
+ * Example Payload: { v: 1, n: "Sarah", b: "1995-01-15", e: 1719000000000, g: ["Shoes"] }
+ * Example Token: "eyJ2IjoxLCJuIjoiU2FyYWgiLCJiIjoiMTk5NS0wMS0xNSIsImUiOjE3MTkwMDAwMDAwMDAsImciOlsiU2hvZXMiXX0"
  */
-export function generateResponseToken(name: string, birthday: string): string {
+export function generateResponseToken(
+	name: string,
+	birthday: string,
+	giftIdeas?: string[],
+): string {
 	const expiration = Date.now() + 12 * 60 * 60 * 1000; // 12 hours
 	const payload: ResponsePayload = { v: 1, n: name.trim(), b: birthday, e: expiration };
+	if (giftIdeas && giftIdeas.length > 0) {
+		payload.g = giftIdeas;
+	}
 	return encodeBase64Url(JSON.stringify(payload));
 }
 
@@ -92,7 +101,7 @@ export function generateResponseToken(name: string, birthday: string): string {
  * Returns the payload if structurally valid, matches the version, and hasn't expired.
  * Note: Expiration is client-enforced and the payload is not cryptographically authenticated.
  *
- * Example Result: { v: 1, n: "Sarah", b: "1995-01-15", e: 1719000000000 }
+ * Example Result: { v: 1, n: "Sarah", b: "1995-01-15", e: 1719000000000, g: ["Shoes"] }
  * Returns `null` if the token is invalid, corrupted, or expired.
  */
 export function parseResponseToken(token: string): ResponsePayload | null {
@@ -106,9 +115,18 @@ export function parseResponseToken(token: string): ResponsePayload | null {
 			typeof payload.e === "number" &&
 			Date.now() <= payload.e
 		) {
-			const validation = inviteeSchema.safeParse({ name: payload.n, birthday: payload.b });
+			const validation = inviteeSchema.safeParse({
+				name: payload.n,
+				birthday: payload.b,
+				giftIdeas: payload.g || [],
+			});
 			if (validation.success) {
-				return payload as ResponsePayload;
+				return {
+					...payload,
+					n: validation.data.name,
+					b: validation.data.birthday,
+					g: validation.data.giftIdeas,
+				} as ResponsePayload;
 			}
 		}
 		return null;

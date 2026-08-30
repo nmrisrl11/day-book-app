@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import {
 	Dialog,
 	DialogContent,
-	DialogDescription,
 	DialogFooter,
 	DialogHeader,
 	DialogTitle,
@@ -15,7 +14,16 @@ import { CalendarExportDialog } from "@/features/calendar/components/calendar-ex
 import { formatAgeDisplay, formatBirthdayDisplay } from "@/helpers/birthday-utils";
 import { useDayBookStore } from "@/store/day-book-store";
 import { type Birthday } from "@/types/birthday";
-import { CalendarIcon, CalendarPlus, GiftIcon } from "lucide-react";
+import {
+	CalendarIcon,
+	CalendarPlusIcon,
+	GiftIcon,
+	QuoteIcon,
+	StarIcon,
+	StickyNoteIcon,
+	UsersIcon,
+} from "lucide-react";
+import { motion, type Variants } from "motion/react";
 import { useMemo, useState } from "react";
 
 interface CelebrantModalProps {
@@ -24,6 +32,19 @@ interface CelebrantModalProps {
 	onClose: () => void;
 	currentDate: Date;
 }
+
+const containerVariants: Variants = {
+	hidden: { opacity: 0 },
+	show: {
+		opacity: 1,
+		transition: { staggerChildren: 0.1, delayChildren: 0.05 },
+	},
+};
+
+const itemVariants: Variants = {
+	hidden: { opacity: 0, y: 15 },
+	show: { opacity: 1, y: 0, transition: { type: "spring" as const, stiffness: 400, damping: 25 } },
+};
 
 export function CelebrantModal({ celebrant, isOpen, onClose, currentDate }: CelebrantModalProps) {
 	const { settings } = useDayBookStore();
@@ -38,7 +59,7 @@ export function CelebrantModal({ celebrant, isOpen, onClose, currentDate }: Cele
 				: GREETINGS;
 		const randomIndex = Math.floor(Math.random() * greetingsList.length);
 		return greetingsList[randomIndex];
-	}, [celebrant, settings.greetings, settings.customGreetingsEnabled]); // Re-roll greeting if a new celebrant is opened
+	}, [celebrant, settings.greetings, settings.customGreetingsEnabled]);
 
 	if (!celebrant) return null;
 
@@ -48,68 +69,147 @@ export function CelebrantModal({ celebrant, isOpen, onClose, currentDate }: Cele
 	return (
 		<>
 			<Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-				<DialogContent className="border-border/50 bg-background/90 rounded-2xl shadow-2xl sm:max-w-md">
-					<DialogHeader className="flex flex-col items-center space-y-3 py-6 text-center">
-						<div className="relative">
-							<div className="absolute -inset-4 rounded-full bg-[radial-gradient(circle_at_center,var(--color-blue-500),transparent_70%)] opacity-30" />
+				<DialogContent className="border-border/40 bg-background/95 flex max-h-[90vh] flex-col overflow-hidden rounded-3xl p-0 shadow-2xl backdrop-blur-xl sm:max-w-md">
+					<motion.div
+						variants={containerVariants}
+						initial="hidden"
+						animate="show"
+						className="custom-scrollbar flex flex-1 w-full flex-col items-center gap-5 overflow-y-auto overflow-x-hidden p-5 sm:p-6"
+					>
+						<DialogHeader className="flex w-full flex-col items-center gap-3 text-center">
+							<motion.div variants={itemVariants} className="relative">
+								<div className="absolute -inset-6 animate-pulse rounded-full bg-[radial-gradient(circle_at_center,var(--color-primary),transparent_60%)] opacity-15 blur-2xl" />
 
-							<div className="absolute -top-9 right-0 z-20 h-14 w-14 rotate-12 drop-shadow-md">
-								<PartyHat className="h-full w-full" />
-							</div>
-
-							<div className="bg-background ring-border relative z-10 rounded-full p-2 shadow-sm ring-1">
-								<UserAvatar birthday={celebrant} size={96} className="h-24 w-24" />
-							</div>
-						</div>
-
-						<DialogTitle className="text-foreground flex flex-col items-center gap-1 font-sans text-2xl font-bold">
-							<span>{celebrant.name}</span>
-							{celebrant.relationship && (
-								<span className="text-muted-foreground text-sm font-normal tracking-wider uppercase">
-									{celebrant.relationship}
-								</span>
-							)}
-						</DialogTitle>
-
-						<DialogDescription asChild>
-							<div className="text-muted-foreground mt-2 flex flex-col items-center gap-4">
-								<div className="flex flex-wrap items-center justify-center gap-3">
-									<Badge variant="secondary" className="p-3 text-sm font-bold">
-										<CalendarIcon data-icon="inline-start" />
-										{formattedDate}
-									</Badge>
-
-									{ageDisplay !== null && (
-										<Badge variant="destructive" className="p-3 text-sm font-bold">
-											<GiftIcon data-icon="inline-start" />
-											Now {ageDisplay}
-										</Badge>
-									)}
+								<div className="absolute -top-3 -right-2 z-20 h-10 w-10 rotate-20 drop-shadow-lg sm:-top-4 sm:-right-2.5 sm:h-12 sm:w-12">
+									<PartyHat className="h-full w-full" />
 								</div>
 
-								<p className="text-secondary-foreground text-base leading-relaxed italic">
+								<div className="bg-background ring-border/50 relative z-10 rounded-full p-1.5 shadow-xl ring-1">
+									<UserAvatar
+										birthday={celebrant}
+										size={96}
+										className="h-20 w-20 sm:h-24 sm:w-24"
+									/>
+								</div>
+							</motion.div>
+
+							<motion.div variants={itemVariants} className="flex flex-col items-center gap-1">
+								<DialogTitle className="text-foreground font-sans text-2xl font-extrabold tracking-tight sm:text-3xl">
+									{celebrant.name}
+								</DialogTitle>
+							</motion.div>
+						</DialogHeader>
+
+						<motion.div variants={itemVariants} className="w-full">
+							<div className="bg-secondary/30 border-border/40 relative w-full rounded-2xl border p-4 shadow-sm">
+								<div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
+									<div className="flex flex-col items-center gap-1.5">
+										<span className="text-muted-foreground flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider">
+											<CalendarIcon className="h-3 w-3" /> Date
+										</span>
+										<span className="text-foreground text-sm font-semibold">{formattedDate}</span>
+									</div>
+
+									{ageDisplay !== null && (
+										<div className="flex flex-col items-center gap-1.5">
+											<span className="text-muted-foreground flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider">
+												<GiftIcon className="h-3 w-3" /> Turning
+											</span>
+											<span className="text-foreground text-sm font-semibold">{ageDisplay}</span>
+										</div>
+									)}
+
+									{celebrant.relationship && (
+										<div className="flex flex-col items-center gap-1.5">
+											<span className="text-muted-foreground flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider">
+												<UsersIcon className="h-3 w-3" /> Relationship
+											</span>
+											<span className="text-foreground text-sm font-semibold capitalize">
+												{celebrant.relationship}
+											</span>
+										</div>
+									)}
+								</div>
+							</div>
+						</motion.div>
+
+						<motion.div variants={itemVariants} className="w-full">
+							<div className="bg-primary/5 border-primary/20 relative w-full overflow-hidden rounded-2xl border p-4 text-center shadow-sm">
+								<div className="absolute inset-0 flex items-center justify-center opacity-[0.03]">
+									<QuoteIcon className="h-24 w-24" />
+								</div>
+								<p className="text-primary/80 relative z-10 text-sm leading-relaxed font-medium italic">
 									"{greeting}"
 								</p>
+							</div>
+						</motion.div>
 
-								{celebrant.notes && celebrant.notes.length > 0 && (
-									<div className="flex flex-wrap items-center justify-center gap-2 pt-1">
-										{celebrant.notes.map((note, idx) => (
-											<span
-												key={idx}
-												className="bg-primary/5 text-primary border-primary/10 rounded-md border px-2.5 py-1 text-xs font-medium shadow-sm"
+						{celebrant.giftIdeas && celebrant.giftIdeas.length > 0 && (
+							<motion.div variants={itemVariants} className="w-full">
+								<div className="bg-amber-500/5 border-amber-500/20 relative w-full overflow-hidden rounded-2xl border p-4 text-left shadow-sm">
+									<div className="absolute top-0 right-0 p-3 opacity-5">
+										<GiftIcon className="h-20 w-20" />
+									</div>
+									<h4 className="text-amber-800 dark:text-amber-400 mb-3 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider">
+										<StarIcon className="h-3.5 w-3.5 fill-amber-500/50" />
+										Wishlist & Gift Ideas
+									</h4>
+									<div className="relative z-10 flex flex-wrap gap-2">
+										{celebrant.giftIdeas.map((idea, index) => (
+											<Badge
+												key={index}
+												variant="outline"
+												className="border-amber-500/30 shadow-black/5 bg-background/50 h-auto max-w-full whitespace-normal wrap-break-word text-left shadow-sm backdrop-blur-sm"
 											>
-												{note}
-											</span>
+												<span
+													className="h-1.5 w-1.5 shrink-0 rounded-full bg-amber-500/80"
+													data-icon="inline-start"
+												/>
+												<span className="min-w-0 wrap-break-word">{idea}</span>
+											</Badge>
 										))}
 									</div>
-								)}
-							</div>
-						</DialogDescription>
-					</DialogHeader>
+								</div>
+							</motion.div>
+						)}
 
-					<DialogFooter className="border-border/50 border-t pt-4 sm:justify-center">
-						<Button variant="outline" className="w-full gap-2" onClick={() => setExportOpen(true)}>
-							<CalendarPlus className="h-4 w-4" />
+						{celebrant.notes && celebrant.notes.length > 0 && (
+							<motion.div variants={itemVariants} className="w-full">
+								<div className="bg-blue-500/5 border-blue-500/20 relative w-full overflow-hidden rounded-2xl border p-4 text-left shadow-sm">
+									<div className="absolute top-0 right-0 p-3 opacity-5">
+										<StickyNoteIcon className="h-20 w-20" />
+									</div>
+									<h4 className="text-blue-800 dark:text-blue-400 mb-3 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider">
+										<StickyNoteIcon className="h-3.5 w-3.5 fill-blue-500/50" />
+										Notes & Details
+									</h4>
+									<div className="relative z-10 flex flex-wrap gap-2">
+										{celebrant.notes.map((note, index) => (
+											<Badge
+												key={index}
+												variant="outline"
+												className="border-blue-500/30 shadow-black/5 bg-background/50 h-auto max-w-full whitespace-normal wrap-break-word text-left shadow-sm backdrop-blur-sm"
+											>
+												<span
+													className="h-1.5 w-1.5 shrink-0 rounded-full bg-blue-500/80"
+													data-icon="inline-start"
+												/>
+												<span className="min-w-0 wrap-break-word">{note}</span>
+											</Badge>
+										))}
+									</div>
+								</div>
+							</motion.div>
+						)}
+					</motion.div>
+
+					<DialogFooter className="bg-muted/50 border-border/40 m-0 shrink-0 border-t p-4 sm:justify-center">
+						<Button
+							variant="outline"
+							className="bg-background hover:bg-accent/50 w-full gap-2 font-semibold shadow-sm transition-colors"
+							onClick={() => setExportOpen(true)}
+						>
+							<CalendarPlusIcon className="h-4 w-4" />
 							Add to Calendar
 						</Button>
 					</DialogFooter>

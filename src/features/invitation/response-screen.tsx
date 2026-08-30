@@ -1,4 +1,5 @@
 import { AnimatedLogo } from "@/components/icons/animated-logo";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import {
@@ -14,7 +15,7 @@ import { BirthdayRepository } from "@/lib/birthday-repository";
 import { db } from "@/lib/db";
 import { RELATIONSHIP_OPTIONS, type Relationship } from "@/types/birthday";
 import { useLiveQuery } from "dexie-react-hooks";
-import { AlertTriangleIcon, CalendarIcon, HomeIcon, UserIcon } from "lucide-react";
+import { AlertTriangleIcon, CalendarIcon, GiftIcon, HomeIcon, UserIcon } from "lucide-react";
 import { motion } from "motion/react";
 import { useQueryState } from "nuqs";
 import { useState } from "react";
@@ -82,6 +83,7 @@ export function ResponseScreen() {
 			birthday: response.b,
 			relationship: relationship,
 			notes: [],
+			giftIdeas: response.g || [],
 		});
 		setAdded(true);
 	};
@@ -162,6 +164,34 @@ export function ResponseScreen() {
 							<span className="font-medium">{formattedDate}</span>
 						</div>
 					</div>
+
+					{response.g && response.g.length > 0 && (
+						<div className="flex items-start gap-3">
+							<div className="bg-amber-500/10 text-amber-700 dark:text-amber-400 flex h-10 w-10 shrink-0 items-center justify-center rounded-full">
+								<GiftIcon className="h-5 w-5" />
+							</div>
+							<div className="flex flex-col">
+								<span className="text-muted-foreground text-xs font-medium uppercase">
+									Gift Ideas
+								</span>
+								<div className="flex flex-wrap gap-1.5 mt-1">
+									{response.g.map((idea, idx) => (
+										<Badge
+											key={idx}
+											variant="outline"
+											className="border-amber-500/30 shadow-black/5 h-auto max-w-full whitespace-normal wrap-break-word text-left"
+										>
+											<span
+												className="h-1.5 w-1.5 shrink-0 rounded-full bg-amber-500/80"
+												data-icon="inline-start"
+											/>
+											<span className="min-w-0 wrap-break-word">{idea}</span>
+										</Badge>
+									))}
+								</div>
+							</div>
+						</div>
+					)}
 				</div>
 
 				{isDuplicate && (

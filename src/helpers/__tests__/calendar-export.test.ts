@@ -10,6 +10,7 @@ describe("calendar-export", () => {
 		birthday: "1990-05-15",
 		relationship: "Friend",
 		notes: ["Loves coffee", "Allergic to nuts"],
+		giftIdeas: ["Coffee grinder"],
 	};
 
 	describe("generateGoogleCalendarUrl", () => {
@@ -28,6 +29,7 @@ describe("calendar-export", () => {
 			const details = urlObj.searchParams.get("details");
 			expect(details).toContain("Relationship: Friend");
 			expect(details).toContain("Notes: Loves coffee • Allergic to nuts");
+			expect(details).toContain("Gift Ideas: Coffee grinder");
 			expect(details).toContain(`Imported from ${APP_INFO.name}`);
 		});
 
@@ -60,10 +62,11 @@ describe("calendar-export", () => {
 			expect(ics).toContain("DTEND;VALUE=DATE:19900516");
 			expect(ics).toContain("SUMMARY:John Doe's Birthday");
 			expect(ics).toContain(
-				`DESCRIPTION:Relationship: Friend\\nNotes: Loves coffee • Allergic to nuts\\n\\nImported from ${APP_INFO.name}.`,
+				`DESCRIPTION:Relationship: Friend\\nNotes: Loves coffee • Allergic to nuts\\nGift Ideas: Coffee grinder\\n\\nImported from ${APP_INFO.name}.`,
 			);
 			expect(ics).toContain("X-DAYBOOK-NOTE:Loves coffee");
 			expect(ics).toContain("X-DAYBOOK-NOTE:Allergic to nuts");
+			expect(ics).toContain("X-DAYBOOK-GIFTIDEA:Coffee grinder");
 			expect(ics).toContain("RRULE:FREQ=YEARLY");
 			expect(ics).toContain("END:VEVENT");
 			expect(ics).toContain("END:VCALENDAR");

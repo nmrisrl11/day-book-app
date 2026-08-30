@@ -5,7 +5,12 @@ import type { z } from "zod";
 
 type SettingsState = z.infer<typeof SettingsSchema>;
 
-import { NOTE_MAX_COUNT, NOTE_MAX_LENGTH } from "@/schema/validation-constants";
+import {
+	GIFT_IDEA_MAX_COUNT,
+	GIFT_IDEA_MAX_LENGTH,
+	NOTE_MAX_COUNT,
+	NOTE_MAX_LENGTH,
+} from "@/schema/validation-constants";
 
 export function exportBirthdays(birthdays: Birthday[]) {
 	const dataStr = JSON.stringify(birthdays, null, 2);
@@ -79,6 +84,16 @@ export function parseImportedBirthdays(fileText: string, currentDate: Date): Bir
 						.slice(0, NOTE_MAX_COUNT);
 				}
 
+				let parsedGiftIdeas: string[] = [];
+				if (Array.isArray(item.giftIdeas)) {
+					parsedGiftIdeas = item.giftIdeas
+						.filter((g) => typeof g === "string")
+						.map((g) => (g as string).trim())
+						.filter((g) => g.length > 0)
+						.map((g) => g.substring(0, GIFT_IDEA_MAX_LENGTH))
+						.slice(0, GIFT_IDEA_MAX_COUNT);
+				}
+
 				return {
 					id: item.id,
 					name: item.name,
@@ -86,6 +101,7 @@ export function parseImportedBirthdays(fileText: string, currentDate: Date): Bir
 					avatar: typeof item.avatar === "string" && item.avatar !== "" ? item.avatar : undefined,
 					relationship: typeof item.relationship === "string" ? item.relationship : "Other",
 					notes: parsedNotes,
+					giftIdeas: parsedGiftIdeas,
 				};
 			}) as Birthday[];
 

@@ -16,4 +16,5 @@ export type Birthday = {
 	avatar?: string;
 	relationship: Relationship | string;
 	notes: string[];
+	giftIdeas?: string[];
 };
