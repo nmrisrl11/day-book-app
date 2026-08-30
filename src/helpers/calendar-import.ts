@@ -66,6 +66,7 @@ export function parseIcsForBirthdays(icsText: string): Birthday[] {
 	let currentRrule = "";
 	let currentDescription = "";
 	let currentNotes: string[] = [];
+	let currentGiftIdeas: string[] = [];
 
 	for (const line of lines) {
 		if (line.startsWith("BEGIN:VEVENT")) {
@@ -75,6 +76,7 @@ export function parseIcsForBirthdays(icsText: string): Birthday[] {
 			currentRrule = "";
 			currentDescription = "";
 			currentNotes = [];
+			currentGiftIdeas = [];
 			continue;
 		}
 
@@ -91,16 +93,29 @@ export function parseIcsForBirthdays(icsText: string): Birthday[] {
 				if (dateString) {
 					let relationship: Birthday["relationship"] = "Other";
 					let notes: string[] = [];
+					let giftIdeas: string[] = [];
 
 					if (currentDescription) {
 						const relMatch = currentDescription.match(/Relationship:\s*(.+?)(?:\n|$)/i);
 						if (relMatch) {
 							relationship = relMatch[1].trim();
 						}
+
+						const giftMatch = currentDescription.match(/Gift Ideas:\s*(.+?)(?:\n|$)/i);
+						if (giftMatch) {
+							giftIdeas = giftMatch[1]
+								.split(" • ")
+								.map((g) => g.trim())
+								.filter(Boolean);
+						}
 					}
 
 					if (currentNotes.length > 0) {
 						notes = [...currentNotes];
+					}
+
+					if (currentGiftIdeas.length > 0) {
+						giftIdeas = [...currentGiftIdeas];
 					}
 
 					birthdays.push({
@@ -110,6 +125,7 @@ export function parseIcsForBirthdays(icsText: string): Birthday[] {
 						avatar: "",
 						relationship,
 						notes,
+						giftIdeas,
 					});
 				}
 			}
@@ -131,6 +147,8 @@ export function parseIcsForBirthdays(icsText: string): Birthday[] {
 				currentRrule = line.substring(6);
 			} else if (line.startsWith("X-DAYBOOK-NOTE:")) {
 				currentNotes.push(unescapeIcsText(line.substring(15)));
+			} else if (line.startsWith("X-DAYBOOK-GIFTIDEA:")) {
+				currentGiftIdeas.push(unescapeIcsText(line.substring(19)));
 			}
 		}
 	}

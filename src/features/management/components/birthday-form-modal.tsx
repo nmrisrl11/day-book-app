@@ -21,6 +21,8 @@ import { APP_INFO } from "@/constants/app-info";
 import { BirthdayRepository } from "@/lib/birthday-repository";
 import { birthdaySchema, type BirthdayFormData } from "@/schema/birthday-schema";
 import {
+	GIFT_IDEA_MAX_COUNT,
+	GIFT_IDEA_MAX_LENGTH,
 	NAME_MAX_LENGTH,
 	NAME_MIN_LENGTH,
 	NOTE_MAX_COUNT,
@@ -59,6 +61,7 @@ function AvatarPreview({
 		avatar: avatar,
 		relationship: "Other",
 		notes: [],
+		giftIdeas: [],
 	};
 
 	if (avatarSettings.allowCustomUploads) {
@@ -153,11 +156,15 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 			avatar: "",
 			relationship: "",
 			notes: [],
+			giftIdeas: [],
 		},
 	});
 
 	const [noteInput, setNoteInput] = useState("");
 	const notes = useWatch({ control: form.control, name: "notes" }) || [];
+
+	const [giftIdeaInput, setGiftIdeaInput] = useState("");
+	const giftIdeas = useWatch({ control: form.control, name: "giftIdeas" }) || [];
 
 	const {
 		register,
@@ -176,6 +183,7 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 					avatar: birthday.avatar || "",
 					relationship: birthday.relationship || "",
 					notes: birthday.notes || [],
+					giftIdeas: birthday.giftIdeas || [],
 				});
 			} else {
 				reset({
@@ -184,9 +192,11 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 					avatar: "",
 					relationship: "",
 					notes: [],
+					giftIdeas: [],
 				});
 			}
 			setNoteInput("");
+			setGiftIdeaInput("");
 			setGeneralError("");
 		}
 	}, [open, birthday, reset]);
@@ -299,7 +309,7 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 
 				<form
 					id="birthday-form"
-					onSubmit={handleSubmit(onSubmit, onError)}
+					onSubmit={(e) => void handleSubmit(onSubmit, onError)(e)}
 					className="custom-scrollbar flex flex-1 flex-col gap-4 overflow-y-auto p-4"
 				>
 					<div className="mb-2 flex flex-col items-center justify-center">
@@ -391,19 +401,19 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 
 						{notes.length > 0 && (
 							<div className="mb-2 flex flex-wrap gap-2">
-								{notes.map((note, index) => (
+								{notes.map((note) => (
 									<div
-										key={index}
-										className="bg-primary/10 text-primary flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium"
+										key={note}
+										className="bg-primary/10 text-primary flex h-auto max-w-full items-center gap-1.5 whitespace-normal wrap-break-word rounded-2xl px-3 py-1 text-left text-xs font-medium"
 									>
-										<span>{note}</span>
+										<span className="min-w-0 flex-1 wrap-break-word">{note}</span>
 										<button
 											type="button"
 											aria-label={`Remove note: ${note}`}
 											onClick={() => {
 												form.setValue(
 													"notes",
-													notes.filter((_, i) => i !== index),
+													notes.filter((n) => n !== note),
 													{ shouldValidate: true },
 												);
 											}}
@@ -474,6 +484,99 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 						)}
 					</div>
 
+					<div className="flex flex-col gap-2 pt-2">
+						<div className="flex items-center justify-between">
+							<Label htmlFor="giftIdea">Gift Ideas / Wish List (Optional)</Label>
+							<span className="text-muted-foreground text-xs">
+								{giftIdeas.length}/{GIFT_IDEA_MAX_COUNT}
+							</span>
+						</div>
+
+						{giftIdeas.length > 0 && (
+							<div className="mb-2 flex flex-wrap gap-2">
+								{giftIdeas.map((idea) => (
+									<div
+										key={idea}
+										className="bg-primary/10 text-primary flex h-auto max-w-full items-center gap-1.5 whitespace-normal wrap-break-word rounded-2xl px-3 py-1 text-left text-xs font-medium"
+									>
+										<span className="min-w-0 flex-1 wrap-break-word">{idea}</span>
+										<button
+											type="button"
+											aria-label={`Remove gift idea: ${idea}`}
+											onClick={() => {
+												form.setValue(
+													"giftIdeas",
+													giftIdeas.filter((g) => g !== idea),
+													{ shouldValidate: true },
+												);
+											}}
+											className="hover:bg-primary/20 rounded-full p-0.5"
+											title={`Remove gift idea: ${idea}`}
+										>
+											<XIcon className="h-3 w-3" aria-hidden="true" />
+										</button>
+									</div>
+								))}
+							</div>
+						)}
+
+						<div className="flex gap-2">
+							<Input
+								id="giftIdea"
+								value={giftIdeaInput}
+								onChange={(e) => setGiftIdeaInput(e.target.value)}
+								placeholder="e.g. Mechanical keyboard"
+								autoComplete="off"
+								maxLength={GIFT_IDEA_MAX_LENGTH}
+								disabled={giftIdeas.length >= GIFT_IDEA_MAX_COUNT}
+								onKeyDown={(e) => {
+									if (e.key === "Enter") {
+										e.preventDefault();
+										const trimmed = giftIdeaInput.trim();
+										if (
+											trimmed &&
+											trimmed.length <= GIFT_IDEA_MAX_LENGTH &&
+											giftIdeas.length < GIFT_IDEA_MAX_COUNT &&
+											!giftIdeas.includes(trimmed)
+										) {
+											form.setValue("giftIdeas", [...giftIdeas, trimmed], { shouldValidate: true });
+											setGiftIdeaInput("");
+										}
+									}
+								}}
+							/>
+							<Button
+								type="button"
+								size="icon"
+								variant="secondary"
+								aria-label="Add gift idea"
+								title="Add gift idea"
+								className="shrink-0"
+								disabled={giftIdeas.length >= GIFT_IDEA_MAX_COUNT || !giftIdeaInput.trim()}
+								onClick={(e) => {
+									e.preventDefault();
+									const trimmed = giftIdeaInput.trim();
+									if (
+										trimmed &&
+										giftIdeas.length < GIFT_IDEA_MAX_COUNT &&
+										trimmed.length <= GIFT_IDEA_MAX_LENGTH &&
+										!giftIdeas.includes(trimmed)
+									) {
+										form.setValue("giftIdeas", [...giftIdeas, trimmed], { shouldValidate: true });
+										setGiftIdeaInput("");
+									}
+								}}
+							>
+								<PlusIcon className="h-4 w-4" aria-hidden="true" />
+							</Button>
+						</div>
+						{errors.giftIdeas && (
+							<p className="text-destructive text-sm font-medium" role="alert">
+								{errors.giftIdeas.message}
+							</p>
+						)}
+					</div>
+
 					{generalError && (
 						<p className="text-destructive text-sm font-medium" role="alert">
 							{generalError}
@@ -481,7 +584,7 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 					)}
 				</form>
 
-				<DialogFooter className="m-0 rounded-none rounded-b-xl border-t p-4">
+				<DialogFooter className="m-0 rounded-b-xl rounded-t-none border-t p-4">
 					<Button variant="ghost" type="button" onClick={() => onOpenChange(false)}>
 						Cancel
 					</Button>

@@ -6,11 +6,16 @@ import { APP_INFO } from "@/constants/app-info";
 import { generateResponseToken, parseInvitationToken } from "@/helpers/invitation-token";
 import { cn } from "@/lib/utils";
 import { inviteeSchema, type InviteeFormData } from "@/schema/birthday-schema";
-import { NAME_MAX_LENGTH, NAME_MIN_LENGTH } from "@/schema/validation-constants";
+import {
+	GIFT_IDEA_MAX_COUNT,
+	GIFT_IDEA_MAX_LENGTH,
+	NAME_MAX_LENGTH,
+	NAME_MIN_LENGTH,
+} from "@/schema/validation-constants";
 import { useDayBookStore } from "@/store/day-book-store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { play } from "cuelume";
-import { CheckIcon, CopyIcon, ShareIcon } from "lucide-react";
+import { CheckIcon, CopyIcon, PlusIcon, ShareIcon, XIcon } from "lucide-react";
 import { motion } from "motion/react";
 import { useQueryState } from "nuqs";
 import { useState } from "react";
@@ -27,11 +32,16 @@ export function InvitationScreen() {
 	const {
 		register,
 		handleSubmit,
+		setValue,
+		watch,
 		formState: { errors },
 	} = useForm<InviteeFormData>({
 		resolver: zodResolver(inviteeSchema),
-		defaultValues: { name: "", birthday: "" },
+		defaultValues: { name: "", birthday: "", giftIdeas: [] },
 	});
+
+	const [giftIdeaInput, setGiftIdeaInput] = useState("");
+	const giftIdeas = watch("giftIdeas") || [];
 
 	const soundSettings = useDayBookStore((state) => state.settings.soundSettings);
 
@@ -78,7 +88,7 @@ export function InvitationScreen() {
 	}
 
 	const onSubmit = (data: InviteeFormData) => {
-		const rToken = generateResponseToken(data.name, data.birthday);
+		const rToken = generateResponseToken(data.name, data.birthday, data.giftIdeas);
 		const link = `${window.location.origin}/invite/response?t=${rToken}`;
 		setResponseLink(link);
 	};
@@ -194,7 +204,7 @@ export function InvitationScreen() {
 			</div>
 
 			<form
-				onSubmit={handleSubmit(onSubmit, onError)}
+				onSubmit={(e) => void handleSubmit(onSubmit, onError)(e)}
 				className="bg-card flex flex-col gap-6 rounded-xl border p-4 shadow-sm md:p-6"
 			>
 				<div className="flex flex-col gap-2">
@@ -227,6 +237,100 @@ export function InvitationScreen() {
 					{errors.birthday && (
 						<p className="text-destructive text-sm font-medium" role="alert">
 							{errors.birthday.message}
+						</p>
+					)}
+				</div>
+
+				<div className="flex flex-col gap-2 pt-2">
+					<div className="flex items-center justify-between">
+						<Label htmlFor="giftIdea">Gift Ideas / Wish List (Optional)</Label>
+						<span className="text-muted-foreground text-xs">
+							{giftIdeas.length}/{GIFT_IDEA_MAX_COUNT}
+						</span>
+					</div>
+					<p className="text-muted-foreground text-xs">Share things you'd love to receive!</p>
+
+					{giftIdeas.length > 0 && (
+						<div className="mb-2 flex flex-wrap gap-2">
+							{giftIdeas.map((idea) => (
+								<div
+									key={idea}
+									className="bg-primary/10 text-primary flex h-auto max-w-full items-center gap-1.5 whitespace-normal wrap-break-word rounded-2xl px-3 py-1 text-left text-xs font-medium"
+								>
+									<span className="min-w-0 flex-1 wrap-break-word">{idea}</span>
+									<button
+										type="button"
+										aria-label={`Remove gift idea: ${idea}`}
+										onClick={() => {
+											setValue(
+												"giftIdeas",
+												giftIdeas.filter((g) => g !== idea),
+												{ shouldValidate: true },
+											);
+										}}
+										className="hover:bg-primary/20 rounded-full p-0.5"
+										title={`Remove gift idea: ${idea}`}
+									>
+										<XIcon className="h-3 w-3" aria-hidden="true" />
+									</button>
+								</div>
+							))}
+						</div>
+					)}
+
+					<div className="flex gap-2">
+						<Input
+							id="giftIdea"
+							value={giftIdeaInput}
+							onChange={(e) => setGiftIdeaInput(e.target.value)}
+							placeholder="e.g. Favorite coffee beans"
+							autoComplete="off"
+							maxLength={GIFT_IDEA_MAX_LENGTH}
+							disabled={giftIdeas.length >= GIFT_IDEA_MAX_COUNT}
+							onKeyDown={(e) => {
+								if (e.key === "Enter") {
+									e.preventDefault();
+									const trimmed = giftIdeaInput.trim();
+									if (
+										trimmed &&
+										trimmed.length <= GIFT_IDEA_MAX_LENGTH &&
+										giftIdeas.length < GIFT_IDEA_MAX_COUNT &&
+										!giftIdeas.includes(trimmed)
+									) {
+										setValue("giftIdeas", [...giftIdeas, trimmed], { shouldValidate: true });
+										setGiftIdeaInput("");
+									}
+								}
+							}}
+						/>
+						<Button
+							type="button"
+							size="icon"
+							variant="secondary"
+							aria-label="Add gift idea"
+							title="Add gift idea"
+							className="shrink-0"
+							disabled={giftIdeas.length >= GIFT_IDEA_MAX_COUNT || !giftIdeaInput.trim()}
+							onClick={(e) => {
+								e.preventDefault();
+								const trimmed = giftIdeaInput.trim();
+								if (
+									trimmed &&
+									giftIdeas.length < GIFT_IDEA_MAX_COUNT &&
+									trimmed.length <= GIFT_IDEA_MAX_LENGTH &&
+									!giftIdeas.includes(trimmed)
+								) {
+									setValue("giftIdeas", [...giftIdeas, trimmed], { shouldValidate: true });
+									setGiftIdeaInput("");
+								}
+							}}
+						>
+							<PlusIcon className="h-4 w-4" aria-hidden="true" />
+						</Button>
+					</div>
+					{errors.giftIdeas && (
+						<p className="text-destructive text-sm font-medium" role="alert">
+							{errors.giftIdeas.message}
 						</p>
 					)}
 				</div>

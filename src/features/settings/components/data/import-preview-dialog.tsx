@@ -18,7 +18,7 @@ import type { Birthday } from "@/types/birthday";
 import { useVirtualizer, type VirtualItem as TanstackVirtualItem } from "@tanstack/react-virtual";
 import { useLiveQuery } from "dexie-react-hooks";
 import { gooeyToast } from "goey-toast";
-import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 interface ImportPreviewDialogProps {
@@ -82,7 +82,7 @@ const VirtualBirthdayRow = memo(
 		duplicate,
 		isSelected,
 		isBday,
-		notesCount,
+		details,
 		toggleSelection,
 	}: {
 		b: Birthday;
@@ -90,7 +90,7 @@ const VirtualBirthdayRow = memo(
 		duplicate: boolean;
 		isSelected: boolean;
 		isBday: boolean;
-		notesCount: number;
+		details: string[];
 		toggleSelection: (id: string) => void;
 	}) => {
 		return (
@@ -126,22 +126,22 @@ const VirtualBirthdayRow = memo(
 						disabled={duplicate}
 						onChange={() => toggleSelection(b.id)}
 					/>
-					<div className="flex flex-1 flex-col overflow-hidden">
+					<div className="flex flex-1 flex-col overflow-hidden justify-center gap-0.5">
 						<div className="flex items-center gap-2 truncate">
-							<span className="text-foreground max-w-30 shrink-0 truncate text-sm font-semibold">
-								{b.name}
-							</span>
-							{b.relationship && b.relationship !== "Other" && (
-								<span className="text-muted-foreground max-w-20 shrink-0 truncate text-xs font-normal tracking-wider uppercase">
-									• {b.relationship}
-								</span>
-							)}
-							{notesCount > 0 && (
-								<span className="text-muted-foreground shrink-0 truncate text-xs font-normal tracking-wider uppercase">
-									• {notesCount} {notesCount === 1 ? "note" : "notes"}
-								</span>
+							<span className="text-foreground shrink-0 truncate text-sm font-bold">{b.name}</span>
+
+							{details.length > 0 && (
+								<div className="text-muted-foreground flex items-center gap-1.5 truncate text-[10px] font-bold tracking-wider uppercase">
+									{details.map((detail) => (
+										<React.Fragment key={detail}>
+											<span className="opacity-50">•</span>
+											<span className="shrink-0 truncate">{detail}</span>
+										</React.Fragment>
+									))}
+								</div>
 							)}
 						</div>
+
 						<span className="text-muted-foreground flex items-center gap-1.5 text-xs font-medium">
 							<span>{formatBirthdayDisplay(b.birthday)}</span>
 							{(() => {
@@ -512,6 +512,15 @@ export function ImportPreviewDialog({
 									const isSelected = selectedIds.has(b.id);
 									const isBday = isCelebrating(b.birthday);
 									const notesCount = b.notes?.length || 0;
+									const giftIdeasCount = b.giftIdeas?.length || 0;
+
+									const details = [
+										b.relationship && b.relationship !== "Other" ? b.relationship : null,
+										notesCount > 0 ? `${notesCount} ${notesCount === 1 ? "note" : "notes"}` : null,
+										giftIdeasCount > 0
+											? `${giftIdeasCount} ${giftIdeasCount === 1 ? "idea" : "ideas"}`
+											: null,
+									].filter(Boolean) as string[];
 
 									return (
 										<VirtualBirthdayRow
@@ -521,7 +530,7 @@ export function ImportPreviewDialog({
 											duplicate={duplicate}
 											isSelected={isSelected}
 											isBday={isBday}
-											notesCount={notesCount}
+											details={details}
 											toggleSelection={toggleSelection}
 										/>
 									);

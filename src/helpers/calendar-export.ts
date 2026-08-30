@@ -36,8 +36,11 @@ function getCurrentDTSTAMP(): string {
 function generateDescription(birthday: Birthday): string {
 	const relationship = birthday.relationship || "Other";
 	const notes = birthday.notes?.length ? `\nNotes: ${birthday.notes.join(" • ")}` : "";
+	const giftIdeas = birthday.giftIdeas?.length
+		? `\nGift Ideas: ${birthday.giftIdeas.join(" • ")}`
+		: "";
 
-	return `Relationship: ${relationship}${notes}\n\nImported from ${APP_INFO.name}.`;
+	return `Relationship: ${relationship}${notes}${giftIdeas}\n\nImported from ${APP_INFO.name}.`;
 }
 
 /**
@@ -103,6 +106,12 @@ export function generateIcsContent(birthdays: Birthday | Birthday[]): string {
 		if (birthday.notes && birthday.notes.length > 0) {
 			for (const note of birthday.notes) {
 				eventLines.push(`X-DAYBOOK-NOTE:${escapeIcsText(note)}`);
+			}
+		}
+
+		if (birthday.giftIdeas && birthday.giftIdeas.length > 0) {
+			for (const idea of birthday.giftIdeas) {
+				eventLines.push(`X-DAYBOOK-GIFTIDEA:${escapeIcsText(idea)}`);
 			}
 		}
 

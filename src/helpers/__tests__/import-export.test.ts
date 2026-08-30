@@ -10,11 +10,13 @@ describe("parseImportedBirthdays", () => {
 				birthday: "1990-01-01",
 				relationship: "Friend",
 				notes: ["Cool guy"],
+				giftIdeas: ["Keyboard"],
 			},
 		]);
 		const result = parseImportedBirthdays(validData, new Date(2026, 7, 29));
 		expect(result).toHaveLength(1);
 		expect(result[0].name).toBe("John Doe");
+		expect(result[0].giftIdeas).toEqual(["Keyboard"]);
 	});
 
 	it("should normalize a non-string avatar to undefined without rejecting the record", () => {
