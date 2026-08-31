@@ -16,6 +16,45 @@ export interface ChangelogRelease {
 
 export const changelog: ChangelogRelease[] = [
 	{
+		version: "1.7.0",
+		date: "2026-08-31",
+		title: "Install Prompts & App Enhancements",
+		summary:
+			"We've added a seamless way to install the app on your device, introduced a new Gift Ideas feature, and refined the overall design and sharing experience.",
+		changes: [
+			{
+				type: "added",
+				title: "Install App Banner",
+				description:
+					"Easily install the app to your home screen! We've added a smart banner that prompts you to install the app at just the right time, without getting in your way.",
+			},
+			{
+				type: "added",
+				title: "Gift Ideas & Wishlists",
+				description:
+					"You can now save up to 10 favorite things or gift ideas for each person. This is perfect for remembering exactly what to get them on their special day!",
+			},
+			{
+				type: "improved",
+				title: "Polished Sharing Experience",
+				description:
+					"We redesigned the invitation and response screens to look even better, added celebratory confetti when sharing links, and made sure expired links are clearly disabled.",
+			},
+			{
+				type: "improved",
+				title: "Better First Impressions",
+				description:
+					"Our first-time tutorial now guides you through the bottom navigation links, and we made sure the 'Age' on today's birthdays is crystal clear instead of saying 'Turning'.",
+			},
+			{
+				type: "fixed",
+				title: "Ironclad Imports",
+				description:
+					"Fixed several edge cases with importing calendar files, ensuring your gift ideas and long notes always import perfectly without breaking the app.",
+			},
+		],
+	},
+	{
 		version: "1.6.0",
 		date: "2026-08-30",
 		title: "Data Safety & Blazing Speed",
