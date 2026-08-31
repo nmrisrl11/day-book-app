@@ -37,6 +37,7 @@ export interface AnimatedLogoProps {
 	iconClassName?: string;
 	asButton?: boolean;
 	autoPlay?: boolean;
+	animationType?: "sparkles" | "confetti";
 }
 
 const variantComponents: Record<AnimatedLogoVariant, ComponentType<SVGProps<SVGSVGElement>>> = {
@@ -60,6 +61,7 @@ export const AnimatedLogo = forwardRef<AnimatedLogoRef, AnimatedLogoProps>(
 			iconClassName,
 			asButton = true,
 			autoPlay = false,
+			animationType = "sparkles",
 		},
 		ref,
 	) => {
@@ -121,7 +123,7 @@ export const AnimatedLogo = forwardRef<AnimatedLogoRef, AnimatedLogoProps>(
 				/>
 
 				{/* Particles */}
-				{isAnimating && (
+				{isAnimating && animationType === "sparkles" && (
 					<div className="pointer-events-none absolute inset-0" aria-hidden="true">
 						{/* Particle 1: Top Right */}
 						<div
@@ -144,6 +146,48 @@ export const AnimatedLogo = forwardRef<AnimatedLogoRef, AnimatedLogoProps>(
 							className="bg-primary animate-particle-out absolute top-[60%] left-[20%] h-1.5 w-1.5 rounded-full opacity-90"
 							style={{ "--tx": "-25px", "--ty": "5px", animationDelay: "20ms" } as CSSProperties}
 						/>
+					</div>
+				)}
+
+				{isAnimating && animationType === "confetti" && (
+					<div className="pointer-events-none absolute inset-0" aria-hidden="true">
+						<div
+							className="animate-particle-out absolute top-[20%] left-[50%]"
+							style={{ "--tx": "-25px", "--ty": "-30px", animationDelay: "0ms" } as CSSProperties}
+						>
+							<div className="bg-red-500 h-2 w-1.5 rounded-[1px] -rotate-12" />
+						</div>
+						<div
+							className="animate-particle-out absolute top-[30%] left-[60%]"
+							style={{ "--tx": "30px", "--ty": "-20px", animationDelay: "20ms" } as CSSProperties}
+						>
+							<div className="bg-blue-500 h-1.5 w-2 rounded-[1px] rotate-45" />
+						</div>
+						<div
+							className="animate-particle-out absolute top-[60%] left-[70%]"
+							style={{ "--tx": "25px", "--ty": "20px", animationDelay: "40ms" } as CSSProperties}
+						>
+							<div className="bg-yellow-500 h-2 w-1.5 rounded-[1px] rotate-75" />
+						</div>
+						<div
+							className="animate-particle-out absolute top-[70%] left-[30%]"
+							style={{ "--tx": "-20px", "--ty": "25px", animationDelay: "60ms" } as CSSProperties}
+							onAnimationEnd={() => setIsAnimating(false)}
+						>
+							<div className="bg-green-500 h-1.5 w-2 rounded-[1px] rotate-12" />
+						</div>
+						<div
+							className="animate-particle-out absolute top-[40%] left-[20%]"
+							style={{ "--tx": "-30px", "--ty": "5px", animationDelay: "10ms" } as CSSProperties}
+						>
+							<div className="bg-purple-500 h-2 w-1.5 rounded-[1px] -rotate-45" />
+						</div>
+						<div
+							className="animate-particle-out absolute top-[20%] left-[30%]"
+							style={{ "--tx": "-15px", "--ty": "-20px", animationDelay: "30ms" } as CSSProperties}
+						>
+							<div className="bg-pink-500 h-1.5 w-1.5 rounded-full" />
+						</div>
 					</div>
 				)}
 			</Wrapper>
