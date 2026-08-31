@@ -259,7 +259,7 @@ export function ResponseScreen() {
 							setError("");
 						}}
 					>
-						<SelectTrigger id="relationship" className="w-full h-11">
+						<SelectTrigger id="relationship" className="w-full h-11!">
 							<SelectValue placeholder="Select relationship" />
 						</SelectTrigger>
 						<SelectContent position="popper">
