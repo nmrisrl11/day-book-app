@@ -3,6 +3,7 @@ import { Suspense, useState } from "react";
 import { BackupReminderBanner } from "./components/backup-reminder-banner";
 import { DashboardEmptyState } from "./components/dashboard-empty-state";
 import { DashboardRouteFallback } from "./components/dashboard-route-fallback";
+import { InstallAppBanner } from "./components/install-app-banner";
 
 import { BirthdaysSection } from "./components/calendar/birthdays-section";
 import { QuickActionToolbar } from "./components/quick-actions/quick-action-toolbar";
@@ -20,6 +21,7 @@ export function Dashboard() {
 	} = useBirthdayData();
 
 	const [previewMode, setPreviewMode] = useState(false);
+	const [isInstallBannerVisible, setIsInstallBannerVisible] = useState(false);
 
 	if (isLoading) {
 		return <DashboardRouteFallback />;
@@ -44,7 +46,11 @@ export function Dashboard() {
 				/>
 				<UpcomingBirthdaysSection upcomingBirthdays={upcomingBirthdays} currentDate={currentDate} />
 				<BirthdaysSection birthdaysByMonth={birthdaysByMonth} currentDate={currentDate} />
-				<BackupReminderBanner birthdaysCount={birthdays.length} />
+				<InstallAppBanner
+					birthdaysCount={birthdays.length}
+					onVisibilityChange={setIsInstallBannerVisible}
+				/>
+				{!isInstallBannerVisible && <BackupReminderBanner birthdaysCount={birthdays.length} />}
 			</Suspense>
 			<QuickActionToolbar hasCelebrants={activeCelebrants.length > 0} />
 		</div>

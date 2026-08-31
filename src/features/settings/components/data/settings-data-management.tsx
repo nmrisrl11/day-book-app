@@ -58,6 +58,7 @@ export function SettingsDataManagement() {
 				quickActionsIsOpen: _quickActionsIsOpen,
 				lastBackupDate: _lastBackupDate,
 				lastBackupReminderDismissedAt: _lastBackupReminderDismissedAt,
+				lastInstallPromptDismissedAt: _lastInstallPromptDismissedAt,
 				...safeSettingsToImport
 			} = importedSettings as Settings;
 

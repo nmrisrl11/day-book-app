@@ -110,6 +110,7 @@ export function InvitationListItem({
 					variant="ghost"
 					size="icon"
 					onClick={handleCopy}
+					disabled={!isActive}
 					aria-label="Copy link"
 					className={cn(
 						"transition-colors",

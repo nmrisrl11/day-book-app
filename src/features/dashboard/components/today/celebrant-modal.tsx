@@ -113,7 +113,7 @@ export function CelebrantModal({ celebrant, isOpen, onClose, currentDate }: Cele
 									{ageDisplay !== null && (
 										<div className="flex flex-col items-center gap-1.5">
 											<span className="text-muted-foreground flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider">
-												<GiftIcon className="h-3 w-3" /> Turning
+												<GiftIcon className="h-3 w-3" /> Age
 											</span>
 											<span className="text-foreground text-sm font-semibold">{ageDisplay}</span>
 										</div>

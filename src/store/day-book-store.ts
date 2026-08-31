@@ -31,6 +31,7 @@ export const defaultSettings: Settings = {
 	quickActionsIsOpen: false,
 	lastBackupDate: undefined,
 	lastBackupReminderDismissedAt: undefined,
+	lastInstallPromptDismissedAt: undefined,
 };
 
 interface DayBookState {
