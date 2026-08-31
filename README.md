@@ -16,8 +16,8 @@
 
 - 🔒 **Privacy First**: All your stored birthday, relationship, gift idea, and settings data stays on your device (`IndexedDB` and `localStorage`). Note that shareable invitation links encode birthday data that you may choose to copy or share.
 - 📱 **Installable PWA**: Install DayBook on your phone or desktop! Works offline, loads instantly, and detects updates in the background. It also includes specific iOS installation instructions and real-time offline status notifications.
-- ✨ **Beautiful Dashboard**: Celebratory "Happy Birthday" section with confetti, upcoming birthdays list, an interactive 12-month calendar grid and an immersive FullCalendar monthly view, animated playful empty states, contextual backup reminders, and a draggable Quick Action Toolbar for instant avatar and greeting customizations.
-- 🗺️ **Interactive Tutorial**: A built-in, step-by-step onboarding experience that guides new users through the app's core features seamlessly, alongside contextual on-demand tours for complex settings like Data Management.
+- ✨ **Beautiful Dashboard**: Celebratory "Happy Birthday" section with confetti, upcoming birthdays list, an interactive 12-month calendar grid and an immersive FullCalendar monthly view, animated playful empty states, contextual install and backup banners, and a draggable Quick Action Toolbar for instant avatar and greeting customizations.
+- 🗺️ **Interactive Tutorial**: A built-in, step-by-step onboarding experience that guides new users through the app's core features (including global navigation links) seamlessly, alongside contextual on-demand tours for complex settings like Data Management.
 - 🎨 **Rich Customization**:
   - 🌓 Theme toggling (Light/Dark).
   - 🅰️ Main greeting typography and gradient styling.

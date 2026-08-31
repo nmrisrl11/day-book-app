@@ -72,4 +72,5 @@ export interface Settings {
 	quickActionsIsOpen?: boolean;
 	lastBackupDate?: string;
 	lastBackupReminderDismissedAt?: string;
+	lastInstallPromptDismissedAt?: string;
 }
