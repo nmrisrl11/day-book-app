@@ -21,8 +21,22 @@ export function InvitationListItem({
 	onSelectChange,
 	onDelete,
 }: InvitationListItemProps) {
-	const isActive = !invitation.expiresAt || invitation.expiresAt > Date.now();
+	const [isActive, setIsActive] = useState(
+		() => !invitation.expiresAt || invitation.expiresAt > Date.now(),
+	);
 	const [hasCopied, setHasCopied] = useState(false);
+
+	useEffect(() => {
+		if (invitation.expiresAt && isActive) {
+			const timeUntilExpiry = invitation.expiresAt - Date.now();
+			if (timeUntilExpiry > 0) {
+				const timeoutId = setTimeout(() => setIsActive(false), timeUntilExpiry);
+				return () => clearTimeout(timeoutId);
+			} else {
+				setIsActive(false);
+			}
+		}
+	}, [invitation.expiresAt, isActive]);
 
 	useEffect(() => {
 		let timeoutId: ReturnType<typeof setTimeout>;
@@ -37,6 +51,11 @@ export function InvitationListItem({
 	}, [hasCopied]);
 
 	const handleCopy = async () => {
+		const currentlyActive = !invitation.expiresAt || invitation.expiresAt > Date.now();
+		if (!currentlyActive) {
+			setIsActive(false);
+			return;
+		}
 		try {
 			await navigator.clipboard.writeText(`${window.location.origin}/invite?t=${invitation.token}`);
 			setHasCopied(true);
@@ -46,7 +65,11 @@ export function InvitationListItem({
 	};
 
 	const handleShare = async () => {
-		if (!isActive) return;
+		const currentlyActive = !invitation.expiresAt || invitation.expiresAt > Date.now();
+		if (!currentlyActive) {
+			setIsActive(false);
+			return;
+		}
 		try {
 			await navigator.share({
 				title: "Share your birthday",
