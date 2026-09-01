@@ -44,6 +44,7 @@ DayBook is a fully functional, local-first React application. While originally s
 - **Happy Birthday Section**: Displays today's celebrants with random confetti. Interactive modals for celebrant details.
 - **Upcoming Birthdays**: Scrollable list of the next N birthdays (N is configurable in Settings), complete with "days until" indicators.
 - **Birthdays by Month**: 12-month grid indicating which months have birthdays. Clickable month modals showing grouped celebrants, alongside a fully interactive, keyboard-accessible FullCalendar month view accessible via a tab toggle on the dashboard.
+- **Person Profile**: A dedicated `/person/:id` view that serves as the central hub for an individual. It elegantly displays their avatar, current age, days until birthday, relationship, and their saved notes and gift ideas. Routes and modals are lazily loaded for optimal performance. Direct links to profiles are properly routed via SPA rewrite rules and protected from search engine indexing.
 - **Quick Action Toolbar**: A draggable, edge-dockable floating toolbar on the dashboard providing instant access to Avatar and Main Greeting customizations.
 - **Empty States & System Feedback**: Beautiful empty states, error pages, and backup prompts utilizing a dynamic, interactive brand logo (`AnimatedLogo`) which maps to specialized SVG components (404, Backup, Crystal Ball, Notification, Invite, Warning, Share) depending on the context. The Dashboard features smart contextual banners (Backup Reminder and Install App) that prompt users to export their data or install the PWA. These banners are strictly orchestrated to prevent UI overlap and gracefully yield to onboarding tours. The Dashboard empty state features a "Preview Celebration" mode that lets new users immediately test out the celebratory features. Also includes a dedicated `404 Not Found` page with suggested exploration links for graceful error handling.
 - **Interactive Onboarding**: A route-aware, first-time user tutorial powered by `react-joyride` that gently introduces the app's core value proposition (including Birthdays, Invitations, Settings, and global Footer navigation links). It utilizes a low-friction approach (floating toast hint) rather than a forced auto-start, and safely persists state to `localStorage`. It also features contextual, on-demand educational tours for complex areas like Data Management.
@@ -79,39 +80,32 @@ Settings has grown into a full `/settings` route with 6 tabs managed by `nuqs` U
 
 ```text
 day-book-app/
-├── api/             # Vercel serverless functions
+├── api/             # Vercel serverless functions (e.g. dynamic OG image rewriter)
 ├── docs/            # Rules, original instructions, guidelines
 ├── public/          # Static assets, webmanifest
 ├── src/
-│   ├── components/  # Global components (Layout, UI primitives)
+│   ├── components/  # Global components (Layout, SEO, UI primitives)
 │   │   ├── icons/   # AnimatedLogo and other global icons
-│   │   │   ├── logos/ # Individual SVG React components for logos
+│   │   ├── layout/  # Global application layout and navigation
+│   │   ├── seo/     # Helmet-based SEO component
+│   │   └── ui/      # shadcn/ui generic primitives
 │   ├── constants/   # Default configs, settings boundaries
-│   ├── features/    # Domain modules (dashboard, management, settings)
-│   │   ├── dashboard/
-│   │   │   ├── components/
-│   │   │   │   ├── today/       # Happy birthday & celebrants UI
-│   │   │   │   ├── upcoming/    # Upcoming birthdays list
-│   │   │   │   └── calendar/    # Monthly views
-│   │   │   └── dashboard.tsx
-│   │   ├── management/
-│   │   │   ├── components/  # BirthdayFilters, BulkActionBar, modals
-│   │   │   ├── hooks/       # useModalManager, useBirthdayManagement
-│   │   │   └── birthday-management-screen.tsx
-│   │   ├── not-found/
-│   │   │   └── not-found-screen.tsx
-│   │   └── settings/
-│   │       ├── components/
-│   │       │   ├── appearance/  # Theme, display settings
-│   │       │   ├── messages/    # Greetings, floating text
-│   │       │   ├── data/        # DB, imports, storage
-│   │       │   └── ...          # other tabs (sound, avatar, main-greeting)
-│   │       └── settings-screen.tsx
-│   ├── helpers/     # Utils (dates, calendar, import/export)
-│   ├── hooks/       # Custom React hooks (drag scroll, media query)
+│   ├── features/    # Domain modules containing local components and logic
+│   │   ├── about/       # Product overview and changelog screen
+│   │   ├── calendar/    # Standalone calendar views and export dialogues
+│   │   ├── dashboard/   # Main view (today, upcoming, tabs)
+│   │   ├── install/     # PWA install instructions and routes
+│   │   ├── invitation/  # Birthday links (creation and response screens)
+│   │   ├── management/  # Virtualized list, Bulk actions, filters
+│   │   ├── not-found/   # 404 screen
+│   │   ├── onboarding/  # Joyride tours and interactive tutorials
+│   │   ├── person/      # Person Detail View (individual profile hub)
+│   │   └── settings/    # Complex tabbed settings screen and sub-sections
+│   ├── helpers/     # Utilities (dates, ICS parsing, import/export logic)
+│   ├── hooks/       # Custom React hooks (P2P sync, drag scroll, PWA)
 │   ├── schema/      # Zod validation schemas
-│   ├── store/       # Zustand store definitions
-│   └── types/       # Shared TS interfaces
+│   ├── store/       # Zustand global store definitions
+│   └── types/       # Shared TS interfaces (Birthday, Settings)
 ```
 
 ### Known Issues & Technical Debt

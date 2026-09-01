@@ -21,10 +21,12 @@ import {
 	QuoteIcon,
 	StarIcon,
 	StickyNoteIcon,
+	UserIcon,
 	UsersIcon,
 } from "lucide-react";
 import { motion, type Variants } from "motion/react";
 import { useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface CelebrantModalProps {
 	celebrant: Birthday | null;
@@ -48,6 +50,7 @@ const itemVariants: Variants = {
 
 export function CelebrantModal({ celebrant, isOpen, onClose, currentDate }: CelebrantModalProps) {
 	const { settings } = useDayBookStore();
+	const navigate = useNavigate();
 	const [exportOpen, setExportOpen] = useState(false);
 
 	// Randomly select a greeting when the modal opens
@@ -203,13 +206,20 @@ export function CelebrantModal({ celebrant, isOpen, onClose, currentDate }: Cele
 						)}
 					</motion.div>
 
-					<DialogFooter className="bg-muted/50 border-border/40 m-0 shrink-0 border-t p-4 sm:justify-center">
+					<DialogFooter className="m-0 rounded-b-xl rounded-t-none border-t p-4 justify-center! flex-col!">
 						<Button
 							variant="outline"
-							className="bg-background hover:bg-accent/50 w-full gap-2 font-semibold shadow-sm transition-colors"
-							onClick={() => setExportOpen(true)}
+							onClick={() => {
+								onClose();
+								navigate(`/person/${celebrant.id}`);
+							}}
 						>
-							<CalendarPlusIcon className="h-4 w-4" />
+							<UserIcon className="h-4 w-4" data-icon="inline-start" />
+							View Profile
+						</Button>
+
+						<Button variant="outline" onClick={() => setExportOpen(true)}>
+							<CalendarPlusIcon className="h-4 w-4" data-icon="inline-start" />
 							Add to Calendar
 						</Button>
 					</DialogFooter>

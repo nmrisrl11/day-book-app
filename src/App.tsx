@@ -16,6 +16,7 @@ import { InvitationRouteFallback } from "./features/invitation/components/invita
 import { InvitationSkeleton } from "./features/invitation/components/invitation-skeleton";
 import { ResponseSkeleton } from "./features/invitation/components/response-skeleton";
 import { ManageRouteFallback } from "./features/management/components/manage-route-fallback";
+import { PersonSkeleton } from "./features/person/components/person-skeleton";
 import { SettingsSkeleton } from "./features/settings/components/settings-skeleton";
 import { useDayBookStore } from "./store/day-book-store";
 
@@ -58,6 +59,11 @@ const About = lazy(() =>
 const NotFound = lazy(() =>
 	import("./features/not-found/not-found-screen").then((m) => ({
 		default: m.NotFoundScreen,
+	})),
+);
+const PersonScreen = lazy(() =>
+	import("./features/person/person-screen").then((m) => ({
+		default: m.PersonScreen,
 	})),
 );
 
@@ -126,6 +132,14 @@ function App() {
 									element={
 										<Suspense fallback={<InvitationRouteFallback />}>
 											<InvitationManagementScreen />
+										</Suspense>
+									}
+								/>
+								<Route
+									path="/person/:id"
+									element={
+										<Suspense fallback={<PersonSkeleton />}>
+											<PersonScreen />
 										</Suspense>
 									}
 								/>

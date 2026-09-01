@@ -7,6 +7,10 @@
 		{
 			"source": "/(manage|invitations|settings|about|install)",
 			"destination": "/index.html"
+		},
+		{
+			"source": "/person/(.*)",
+			"destination": "/index.html"
 		}
 	]
 }

@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import type { Birthday } from "@/types/birthday";
 import { CalendarIcon, Edit2Icon, Trash2Icon } from "lucide-react";
 import { memo, useMemo } from "react";
+import { Link } from "react-router-dom";
 
 interface BirthdayListItemProps {
 	birthday: Birthday;
@@ -61,28 +62,34 @@ export const BirthdayListItem = memo(function BirthdayListItem({
 							className="mr-1 shrink-0"
 						/>
 					)}
-					<div className="ring-border h-10 w-10 shrink-0 overflow-hidden rounded-full shadow-sm ring-1">
-						<UserAvatar birthday={birthday} size={40} className="h-full w-full" />
-					</div>
-					<div className="flex min-w-0 flex-col">
-						<span className="text-foreground truncate font-semibold">
-							{birthday.name}
-							{birthday.relationship && (
-								<span className="text-muted-foreground ml-2 text-xs font-normal tracking-wider uppercase">
-									• {birthday.relationship}
-								</span>
-							)}
-						</span>
-						<span className="text-muted-foreground truncate text-xs sm:text-sm">
-							{displayDate}
-							{ageDisplay !== null && (
-								<>
-									<span className="mx-2 opacity-50">•</span>
-									{ageDisplay}
-								</>
-							)}
-						</span>
-					</div>
+					<Link
+						to={`/person/${birthday.id}`}
+						className="flex min-w-0 flex-1 items-center gap-2 sm:gap-4 hover:opacity-80 transition-opacity rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+						aria-label={`View ${birthday.name}'s profile`}
+					>
+						<div className="ring-border h-10 w-10 shrink-0 overflow-hidden rounded-full shadow-sm ring-1">
+							<UserAvatar birthday={birthday} size={40} className="h-full w-full" />
+						</div>
+						<div className="flex min-w-0 flex-col">
+							<span className="text-foreground truncate font-semibold">
+								{birthday.name}
+								{birthday.relationship && (
+									<span className="text-muted-foreground ml-2 text-xs font-normal tracking-wider uppercase">
+										• {birthday.relationship}
+									</span>
+								)}
+							</span>
+							<span className="text-muted-foreground truncate text-xs sm:text-sm">
+								{displayDate}
+								{ageDisplay !== null && (
+									<>
+										<span className="mx-2 opacity-50">•</span>
+										{ageDisplay}
+									</>
+								)}
+							</span>
+						</div>
+					</Link>
 				</div>
 
 				<div className="flex shrink-0 items-center gap-0 sm:gap-1">
