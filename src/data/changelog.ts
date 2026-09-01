@@ -16,6 +16,45 @@ export interface ChangelogRelease {
 
 export const changelog: ChangelogRelease[] = [
 	{
+		version: "1.8.0",
+		date: "2026-09-01",
+		title: "Person Profiles & SEO Polish",
+		summary:
+			"We've introduced dedicated Person Profiles so you can view all relationship details in one place, added an audio confirmation to Device Sync, and improved the app's internal SEO and rendering performance.",
+		changes: [
+			{
+				type: "added",
+				title: "Person Profiles",
+				description:
+					"A dedicated profile screen for each person to elegantly view their upcoming birthday, current age, relationship, and any saved notes or gift ideas.",
+			},
+			{
+				type: "added",
+				title: "Device Sync Audio Feedback",
+				description:
+					"Added a delightful audio confirmation when you successfully complete a device synchronization, so you know exactly when your data is safely transferred.",
+			},
+			{
+				type: "improved",
+				title: "Sleeker Performance & SEO",
+				description:
+					"We refactored some of the heaviest parts of the app for smoother performance, lazy-loaded new screens, and added route-specific SEO and social media preview tags.",
+			},
+			{
+				type: "improved",
+				title: "Refined Quick Actions",
+				description:
+					"Added a pulsing notification indicator to the closed Quick Actions tab to make it more noticeable at first glance.",
+			},
+			{
+				type: "fixed",
+				title: "Ironclad Routing",
+				description:
+					"Prevented search engines from indexing private links and fixed a 'page not found' issue when navigating directly to a Person Profile.",
+			},
+		],
+	},
+	{
 		version: "1.7.0",
 		date: "2026-08-31",
 		title: "Install Prompts & App Enhancements",
