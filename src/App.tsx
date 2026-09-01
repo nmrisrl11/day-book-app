@@ -6,6 +6,7 @@ import { GooeyToaster } from "goey-toast";
 import { NuqsAdapter } from "nuqs/adapters/react";
 import { lazy, Suspense, useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { GlobalSearch } from "./components/global-search";
 import { Footer } from "./components/layout/footer";
 import { PageLayout } from "./components/layout/page-layout";
 import { PWAPrompt } from "./components/pwa-prompt";
@@ -197,6 +198,9 @@ function App() {
 									if (event.url.includes("/invite")) {
 										return null;
 									}
+									if (event.url.includes("/person/")) {
+										return { ...event, url: "/person/[id]" };
+									}
 									return event;
 								}}
 							/>
@@ -205,11 +209,15 @@ function App() {
 									if (event.url.includes("/invite")) {
 										return null;
 									}
+									if (event.url.includes("/person/")) {
+										return { ...event, url: "/person/[id]" };
+									}
 									return event;
 								}}
 							/>
 							<PWAPrompt />
 							<Footer />
+							<GlobalSearch />
 						</PageLayout>
 					</OnboardingProvider>
 				</NuqsAdapter>

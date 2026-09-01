@@ -95,11 +95,11 @@ export const SettingsSchema = z
 		if (data.onboardingStatus === "in_progress") {
 			if (
 				data.onboardingStep !== undefined &&
-				(data.onboardingStep < 0 || data.onboardingStep > 4)
+				(data.onboardingStep < 0 || data.onboardingStep > 7)
 			) {
 				ctx.addIssue({
 					code: z.ZodIssueCode.custom,
-					message: "onboardingStep must be between 0 and 4 when in_progress",
+					message: "onboardingStep must be between 0 and 7 when in_progress",
 					path: ["onboardingStep"],
 				});
 			}

@@ -1,6 +1,7 @@
 import { Logo } from "@/components/icons/logos/logo";
 import { Button } from "@/components/ui/button";
-import { BookUserIcon, LinkIcon, SettingsIcon } from "lucide-react";
+import { useSearchStore } from "@/store/search-store";
+import { BookUserIcon, LinkIcon, SearchIcon, SettingsIcon } from "lucide-react";
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 
@@ -27,6 +28,7 @@ const NAV_ITEMS: NavItem[] = [
 
 export function PageLayout({ children }: PageLayoutProps) {
 	const location = useLocation();
+	const toggleSearch = useSearchStore((state) => state.toggle);
 
 	return (
 		<div className="bg-background text-foreground relative flex min-h-screen flex-col overflow-x-clip font-sans">
@@ -45,6 +47,15 @@ export function PageLayout({ children }: PageLayoutProps) {
 					<Logo className="text-foreground h-12 w-auto drop-shadow-sm transition-transform duration-200 group-hover:scale-105" />
 				</Link>
 				<div className="flex items-center gap-2">
+					<Button
+						variant="ghost"
+						size="icon"
+						title="Search (⌘K)"
+						onClick={toggleSearch}
+						id="global-search-trigger"
+					>
+						<SearchIcon aria-hidden="true" />
+					</Button>
 					{NAV_ITEMS.map((item) => {
 						const isActive =
 							location.pathname === item.path || location.pathname.startsWith(item.path + "/");
