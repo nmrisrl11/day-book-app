@@ -4,9 +4,11 @@
 
 - Introduced the **Person Detail View**: a dedicated profile screen for each person to view their upcoming birthday, current age, relationship, and any saved notes or gift ideas. Click a person from the management list or the celebrant modal to view their profile.
 - Integrated `react-helmet-async` for route-specific SEO, dynamic document titles, and client-side Open Graph tag injection.
+- Added an audio feedback confirmation upon successful P2P device synchronization.
 
 ## Improved
 
+- Refactored large form components (`birthday-form-modal.tsx` and `import-preview-dialog.tsx`) to improve readability and maintainability without sacrificing performance.
 - Added a pulsing notification indicator to the closed Quick Actions tab to make it more noticeable at first glance
 - Lazy loaded modals in the Person Detail View for better performance
 

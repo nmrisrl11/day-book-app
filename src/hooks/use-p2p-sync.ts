@@ -1,3 +1,5 @@
+import { useDayBookStore } from "@/store/day-book-store";
+import { play } from "cuelume";
 import { gooeyToast } from "goey-toast";
 import Peer, { type DataConnection } from "peerjs";
 import { useEffect, useRef, useState } from "react";
@@ -13,6 +15,13 @@ export function useP2PSync() {
 	const updateSyncState = (state: SyncState) => {
 		syncStateRef.current = state;
 		setSyncState(state);
+
+		if (state === "success") {
+			const { soundSettings } = useDayBookStore.getState().settings;
+			if (soundSettings) {
+				play("arrival", { volume: soundSettings.volume });
+			}
+		}
 	};
 
 	const cleanup = () => {
