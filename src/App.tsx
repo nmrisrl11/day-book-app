@@ -4,9 +4,8 @@ import { SpeedInsights } from "@vercel/speed-insights/react";
 import { bind, setEnabled, setVolume } from "cuelume";
 import { GooeyToaster } from "goey-toast";
 import { NuqsAdapter } from "nuqs/adapters/react";
-import { lazy, Suspense, useEffect } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { GlobalSearch } from "./components/global-search";
 import { Footer } from "./components/layout/footer";
 import { PageLayout } from "./components/layout/page-layout";
 import { PWAPrompt } from "./components/pwa-prompt";
@@ -20,6 +19,7 @@ import { ManageRouteFallback } from "./features/management/components/manage-rou
 import { PersonSkeleton } from "./features/person/components/person-skeleton";
 import { SettingsSkeleton } from "./features/settings/components/settings-skeleton";
 import { useDayBookStore } from "./store/day-book-store";
+import { useSearchStore } from "./store/search-store";
 
 const Dashboard = lazy(() =>
 	import("./features/dashboard/dashboard").then((m) => ({ default: m.Dashboard })),
@@ -67,10 +67,21 @@ const PersonScreen = lazy(() =>
 		default: m.PersonScreen,
 	})),
 );
+const GlobalSearch = lazy(() =>
+	import("./components/global-search").then((m) => ({ default: m.GlobalSearch })),
+);
 
 function App() {
 	const settings = useDayBookStore((state) => state.settings);
 	const soundSettings = settings.soundSettings;
+	const { isOpen, toggle: toggleSearch } = useSearchStore();
+	const [searchMounted, setSearchMounted] = useState(false);
+
+	useEffect(() => {
+		if (isOpen) {
+			setSearchMounted(true);
+		}
+	}, [isOpen]);
 
 	useEffect(() => {
 		const root = window.document.documentElement;
@@ -100,10 +111,14 @@ function App() {
 					theme: currentTheme === "light" ? "dark" : "light",
 				});
 			}
+			if (e.key.toLowerCase() === "k" && (e.metaKey || e.ctrlKey)) {
+				e.preventDefault();
+				toggleSearch();
+			}
 		};
 		window.addEventListener("keydown", handleKeyDown);
 		return () => window.removeEventListener("keydown", handleKeyDown);
-	}, []);
+	}, [toggleSearch]);
 
 	return (
 		<>
@@ -217,7 +232,11 @@ function App() {
 							/>
 							<PWAPrompt />
 							<Footer />
-							<GlobalSearch />
+							{searchMounted && (
+								<Suspense fallback={null}>
+									<GlobalSearch />
+								</Suspense>
+							)}
 						</PageLayout>
 					</OnboardingProvider>
 				</NuqsAdapter>

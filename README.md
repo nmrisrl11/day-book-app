@@ -33,7 +33,7 @@
 - 🏷️ **Centralized Branding**: Easily fork and rebrand the application by editing a single `app-info.ts` configuration file that syncs across PWA manifests, meta tags, and all UI components.
 - 🖼️ **Dynamic Social Previews**: Vercel Edge-powered dynamic Open Graph images tailored specifically for the Invitation and Response shareable links.
 - 🔍 **SEO & Metadata**: Dynamic document titles, canonical URLs, and client-side Open Graph metadata injection powered by `react-helmet-async`.
-- ⌨️ **Global Search**: Instantly find people, navigate to pages, or jump directly to specific settings tabs using the omnipresent `⌘K` command palette or the header search button.
+- ⌨️ **Global Search**: Instantly find people, navigate to pages, or jump directly to specific settings tabs using the omnipresent `Ctrl+K` or `⌘K` command palette or the header search button.
 - 🤖 **Agent-Friendly**: Includes a fully spec-compliant `llms.txt` file optimized for AI agentic browsing and LLM consumption.
 - ♿ **Highly Accessible**: Fully audited and optimized with robust semantic HTML and comprehensive ARIA screen-reader support.
 - ℹ️ **Product Overview**: A dedicated `/about` page detailing the app's features and an interactive changelog. It features a responsive "Line Nav" table of contents built with Framer Motion.

@@ -33,16 +33,24 @@ describe("SettingsSchema validation", () => {
 		});
 		expect(validProgress.success).toBe(true);
 
+		const validUpperBoundary = SettingsSchema.safeParse({
+			upcomingCount: 3,
+			theme: "light",
+			onboardingStatus: "in_progress",
+			onboardingStep: 7,
+		});
+		expect(validUpperBoundary.success).toBe(true);
+
 		const invalidProgress = SettingsSchema.safeParse({
 			upcomingCount: 3,
 			theme: "light",
 			onboardingStatus: "in_progress",
-			onboardingStep: 5,
+			onboardingStep: 8,
 		});
 		expect(invalidProgress.success).toBe(false);
 		if (!invalidProgress.success) {
 			expect(invalidProgress.error.issues[0].message).toContain(
-				"onboardingStep must be between 0 and 4",
+				"onboardingStep must be between 0 and 7",
 			);
 		}
 	});

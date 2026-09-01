@@ -46,22 +46,10 @@ const SETTINGS_TABS = [
 ];
 
 export function GlobalSearch() {
-	const { isOpen, setIsOpen, toggle } = useSearchStore();
+	const { isOpen, setIsOpen } = useSearchStore();
 	const navigate = useNavigate();
 	const { birthdays } = useBirthdayData();
 	const [searchQuery, setSearchQuery] = useState("");
-
-	useEffect(() => {
-		const down = (e: KeyboardEvent) => {
-			if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
-				e.preventDefault();
-				toggle();
-			}
-		};
-
-		document.addEventListener("keydown", down);
-		return () => document.removeEventListener("keydown", down);
-	}, [toggle]);
 
 	// Clear search query when dialog closes
 	useEffect(() => {
