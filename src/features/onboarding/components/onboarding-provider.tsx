@@ -16,6 +16,14 @@ const TOUR_STEPS: Step[] = [
 		skipBeacon: true,
 	},
 	{
+		target: "#global-search-trigger",
+		placement: "bottom",
+		title: "Global Search",
+		content:
+			"Press ⌘K or click here anytime to instantly search for people, pages, or settings across the app.",
+		skipBeacon: true,
+	},
+	{
 		target: "a[href='/manage']",
 		placement: "bottom",
 		title: "Your People",
