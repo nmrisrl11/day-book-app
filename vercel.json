@@ -5,7 +5,7 @@
 			"destination": "/api/og-rewriter"
 		},
 		{
-			"source": "/(.*)",
+			"source": "/(manage|invitations|settings|about|install)",
 			"destination": "/index.html"
 		}
 	]

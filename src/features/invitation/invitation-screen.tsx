@@ -1,4 +1,5 @@
 import { AnimatedLogo } from "@/components/icons/animated-logo";
+import { SEO } from "@/components/seo/seo";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -57,37 +58,40 @@ export function InvitationScreen() {
 
 	if (!token || !invitation) {
 		return (
-			<main className="flex min-h-[75vh] flex-col items-center justify-center space-y-8 p-6 text-center">
-				<motion.div
-					initial={{ scale: 0.8, opacity: 0 }}
-					animate={{ scale: 1, opacity: 1 }}
-					transition={{ type: "spring", bounce: 0.5 }}
-					className="flex justify-center"
-				>
-					<AnimatedLogo
-						key="warning"
-						autoPlay
-						variant="warning"
-						type="icon"
-						className="h-24 w-24 sm:h-32 sm:w-32"
-						iconClassName="h-full w-full drop-shadow-sm"
-					/>
-				</motion.div>
+			<>
+				<SEO title="Invitation Expired" canonical="/invite" robots="noindex" />
+				<main className="flex min-h-[75vh] flex-col items-center justify-center space-y-8 p-6 text-center">
+					<motion.div
+						initial={{ scale: 0.8, opacity: 0 }}
+						animate={{ scale: 1, opacity: 1 }}
+						transition={{ type: "spring", bounce: 0.5 }}
+						className="flex justify-center"
+					>
+						<AnimatedLogo
+							key="warning"
+							autoPlay
+							variant="warning"
+							type="icon"
+							className="h-24 w-24 sm:h-32 sm:w-32"
+							iconClassName="h-full w-full drop-shadow-sm"
+						/>
+					</motion.div>
 
-				<div className="space-y-3">
-					<h1 className="text-foreground text-3xl font-extrabold tracking-tight sm:text-4xl">
-						Link Expired
-					</h1>
-					<p className="text-muted-foreground mx-auto max-w-md text-lg">
-						This invitation is no longer valid. It may have expired or been corrupted. Ask your
-						friend for a new link!
-					</p>
-				</div>
+					<div className="space-y-3">
+						<h1 className="text-foreground text-3xl font-extrabold tracking-tight sm:text-4xl">
+							Link Expired
+						</h1>
+						<p className="text-muted-foreground mx-auto max-w-md text-lg">
+							This invitation is no longer valid. It may have expired or been corrupted. Ask your
+							friend for a new link!
+						</p>
+					</div>
 
-				<Button asChild size="lg" className="mt-4 transition-shadow hover:shadow-md">
-					<Link to="/">Back to Dashboard</Link>
-				</Button>
-			</main>
+					<Button asChild size="lg" className="mt-4 transition-shadow hover:shadow-md">
+						<Link to="/">Back to Dashboard</Link>
+					</Button>
+				</main>
+			</>
 		);
 	}
 
@@ -123,6 +127,98 @@ export function InvitationScreen() {
 
 	if (responseLink) {
 		return (
+			<>
+				<SEO title="Birthday Shared!" canonical="/invite" robots="noindex" />
+				<motion.div
+					initial={{ opacity: 0, y: 20 }}
+					animate={{ opacity: 1, y: 0 }}
+					transition={{ duration: 0.4, ease: "easeOut" }}
+					className="relative flex w-full flex-col items-center justify-center pt-10 pb-20"
+				>
+					<div className="bg-card shadow-primary/5 flex w-full max-w-md flex-col gap-6 rounded-2xl border p-6 shadow-xl sm:p-8">
+						<div className="flex flex-col items-center gap-2 text-center">
+							<AnimatedLogo
+								key="share"
+								autoPlay
+								variant="share"
+								type="icon"
+								animationType="confetti"
+								className="mb-4"
+								iconClassName="h-24 w-24 drop-shadow-sm"
+							/>
+							<h2 className="text-2xl font-bold tracking-tight">
+								Your birthday is ready to share!
+							</h2>
+							<p className="text-muted-foreground">
+								Send this link back to <strong>{invitation.n}</strong> so they can remember your
+								special day.
+							</p>
+						</div>
+
+						<div className="flex w-full min-w-0 flex-col gap-5 pt-2">
+							<div className="flex w-full min-w-0 flex-col gap-3">
+								<div className="bg-muted relative flex w-full min-w-0 flex-col gap-1.5 overflow-hidden rounded-xl p-3.5 pr-12">
+									<Label className="text-muted-foreground shrink-0 text-[10px] font-bold uppercase tracking-wider">
+										Response Link
+									</Label>
+									<p className="overflow-hidden text-sm font-medium text-ellipsis whitespace-nowrap">
+										{responseLink}
+									</p>
+									<Button
+										variant="ghost"
+										size="icon"
+										className={cn(
+											"absolute top-2 right-2 h-8 w-8 transition-colors",
+											copied
+												? "text-green-600 hover:bg-green-100 hover:text-green-600 dark:hover:bg-green-900/30"
+												: "text-muted-foreground hover:text-foreground",
+										)}
+										onClick={handleCopy}
+										title="Copy link"
+										aria-label="Copy link"
+									>
+										{copied ? (
+											<CheckIcon className="h-4 w-4" aria-hidden="true" />
+										) : (
+											<CopyIcon className="h-4 w-4" aria-hidden="true" />
+										)}
+									</Button>
+								</div>
+
+								{typeof navigator !== "undefined" && "share" in navigator && (
+									<Button
+										variant="outline"
+										size="lg"
+										onClick={handleShare}
+										className="w-full text-base font-medium"
+									>
+										<ShareIcon className="mr-2 h-4 w-4" aria-hidden="true" />
+										Share Link
+									</Button>
+								)}
+							</div>
+
+							<div className="bg-primary/5 text-primary mt-1 rounded-lg p-3.5 text-xs leading-relaxed border border-primary/10">
+								<strong className="font-semibold block mb-1">Privacy Note</strong>
+								This is a local-first application. The link contains your encoded name and birthday
+								and expires in 12 hours. <strong>Do not post this link publicly.</strong> Only share
+								it privately with people you trust.
+							</div>
+						</div>
+					</div>
+				</motion.div>
+			</>
+		);
+	}
+
+	return (
+		<>
+			<SEO
+				title="Birthday Invitation"
+				description="Help a friend remember your birthday using DayBook."
+				canonical="/invite"
+				robots="noindex"
+			/>
 			<motion.div
 				initial={{ opacity: 0, y: 20 }}
 				animate={{ opacity: 1, y: 0 }}
@@ -132,238 +228,159 @@ export function InvitationScreen() {
 				<div className="bg-card shadow-primary/5 flex w-full max-w-md flex-col gap-6 rounded-2xl border p-6 shadow-xl sm:p-8">
 					<div className="flex flex-col items-center gap-2 text-center">
 						<AnimatedLogo
-							key="share"
+							key="invite"
 							autoPlay
-							variant="share"
+							variant="invite"
 							type="icon"
-							animationType="confetti"
-							className="mb-4"
+							className="mb-2"
 							iconClassName="h-24 w-24 drop-shadow-sm"
 						/>
-						<h2 className="text-2xl font-bold tracking-tight">Your birthday is ready to share!</h2>
+						<h2 className="text-2xl font-bold tracking-tight">
+							Help {invitation.n} remember your birthday
+						</h2>
 						<p className="text-muted-foreground">
-							Send this link back to <strong>{invitation.n}</strong> so they can remember your
-							special day.
+							Enter your information below so they can add you to their {APP_INFO.name}.
 						</p>
 					</div>
 
-					<div className="flex w-full min-w-0 flex-col gap-5 pt-2">
-						<div className="flex w-full min-w-0 flex-col gap-3">
-							<div className="bg-muted relative flex w-full min-w-0 flex-col gap-1.5 overflow-hidden rounded-xl p-3.5 pr-12">
-								<Label className="text-muted-foreground shrink-0 text-[10px] font-bold uppercase tracking-wider">
-									Response Link
-								</Label>
-								<p className="overflow-hidden text-sm font-medium text-ellipsis whitespace-nowrap">
-									{responseLink}
+					<form
+						onSubmit={(e) => void handleSubmit(onSubmit, onError)(e)}
+						className="flex flex-col gap-5 pt-2"
+					>
+						<div className="flex flex-col gap-2">
+							<Label htmlFor="name">Name or nickname</Label>
+							<Input
+								id="name"
+								{...register("name")}
+								placeholder="e.g. Sarah"
+								autoComplete="off"
+								autoFocus
+								minLength={NAME_MIN_LENGTH}
+								maxLength={NAME_MAX_LENGTH}
+							/>
+							{errors.name && (
+								<p className="text-destructive text-sm font-medium" role="alert">
+									{errors.name.message}
 								</p>
-								<Button
-									variant="ghost"
-									size="icon"
-									className={cn(
-										"absolute top-2 right-2 h-8 w-8 transition-colors",
-										copied
-											? "text-green-600 hover:bg-green-100 hover:text-green-600 dark:hover:bg-green-900/30"
-											: "text-muted-foreground hover:text-foreground",
-									)}
-									onClick={handleCopy}
-									title="Copy link"
-									aria-label="Copy link"
-								>
-									{copied ? (
-										<CheckIcon className="h-4 w-4" aria-hidden="true" />
-									) : (
-										<CopyIcon className="h-4 w-4" aria-hidden="true" />
-									)}
-								</Button>
-							</div>
-
-							{typeof navigator !== "undefined" && "share" in navigator && (
-								<Button
-									variant="outline"
-									size="lg"
-									onClick={handleShare}
-									className="w-full text-base font-medium"
-								>
-									<ShareIcon className="mr-2 h-4 w-4" aria-hidden="true" />
-									Share Link
-								</Button>
 							)}
 						</div>
 
-						<div className="bg-primary/5 text-primary mt-1 rounded-lg p-3.5 text-xs leading-relaxed border border-primary/10">
-							<strong className="font-semibold block mb-1">Privacy Note</strong>
-							This is a local-first application. The link contains your encoded name and birthday
-							and expires in 12 hours. <strong>Do not post this link publicly.</strong> Only share
-							it privately with people you trust.
-						</div>
-					</div>
-				</div>
-			</motion.div>
-		);
-	}
-
-	return (
-		<motion.div
-			initial={{ opacity: 0, y: 20 }}
-			animate={{ opacity: 1, y: 0 }}
-			transition={{ duration: 0.4, ease: "easeOut" }}
-			className="relative flex w-full flex-col items-center justify-center pt-10 pb-20"
-		>
-			<div className="bg-card shadow-primary/5 flex w-full max-w-md flex-col gap-6 rounded-2xl border p-6 shadow-xl sm:p-8">
-				<div className="flex flex-col items-center gap-2 text-center">
-					<AnimatedLogo
-						key="invite"
-						autoPlay
-						variant="invite"
-						type="icon"
-						className="mb-2"
-						iconClassName="h-24 w-24 drop-shadow-sm"
-					/>
-					<h2 className="text-2xl font-bold tracking-tight">
-						Help {invitation.n} remember your birthday
-					</h2>
-					<p className="text-muted-foreground">
-						Enter your information below so they can add you to their {APP_INFO.name}.
-					</p>
-				</div>
-
-				<form
-					onSubmit={(e) => void handleSubmit(onSubmit, onError)(e)}
-					className="flex flex-col gap-5 pt-2"
-				>
-					<div className="flex flex-col gap-2">
-						<Label htmlFor="name">Name or nickname</Label>
-						<Input
-							id="name"
-							{...register("name")}
-							placeholder="e.g. Sarah"
-							autoComplete="off"
-							autoFocus
-							minLength={NAME_MIN_LENGTH}
-							maxLength={NAME_MAX_LENGTH}
-						/>
-						{errors.name && (
-							<p className="text-destructive text-sm font-medium" role="alert">
-								{errors.name.message}
-							</p>
-						)}
-					</div>
-
-					<div className="flex flex-col gap-2">
-						<Label htmlFor="birthday">When's your birthday?</Label>
-						<Input
-							id="birthday"
-							type="date"
-							{...register("birthday")}
-							className="dark:scheme-dark"
-							autoComplete="off"
-						/>
-						{errors.birthday && (
-							<p className="text-destructive text-sm font-medium" role="alert">
-								{errors.birthday.message}
-							</p>
-						)}
-					</div>
-
-					<div className="flex flex-col gap-2 pt-2">
-						<div className="flex items-center justify-between">
-							<Label htmlFor="giftIdea">Gift Ideas / Wish List (Optional)</Label>
-							<span className="text-muted-foreground text-xs">
-								{giftIdeas.length}/{GIFT_IDEA_MAX_COUNT}
-							</span>
-						</div>
-						<p className="text-muted-foreground text-xs">Share things you'd love to receive!</p>
-
-						{giftIdeas.length > 0 && (
-							<div className="mb-2 flex flex-wrap gap-2">
-								{giftIdeas.map((idea) => (
-									<div
-										key={idea}
-										className="bg-primary/10 text-primary flex h-auto max-w-full items-center gap-1.5 whitespace-normal wrap-break-word rounded-2xl px-3 py-1 text-left text-xs font-medium"
-									>
-										<span className="min-w-0 flex-1 wrap-break-word">{idea}</span>
-										<button
-											type="button"
-											aria-label={`Remove gift idea: ${idea}`}
-											onClick={() => {
-												setValue(
-													"giftIdeas",
-													giftIdeas.filter((g) => g !== idea),
-													{ shouldValidate: true },
-												);
-											}}
-											className="hover:bg-primary/20 rounded-full p-0.5"
-											title={`Remove gift idea: ${idea}`}
-										>
-											<XIcon className="h-3 w-3" aria-hidden="true" />
-										</button>
-									</div>
-								))}
-							</div>
-						)}
-
-						<div className="flex gap-2">
+						<div className="flex flex-col gap-2">
+							<Label htmlFor="birthday">When's your birthday?</Label>
 							<Input
-								id="giftIdea"
-								value={giftIdeaInput}
-								onChange={(e) => setGiftIdeaInput(e.target.value)}
-								placeholder="e.g. Favorite coffee beans"
+								id="birthday"
+								type="date"
+								{...register("birthday")}
+								className="dark:scheme-dark"
 								autoComplete="off"
-								maxLength={GIFT_IDEA_MAX_LENGTH}
-								disabled={giftIdeas.length >= GIFT_IDEA_MAX_COUNT}
-								onKeyDown={(e) => {
-									if (e.key === "Enter") {
+							/>
+							{errors.birthday && (
+								<p className="text-destructive text-sm font-medium" role="alert">
+									{errors.birthday.message}
+								</p>
+							)}
+						</div>
+
+						<div className="flex flex-col gap-2 pt-2">
+							<div className="flex items-center justify-between">
+								<Label htmlFor="giftIdea">Gift Ideas / Wish List (Optional)</Label>
+								<span className="text-muted-foreground text-xs">
+									{giftIdeas.length}/{GIFT_IDEA_MAX_COUNT}
+								</span>
+							</div>
+							<p className="text-muted-foreground text-xs">Share things you'd love to receive!</p>
+
+							{giftIdeas.length > 0 && (
+								<div className="mb-2 flex flex-wrap gap-2">
+									{giftIdeas.map((idea) => (
+										<div
+											key={idea}
+											className="bg-primary/10 text-primary flex h-auto max-w-full items-center gap-1.5 whitespace-normal wrap-break-word rounded-2xl px-3 py-1 text-left text-xs font-medium"
+										>
+											<span className="min-w-0 flex-1 wrap-break-word">{idea}</span>
+											<button
+												type="button"
+												aria-label={`Remove gift idea: ${idea}`}
+												onClick={() => {
+													setValue(
+														"giftIdeas",
+														giftIdeas.filter((g) => g !== idea),
+														{ shouldValidate: true },
+													);
+												}}
+												className="hover:bg-primary/20 rounded-full p-0.5"
+												title={`Remove gift idea: ${idea}`}
+											>
+												<XIcon className="h-3 w-3" aria-hidden="true" />
+											</button>
+										</div>
+									))}
+								</div>
+							)}
+
+							<div className="flex gap-2">
+								<Input
+									id="giftIdea"
+									value={giftIdeaInput}
+									onChange={(e) => setGiftIdeaInput(e.target.value)}
+									placeholder="e.g. Favorite coffee beans"
+									autoComplete="off"
+									maxLength={GIFT_IDEA_MAX_LENGTH}
+									disabled={giftIdeas.length >= GIFT_IDEA_MAX_COUNT}
+									onKeyDown={(e) => {
+										if (e.key === "Enter") {
+											e.preventDefault();
+											const trimmed = giftIdeaInput.trim();
+											if (
+												trimmed &&
+												trimmed.length <= GIFT_IDEA_MAX_LENGTH &&
+												giftIdeas.length < GIFT_IDEA_MAX_COUNT &&
+												!giftIdeas.includes(trimmed)
+											) {
+												setValue("giftIdeas", [...giftIdeas, trimmed], { shouldValidate: true });
+												setGiftIdeaInput("");
+											}
+										}
+									}}
+								/>
+								<Button
+									type="button"
+									size="icon"
+									variant="secondary"
+									aria-label="Add gift idea"
+									title="Add gift idea"
+									className="shrink-0"
+									disabled={giftIdeas.length >= GIFT_IDEA_MAX_COUNT || !giftIdeaInput.trim()}
+									onClick={(e) => {
 										e.preventDefault();
 										const trimmed = giftIdeaInput.trim();
 										if (
 											trimmed &&
-											trimmed.length <= GIFT_IDEA_MAX_LENGTH &&
 											giftIdeas.length < GIFT_IDEA_MAX_COUNT &&
+											trimmed.length <= GIFT_IDEA_MAX_LENGTH &&
 											!giftIdeas.includes(trimmed)
 										) {
 											setValue("giftIdeas", [...giftIdeas, trimmed], { shouldValidate: true });
 											setGiftIdeaInput("");
 										}
-									}
-								}}
-							/>
-							<Button
-								type="button"
-								size="icon"
-								variant="secondary"
-								aria-label="Add gift idea"
-								title="Add gift idea"
-								className="shrink-0"
-								disabled={giftIdeas.length >= GIFT_IDEA_MAX_COUNT || !giftIdeaInput.trim()}
-								onClick={(e) => {
-									e.preventDefault();
-									const trimmed = giftIdeaInput.trim();
-									if (
-										trimmed &&
-										giftIdeas.length < GIFT_IDEA_MAX_COUNT &&
-										trimmed.length <= GIFT_IDEA_MAX_LENGTH &&
-										!giftIdeas.includes(trimmed)
-									) {
-										setValue("giftIdeas", [...giftIdeas, trimmed], { shouldValidate: true });
-										setGiftIdeaInput("");
-									}
-								}}
-							>
-								<PlusIcon className="h-4 w-4" aria-hidden="true" />
-							</Button>
+									}}
+								>
+									<PlusIcon className="h-4 w-4" aria-hidden="true" />
+								</Button>
+							</div>
+							{errors.giftIdeas && (
+								<p className="text-destructive text-sm font-medium mt-1" role="alert">
+									{errors.giftIdeas.message}
+								</p>
+							)}
 						</div>
-						{errors.giftIdeas && (
-							<p className="text-destructive text-sm font-medium mt-1" role="alert">
-								{errors.giftIdeas.message}
-							</p>
-						)}
-					</div>
 
-					<Button type="submit" size="lg" className="mt-4 w-full text-base font-medium">
-						Save & Share
-					</Button>
-				</form>
-			</div>
-		</motion.div>
+						<Button type="submit" size="lg" className="mt-4 w-full text-base font-medium">
+							Save & Share
+						</Button>
+					</form>
+				</div>
+			</motion.div>
+		</>
 	);
 }
