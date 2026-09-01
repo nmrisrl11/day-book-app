@@ -1,3 +1,4 @@
+import { SEO } from "@/components/seo/seo";
 import { AnimateIcon } from "@/components/ui/animate-icon";
 import { MessageSquareIcon } from "@/components/ui/animated-icons/message-square-icon";
 import { PaintbrushIcon } from "@/components/ui/animated-icons/paintbrush-icon";
@@ -141,187 +142,190 @@ export function SettingsScreen() {
 	];
 
 	return (
-		<div className="animate-in fade-in slide-in-from-bottom-4 mx-auto flex w-full max-w-5xl flex-col gap-6 pb-12 duration-500">
-			<div className="flex items-center gap-4">
-				<Button
-					variant="ghost"
-					size="icon"
-					onClick={() => navigate(-1)}
-					className="shrink-0"
-					aria-label="Go back"
-				>
-					<ArrowLeftIcon className="h-5 w-5" aria-hidden="true" />
-				</Button>
-				<div>
-					<h1 className="text-2xl font-bold tracking-tight">Settings</h1>
-					<p className="text-muted-foreground">Manage your preferences and data.</p>
-				</div>
-			</div>
-
-			<Tabs
-				value={activeTab}
-				onValueChange={setActiveTab}
-				orientation={isDesktop ? "vertical" : "horizontal"}
-				className="relative flex flex-col gap-8 md:flex-row"
-			>
-				<div className="relative w-full max-w-full shrink-0 md:sticky md:top-6 md:h-fit md:w-64 md:self-start">
-					<div className="from-background pointer-events-none absolute inset-y-0 left-0 z-10 w-8 bg-linear-to-r to-transparent md:hidden" />
-					<div className="from-background pointer-events-none absolute inset-y-0 right-0 z-10 w-8 bg-linear-to-l to-transparent md:hidden" />
-					<ScrollArea orientation="horizontal" className="w-full">
-						<TabsList
-							variant="line"
-							className="border-border relative flex h-auto w-max snap-x justify-start gap-2 px-4 pb-2 md:w-full md:flex-col md:border-r md:px-0 md:pr-6 md:pb-0"
-						>
-							{tabs.map((tab) => (
-								<AnimatedTabTrigger key={tab.id} tab={tab} isActiveTab={activeTab === tab.id} />
-							))}
-						</TabsList>
-					</ScrollArea>
-				</div>
-
-				<div className="min-w-0 flex-1">
-					<div className="border-border bg-card flex flex-col gap-8 rounded-xl border p-6 shadow-sm">
-						<Suspense
-							fallback={<div className="bg-muted/50 h-100 w-full animate-pulse rounded-xl" />}
-						>
-							<div className="flex flex-col gap-8">
-								<TabsContent value="appearance" className="space-y-6">
-									<ThemeSection />
-									<DisplaySettingsSection />
-								</TabsContent>
-								<TabsContent value="main-greeting">
-									{birthdays === undefined ? (
-										<div className="bg-muted/50 h-64 w-full animate-pulse rounded-xl" />
-									) : birthdays.length > 0 ? (
-										<MainGreetingSection />
-									) : (
-										<div className="flex flex-col items-center justify-center py-12 text-center">
-											<StarIcon
-												className="text-muted-foreground/50 mb-4 h-12 w-12"
-												aria-hidden="true"
-											/>
-											<h3 className="text-foreground mb-2 text-lg font-semibold">
-												No Birthdays Added
-											</h3>
-											<p className="text-muted-foreground mb-6 max-w-sm text-sm">
-												You need to add at least one birthday to customize the main greeting.
-											</p>
-											<Button onClick={() => navigate("/manage?action=new")} variant="default">
-												Add a Person
-											</Button>
-										</div>
-									)}
-								</TabsContent>
-								<TabsContent value="avatar">
-									<AvatarSettingsSection />
-								</TabsContent>
-								<TabsContent value="messages" className="space-y-6">
-									{birthdays === undefined ? (
-										<div className="bg-muted/50 h-64 w-full animate-pulse rounded-xl" />
-									) : birthdays.length > 0 ? (
-										<>
-											<FloatingMessagesManager />
-											<GreetingsManager />
-										</>
-									) : (
-										<div className="flex flex-col items-center justify-center py-12 text-center">
-											<MessageSquareIcon
-												className="text-muted-foreground/50 mb-4 h-12 w-12"
-												aria-hidden="true"
-											/>
-											<h3 className="text-foreground mb-2 text-lg font-semibold">
-												No Birthdays Added
-											</h3>
-											<p className="text-muted-foreground mb-6 max-w-sm text-sm">
-												You need to add at least one birthday to manage floating messages and
-												greetings.
-											</p>
-											<Button onClick={() => navigate("/manage?action=new")} variant="default">
-												Add a Person
-											</Button>
-										</div>
-									)}
-								</TabsContent>
-								<TabsContent value="sounds">
-									<SoundSettingsSection />
-								</TabsContent>
-								<TabsContent value="data" className="space-y-6">
-									<DataManagementSection
-										onDeleteAllClick={() => {
-											setDeleteTarget("birthdays");
-											setDeleteModalOpen(true);
-										}}
-										onDeleteAllInvitationsClick={() => {
-											setDeleteTarget("invitations");
-											setDeleteModalOpen(true);
-										}}
-										birthdaysCount={birthdays?.length || 0}
-										invitationsCount={invitations.length}
-									/>
-								</TabsContent>
-							</div>
-						</Suspense>
+		<>
+			<SEO title="Settings" canonical="/settings" />
+			<div className="animate-in fade-in slide-in-from-bottom-4 mx-auto flex w-full max-w-5xl flex-col gap-6 pb-12 duration-500">
+				<div className="flex items-center gap-4">
+					<Button
+						variant="ghost"
+						size="icon"
+						onClick={() => navigate(-1)}
+						className="shrink-0"
+						aria-label="Go back"
+					>
+						<ArrowLeftIcon className="h-5 w-5" aria-hidden="true" />
+					</Button>
+					<div>
+						<h1 className="text-2xl font-bold tracking-tight">Settings</h1>
+						<p className="text-muted-foreground">Manage your preferences and data.</p>
 					</div>
 				</div>
-			</Tabs>
 
-			{deleteModalOpen && (
-				<Suspense fallback={null}>
-					<ActionConfirmationModal
-						open={deleteModalOpen}
-						onOpenChange={(open) => {
-							setDeleteModalOpen(open);
-							if (!open) setDeleteTarget(null);
-						}}
-						title={`Delete All ${deleteTarget === "invitations" ? "Invitations" : "Birthdays"}`}
-						description={
-							<div className="flex flex-col gap-4">
-								<p>
-									Are you sure you want to delete{" "}
-									<span className="text-foreground font-semibold">ALL</span>{" "}
-									{deleteTarget === "invitations" ? "invitations" : "birthdays"}? This action cannot
-									be undone.
-								</p>
-								<div className="bg-muted/50 rounded-lg border p-3">
-									<p className="mb-3 text-sm">
-										Before deleting, you can export your data to a file as a backup.
-									</p>
-									<Button
-										variant="secondary"
-										onClick={handleExport}
-										aria-label="Export Data"
-										className="w-full"
-									>
-										<DownloadIcon className="mr-2 h-4 w-4" />
-										Export Data
-									</Button>
+				<Tabs
+					value={activeTab}
+					onValueChange={setActiveTab}
+					orientation={isDesktop ? "vertical" : "horizontal"}
+					className="relative flex flex-col gap-8 md:flex-row"
+				>
+					<div className="relative w-full max-w-full shrink-0 md:sticky md:top-6 md:h-fit md:w-64 md:self-start">
+						<div className="from-background pointer-events-none absolute inset-y-0 left-0 z-10 w-8 bg-linear-to-r to-transparent md:hidden" />
+						<div className="from-background pointer-events-none absolute inset-y-0 right-0 z-10 w-8 bg-linear-to-l to-transparent md:hidden" />
+						<ScrollArea orientation="horizontal" className="w-full">
+							<TabsList
+								variant="line"
+								className="border-border relative flex h-auto w-max snap-x justify-start gap-2 px-4 pb-2 md:w-full md:flex-col md:border-r md:px-0 md:pr-6 md:pb-0"
+							>
+								{tabs.map((tab) => (
+									<AnimatedTabTrigger key={tab.id} tab={tab} isActiveTab={activeTab === tab.id} />
+								))}
+							</TabsList>
+						</ScrollArea>
+					</div>
+
+					<div className="min-w-0 flex-1">
+						<div className="border-border bg-card flex flex-col gap-8 rounded-xl border p-6 shadow-sm">
+							<Suspense
+								fallback={<div className="bg-muted/50 h-100 w-full animate-pulse rounded-xl" />}
+							>
+								<div className="flex flex-col gap-8">
+									<TabsContent value="appearance" className="space-y-6">
+										<ThemeSection />
+										<DisplaySettingsSection />
+									</TabsContent>
+									<TabsContent value="main-greeting">
+										{birthdays === undefined ? (
+											<div className="bg-muted/50 h-64 w-full animate-pulse rounded-xl" />
+										) : birthdays.length > 0 ? (
+											<MainGreetingSection />
+										) : (
+											<div className="flex flex-col items-center justify-center py-12 text-center">
+												<StarIcon
+													className="text-muted-foreground/50 mb-4 h-12 w-12"
+													aria-hidden="true"
+												/>
+												<h3 className="text-foreground mb-2 text-lg font-semibold">
+													No Birthdays Added
+												</h3>
+												<p className="text-muted-foreground mb-6 max-w-sm text-sm">
+													You need to add at least one birthday to customize the main greeting.
+												</p>
+												<Button onClick={() => navigate("/manage?action=new")} variant="default">
+													Add a Person
+												</Button>
+											</div>
+										)}
+									</TabsContent>
+									<TabsContent value="avatar">
+										<AvatarSettingsSection />
+									</TabsContent>
+									<TabsContent value="messages" className="space-y-6">
+										{birthdays === undefined ? (
+											<div className="bg-muted/50 h-64 w-full animate-pulse rounded-xl" />
+										) : birthdays.length > 0 ? (
+											<>
+												<FloatingMessagesManager />
+												<GreetingsManager />
+											</>
+										) : (
+											<div className="flex flex-col items-center justify-center py-12 text-center">
+												<MessageSquareIcon
+													className="text-muted-foreground/50 mb-4 h-12 w-12"
+													aria-hidden="true"
+												/>
+												<h3 className="text-foreground mb-2 text-lg font-semibold">
+													No Birthdays Added
+												</h3>
+												<p className="text-muted-foreground mb-6 max-w-sm text-sm">
+													You need to add at least one birthday to manage floating messages and
+													greetings.
+												</p>
+												<Button onClick={() => navigate("/manage?action=new")} variant="default">
+													Add a Person
+												</Button>
+											</div>
+										)}
+									</TabsContent>
+									<TabsContent value="sounds">
+										<SoundSettingsSection />
+									</TabsContent>
+									<TabsContent value="data" className="space-y-6">
+										<DataManagementSection
+											onDeleteAllClick={() => {
+												setDeleteTarget("birthdays");
+												setDeleteModalOpen(true);
+											}}
+											onDeleteAllInvitationsClick={() => {
+												setDeleteTarget("invitations");
+												setDeleteModalOpen(true);
+											}}
+											birthdaysCount={birthdays?.length || 0}
+											invitationsCount={invitations.length}
+										/>
+									</TabsContent>
 								</div>
-							</div>
-						}
-						footer={
-							<>
-								<Button
-									id="cancel-delete-btn"
-									variant="ghost"
-									onClick={() => {
-										setDeleteModalOpen(false);
-										setDeleteTarget(null);
-									}}
-								>
-									Cancel
-								</Button>
-								<Button
-									variant="destructive"
-									onClick={handleConfirmDeleteAll}
-									aria-label="Delete All"
-								>
-									Delete All
-								</Button>
-							</>
-						}
-					/>
-				</Suspense>
-			)}
-		</div>
+							</Suspense>
+						</div>
+					</div>
+				</Tabs>
+
+				{deleteModalOpen && (
+					<Suspense fallback={null}>
+						<ActionConfirmationModal
+							open={deleteModalOpen}
+							onOpenChange={(open) => {
+								setDeleteModalOpen(open);
+								if (!open) setDeleteTarget(null);
+							}}
+							title={`Delete All ${deleteTarget === "invitations" ? "Invitations" : "Birthdays"}`}
+							description={
+								<div className="flex flex-col gap-4">
+									<p>
+										Are you sure you want to delete{" "}
+										<span className="text-foreground font-semibold">ALL</span>{" "}
+										{deleteTarget === "invitations" ? "invitations" : "birthdays"}? This action
+										cannot be undone.
+									</p>
+									<div className="bg-muted/50 rounded-lg border p-3">
+										<p className="mb-3 text-sm">
+											Before deleting, you can export your data to a file as a backup.
+										</p>
+										<Button
+											variant="secondary"
+											onClick={handleExport}
+											aria-label="Export Data"
+											className="w-full"
+										>
+											<DownloadIcon className="mr-2 h-4 w-4" />
+											Export Data
+										</Button>
+									</div>
+								</div>
+							}
+							footer={
+								<>
+									<Button
+										id="cancel-delete-btn"
+										variant="ghost"
+										onClick={() => {
+											setDeleteModalOpen(false);
+											setDeleteTarget(null);
+										}}
+									>
+										Cancel
+									</Button>
+									<Button
+										variant="destructive"
+										onClick={handleConfirmDeleteAll}
+										aria-label="Delete All"
+									>
+										Delete All
+									</Button>
+								</>
+							}
+						/>
+					</Suspense>
+				)}
+			</div>
+		</>
 	);
 }

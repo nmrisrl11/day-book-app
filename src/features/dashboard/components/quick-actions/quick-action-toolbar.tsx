@@ -27,6 +27,12 @@ export function QuickActionToolbar({ hasCelebrants = false }: { hasCelebrants?: 
 		return () => window.removeEventListener("resize", checkMobile);
 	}, []);
 
+	const [isPulsing, setIsPulsing] = useState(true);
+	useEffect(() => {
+		const timer = setTimeout(() => setIsPulsing(false), 3000);
+		return () => clearTimeout(timer);
+	}, []);
+
 	if (!isEnabled) return null;
 
 	const actualPosition = isMobile ? "bottom-right" : position;
@@ -132,6 +138,17 @@ export function QuickActionToolbar({ hasCelebrants = false }: { hasCelebrants?: 
 					aria-label="Open Quick Actions"
 				>
 					<ChevronIcon className="text-muted-foreground h-4 w-4" />
+					<span
+						className={cn(
+							"absolute flex h-2.5 w-2.5",
+							isLeft ? "-right-1 -top-1" : "-left-1 -top-1",
+						)}
+					>
+						{isPulsing && (
+							<span className="bg-primary absolute inline-flex h-full w-full animate-ping rounded-full opacity-75" />
+						)}
+						<span className="bg-primary relative inline-flex h-2.5 w-2.5 rounded-full" />
+					</span>
 				</motion.button>
 			) : (
 				<motion.div
