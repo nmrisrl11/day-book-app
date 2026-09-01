@@ -1,4 +1,3 @@
-import { SEO } from "@/components/seo/seo";
 import { OnboardingProvider } from "@/features/onboarding/components/onboarding-provider";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
@@ -101,7 +100,6 @@ function App() {
 
 	return (
 		<>
-			<SEO />
 			<BrowserRouter>
 				<NuqsAdapter>
 					<OnboardingProvider>

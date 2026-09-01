@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 export function NotFoundScreen() {
 	return (
 		<>
-			<SEO title="Page Not Found" />
+			<SEO title="Page Not Found" robots="noindex" />
 			<main className="flex min-h-[75vh] flex-col items-center justify-center space-y-8 p-6 text-center">
 				<motion.div
 					initial={{ scale: 0.8, opacity: 0 }}

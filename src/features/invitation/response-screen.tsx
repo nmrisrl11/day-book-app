@@ -35,7 +35,7 @@ export function ResponseScreen() {
 	if (!token || !response) {
 		return (
 			<>
-				<SEO title="Response Expired" canonical="/invite/response" />
+				<SEO title="Response Expired" canonical="/invite/response" robots="noindex" />
 				<main className="flex min-h-[75vh] flex-col items-center justify-center space-y-8 p-6 text-center">
 					<motion.div
 						initial={{ scale: 0.8, opacity: 0 }}
@@ -95,7 +95,7 @@ export function ResponseScreen() {
 	if (added) {
 		return (
 			<>
-				<SEO title="Birthday Added" canonical="/invite/response" />
+				<SEO title="Birthday Added" canonical="/invite/response" robots="noindex" />
 				<motion.div
 					initial={{ opacity: 0, y: 20 }}
 					animate={{ opacity: 1, y: 0 }}
@@ -175,9 +175,10 @@ export function ResponseScreen() {
 	return (
 		<>
 			<SEO
-				title={`${response.n}'s Birthday Response`}
-				description={`${response.n} shared their birthday with you.`}
+				title="Birthday Response"
+				description="A friend shared their birthday with you."
 				canonical="/invite/response"
+				robots="noindex"
 			/>
 			<motion.div
 				initial={{ opacity: 0, y: 20 }}

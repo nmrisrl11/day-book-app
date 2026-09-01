@@ -59,7 +59,7 @@ export function InvitationScreen() {
 	if (!token || !invitation) {
 		return (
 			<>
-				<SEO title="Invitation Expired" canonical="/invite" />
+				<SEO title="Invitation Expired" canonical="/invite" robots="noindex" />
 				<main className="flex min-h-[75vh] flex-col items-center justify-center space-y-8 p-6 text-center">
 					<motion.div
 						initial={{ scale: 0.8, opacity: 0 }}
@@ -128,7 +128,7 @@ export function InvitationScreen() {
 	if (responseLink) {
 		return (
 			<>
-				<SEO title="Birthday Shared!" canonical="/invite" />
+				<SEO title="Birthday Shared!" canonical="/invite" robots="noindex" />
 				<motion.div
 					initial={{ opacity: 0, y: 20 }}
 					animate={{ opacity: 1, y: 0 }}
@@ -214,9 +214,10 @@ export function InvitationScreen() {
 	return (
 		<>
 			<SEO
-				title={`Birthday Invitation from ${invitation.n}`}
-				description={`${invitation.n} wants to remember your birthday using DayBook.`}
+				title="Birthday Invitation"
+				description="Help a friend remember your birthday using DayBook."
 				canonical="/invite"
+				robots="noindex"
 			/>
 			<motion.div
 				initial={{ opacity: 0, y: 20 }}

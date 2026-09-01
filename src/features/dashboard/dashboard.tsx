@@ -30,7 +30,7 @@ export function Dashboard() {
 	if (birthdays.length === 0) {
 		return (
 			<>
-				<SEO />
+				<SEO canonical="/" />
 				<DashboardEmptyState />
 			</>
 		);
@@ -40,7 +40,7 @@ export function Dashboard() {
 
 	return (
 		<>
-			<SEO />
+			<SEO canonical="/" />
 			<div className="flex w-full flex-col items-center gap-16">
 				<h1 className="sr-only">Dashboard</h1>
 				<Suspense fallback={<DashboardRouteFallback />}>

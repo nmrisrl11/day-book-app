@@ -10,6 +10,10 @@
 
 ## Fixed
 
+- Resolved an issue where the Quick Actions tab pulse indicator wouldn't restart correctly when transitioning to the closed state.
+- Prevented search engines from indexing private invitation links by adding `noindex` directives and configuring strict 404 routing for unknown paths.
+- Restored fallback metadata tags in `index.html` and removed duplicate title rendering in the document head.
+
 ## Changed
 
 ## Removed

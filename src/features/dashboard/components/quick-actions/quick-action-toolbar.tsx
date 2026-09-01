@@ -27,11 +27,17 @@ export function QuickActionToolbar({ hasCelebrants = false }: { hasCelebrants?: 
 		return () => window.removeEventListener("resize", checkMobile);
 	}, []);
 
-	const [isPulsing, setIsPulsing] = useState(true);
+	const [isPulsing, setIsPulsing] = useState(false);
 	useEffect(() => {
-		const timer = setTimeout(() => setIsPulsing(false), 3000);
-		return () => clearTimeout(timer);
-	}, []);
+		if (!isEnabled) return;
+		if (!isOpen) {
+			setIsPulsing(true);
+			const timer = setTimeout(() => setIsPulsing(false), 3000);
+			return () => clearTimeout(timer);
+		} else {
+			setIsPulsing(false);
+		}
+	}, [isOpen, isEnabled]);
 
 	if (!isEnabled) return null;
 
