@@ -17,6 +17,7 @@ export interface EventCalendarToolbarProps {
 	className?: string;
 	controller: CalendarController;
 	availableViews: string[];
+	currentViewDate: Date;
 	addButton?: {
 		isPrimary?: boolean;
 		text?: string;
@@ -29,11 +30,11 @@ export function EventCalendarToolbar({
 	className,
 	controller,
 	availableViews,
+	currentViewDate,
 	addButton,
 }: EventCalendarToolbarProps) {
 	const buttons = controller.getButtonState();
 
-	const currentViewDate = controller.view?.currentStart;
 	const currentMonth = currentViewDate ? currentViewDate.getMonth() : new Date().getMonth();
 	const currentYear = currentViewDate ? currentViewDate.getFullYear() : new Date().getFullYear();
 

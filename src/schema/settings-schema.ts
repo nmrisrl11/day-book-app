@@ -89,6 +89,13 @@ export const SettingsSchema = z
 		lastBackupDate: z.string().optional(),
 		lastBackupReminderDismissedAt: z.string().optional(),
 		lastInstallPromptDismissedAt: z.string().optional(),
+		notificationSettings: z
+			.object({
+				enabled: z.boolean(),
+				remindDaysBefore: z.array(z.number().int().min(0)),
+			})
+			.strict()
+			.optional(),
 	})
 	.strict()
 	.superRefine((data, ctx) => {

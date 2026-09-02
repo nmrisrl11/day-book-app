@@ -1,4 +1,5 @@
 import { Logo } from "@/components/icons/logos/logo";
+import { NotificationMenu } from "@/components/notifications/notification-menu";
 import { Button } from "@/components/ui/button";
 import { useSearchStore } from "@/store/search-store";
 import { BookUserIcon, LinkIcon, SearchIcon, SettingsIcon } from "lucide-react";
@@ -56,6 +57,7 @@ export function PageLayout({ children }: PageLayoutProps) {
 					>
 						<SearchIcon aria-hidden="true" />
 					</Button>
+					<NotificationMenu />
 					{NAV_ITEMS.map((item) => {
 						const isActive =
 							location.pathname === item.path || location.pathname.startsWith(item.path + "/");

@@ -18,6 +18,7 @@ import { ResponseSkeleton } from "./features/invitation/components/response-skel
 import { ManageRouteFallback } from "./features/management/components/manage-route-fallback";
 import { PersonSkeleton } from "./features/person/components/person-skeleton";
 import { SettingsSkeleton } from "./features/settings/components/settings-skeleton";
+import { useNotificationEngine } from "./hooks/use-notification-engine";
 import { useDayBookStore } from "./store/day-book-store";
 import { useSearchStore } from "./store/search-store";
 
@@ -72,6 +73,7 @@ const GlobalSearch = lazy(() =>
 );
 
 function App() {
+	useNotificationEngine();
 	const settings = useDayBookStore((state) => state.settings);
 	const soundSettings = settings.soundSettings;
 	const { isOpen, toggle: toggleSearch } = useSearchStore();

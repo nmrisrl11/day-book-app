@@ -1,8 +1,13 @@
 import { cn } from "@/lib/utils";
-import { type CalendarOptions, useCalendarController } from "@fullcalendar/react";
+import {
+	type CalendarOptions,
+	type DatesSetInfo,
+	useCalendarController,
+} from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/react/daygrid";
 import interactionPlugin from "@fullcalendar/react/interaction";
 import { XIcon } from "lucide-react";
+import { useState } from "react";
 import { EventCalendarToolbar } from "./event-calendar-toolbar";
 import { EventCalendarViews } from "./event-calendar-views";
 
@@ -36,11 +41,17 @@ export function EventCalendar({
 	...restOptions
 }: EventCalendarProps) {
 	const controller = useCalendarController();
+	const [currentViewDate, setCurrentViewDate] = useState<Date | null>(null);
 
 	const hasBorderX = !(restOptions.borderlessX ?? restOptions.borderless);
 	const hasBorderTop = !(restOptions.borderlessTop ?? restOptions.borderless);
 	const hasBorderBottom = !(restOptions.borderlessBottom ?? restOptions.borderless);
 	const isHeightAuto = height === "auto" || contentHeight === "auto";
+
+	const handleDatesSet = (arg: DatesSetInfo) => {
+		setCurrentViewDate(arg.view.currentStart);
+		restOptions.datesSet?.(arg);
+	};
 
 	return (
 		<div
@@ -61,6 +72,7 @@ export function EventCalendar({
 				controller={controller}
 				availableViews={availableViews}
 				addButton={addButton}
+				currentViewDate={currentViewDate || controller.view?.currentStart || new Date()}
 			/>
 			<div className="min-h-0 grow">
 				<EventCalendarViews
@@ -72,6 +84,7 @@ export function EventCalendar({
 					plugins={[...plugins, ...userPlugins]}
 					popoverCloseContent={() => <XIcon className="h-4 w-4" />}
 					{...restOptions}
+					datesSet={handleDatesSet}
 				/>
 			</div>
 		</div>

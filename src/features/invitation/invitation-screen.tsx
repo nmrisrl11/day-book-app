@@ -215,7 +215,7 @@ export function InvitationScreen() {
 		<>
 			<SEO
 				title="Birthday Invitation"
-				description="Help a friend remember your birthday using DayBook."
+				description={`Help a friend remember your birthday using ${APP_INFO.name}.`}
 				canonical="/invite"
 				robots="noindex"
 			/>
