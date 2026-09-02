@@ -59,7 +59,6 @@ export function SettingsDataManagement() {
 				lastBackupDate: _lastBackupDate,
 				lastBackupReminderDismissedAt: _lastBackupReminderDismissedAt,
 				lastInstallPromptDismissedAt: _lastInstallPromptDismissedAt,
-				notificationSettings: _notificationSettings,
 				...safeSettingsToImport
 			} = importedSettings as Settings;
 

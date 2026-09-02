@@ -1,6 +1,6 @@
 # DayBook
 
-> DayBook is a stylish, lightweight, local-first web application designed to help you remember the people you love by keeping track of their birthdays, relationships, and special notes. It acts as a lightweight "People CRM." It is built with React 19, TypeScript, and Vite 6.
+> DayBook is a stylish, lightweight, local-first web application designed to help you remember the people you love by keeping track of their birthdays, relationships, and special notes. It acts as a lightweight "People CRM." It is built with React 19 (with React Compiler), TypeScript, and Vite 8.
 
 ## Official Links
 
@@ -13,18 +13,21 @@
 ## Core Architecture
 
 - **Local-First & Privacy-Focused**: All birthday, relationship, and settings data stays securely on your device using IndexedDB and `localStorage`. There is no backend database for user data.
-- **State Management**: Uses Zustand 5 for global state management.
+- **State Management**: Uses Zustand 5 for global state management and `nuqs` for URL state.
 - **Styling**: Tailwind CSS 4 with Radix UI (via shadcn/ui).
 - **PWA Integration**: Fully installable Progressive Web App with offline support and background updates via `vite-plugin-pwa` and Workbox.
+- **Performance**: Utilizes `@tanstack/react-virtual` for handling large lists and the React Compiler for automatic memoization.
 
 ## Key Features
 
 - **Relationship Tracking**: Store names, dates, relationship tags (e.g. Family, Friend, Colleague), and personal notes.
-- **Beautiful Dashboard**: Celebratory "Happy Birthday" section with confetti, upcoming birthdays list, and an interactive 12-month calendar grid.
+- **Beautiful Dashboard**: Celebratory "Happy Birthday" section with confetti, upcoming birthdays list, and an interactive 12-month calendar grid, alongside an immersive FullCalendar monthly view.
+- **Global Search**: An omnipresent Command Palette (`Ctrl+K` or `⌘K`) to instantly find people, navigate to pages, or jump to specific settings tabs.
 - **Rich Customization**: Theme toggling, typography, custom avatars, floating messages, and personalized greeting pools.
-- **Sound Feedback**: Configurable audio feedback for interactions using `cuelume`.
+- **Push Notifications & Feedback**: Native OS-level birthday reminders via Service Worker, plus configurable audio feedback for interactions using `cuelume` and delightful `goey-toast` notifications.
 - **Calendar Integration**: Export your birthdays to `.ics` files or add them directly to Google Calendar. ICS imports fully support restoring relationship tags and notes.
 - **Shareable Birthday Links**: Request your friends' birthdays effortlessly! Generate an invitation link, send it via chat, and process their response link directly into your local database. No backend required—links encode data via base64url.
+- **Device Sync (P2P)**: Securely sync your entire database directly between devices over your local network via WebRTC (PeerJS).
+- **Data Portability**: Full JSON export and import for both your birthday data and your application settings, featuring a visual diff preview for settings imports.
 - **Dynamic Social Previews**: Vercel Edge-powered dynamic Open Graph images tailored specifically for the Invitation and Response shareable links.
-- **Data Portability**: Full JSON export and import for both your birthday data and your application settings.
 - **Analytics**: Native Vercel Analytics and Speed Insights for basic usage and performance telemetry.

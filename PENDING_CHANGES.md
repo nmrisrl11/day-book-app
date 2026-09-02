@@ -4,7 +4,7 @@
 
 - Global Search (Command Palette) accessible via `Ctrl+K` or `⌘K` for quick navigation to pages, settings, and people.
 - Global Search shortcut button in the main navigation header.
-- Native OS push notification support via service worker for birthday reminders.
+- Complete birthday notification feature set: in-app birthday reminders, notification settings, notification menu actions, and native OS push support via the service worker (delivered while the app is running).
 
 ## Improved
 

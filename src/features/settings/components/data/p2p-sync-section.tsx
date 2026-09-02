@@ -133,7 +133,6 @@ export function P2PSyncSection() {
 					lastBackupDate: _lastBackupDate,
 					lastBackupReminderDismissedAt: _lastBackupReminderDismissedAt,
 					lastInstallPromptDismissedAt: _lastInstallPromptDismissedAt,
-					notificationSettings: _notificationSettings,
 					...safeSettingsToImport
 				} = parsedSettings;
 				useDayBookStore.getState().updateSettings(safeSettingsToImport);

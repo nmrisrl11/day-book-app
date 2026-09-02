@@ -27,47 +27,54 @@ export const BirthdayRepository = {
 	},
 
 	async update(id: string, updates: Partial<Birthday>): Promise<void> {
-		const oldRecord = await db.birthdays.get(id);
+		await db.transaction("rw", db.birthdays, db.notifications, async () => {
+			const oldRecord = await db.birthdays.get(id);
 
-		if (updates.birthday) {
-			const recordUpdates = this.toRecordUpdates(updates);
-			await db.birthdays.update(id, recordUpdates);
-		} else {
-			await db.birthdays.update(id, updates);
-		}
+			if (updates.birthday) {
+				const recordUpdates = this.toRecordUpdates(updates);
+				await db.birthdays.update(id, recordUpdates);
+			} else {
+				await db.birthdays.update(id, updates);
+			}
 
-		if (oldRecord) {
-			if (updates.birthday && updates.birthday !== oldRecord.birthday) {
-				// Birthday changed, delete all notifications so they get regenerated correctly for the new date
-				await db.notifications.where("personId").equals(id).delete();
-			} else if (updates.name && updates.name !== oldRecord.name) {
-				// Name changed, update the text inside existing notifications
-				const notifications = await db.notifications.where("personId").equals(id).toArray();
-				for (const n of notifications) {
-					const newMessage = n.message.replace(oldRecord.name, updates.name);
-					await db.notifications.update(n.id, { message: newMessage });
+			if (oldRecord) {
+				if (updates.birthday && updates.birthday !== oldRecord.birthday) {
+					// Birthday changed, delete all notifications so they get regenerated correctly for the new date
+					await db.notifications.where("personId").equals(id).delete();
+				} else if (updates.name && updates.name !== oldRecord.name) {
+					// Name changed, update the text inside existing notifications
+					const notifications = await db.notifications.where("personId").equals(id).toArray();
+					for (const n of notifications) {
+						const newMessage = n.message.replace(oldRecord.name, updates.name);
+						await db.notifications.update(n.id, { message: newMessage });
+					}
 				}
 			}
-		}
-
+		});
 		await this.updateHasDataHint();
 	},
 
 	async delete(id: string): Promise<void> {
-		await db.birthdays.delete(id);
-		await db.notifications.where("personId").equals(id).delete();
+		await db.transaction("rw", db.birthdays, db.notifications, async () => {
+			await db.birthdays.delete(id);
+			await db.notifications.where("personId").equals(id).delete();
+		});
 		await this.updateHasDataHint();
 	},
 
 	async deleteAll(): Promise<void> {
-		await db.birthdays.clear();
-		await db.notifications.clear();
+		await db.transaction("rw", db.birthdays, db.notifications, async () => {
+			await db.birthdays.clear();
+			await db.notifications.clear();
+		});
 		await this.updateHasDataHint();
 	},
 
 	async bulkDelete(ids: string[]): Promise<void> {
-		await db.birthdays.bulkDelete(ids);
-		await db.notifications.where("personId").anyOf(ids).delete();
+		await db.transaction("rw", db.birthdays, db.notifications, async () => {
+			await db.birthdays.bulkDelete(ids);
+			await db.notifications.where("personId").anyOf(ids).delete();
+		});
 		await this.updateHasDataHint();
 	},
 

@@ -92,7 +92,7 @@ export const SettingsSchema = z
 		notificationSettings: z
 			.object({
 				enabled: z.boolean(),
-				remindDaysBefore: z.array(z.number()),
+				remindDaysBefore: z.array(z.number().int().min(0)),
 			})
 			.strict()
 			.optional(),
