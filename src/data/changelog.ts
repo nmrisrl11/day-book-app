@@ -16,6 +16,45 @@ export interface ChangelogRelease {
 
 export const changelog: ChangelogRelease[] = [
 	{
+		version: "1.9.0",
+		date: "2026-09-02",
+		title: "Instant Search & Push Notifications",
+		summary:
+			"We've added a lightning-fast Global Search to instantly find anyone, complete support for native push notifications so you never miss a birthday, and a beautifully redesigned mobile navigation experience.",
+		changes: [
+			{
+				type: "added",
+				title: "Instant Global Search",
+				description:
+					"Quickly jump to any person, setting, or page from anywhere in the app using our lightning-fast search menu. Access it via the top header or simply press Ctrl+K (or ⌘K).",
+			},
+			{
+				type: "added",
+				title: "Never Miss a Birthday",
+				description:
+					"We've introduced a complete notification system! Get beautifully animated in-app reminders and opt-in to native push notifications to receive alerts straight to your device.",
+			},
+			{
+				type: "improved",
+				title: "Sleeker Mobile Navigation",
+				description:
+					"We've completely revamped the mobile experience with a new responsive bottom navigation bar, freeing up screen space and making the app feel more native.",
+			},
+			{
+				type: "improved",
+				title: "Dynamic Branding",
+				description:
+					"Enhanced the internal engine to dynamically manage branding elements and keep your analytics beautifully organized.",
+			},
+			{
+				type: "fixed",
+				title: "Polished Layouts",
+				description:
+					"Smoothed out minor visual quirks, fixed calendar synchronization glitches, and ensured avatars look pixel-perfect everywhere you go.",
+			},
+		],
+	},
+	{
 		version: "1.8.0",
 		date: "2026-09-01",
 		title: "Person Profiles & SEO Polish",
