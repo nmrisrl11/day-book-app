@@ -97,8 +97,8 @@ export function QuickActionToolbar({ hasCelebrants = false }: { hasCelebrants?: 
 	const positionClasses = {
 		"top-left": "top-20 left-4 md:top-24 md:left-6",
 		"top-right": "top-20 right-4 md:top-24 md:right-6",
-		"bottom-left": "bottom-4 left-4 md:bottom-6 md:left-6",
-		"bottom-right": "bottom-4 right-4 md:bottom-6 md:right-6",
+		"bottom-left": "bottom-20 left-4 md:bottom-6 md:left-6",
+		"bottom-right": "bottom-20 right-4 md:bottom-6 md:right-6",
 	};
 
 	const isBottom = actualPosition.includes("bottom");
@@ -134,8 +134,10 @@ export function QuickActionToolbar({ hasCelebrants = false }: { hasCelebrants?: 
 						// Edge alignment based on corner
 						actualPosition === "top-left" && "top-20 left-0 rounded-r-md border-l-0 md:top-24",
 						actualPosition === "top-right" && "top-20 right-0 rounded-l-md border-r-0 md:top-24",
-						actualPosition === "bottom-left" && "bottom-8 left-0 rounded-r-md border-l-0",
-						actualPosition === "bottom-right" && "right-0 bottom-8 rounded-l-md border-r-0",
+						actualPosition === "bottom-left" &&
+							"bottom-20 left-0 rounded-r-md border-l-0 md:bottom-8",
+						actualPosition === "bottom-right" &&
+							"right-0 bottom-20 rounded-l-md border-r-0 md:bottom-8",
 						// Add bottom safe area margin if bottom docked
 						isBottom && "mb-[env(safe-area-inset-bottom)]",
 					)}

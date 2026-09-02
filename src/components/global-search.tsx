@@ -5,11 +5,11 @@ import {
 	CommandInput,
 	CommandItem,
 	CommandList,
-	CommandSeparator,
 } from "@/components/ui/command";
 import { useBirthdayData } from "@/hooks/use-birthday-data";
 import { useSearchStore } from "@/store/search-store";
 import {
+	BellIcon,
 	BookUserIcon,
 	DatabaseIcon,
 	DownloadIcon,
@@ -40,6 +40,7 @@ const SETTINGS_TABS = [
 	{ name: "Appearance", path: "/settings?tab=appearance", icon: PaintbrushIcon },
 	{ name: "Avatar", path: "/settings?tab=avatar", icon: UserRoundIcon },
 	{ name: "Main Greeting", path: "/settings?tab=main-greeting", icon: StarIcon },
+	{ name: "Notifications", path: "/settings?tab=notifications", icon: BellIcon },
 	{ name: "Messages & Greetings", path: "/settings?tab=messages", icon: MessageSquareIcon },
 	{ name: "Sound & Feedback", path: "/settings?tab=sounds", icon: Volume2Icon },
 	{ name: "Data Management", path: "/settings?tab=data", icon: DatabaseIcon },
@@ -80,32 +81,30 @@ export function GlobalSearch() {
 				value={searchQuery}
 				onValueChange={setSearchQuery}
 			/>
-			<CommandList>
-				<CommandEmpty>No results found.</CommandEmpty>
 
-				<CommandGroup heading="Pages">
-					{PAGES.map((page) => (
-						<CommandItem key={page.path} onSelect={() => runCommand(() => navigate(page.path))}>
-							<page.icon className="mr-2 h-4 w-4" aria-hidden="true" />
-							<span>{page.name}</span>
-						</CommandItem>
-					))}
-				</CommandGroup>
+			<div className="rounded-xl bg-background ring-1 ring-border mb-3 mx-3">
+				<CommandList>
+					<CommandEmpty>No results found.</CommandEmpty>
 
-				<CommandSeparator />
+					<CommandGroup heading="Pages">
+						{PAGES.map((page) => (
+							<CommandItem key={page.path} onSelect={() => runCommand(() => navigate(page.path))}>
+								<page.icon className="mr-2 h-4 w-4" aria-hidden="true" />
+								<span>{page.name}</span>
+							</CommandItem>
+						))}
+					</CommandGroup>
 
-				<CommandGroup heading="Settings">
-					{SETTINGS_TABS.map((tab) => (
-						<CommandItem key={tab.path} onSelect={() => runCommand(() => navigate(tab.path))}>
-							<tab.icon className="mr-2 h-4 w-4" aria-hidden="true" />
-							<span>{tab.name}</span>
-						</CommandItem>
-					))}
-				</CommandGroup>
+					<CommandGroup heading="Settings">
+						{SETTINGS_TABS.map((tab) => (
+							<CommandItem key={tab.path} onSelect={() => runCommand(() => navigate(tab.path))}>
+								<tab.icon className="mr-2 h-4 w-4" aria-hidden="true" />
+								<span>{tab.name}</span>
+							</CommandItem>
+						))}
+					</CommandGroup>
 
-				{filteredPeople && filteredPeople.length > 0 && (
-					<>
-						<CommandSeparator />
+					{filteredPeople && filteredPeople.length > 0 && (
 						<CommandGroup heading="People">
 							{filteredPeople.map((birthday) => (
 								<CommandItem
@@ -118,9 +117,9 @@ export function GlobalSearch() {
 								</CommandItem>
 							))}
 						</CommandGroup>
-					</>
-				)}
-			</CommandList>
+					)}
+				</CommandList>
+			</div>
 		</CommandDialog>
 	);
 }

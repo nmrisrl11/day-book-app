@@ -42,14 +42,16 @@ function DialogContent({
 	children,
 	showCloseButton = true,
 	canCloseOnClickOutside = false,
+	hasOverlay = true,
 	...props
 }: React.ComponentProps<typeof DialogPrimitive.Content> & {
 	showCloseButton?: boolean;
 	canCloseOnClickOutside?: boolean;
+	hasOverlay?: boolean;
 }) {
 	return (
 		<DialogPortal>
-			<DialogOverlay />
+			{hasOverlay && <DialogOverlay />}
 			<DialogPrimitive.Content
 				data-slot="dialog-content"
 				className={cn(

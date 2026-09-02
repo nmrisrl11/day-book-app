@@ -8,7 +8,6 @@ import {
 	DialogHeader,
 	DialogTitle,
 } from "@/components/ui/dialog";
-import { InputGroup, InputGroupAddon } from "@/components/ui/input-group";
 import { cn } from "@/lib/utils";
 import { CheckIcon, SearchIcon } from "lucide-react";
 
@@ -48,6 +47,7 @@ function CommandDialog({
 				className={cn("top-1/3 translate-y-0 overflow-hidden rounded-xl! p-0", className)}
 				showCloseButton={showCloseButton}
 				canCloseOnClickOutside={true}
+				hasOverlay={false}
 			>
 				<Command className="[&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 [&_[cmdk-group]]:px-2 [&_[cmdk-input-wrapper]_svg]:h-5 [&_[cmdk-input-wrapper]_svg]:w-5 [&_[cmdk-input]]:h-12 [&_[cmdk-item]]:px-2 [&_[cmdk-item]]:py-3 [&_[cmdk-item]_svg]:h-5 [&_[cmdk-item]_svg]:w-5">
 					{children}
@@ -62,20 +62,16 @@ function CommandInput({
 	...props
 }: React.ComponentProps<typeof CommandPrimitive.Input>) {
 	return (
-		<div data-slot="command-input-wrapper" className="p-1 pb-0">
-			<InputGroup className="h-8! rounded-lg! border-input/30 bg-input/30 shadow-none! *:data-[slot=input-group-addon]:pl-2!">
-				<CommandPrimitive.Input
-					data-slot="input-group-control"
-					className={cn(
-						"w-full text-sm outline-hidden disabled:cursor-not-allowed disabled:opacity-50",
-						className,
-					)}
-					{...props}
-				/>
-				<InputGroupAddon>
-					<SearchIcon className="size-4 shrink-0 opacity-50" />
-				</InputGroupAddon>
-			</InputGroup>
+		<div data-slot="command-input-wrapper" className="flex h-10 items-center gap-2 px-3">
+			<SearchIcon className="size-4 shrink-0 opacity-50" />
+			<CommandPrimitive.Input
+				data-slot="command-input"
+				className={cn(
+					"flex h-10 w-full rounded-lg bg-transparent py-2 text-base outline-hidden placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
+					className,
+				)}
+				{...props}
+			/>
 		</div>
 	);
 }
