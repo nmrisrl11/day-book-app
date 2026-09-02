@@ -1,5 +1,6 @@
 import { SEO } from "@/components/seo/seo";
 import { AnimateIcon } from "@/components/ui/animate-icon";
+import { BellIcon } from "@/components/ui/animated-icons/bell-icon";
 import { MessageSquareIcon } from "@/components/ui/animated-icons/message-square-icon";
 import { PaintbrushIcon } from "@/components/ui/animated-icons/paintbrush-icon";
 import { StarIcon } from "@/components/ui/animated-icons/star-icon";
@@ -52,6 +53,11 @@ const AvatarSettingsSection = lazy(() =>
 const DataManagementSection = lazy(() =>
 	import("./components/data/data-management-section").then((m) => ({
 		default: m.DataManagementSection,
+	})),
+);
+const NotificationSettingsSection = lazy(() =>
+	import("./components/notifications/notification-settings-section").then((m) => ({
+		default: m.NotificationSettingsSection,
 	})),
 );
 
@@ -131,6 +137,7 @@ export function SettingsScreen() {
 		{ id: "appearance", label: "Appearance", icon: PaintbrushIcon, isAnimated: true },
 		{ id: "avatar", label: "Avatar", icon: UserCircleIcon, isAnimated: true },
 		{ id: "main-greeting", label: "Main Greeting", icon: StarIcon, isAnimated: true },
+		{ id: "notifications", label: "Notifications", icon: BellIcon, isAnimated: true },
 		{
 			id: "messages",
 			label: "Messages & Greetings",
@@ -217,6 +224,9 @@ export function SettingsScreen() {
 									</TabsContent>
 									<TabsContent value="avatar">
 										<AvatarSettingsSection />
+									</TabsContent>
+									<TabsContent value="notifications">
+										<NotificationSettingsSection />
 									</TabsContent>
 									<TabsContent value="messages" className="space-y-6">
 										{birthdays === undefined ? (

@@ -32,6 +32,10 @@ export const defaultSettings: Settings = {
 	lastBackupDate: undefined,
 	lastBackupReminderDismissedAt: undefined,
 	lastInstallPromptDismissedAt: undefined,
+	notificationSettings: {
+		enabled: true,
+		remindDaysBefore: [0, 1], // Default: on the day, and 1 day before
+	},
 };
 
 interface DayBookState {

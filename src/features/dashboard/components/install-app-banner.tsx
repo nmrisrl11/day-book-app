@@ -1,5 +1,6 @@
 import { AnimatedLogo } from "@/components/icons/animated-logo";
 import { Button } from "@/components/ui/button";
+import { APP_INFO } from "@/constants/app-info";
 import { useInstallApp } from "@/hooks/use-install-app";
 import { useDayBookStore } from "@/store/day-book-store";
 import { addDays, isAfter, parseISO } from "date-fns";
@@ -131,8 +132,8 @@ export function InstallAppBanner({ birthdaysCount, onVisibilityChange }: Install
 			<div className="flex flex-1 flex-col gap-1">
 				<h3 className="text-base font-semibold tracking-tight">Get the Full Experience!</h3>
 				<p className="text-muted-foreground text-sm">
-					Install DayBook to your home screen for instant offline access and a seamless app-like
-					feel.
+					Install {APP_INFO.name} to your home screen for instant offline access and a seamless
+					app-like feel.
 				</p>
 			</div>
 

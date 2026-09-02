@@ -24,7 +24,7 @@ export function UserAvatar({ birthday, size = 40, className }: UserAvatarProps) 
 			<img
 				src={birthday.avatar}
 				alt={`${birthday.name}'s avatar`}
-				className={cn("rounded-full object-cover", className)}
+				className={cn("rounded-full object-cover shrink-0", className)}
 				style={!className?.includes("w-") ? { width: size, height: size } : undefined}
 			/>
 		);
@@ -35,7 +35,7 @@ export function UserAvatar({ birthday, size = 40, className }: UserAvatarProps) 
 		return (
 			<div
 				className={cn(
-					"flex shrink-0 items-center justify-center overflow-hidden rounded-full [&>svg]:h-full [&>svg]:w-full",
+					"flex shrink-0 items-center justify-center overflow-hidden rounded-full [&>svg]:h-full! [&>svg]:w-full!",
 					className,
 				)}
 				style={!className?.includes("w-") ? { width: size, height: size } : undefined}
@@ -57,7 +57,7 @@ export function UserAvatar({ birthday, size = 40, className }: UserAvatarProps) 
 	return (
 		<div
 			className={cn(
-				"flex shrink-0 items-center justify-center [&>svg]:h-full [&>svg]:w-full",
+				"flex shrink-0 items-center justify-center [&>svg]:h-full! [&>svg]:w-full!",
 				className,
 			)}
 			style={!className?.includes("w-") ? { width: size, height: size } : undefined}

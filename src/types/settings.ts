@@ -55,6 +55,11 @@ export interface GreetingTextSettings {
 	};
 }
 
+export interface NotificationSettings {
+	enabled: boolean;
+	remindDaysBefore: number[]; // e.g. [0, 1, 3] for On the day, 1 day before, 3 days before
+}
+
 export interface Settings {
 	upcomingCount: number;
 	theme: "light" | "dark";
@@ -73,4 +78,5 @@ export interface Settings {
 	lastBackupDate?: string;
 	lastBackupReminderDismissedAt?: string;
 	lastInstallPromptDismissedAt?: string;
+	notificationSettings?: NotificationSettings;
 }
