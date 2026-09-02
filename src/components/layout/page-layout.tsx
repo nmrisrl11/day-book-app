@@ -39,7 +39,7 @@ export function PageLayout({ children }: PageLayoutProps) {
 	const isDesktop = useMediaQuery("(min-width: 768px)");
 
 	return (
-		<div className="bg-background text-foreground relative flex min-h-dvh flex-col overflow-x-clip font-sans pb-20 md:pb-0">
+		<div className="bg-background text-foreground relative flex min-h-dvh flex-col overflow-x-clip font-sans pb-[calc(5rem+env(safe-area-inset-bottom))] md:pb-0">
 			<a
 				href="#main-content"
 				className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:bg-background focus:p-4 focus:text-foreground"
