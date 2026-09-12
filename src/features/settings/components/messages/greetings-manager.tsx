@@ -90,10 +90,10 @@ export function GreetingsManager() {
 
 	return (
 		<div className="flex flex-col gap-6">
-			<div className="bg-card flex flex-col rounded-xl border">
-				<div className="bg-muted/30 rounded-t-xl border-b p-4">
+			<div className="flex flex-col rounded-xl border bg-card">
+				<div className="rounded-t-xl border-b bg-muted/30 p-4">
 					<h3 className="text-base font-semibold">Greetings Settings</h3>
-					<p className="text-muted-foreground text-sm">
+					<p className="text-sm text-muted-foreground">
 						Manage how greetings are generated for birthdays.
 					</p>
 				</div>
@@ -111,7 +111,7 @@ export function GreetingsManager() {
 								/>
 							</div>
 						</div>
-						<p className="text-muted-foreground max-w-[85%] text-sm">
+						<p className="max-w-[85%] text-sm text-muted-foreground">
 							Enable to use your own custom greetings instead of the default ones.
 						</p>
 					</div>
@@ -119,8 +119,8 @@ export function GreetingsManager() {
 			</div>
 
 			{settings.customGreetingsEnabled && (
-				<div className="bg-card flex flex-col rounded-xl border">
-					<div className="bg-muted/30 flex flex-col gap-1.5 rounded-t-xl border-b p-4">
+				<div className="flex flex-col rounded-xl border bg-card">
+					<div className="flex flex-col gap-1.5 rounded-t-xl border-b bg-muted/30 p-4">
 						<div className="flex items-center justify-between gap-4">
 							<h3 className="text-base font-semibold">Custom Greetings</h3>
 							<div className="flex shrink-0 items-center gap-2">
@@ -131,7 +131,7 @@ export function GreetingsManager() {
 								<Button
 									variant="ghost"
 									size="sm"
-									className="text-destructive hover:bg-destructive/10 hover:text-destructive h-8 text-xs"
+									className="h-8 text-xs text-destructive hover:bg-destructive/10 hover:text-destructive"
 									onClick={handleClearAll}
 									disabled={fields.length === 0}
 									aria-label="Clear all custom greetings"
@@ -142,20 +142,20 @@ export function GreetingsManager() {
 								</Button>
 							</div>
 						</div>
-						<p className="text-muted-foreground max-w-[85%] text-sm">
+						<p className="max-w-[85%] text-sm text-muted-foreground">
 							Manage the specific messages available when generating a greeting.
 						</p>
 					</div>
 
 					<div className="flex flex-col gap-4 p-4">
-						<div className="bg-muted/30 min-h-32 content-center rounded-xl border border-dashed p-4">
+						<div className="min-h-32 content-center rounded-xl border border-dashed bg-muted/30 p-4">
 							<div className="flex flex-col gap-2">
 								{fields.map((field, index) => (
 									<div key={field.id} className="flex flex-col gap-1">
 										<div className="relative">
 											<Textarea
 												{...register(`greetings.${index}.text`)}
-												className="bg-background field-sizing-content min-h-15 resize-none rounded-lg pr-9 text-xs shadow-sm max-md:tracking-wide"
+												className="field-sizing-content min-h-15 resize-none rounded-lg bg-background pr-9 text-xs shadow-sm max-md:tracking-wide"
 												placeholder="Enter a greeting message"
 												minLength={GREETINGS_MIN_LENGTH}
 												maxLength={GREETINGS_MAX_LENGTH}
@@ -163,7 +163,7 @@ export function GreetingsManager() {
 											<Button
 												size="icon"
 												variant="ghost"
-												className="hover:bg-destructive/20 hover:text-destructive absolute top-2 right-2 h-7 w-7 rounded-full"
+												className="absolute top-2 right-2 h-7 w-7 rounded-full hover:bg-destructive/20 hover:text-destructive"
 												onClick={() => remove(index)}
 												aria-label="Delete greeting"
 												title="Delete greeting"
@@ -172,14 +172,14 @@ export function GreetingsManager() {
 											</Button>
 										</div>
 										{errors.greetings?.[index]?.text && (
-											<span className="text-destructive pl-2 text-xs">
+											<span className="pl-2 text-xs text-destructive">
 												{errors.greetings[index]?.text?.message}
 											</span>
 										)}
 									</div>
 								))}
 								{fields.length === 0 && (
-									<div className="text-muted-foreground w-full py-8 text-center text-sm italic">
+									<div className="w-full py-8 text-center text-sm text-muted-foreground italic">
 										No custom greetings added.
 									</div>
 								)}
@@ -207,7 +207,7 @@ export function GreetingsManager() {
 							)}
 
 							{errors.greetings?.root && (
-								<p className="text-destructive text-sm font-medium" role="alert">
+								<p className="text-sm font-medium text-destructive" role="alert">
 									{errors.greetings.root.message}
 								</p>
 							)}

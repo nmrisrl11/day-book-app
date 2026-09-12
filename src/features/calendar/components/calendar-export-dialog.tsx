@@ -59,7 +59,7 @@ export function CalendarExportDialog({ open, onOpenChange, birthdays }: Calendar
 				</DialogHeader>
 
 				<div className="flex flex-col gap-3 py-4">
-					<h3 className="text-foreground text-sm font-semibold">Export to</h3>
+					<h3 className="text-sm font-semibold text-foreground">Export to</h3>
 
 					{isSingle && (
 						<Button

@@ -27,7 +27,7 @@ export function CelebrantDisplay({ celebrant, onClick }: CelebrantDisplayProps) 
 					<PartyHat className="h-full w-full" />
 				</div>
 
-				<div className="bg-card ring-border relative z-10 rounded-full p-2 shadow-lg ring-1 transition-transform duration-300 group-hover:scale-105">
+				<div className="relative z-10 rounded-full bg-card p-2 shadow-lg ring-1 ring-border transition-transform duration-300 group-hover:scale-105">
 					<UserAvatar
 						birthday={celebrant}
 						size={isDesktop ? 160 : 128}
@@ -37,7 +37,7 @@ export function CelebrantDisplay({ celebrant, onClick }: CelebrantDisplayProps) 
 			</div>
 
 			<div className="flex flex-col items-center">
-				<h2 className="text-foreground text-center text-2xl font-bold tracking-tight md:text-3xl">
+				<h2 className="text-center text-2xl font-bold tracking-tight text-foreground md:text-3xl">
 					{celebrant.name}
 				</h2>
 			</div>

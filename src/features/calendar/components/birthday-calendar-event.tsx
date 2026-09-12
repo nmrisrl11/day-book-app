@@ -15,20 +15,20 @@ export function BirthdayCalendarEvent({ event }: EventDisplayInfo) {
 			{visibleCelebrants.map((person, index) => (
 				<div
 					key={person.id}
-					className={`bg-background ring-border relative rounded-full ring-2 ${index >= 1 ? "hidden sm:block" : "block"}`}
+					className={`relative rounded-full bg-background ring-2 ring-border ${index >= 1 ? "hidden sm:block" : "block"}`}
 				>
 					<UserAvatar birthday={person} size={24} className="h-5 w-5 sm:h-6 sm:w-6 lg:h-7 lg:w-7" />
 				</div>
 			))}
 
 			{celebrants.length > 1 && (
-				<div className="text-foreground bg-muted ring-border z-10 flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[9px] leading-none font-bold ring-2 sm:hidden">
+				<div className="z-10 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-muted text-[9px] leading-none font-bold text-foreground ring-2 ring-border sm:hidden">
 					+{celebrants.length - 1}
 				</div>
 			)}
 
 			{overflowCount > 0 && (
-				<div className="text-foreground bg-muted ring-border z-10 hidden h-6 w-6 shrink-0 items-center justify-center rounded-full text-[10px] leading-none font-bold ring-2 sm:flex lg:h-7 lg:w-7">
+				<div className="z-10 hidden h-6 w-6 shrink-0 items-center justify-center rounded-full bg-muted text-[10px] leading-none font-bold text-foreground ring-2 ring-border sm:flex lg:h-7 lg:w-7">
 					+{overflowCount}
 				</div>
 			)}

@@ -98,11 +98,11 @@ export function BackupReminderBanner({ birthdaysCount }: BackupReminderBannerPro
 	if (!shouldShow) return null;
 
 	return (
-		<div className="bg-background/95 fixed bottom-6 left-1/2 z-50 flex w-[calc(100%-2rem)] max-w-2xl -translate-x-1/2 animate-in fade-in slide-in-from-bottom-8 flex-col items-center gap-4 rounded-3xl border border-dashed px-6 py-5 text-center shadow-2xl backdrop-blur-md sm:flex-row sm:text-left mb-[env(safe-area-inset-bottom)] ring-1 ring-border">
+		<div className="fixed bottom-6 left-1/2 z-50 mb-[env(safe-area-inset-bottom)] flex w-[calc(100%-2rem)] max-w-2xl -translate-x-1/2 animate-in flex-col items-center gap-4 rounded-3xl border border-dashed bg-background/95 px-6 py-5 text-center shadow-2xl ring-1 ring-border backdrop-blur-md fade-in slide-in-from-bottom-8 sm:flex-row sm:text-left">
 			<Button
 				variant="ghost"
 				size="icon"
-				className="text-muted-foreground hover:text-foreground absolute top-2 right-2 h-8 w-8 rounded-full"
+				className="absolute top-2 right-2 h-8 w-8 rounded-full text-muted-foreground hover:text-foreground"
 				onClick={handleDismiss}
 				aria-label="Dismiss backup reminder"
 			>
@@ -115,7 +115,7 @@ export function BackupReminderBanner({ birthdaysCount }: BackupReminderBannerPro
 
 			<div className="flex flex-1 flex-col gap-1">
 				<h3 className="text-base font-semibold tracking-tight">Keep Your Memories Safe!</h3>
-				<p className="text-muted-foreground text-sm">
+				<p className="text-sm text-muted-foreground">
 					It looks like it's been a while since your last backup. Your data is stored locally on
 					this device.
 				</p>
@@ -125,7 +125,7 @@ export function BackupReminderBanner({ birthdaysCount }: BackupReminderBannerPro
 				<Button
 					onClick={handleBackupNow}
 					size="sm"
-					className="w-full sm:w-auto rounded-full font-medium"
+					className="w-full rounded-full font-medium sm:w-auto"
 				>
 					Backup Now
 				</Button>

@@ -269,9 +269,9 @@ export function ImportPreviewDialog({
 
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
-			<DialogContent className="border-border/50 bg-background max-h-[90vh] rounded-2xl shadow-2xl sm:max-w-md">
+			<DialogContent className="max-h-[90vh] rounded-2xl border-border/50 bg-background shadow-2xl sm:max-w-md">
 				<DialogHeader className="shrink-0 p-0 pb-4">
-					<DialogTitle className="text-foreground font-sans text-2xl font-bold tracking-wide">
+					<DialogTitle className="font-sans text-2xl font-bold tracking-wide text-foreground">
 						Import from {sourceText}
 					</DialogTitle>
 					<DialogDescription className="text-muted-foreground">
@@ -280,11 +280,11 @@ export function ImportPreviewDialog({
 					</DialogDescription>
 					{foundBirthdays.length > 0 && (
 						<div className="flex items-center justify-between">
-							<span className="text-muted-foreground text-sm font-medium">{newCount} selected</span>
+							<span className="text-sm font-medium text-muted-foreground">{newCount} selected</span>
 							<Button
 								variant="ghost"
 								size="sm"
-								className="text-primary h-auto p-0 hover:bg-transparent"
+								className="h-auto p-0 text-primary hover:bg-transparent"
 								onClick={toggleAll}
 							>
 								{allSelected ? "Deselect All" : "Select All"}
@@ -295,7 +295,7 @@ export function ImportPreviewDialog({
 
 				<div className="relative flex-1 overflow-hidden">
 					{foundBirthdays.length === 0 ? (
-						<div className="text-muted-foreground px-6 py-12 text-center italic">
+						<div className="px-6 py-12 text-center text-muted-foreground italic">
 							No birthdays found in the selected file.
 						</div>
 					) : (
@@ -306,8 +306,8 @@ export function ImportPreviewDialog({
 						>
 							{/* Sticky Header Container */}
 							{activeStickyIndex !== null && (
-								<div className="bg-background absolute top-0 z-20 flex w-full items-center justify-between pt-2 pb-2 shadow-[0_4px_10px_-10px_rgba(0,0,0,0.5)]">
-									<h4 className="text-muted-foreground text-sm font-bold tracking-widest uppercase">
+								<div className="absolute top-0 z-20 flex w-full items-center justify-between bg-background pt-2 pb-2 shadow-[0_4px_10px_-10px_rgba(0,0,0,0.5)]">
+									<h4 className="text-sm font-bold tracking-widest text-muted-foreground uppercase">
 										{
 											(
 												flattenedItems[activeStickyIndex] as Extract<
@@ -331,7 +331,7 @@ export function ImportPreviewDialog({
 											<Button
 												variant="ghost"
 												size="sm"
-												className="text-primary h-auto p-0 text-xs hover:bg-transparent"
+												className="h-auto p-0 text-xs text-primary hover:bg-transparent"
 												onClick={() => toggleMonth(celebrantIds, allSelectedInMonth)}
 											>
 												{allSelectedInMonth ? "Deselect All" : "Select All"}
@@ -392,7 +392,7 @@ export function ImportPreviewDialog({
 					)}
 				</div>
 
-				<DialogFooter className="border-border/50 shrink-0 border-t p-6 pt-4">
+				<DialogFooter className="shrink-0 border-t border-border/50 p-6 pt-4">
 					<Button variant="ghost" onClick={() => onOpenChange(false)}>
 						Cancel
 					</Button>

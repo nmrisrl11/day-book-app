@@ -55,6 +55,21 @@
 				window.dispatchEvent(new Event("app-installable"));
 			});
 		</script>
+
+		<!-- Prevent Theme Flicker (FOUC) -->
+		<script>
+			try {
+				const storageKey = "ZGF5Ym9vay1zdG9yYWdl"; // daybook-storage
+				const saved = localStorage.getItem(storageKey);
+				if (saved) {
+					const parsed = JSON.parse(saved);
+					const theme = parsed?.state?.settings?.theme;
+					if (theme === "dark" || theme === "light") {
+						document.documentElement.classList.add(theme);
+					}
+				}
+			} catch (e) {}
+		</script>
 	</head>
 
 	<body>

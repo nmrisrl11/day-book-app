@@ -151,7 +151,7 @@ export function SettingsScreen() {
 	return (
 		<>
 			<SEO title="Settings" canonical="/settings" />
-			<div className="animate-in fade-in slide-in-from-bottom-4 mx-auto flex w-full max-w-5xl flex-col gap-6 pb-12 duration-500">
+			<div className="mx-auto flex w-full max-w-5xl animate-in flex-col gap-6 pb-12 duration-500 fade-in slide-in-from-bottom-4">
 				<div className="flex items-center gap-4">
 					<Button
 						variant="ghost"
@@ -175,12 +175,12 @@ export function SettingsScreen() {
 					className="relative flex flex-col gap-8 md:flex-row"
 				>
 					<div className="relative w-full max-w-full shrink-0 md:sticky md:top-6 md:h-fit md:w-64 md:self-start">
-						<div className="from-background pointer-events-none absolute inset-y-0 left-0 z-10 w-8 bg-linear-to-r to-transparent md:hidden" />
-						<div className="from-background pointer-events-none absolute inset-y-0 right-0 z-10 w-8 bg-linear-to-l to-transparent md:hidden" />
+						<div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-8 bg-linear-to-r from-background to-transparent md:hidden" />
+						<div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-8 bg-linear-to-l from-background to-transparent md:hidden" />
 						<ScrollArea orientation="horizontal" className="w-full">
 							<TabsList
 								variant="line"
-								className="border-border relative flex h-auto w-max snap-x justify-start gap-2 px-4 pb-2 md:w-full md:flex-col md:border-r md:px-0 md:pr-6 md:pb-0"
+								className="relative flex h-auto w-max snap-x justify-start gap-2 border-border px-4 pb-2 md:w-full md:flex-col md:border-r md:px-0 md:pr-6 md:pb-0"
 							>
 								{tabs.map((tab) => (
 									<AnimatedTabTrigger key={tab.id} tab={tab} isActiveTab={activeTab === tab.id} />
@@ -190,9 +190,9 @@ export function SettingsScreen() {
 					</div>
 
 					<div className="min-w-0 flex-1">
-						<div className="border-border bg-card flex flex-col gap-8 rounded-xl border p-6 shadow-sm">
+						<div className="flex flex-col gap-8 rounded-xl border border-border bg-card p-6 shadow-sm">
 							<Suspense
-								fallback={<div className="bg-muted/50 h-100 w-full animate-pulse rounded-xl" />}
+								fallback={<div className="h-100 w-full animate-pulse rounded-xl bg-muted/50" />}
 							>
 								<div className="flex flex-col gap-8">
 									<TabsContent value="appearance" className="space-y-6">
@@ -201,19 +201,19 @@ export function SettingsScreen() {
 									</TabsContent>
 									<TabsContent value="main-greeting">
 										{birthdays === undefined ? (
-											<div className="bg-muted/50 h-64 w-full animate-pulse rounded-xl" />
+											<div className="h-64 w-full animate-pulse rounded-xl bg-muted/50" />
 										) : birthdays.length > 0 ? (
 											<MainGreetingSection />
 										) : (
 											<div className="flex flex-col items-center justify-center py-12 text-center">
 												<StarIcon
-													className="text-muted-foreground/50 mb-4 h-12 w-12"
+													className="mb-4 h-12 w-12 text-muted-foreground/50"
 													aria-hidden="true"
 												/>
-												<h3 className="text-foreground mb-2 text-lg font-semibold">
+												<h3 className="mb-2 text-lg font-semibold text-foreground">
 													No Birthdays Added
 												</h3>
-												<p className="text-muted-foreground mb-6 max-w-sm text-sm">
+												<p className="mb-6 max-w-sm text-sm text-muted-foreground">
 													You need to add at least one birthday to customize the main greeting.
 												</p>
 												<Button onClick={() => navigate("/manage?action=new")} variant="default">
@@ -230,7 +230,7 @@ export function SettingsScreen() {
 									</TabsContent>
 									<TabsContent value="messages" className="space-y-6">
 										{birthdays === undefined ? (
-											<div className="bg-muted/50 h-64 w-full animate-pulse rounded-xl" />
+											<div className="h-64 w-full animate-pulse rounded-xl bg-muted/50" />
 										) : birthdays.length > 0 ? (
 											<>
 												<FloatingMessagesManager />
@@ -239,13 +239,13 @@ export function SettingsScreen() {
 										) : (
 											<div className="flex flex-col items-center justify-center py-12 text-center">
 												<MessageSquareIcon
-													className="text-muted-foreground/50 mb-4 h-12 w-12"
+													className="mb-4 h-12 w-12 text-muted-foreground/50"
 													aria-hidden="true"
 												/>
-												<h3 className="text-foreground mb-2 text-lg font-semibold">
+												<h3 className="mb-2 text-lg font-semibold text-foreground">
 													No Birthdays Added
 												</h3>
-												<p className="text-muted-foreground mb-6 max-w-sm text-sm">
+												<p className="mb-6 max-w-sm text-sm text-muted-foreground">
 													You need to add at least one birthday to manage floating messages and
 													greetings.
 												</p>
@@ -291,11 +291,11 @@ export function SettingsScreen() {
 								<div className="flex flex-col gap-4">
 									<p>
 										Are you sure you want to delete{" "}
-										<span className="text-foreground font-semibold">ALL</span>{" "}
+										<span className="font-semibold text-foreground">ALL</span>{" "}
 										{deleteTarget === "invitations" ? "invitations" : "birthdays"}? This action
 										cannot be undone.
 									</p>
-									<div className="bg-muted/50 rounded-lg border p-3">
+									<div className="rounded-lg border bg-muted/50 p-3">
 										<p className="mb-3 text-sm">
 											Before deleting, you can export your data to a file as a backup.
 										</p>

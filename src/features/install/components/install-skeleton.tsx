@@ -29,7 +29,7 @@ export function InstallSkeleton() {
 						{Array.from({ length: 3 }).map((_, i) => (
 							<div
 								key={i}
-								className="bg-card border-border flex flex-col gap-3 rounded-2xl border p-5"
+								className="flex flex-col gap-3 rounded-2xl border border-border bg-card p-5"
 							>
 								<Skeleton className="h-10 w-10 rounded-xl" />
 								<Skeleton className="h-6 w-3/4 rounded-md" />

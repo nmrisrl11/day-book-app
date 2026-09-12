@@ -111,8 +111,8 @@ export function MainGreetingSection() {
 
 	return (
 		<div className="flex flex-col gap-6">
-			<div className="bg-card flex flex-col rounded-xl border">
-				<div className="bg-muted/30 flex flex-col gap-1.5 rounded-t-xl border-b p-4">
+			<div className="flex flex-col rounded-xl border bg-card">
+				<div className="flex flex-col gap-1.5 rounded-t-xl border-b bg-muted/30 p-4">
 					<div className="flex items-center justify-between gap-4">
 						<h3 className="text-base font-semibold">Live Preview</h3>
 						<RestoreDefaultsButton
@@ -120,12 +120,12 @@ export function MainGreetingSection() {
 							ariaLabel="Restore main greeting defaults"
 						/>
 					</div>
-					<p className="text-muted-foreground max-w-[85%] text-sm">
+					<p className="max-w-[85%] text-sm text-muted-foreground">
 						See how your main greeting will look on the dashboard.
 					</p>
 				</div>
 				<div className="flex flex-col px-4 py-6">
-					<div className="bg-muted/30 flex min-h-37.5 w-full items-center justify-center rounded-xl border border-dashed p-6 text-center">
+					<div className="flex min-h-37.5 w-full items-center justify-center rounded-xl border border-dashed bg-muted/30 p-6 text-center">
 						<h1
 							className={cn(
 								"max-w-full px-4 pb-2 leading-normal font-extrabold tracking-tight wrap-break-word",
@@ -151,10 +151,10 @@ export function MainGreetingSection() {
 				</div>
 			</div>
 
-			<div className="bg-card flex flex-col rounded-xl border">
-				<div className="bg-muted/30 rounded-t-xl border-b p-4">
+			<div className="flex flex-col rounded-xl border bg-card">
+				<div className="rounded-t-xl border-b bg-muted/30 p-4">
 					<h3 className="text-base font-semibold">Customization</h3>
-					<p className="text-muted-foreground text-sm">
+					<p className="text-sm text-muted-foreground">
 						Personalize the text, font, and colors of your greeting.
 					</p>
 				</div>
@@ -297,14 +297,14 @@ export function MainGreetingSection() {
 											onChange={(val) => updateGreeting({ solidColor: val })}
 										/>
 									</div>
-									<span className="text-muted-foreground text-sm uppercase">
+									<span className="text-sm text-muted-foreground uppercase">
 										{greetingSettings.solidColor}
 									</span>
 								</div>
 							) : (
 								<div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
 									<div className="flex flex-col gap-2">
-										<Label className="text-muted-foreground text-sm" htmlFor="start-color">
+										<Label className="text-sm text-muted-foreground" htmlFor="start-color">
 											Start Color
 										</Label>
 										<div className="flex items-center gap-3">
@@ -315,13 +315,13 @@ export function MainGreetingSection() {
 													id="start-color"
 												/>
 											</div>
-											<span className="text-muted-foreground text-sm uppercase">
+											<span className="text-sm text-muted-foreground uppercase">
 												{greetingSettings.gradient.start}
 											</span>
 										</div>
 									</div>
 									<div className="flex flex-col gap-2">
-										<Label className="text-muted-foreground text-sm" htmlFor="end-color">
+										<Label className="text-sm text-muted-foreground" htmlFor="end-color">
 											End Color
 										</Label>
 										<div className="flex items-center gap-3">
@@ -332,13 +332,13 @@ export function MainGreetingSection() {
 													id="end-color"
 												/>
 											</div>
-											<span className="text-muted-foreground text-sm uppercase">
+											<span className="text-sm text-muted-foreground uppercase">
 												{greetingSettings.gradient.end}
 											</span>
 										</div>
 									</div>
 									<div className="flex flex-col gap-2 sm:col-span-2 lg:col-span-1">
-										<Label className="text-muted-foreground text-sm" htmlFor="gradient-direction">
+										<Label className="text-sm text-muted-foreground" htmlFor="gradient-direction">
 											Gradient Direction
 										</Label>
 										<Select

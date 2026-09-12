@@ -31,9 +31,9 @@ export function BirthdayDateCelebrantsDialog({
 
 	return (
 		<Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-			<DialogContent className="border-border/50 bg-background/95 rounded-2xl shadow-2xl backdrop-blur-md sm:max-w-md">
+			<DialogContent className="rounded-2xl border-border/50 bg-background/95 shadow-2xl backdrop-blur-md sm:max-w-md">
 				<DialogHeader className="p-0 pb-4">
-					<DialogTitle className="text-foreground font-sans text-2xl font-bold tracking-wide uppercase">
+					<DialogTitle className="font-sans text-2xl font-bold tracking-wide text-foreground uppercase">
 						{dateString}
 					</DialogTitle>
 					<DialogDescription className="text-muted-foreground">
@@ -48,26 +48,26 @@ export function BirthdayDateCelebrantsDialog({
 								const ageDisplay = formatAgeDisplay(celebrant.birthday, currentDate);
 								return (
 									<div key={celebrant.id} className="flex items-center gap-4">
-										<div className="bg-muted ring-border rounded-full p-1 ring-1">
+										<div className="rounded-full bg-muted p-1 ring-1 ring-border">
 											<UserAvatar birthday={celebrant} size={48} className="h-12 w-12" />
 										</div>
 										<div className="flex flex-col">
-											<span className="text-foreground text-lg font-semibold">
+											<span className="text-lg font-semibold text-foreground">
 												{celebrant.name}
 											</span>
 											<div className="flex items-center gap-2">
 												{celebrant.relationship && (
 													<>
-														<span className="text-muted-foreground text-xs font-medium tracking-widest uppercase">
+														<span className="text-xs font-medium tracking-widest text-muted-foreground uppercase">
 															{celebrant.relationship}
 														</span>
 														{ageDisplay !== null && (
-															<span className="text-muted-foreground/50 text-xs">•</span>
+															<span className="text-xs text-muted-foreground/50">•</span>
 														)}
 													</>
 												)}
 												{ageDisplay !== null && (
-													<span className="text-muted-foreground text-xs font-medium">
+													<span className="text-xs font-medium text-muted-foreground">
 														{ageDisplay}
 													</span>
 												)}

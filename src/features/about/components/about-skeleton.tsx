@@ -24,7 +24,7 @@ export function AboutSkeleton() {
 						{Array.from({ length: 6 }).map((_, i) => (
 							<div
 								key={i}
-								className="bg-card border-border flex flex-col gap-3 rounded-2xl border p-5"
+								className="flex flex-col gap-3 rounded-2xl border border-border bg-card p-5"
 							>
 								<Skeleton className="h-10 w-10 rounded-xl" />
 								<Skeleton className="h-6 w-3/4 rounded-md" />
@@ -35,7 +35,7 @@ export function AboutSkeleton() {
 				</section>
 
 				{/* Privacy Section */}
-				<section className="bg-card border-border flex flex-col gap-4 rounded-3xl border p-6 sm:p-8">
+				<section className="flex flex-col gap-4 rounded-3xl border border-border bg-card p-6 sm:p-8">
 					<div className="flex items-center gap-3">
 						<Skeleton className="h-10 w-10 rounded-full" />
 						<Skeleton className="h-8 w-64 rounded-md" />
@@ -45,7 +45,7 @@ export function AboutSkeleton() {
 				</section>
 
 				{/* Open Source Section */}
-				<section className="bg-card border-border flex flex-col gap-4 rounded-3xl border p-6 sm:p-8">
+				<section className="flex flex-col gap-4 rounded-3xl border border-border bg-card p-6 sm:p-8">
 					<div className="flex items-center gap-3">
 						<Skeleton className="h-10 w-10 rounded-full" />
 						<Skeleton className="h-8 w-40 rounded-md" />
@@ -55,7 +55,7 @@ export function AboutSkeleton() {
 				</section>
 
 				{/* Community Section */}
-				<section className="bg-card border-border flex flex-col gap-4 rounded-3xl border p-6 sm:p-8">
+				<section className="flex flex-col gap-4 rounded-3xl border border-border bg-card p-6 sm:p-8">
 					<div className="flex items-center gap-3">
 						<Skeleton className="h-10 w-10 rounded-full" />
 						<Skeleton className="h-8 w-48 rounded-md" />
@@ -81,10 +81,10 @@ export function AboutSkeleton() {
 									<Skeleton className="h-8 w-64 rounded-md" />
 									<Skeleton className="mb-2 h-16 w-full rounded-md" />
 
-									<div className="border-border ml-2 flex flex-col gap-6 border-l pl-6 md:ml-0 md:pl-4">
+									<div className="ml-2 flex flex-col gap-6 border-l border-border pl-6 md:ml-0 md:pl-4">
 										{Array.from({ length: 2 }).map((_, j) => (
 											<div key={j} className="relative flex flex-col gap-2">
-												<div className="bg-border absolute top-2 left-[-28.5px] h-2 w-2 rounded-full md:left-[-20.5px]" />
+												<div className="absolute top-2 left-[-28.5px] h-2 w-2 rounded-full bg-border md:left-[-20.5px]" />
 												<div className="flex items-center gap-2">
 													<Skeleton className="h-5 w-16 rounded-full" />
 													<Skeleton className="h-6 w-48 rounded-md" />

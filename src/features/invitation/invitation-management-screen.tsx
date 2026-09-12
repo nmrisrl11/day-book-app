@@ -109,7 +109,7 @@ export function InvitationManagementScreen() {
 			<SEO title="Invitations" canonical="/invitations" />
 			<div className="flex w-full flex-col gap-6">
 				<div className="flex items-center justify-between">
-					<h2 className="text-foreground px-2 text-2xl font-bold tracking-tight">
+					<h2 className="px-2 text-2xl font-bold tracking-tight text-foreground">
 						Invitation Links
 					</h2>
 					<Button onClick={() => setAskModalOpen(true)}>
@@ -130,7 +130,7 @@ export function InvitationManagementScreen() {
 										setSortOption(val as (typeof INVITATION_SORT_OPTIONS)[number])
 									}
 								>
-									<SelectTrigger className="bg-background w-40" aria-label="Sort invitations">
+									<SelectTrigger className="w-40 bg-background" aria-label="Sort invitations">
 										<SelectValue placeholder="Sort by" />
 									</SelectTrigger>
 									<SelectContent position="popper">
@@ -165,7 +165,7 @@ export function InvitationManagementScreen() {
 									Select All
 								</Label>
 							</div>
-							<div className="text-muted-foreground text-sm">{sortedInvitations.length} items</div>
+							<div className="text-sm text-muted-foreground">{sortedInvitations.length} items</div>
 						</div>
 
 						<div ref={parentRef} className="custom-scrollbar max-h-[55vh] overflow-y-auto pr-4">
@@ -245,7 +245,7 @@ export function InvitationManagementScreen() {
 										{generatePageNumbers().map((page, index) => {
 											if (typeof page === "string") {
 												return (
-													<span key={page} className="text-muted-foreground px-2">
+													<span key={page} className="px-2 text-muted-foreground">
 														...
 													</span>
 												);
@@ -304,7 +304,7 @@ export function InvitationManagementScreen() {
 									{invitationToDelete ? (
 										<>
 											Are you sure you want to delete{" "}
-											<span className="text-foreground font-semibold">
+											<span className="font-semibold text-foreground">
 												{invitationToDelete.name}'s Invitation
 											</span>
 											? This cannot be undone.
@@ -344,7 +344,7 @@ export function InvitationManagementScreen() {
 							description={
 								<p>
 									Are you sure you want to delete{" "}
-									<span className="text-foreground font-semibold">
+									<span className="font-semibold text-foreground">
 										{selectedIds.size} {selectedIds.size === 1 ? "invitation" : "invitations"}
 									</span>
 									? This cannot be undone.
@@ -373,24 +373,24 @@ export function InvitationManagementScreen() {
 				)}
 
 				{selectedIds.size > 0 && (
-					<div className="bg-popover text-popover-foreground animate-in fade-in slide-in-from-bottom-4 no-scrollbar fixed bottom-6 left-1/2 z-50 flex w-max max-w-[calc(100%-2rem)] -translate-x-1/2 items-center gap-3 overflow-x-auto rounded-full border px-4 py-2 shadow-lg">
+					<div className="fixed bottom-6 left-1/2 z-50 no-scrollbar flex w-max max-w-[calc(100%-2rem)] -translate-x-1/2 animate-in items-center gap-3 overflow-x-auto rounded-full border bg-popover px-4 py-2 text-popover-foreground shadow-lg fade-in slide-in-from-bottom-4">
 						<div className="text-sm font-medium whitespace-nowrap">{selectedIds.size} selected</div>
-						<div className="bg-border h-4 w-px shrink-0" />
+						<div className="h-4 w-px shrink-0 bg-border" />
 						<Button
 							variant="ghost"
 							size="sm"
-							className="hover:bg-destructive/10 hover:text-destructive h-8 shrink-0 rounded-full px-3"
+							className="h-8 shrink-0 rounded-full px-3 hover:bg-destructive/10 hover:text-destructive"
 							onClick={handleBulkDelete}
 							aria-label="Delete Selected"
 						>
 							<Trash2Icon className="h-4 w-4 sm:mr-2" aria-hidden="true" />
 							<span className="hidden sm:inline">Delete Selected</span>
 						</Button>
-						<div className="bg-border h-4 w-px shrink-0" />
+						<div className="h-4 w-px shrink-0 bg-border" />
 						<Button
 							variant="ghost"
 							size="sm"
-							className="hover:bg-muted h-8 shrink-0 rounded-full px-3"
+							className="h-8 shrink-0 rounded-full px-3 hover:bg-muted"
 							onClick={() => setSelectedIds(new Set())}
 						>
 							Clear

@@ -8,15 +8,15 @@ export function ThemeSection() {
 	const { settings, updateSettings } = useDayBookStore();
 
 	return (
-		<div className="bg-card flex flex-col rounded-xl border">
-			<div className="bg-muted/30 flex flex-col gap-1.5 rounded-t-xl border-b p-4">
+		<div className="flex flex-col rounded-xl border bg-card">
+			<div className="flex flex-col gap-1.5 rounded-t-xl border-b bg-muted/30 p-4">
 				<h3 className="flex items-center gap-2 text-base font-semibold">
 					Theme <Kbd className="ml-1">Alt + T</Kbd>
 				</h3>
-				<p className="text-muted-foreground text-sm">Choose between light and dark mode.</p>
+				<p className="text-sm text-muted-foreground">Choose between light and dark mode.</p>
 			</div>
 			<div className="flex flex-col p-4">
-				<div className="bg-muted/50 flex w-full rounded-lg p-1">
+				<div className="flex w-full rounded-lg bg-muted/50 p-1">
 					<Button
 						variant={settings.theme === "light" ? "default" : "ghost"}
 						onClick={() => updateSettings({ theme: "light" })}

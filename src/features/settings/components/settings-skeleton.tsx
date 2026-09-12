@@ -22,23 +22,23 @@ export function SettingsSkeleton() {
 
 				{/* Right Content Skeleton */}
 				<div className="min-w-0 flex-1">
-					<div className="border-border bg-card flex flex-col gap-8 rounded-xl border p-6 shadow-sm">
+					<div className="flex flex-col gap-8 rounded-xl border border-border bg-card p-6 shadow-sm">
 						{/* Theme Section */}
-						<div className="bg-card flex flex-col rounded-xl border">
-							<div className="bg-muted/30 flex flex-col gap-1.5 rounded-t-xl border-b p-4">
+						<div className="flex flex-col rounded-xl border bg-card">
+							<div className="flex flex-col gap-1.5 rounded-t-xl border-b bg-muted/30 p-4">
 								<Skeleton className="h-5 w-24" />
 								<Skeleton className="h-4 w-48 max-w-[85%]" />
 							</div>
 							<div className="flex flex-col p-4">
-								<div className="bg-muted/50 flex h-10 w-full rounded-lg p-1">
+								<div className="flex h-10 w-full rounded-lg bg-muted/50 p-1">
 									<Skeleton className="h-full w-1/2 rounded-md" />
 								</div>
 							</div>
 						</div>
 
 						{/* Display Settings Section */}
-						<div className="bg-card flex flex-col rounded-xl border">
-							<div className="bg-muted/30 flex flex-col gap-1.5 rounded-t-xl border-b p-4">
+						<div className="flex flex-col rounded-xl border bg-card">
+							<div className="flex flex-col gap-1.5 rounded-t-xl border-b bg-muted/30 p-4">
 								<Skeleton className="h-5 w-40" />
 								<Skeleton className="h-4 w-64 max-w-[85%]" />
 							</div>

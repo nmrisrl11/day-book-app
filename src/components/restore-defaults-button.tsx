@@ -19,12 +19,12 @@ export function RestoreDefaultsButton({
 			<Button
 				variant="ghost"
 				size="icon"
-				className="hover:bg-muted h-6 w-6 rounded-full"
+				className="h-6 w-6 rounded-full hover:bg-muted"
 				onClick={onClick}
 				title={title}
 				aria-label={ariaLabel}
 			>
-				<RotateCcwIcon className="text-muted-foreground h-3.5 w-3.5" />
+				<RotateCcwIcon className="h-3.5 w-3.5 text-muted-foreground" />
 			</Button>
 		);
 	}
@@ -33,7 +33,7 @@ export function RestoreDefaultsButton({
 		<Button
 			variant="ghost"
 			size="sm"
-			className="text-muted-foreground hover:text-foreground h-8 text-xs"
+			className="h-8 text-xs text-muted-foreground hover:text-foreground"
 			onClick={onClick}
 			title={title}
 			aria-label={ariaLabel}

@@ -203,7 +203,7 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 							maxLength={NAME_MAX_LENGTH}
 						/>
 						{errors.name && (
-							<p className="text-destructive text-sm font-medium" role="alert">
+							<p className="text-sm font-medium text-destructive" role="alert">
 								{errors.name.message}
 							</p>
 						)}
@@ -219,7 +219,7 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 							autoComplete="off"
 						/>
 						{errors.birthday && (
-							<p className="text-destructive text-sm font-medium" role="alert">
+							<p className="text-sm font-medium text-destructive" role="alert">
 								{errors.birthday.message}
 							</p>
 						)}
@@ -246,7 +246,7 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 							)}
 						/>
 						{errors.relationship && (
-							<p className="text-destructive text-sm font-medium" role="alert">
+							<p className="text-sm font-medium text-destructive" role="alert">
 								{errors.relationship.message}
 							</p>
 						)}
@@ -255,7 +255,7 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 					<div className="flex flex-col gap-2 pt-2">
 						<div className="flex items-center justify-between">
 							<Label htmlFor="note">Notes (Optional)</Label>
-							<span className="text-muted-foreground text-xs">
+							<span className="text-xs text-muted-foreground">
 								{notes.length}/{NOTE_MAX_COUNT}
 							</span>
 						</div>
@@ -265,7 +265,7 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 								{notes.map((note, index) => (
 									<div
 										key={index}
-										className="bg-primary/10 text-primary flex h-auto max-w-full items-center gap-1.5 whitespace-normal wrap-break-word rounded-2xl px-3 py-1 text-left text-xs font-medium"
+										className="flex h-auto max-w-full items-center gap-1.5 rounded-2xl bg-primary/10 px-3 py-1 text-left text-xs font-medium wrap-break-word whitespace-normal text-primary"
 									>
 										<span className="min-w-0 flex-1 wrap-break-word">{note}</span>
 										<button
@@ -278,7 +278,7 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 													{ shouldValidate: true },
 												);
 											}}
-											className="hover:bg-primary/20 rounded-full p-0.5"
+											className="rounded-full p-0.5 hover:bg-primary/20"
 											title={`Remove note: ${note}`}
 										>
 											<XIcon className="h-3 w-3" aria-hidden="true" />
@@ -339,7 +339,7 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 							</Button>
 						</div>
 						{errors.notes && (
-							<p className="text-destructive text-sm font-medium" role="alert">
+							<p className="text-sm font-medium text-destructive" role="alert">
 								{errors.notes.message}
 							</p>
 						)}
@@ -348,7 +348,7 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 					<div className="flex flex-col gap-2 pt-2">
 						<div className="flex items-center justify-between">
 							<Label htmlFor="giftIdea">Gift Ideas / Wish List (Optional)</Label>
-							<span className="text-muted-foreground text-xs">
+							<span className="text-xs text-muted-foreground">
 								{giftIdeas.length}/{GIFT_IDEA_MAX_COUNT}
 							</span>
 						</div>
@@ -358,7 +358,7 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 								{giftIdeas.map((idea, index) => (
 									<div
 										key={index}
-										className="bg-primary/10 text-primary flex h-auto max-w-full items-center gap-1.5 whitespace-normal wrap-break-word rounded-2xl px-3 py-1 text-left text-xs font-medium"
+										className="flex h-auto max-w-full items-center gap-1.5 rounded-2xl bg-primary/10 px-3 py-1 text-left text-xs font-medium wrap-break-word whitespace-normal text-primary"
 									>
 										<span className="min-w-0 flex-1 wrap-break-word">{idea}</span>
 										<button
@@ -371,7 +371,7 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 													{ shouldValidate: true },
 												);
 											}}
-											className="hover:bg-primary/20 rounded-full p-0.5"
+											className="rounded-full p-0.5 hover:bg-primary/20"
 											title={`Remove gift idea: ${idea}`}
 										>
 											<XIcon className="h-3 w-3" aria-hidden="true" />
@@ -432,20 +432,20 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 							</Button>
 						</div>
 						{errors.giftIdeas && (
-							<p className="text-destructive text-sm font-medium" role="alert">
+							<p className="text-sm font-medium text-destructive" role="alert">
 								{errors.giftIdeas.message}
 							</p>
 						)}
 					</div>
 
 					{generalError && (
-						<p className="text-destructive text-sm font-medium" role="alert">
+						<p className="text-sm font-medium text-destructive" role="alert">
 							{generalError}
 						</p>
 					)}
 				</form>
 
-				<DialogFooter className="m-0 rounded-b-xl rounded-t-none border-t p-4">
+				<DialogFooter className="m-0 rounded-t-none rounded-b-xl border-t p-4">
 					<Button variant="ghost" type="button" onClick={() => onOpenChange(false)}>
 						Cancel
 					</Button>

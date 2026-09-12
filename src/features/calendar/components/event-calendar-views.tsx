@@ -20,13 +20,13 @@ const dayRowCommonClasses: CalendarOptions = {
 	/* Day Row > List-Item Event
   ----------------------------------------------------------------------------------------------- */
 
-	listItemEventClass: (info) => cn("mb-px p-px rounded-sm", info.isNarrow ? "mx-px" : "mx-0.5"),
+	listItemEventClass: (info) => cn("mb-px rounded-sm p-px", info.isNarrow ? "mx-px" : "mx-0.5"),
 	listItemEventBeforeClass: (info) => cn("border-4", info.isNarrow ? "ms-0.5" : "ms-1"),
 	listItemEventInnerClass: (info) => (info.isNarrow ? `py-px ${xxsTextClass}` : "py-0.5 text-xs"),
 	listItemEventTimeClass: (info) =>
-		cn(info.isNarrow ? "ps-0.5" : "ps-1", "whitespace-nowrap overflow-hidden shrink-1"),
+		cn(info.isNarrow ? "ps-0.5" : "ps-1", "shrink-1 overflow-hidden whitespace-nowrap"),
 	listItemEventTitleClass: (info) =>
-		cn(info.isNarrow ? "px-0.5" : "px-1", "font-bold whitespace-nowrap overflow-hidden shrink-100"),
+		cn(info.isNarrow ? "px-0.5" : "px-1", "shrink-100 overflow-hidden font-bold whitespace-nowrap"),
 
 	/* Day Row > Row Event
   ----------------------------------------------------------------------------------------------- */
@@ -39,7 +39,7 @@ const dayRowCommonClasses: CalendarOptions = {
 
 	rowMoreLinkClass: (info) =>
 		cn(
-			"mb-px border rounded-sm hover:bg-foreground/5",
+			"mb-px rounded-sm border hover:bg-foreground/5",
 			info.isNarrow ? "mx-px border-primary" : "mx-0.5 border-transparent",
 		),
 	rowMoreLinkInnerClass: (info) =>
@@ -74,7 +74,7 @@ export function EventCalendarViews({ views: userViews, ...restOptions }: EventCa
 			backgroundEventClass="not-print:bg-[color-mix(in_oklab,var(--fc-event-color)_10%,transparent)] print:border-1 print:border-(--fc-event-color)"
 			backgroundEventTitleClass={(info) =>
 				cn(
-					"opacity-50 italic",
+					"italic opacity-50",
 					info.isNarrow ? `px-1 py-1.5 ${xxsTextClass}` : "px-2 py-2.5 text-xs",
 				)
 			}
@@ -93,7 +93,7 @@ export function EventCalendarViews({ views: userViews, ...restOptions }: EventCa
 
 			blockEventClass={(info) =>
 				cn(
-					"group relative border-transparent print:border-(--fc-event-color) bg-(--fc-event-color) hover:bg-[color-mix(in_oklab,var(--fc-event-color)_92%,var(--fc-event-contrast-color))] print:bg-white",
+					"group relative border-transparent bg-(--fc-event-color) hover:bg-[color-mix(in_oklab,var(--fc-event-color)_92%,var(--fc-event-contrast-color))] print:border-(--fc-event-color) print:bg-white",
 					info.isInteractive &&
 						"active:bg-[color-mix(in_oklab,var(--fc-event-color)_85%,var(--fc-event-contrast-color))]",
 					!info.isSelected && info.isDragging && "opacity-75",
@@ -109,8 +109,8 @@ export function EventCalendarViews({ views: userViews, ...restOptions }: EventCa
 			rowEventClass={(info) =>
 				cn(
 					"mb-px border-y",
-					info.isStart ? "border-s rounded-s-sm" : !info.isNarrow && "ms-2",
-					info.isEnd ? "border-e rounded-e-sm" : !info.isNarrow && "me-2",
+					info.isStart ? "rounded-s-sm border-s" : !info.isNarrow && "ms-2",
+					info.isEnd ? "rounded-e-sm border-e" : !info.isNarrow && "me-2",
 				)
 			}
 			rowEventBeforeClass={(info) =>
@@ -148,7 +148,7 @@ export function EventCalendarViews({ views: userViews, ...restOptions }: EventCa
 			rowEventInnerClass={(info) =>
 				cn("flex flex-row items-center", info.isNarrow ? xxsTextClass : "text-xs")
 			}
-			rowEventTimeClass={(info) => cn("font-bold shrink-1", info.isNarrow ? "ps-0.5" : "ps-1")}
+			rowEventTimeClass={(info) => cn("shrink-1 font-bold", info.isNarrow ? "ps-0.5" : "ps-1")}
 			rowEventTitleClass={(info) => cn("shrink-100", info.isNarrow ? "px-0.5" : "px-1")}
 
 			/* Column Event
@@ -158,8 +158,8 @@ export function EventCalendarViews({ views: userViews, ...restOptions }: EventCa
 			columnEventClass={(info) =>
 				cn(
 					"border-x ring ring-background",
-					info.isStart && "border-t rounded-t-sm",
-					info.isEnd && "mb-px border-b rounded-b-sm",
+					info.isStart && "rounded-t-sm border-t",
+					info.isEnd && "mb-px rounded-b-sm border-b",
 				)
 			}
 			columnEventBeforeClass={(info) =>
@@ -182,7 +182,7 @@ export function EventCalendarViews({ views: userViews, ...restOptions }: EventCa
 				cn(
 					"flex",
 					info.isShort
-						? "flex-row items-center p-1 gap-1"
+						? "flex-row items-center gap-1 p-1"
 						: ["flex-col", info.isNarrow ? "px-1 py-0.5" : "px-2 py-1"],
 					info.isShort || info.isNarrow ? xxsTextClass : "text-xs",
 				)
@@ -217,7 +217,7 @@ export function EventCalendarViews({ views: userViews, ...restOptions }: EventCa
 			dayHeaderContent={(info) => (
 				<>
 					{info.weekdayText && (
-						<div className="text-muted-foreground text-xs uppercase">{info.weekdayText}</div>
+						<div className="text-xs text-muted-foreground uppercase">{info.weekdayText}</div>
 					)}
 					{info.dayNumberText && (
 						<div
@@ -246,11 +246,11 @@ export function EventCalendarViews({ views: userViews, ...restOptions }: EventCa
 				cn("border", info.isMajor && "border-foreground/20", info.isDisabled && "bg-foreground/3")
 			}
 			dayCellTopClass={(info) =>
-				cn("flex flex-row", info.isNarrow ? "justify-end min-h-px" : "justify-center min-h-0.5")
+				cn("flex flex-row", info.isNarrow ? "min-h-px justify-end" : "min-h-0.5 justify-center")
 			}
 			dayCellTopInnerClass={(info) =>
 				cn(
-					"flex flex-row items-center justify-center whitespace-nowrap rounded-full",
+					"flex flex-row items-center justify-center rounded-full whitespace-nowrap",
 					info.isNarrow ? `m-px h-5 ${xxsTextClass}` : "m-1.5 h-6 text-sm",
 					info.text === info.dayNumberText
 						? info.isNarrow
@@ -261,8 +261,8 @@ export function EventCalendarViews({ views: userViews, ...restOptions }: EventCa
 							: "px-2",
 					info.isToday
 						? [
-								"bg-radial-[at_75%_50%] from-orange-300 to-red-500 text-white shadow-sm font-medium",
-								info.hasNavLink && "hover:opacity-90 focus-visible:outline-3 outline-ring/50",
+								"bg-radial-[at_75%_50%] from-orange-300 to-red-500 font-medium text-white shadow-sm",
+								info.hasNavLink && "outline-ring/50 hover:opacity-90 focus-visible:outline-3",
 							]
 						: info.hasNavLink && "hover:bg-foreground/5",
 					info.isOther && "text-muted-foreground",
@@ -300,12 +300,12 @@ export function EventCalendarViews({ views: userViews, ...restOptions }: EventCa
 				cn(
 					!info.level
 						? [
-								"h-9 rounded-full flex flex-row items-center text-lg",
+								"flex h-9 flex-row items-center rounded-full text-lg",
 								info.text === info.dayNumberText ? "w-9 justify-center" : "px-3",
 								info.isToday
 									? [
-											"bg-linear-to-br from-orange-300 to-red-500 text-white ring-2 ring-border shadow-sm font-bold",
-											info.hasNavLink && "hover:opacity-90 focus-visible:outline-3 outline-ring/50",
+											"bg-linear-to-br from-orange-300 to-red-500 font-bold text-white shadow-sm ring-2 ring-border",
+											info.hasNavLink && "outline-ring/50 hover:opacity-90 focus-visible:outline-3",
 										]
 									: info.hasNavLink && "hover:bg-foreground/5",
 							]
@@ -324,17 +324,17 @@ export function EventCalendarViews({ views: userViews, ...restOptions }: EventCa
 				)
 			}
 			singleMonthHeaderClass={(info) =>
-				cn(info.multiMonthColumns > 1 ? "pb-2" : "py-1 border-b bg-background", "items-center")
+				cn(info.multiMonthColumns > 1 ? "pb-2" : "border-b bg-background py-1", "items-center")
 			}
 			singleMonthHeaderInnerClass={(info) =>
-				cn("px-3 py-1 rounded-full text-base font-bold", info.hasNavLink && "hover:bg-foreground/5")
+				cn("rounded-full px-3 py-1 text-base font-bold", info.hasNavLink && "hover:bg-foreground/5")
 			}
 
 			/* Misc Table
       ----------------------------------------------------------------------------------------- */
 
 			tableHeaderClass="bg-background"
-			fillerClass={(info) => cn("opacity-50 border", info.inTableHeader && "border-transparent")}
+			fillerClass={(info) => cn("border opacity-50", info.inTableHeader && "border-transparent")}
 			dayNarrowWidth={100}
 			dayHeaderRowClass="border"
 			dayRowClass="border"
@@ -345,11 +345,11 @@ export function EventCalendarViews({ views: userViews, ...restOptions }: EventCa
 			navLinkClass="focus-visible:outline-3 outline-ring/50"
 			inlineWeekNumberClass={(info) =>
 				cn(
-					"absolute flex flex-row items-center whitespace-nowrap bg-foreground/10",
+					"absolute flex flex-row items-center bg-foreground/10 whitespace-nowrap",
 					info.isNarrow
-						? `top-0.5 start-0 my-px h-4 pe-1 rounded-e-full ${xxsTextClass}`
-						: "top-1.5 start-1 h-6 px-2 rounded-full text-sm",
-					info.hasNavLink && "hover:bg-foreground/20 focus-visible:outline-3 outline-ring/50",
+						? `start-0 top-0.5 my-px h-4 rounded-e-full pe-1 ${xxsTextClass}`
+						: "start-1 top-1.5 h-6 rounded-full px-2 text-sm",
+					info.hasNavLink && "outline-ring/50 hover:bg-foreground/20 focus-visible:outline-3",
 				)
 			}
 			nonBusinessHoursClass="bg-foreground/3"
@@ -371,7 +371,7 @@ export function EventCalendarViews({ views: userViews, ...restOptions }: EventCa
 					...dayRowCommonClasses,
 					dayCellBottomClass: getShortDayCellBottomClass,
 					tableBodyClass: (info) =>
-						cn(info.multiMonthColumns > 1 && "border rounded-sm overflow-hidden"),
+						cn(info.multiMonthColumns > 1 && "overflow-hidden rounded-sm border"),
 					dayHeaderInnerClass: (info) => cn(!info.inPopover && "mb-2"),
 					dayHeaderDividerClass: (info) => cn(info.multiMonthColumns === 1 && "border-b"),
 					...userViews?.multiMonth,
@@ -386,10 +386,10 @@ export function EventCalendarViews({ views: userViews, ...restOptions }: EventCa
 					weekNumberHeaderClass: "items-center justify-end",
 					weekNumberHeaderInnerClass: (info) =>
 						cn(
-							"ms-1 my-2 flex flex-row items-center rounded-full bg-foreground/10",
+							"my-2 ms-1 flex flex-row items-center rounded-full bg-foreground/10",
 							info.options.dayMinWidth !== undefined && "me-1",
 							info.isNarrow ? "h-5 px-1.5 text-xs" : "h-6 px-2 text-sm",
-							info.hasNavLink && "hover:bg-foreground/20 focus-visible:outline-3 outline-ring/50",
+							info.hasNavLink && "outline-ring/50 hover:bg-foreground/20 focus-visible:outline-3",
 						),
 
 					/* TimeGrid > All-Day Header
@@ -404,10 +404,10 @@ export function EventCalendarViews({ views: userViews, ...restOptions }: EventCa
           ------------------------------------------------------------------------------------- */
 
 					slotHeaderClass: (info) =>
-						cn("w-2 self-end justify-end", "border", info.isMinor && "border-dotted"),
+						cn("w-2 justify-end self-end", "border", info.isMinor && "border-dotted"),
 					slotHeaderInnerClass: (info) =>
 						cn(
-							"relative ms-2 me-3 my-2",
+							"relative my-2 ms-2 me-3",
 							info.isNarrow ? `-top-4 ${xxsTextClass}` : "-top-5 text-sm",
 							info.isFirst && "hidden",
 						),
@@ -430,7 +430,7 @@ export function EventCalendarViews({ views: userViews, ...restOptions }: EventCa
 						"shrink-0 w-1/2 max-w-40 whitespace-nowrap overflow-hidden text-ellipsis",
 					listItemEventTitleClass: (info) =>
 						cn(
-							"grow min-w-0 whitespace-nowrap overflow-hidden",
+							"min-w-0 grow overflow-hidden whitespace-nowrap",
 							info.event.url && "group-hover:underline",
 						),
 

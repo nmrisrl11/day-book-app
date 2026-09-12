@@ -98,7 +98,7 @@ export function BirthdayManagementScreen() {
 			<SEO title="Manage Birthdays" canonical="/manage" />
 			<div className="flex w-full flex-col gap-6">
 				<div className="flex items-center justify-between">
-					<h2 className="text-foreground px-2 text-2xl font-bold tracking-tight">
+					<h2 className="px-2 text-2xl font-bold tracking-tight text-foreground">
 						Manage Birthdays
 					</h2>
 					<div className="flex items-center gap-2">
@@ -155,7 +155,7 @@ export function BirthdayManagementScreen() {
 										Select All
 									</Label>
 								</div>
-								<div className="text-muted-foreground text-sm">
+								<div className="text-sm text-muted-foreground">
 									{filteredAndSortedBirthdays.length} items
 								</div>
 							</div>
@@ -163,7 +163,7 @@ export function BirthdayManagementScreen() {
 
 						<div ref={parentRef} className="custom-scrollbar max-h-[55vh] overflow-y-auto pr-4">
 							{filteredAndSortedBirthdays.length === 0 ? (
-								<div className="text-muted-foreground py-12 text-center italic">
+								<div className="py-12 text-center text-muted-foreground italic">
 									No birthdays found matching your criteria.
 								</div>
 							) : (
@@ -209,7 +209,7 @@ export function BirthdayManagementScreen() {
 
 						{filteredAndSortedBirthdays.length > 0 && (
 							<div className="mt-2 flex flex-col items-center justify-between gap-4 sm:flex-row">
-								<div className="text-muted-foreground flex items-center gap-2 text-sm">
+								<div className="flex items-center gap-2 text-sm text-muted-foreground">
 									<span>Show</span>
 									<Select
 										value={itemsPerPage}
@@ -247,7 +247,7 @@ export function BirthdayManagementScreen() {
 										{generatePageNumbers().map((page, index) => {
 											if (typeof page === "string") {
 												return (
-													<span key={page} className="text-muted-foreground px-2">
+													<span key={page} className="px-2 text-muted-foreground">
 														...
 													</span>
 												);
@@ -303,7 +303,7 @@ export function BirthdayManagementScreen() {
 							description={
 								<p>
 									Are you sure you want to delete the birthday for{" "}
-									<span className="text-foreground font-semibold">
+									<span className="font-semibold text-foreground">
 										{modalManager.deletingBirthday?.name}
 									</span>
 									? This action cannot be undone.
@@ -350,7 +350,7 @@ export function BirthdayManagementScreen() {
 							description={
 								<p>
 									Are you sure you want to delete{" "}
-									<span className="text-foreground font-semibold">
+									<span className="font-semibold text-foreground">
 										{selectedIds.size} {selectedIds.size === 1 ? "birthday" : "birthdays"}
 									</span>
 									? This cannot be undone.

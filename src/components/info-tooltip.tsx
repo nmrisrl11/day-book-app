@@ -14,7 +14,7 @@ export function InfoTooltip({ content, label, ariaLabel }: InfoTooltipProps) {
 			<PopoverTrigger asChild>
 				<button
 					type="button"
-					className="text-muted-foreground hover:text-foreground inline-flex cursor-pointer items-center gap-1.5 transition-colors"
+					className="inline-flex cursor-pointer items-center gap-1.5 text-muted-foreground transition-colors hover:text-foreground"
 					aria-label={ariaLabel || "More information"}
 				>
 					{label && <span>{label}</span>}

@@ -82,7 +82,7 @@ export function GlobalSearch() {
 				onValueChange={setSearchQuery}
 			/>
 
-			<div className="rounded-xl bg-background ring-1 ring-border mb-3 mx-3">
+			<div className="mx-3 mb-3 rounded-xl bg-background ring-1 ring-border">
 				<CommandList>
 					<CommandEmpty>No results found.</CommandEmpty>
 

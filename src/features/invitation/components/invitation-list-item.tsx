@@ -84,7 +84,7 @@ export function InvitationListItem({
 	return (
 		<div
 			className={cn(
-				"border-border bg-card flex items-center justify-between gap-2 rounded-xl border p-3 shadow-sm transition-colors sm:p-4",
+				"flex items-center justify-between gap-2 rounded-xl border border-border bg-card p-3 shadow-sm transition-colors sm:p-4",
 				selected && "border-primary/50 bg-primary/5",
 			)}
 		>
@@ -99,7 +99,7 @@ export function InvitationListItem({
 				)}
 				<div className="flex min-w-0 flex-col">
 					<div className="flex items-center gap-2">
-						<span className="text-foreground truncate font-semibold">
+						<span className="truncate font-semibold text-foreground">
 							{invitation.name}'s Invitation
 						</span>
 						<span
@@ -111,7 +111,7 @@ export function InvitationListItem({
 							{isActive ? "Active" : "Expired"}
 						</span>
 					</div>
-					<span className="text-muted-foreground cursor-default truncate text-xs sm:text-sm">
+					<span className="cursor-default truncate text-xs text-muted-foreground sm:text-sm">
 						Created:{" "}
 						<span title={format(invitation.createdAt, "MMM d, yyyy h:mm a")}>
 							{format(invitation.createdAt, "MMM d, yyyy")}

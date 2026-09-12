@@ -9,7 +9,7 @@ export function InvitationSkeleton() {
 				<Skeleton className="mt-2 h-5 w-5/6" />
 			</div>
 
-			<div className="bg-card flex flex-col gap-6 rounded-xl border p-4 shadow-sm md:p-6">
+			<div className="flex flex-col gap-6 rounded-xl border bg-card p-4 shadow-sm md:p-6">
 				<div className="flex flex-col gap-2">
 					<Skeleton className="h-5 w-32" />
 					<Skeleton className="h-10 w-full" />

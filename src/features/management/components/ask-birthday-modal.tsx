@@ -188,7 +188,7 @@ export function AskBirthdayModal({ open, onOpenChange }: AskBirthdayModalProps) 
 									maxLength={NAME_MAX_LENGTH}
 								/>
 								{errors.name && (
-									<p className="text-destructive text-sm font-medium" role="alert">
+									<p className="text-sm font-medium text-destructive" role="alert">
 										{errors.name.message}
 									</p>
 								)}
@@ -211,14 +211,14 @@ export function AskBirthdayModal({ open, onOpenChange }: AskBirthdayModalProps) 
 										)}
 									/>
 								</div>
-								<p className="text-muted-foreground mt-1 text-xs">
+								<p className="mt-1 text-xs text-muted-foreground">
 									This will be shown to the person receiving the link so they know who is asking.
 								</p>
 							</form>
 						) : (
 							<div className="flex w-full min-w-0 flex-col gap-4">
-								<div className="bg-muted relative flex w-full min-w-0 flex-col gap-2 rounded-lg p-3 pr-12">
-									<Label className="text-muted-foreground shrink-0 text-xs font-semibold uppercase">
+								<div className="relative flex w-full min-w-0 flex-col gap-2 rounded-lg bg-muted p-3 pr-12">
+									<Label className="shrink-0 text-xs font-semibold text-muted-foreground uppercase">
 										Shareable Link
 									</Label>
 									<p className="overflow-hidden text-sm font-medium text-ellipsis whitespace-nowrap">
@@ -245,7 +245,7 @@ export function AskBirthdayModal({ open, onOpenChange }: AskBirthdayModalProps) 
 									</Button>
 								</div>
 
-								<div className="bg-primary/10 text-primary rounded-md p-3 text-xs leading-relaxed">
+								<div className="rounded-md bg-primary/10 p-3 text-xs leading-relaxed text-primary">
 									<strong>Privacy Note:</strong> This is a local-first application. To make sharing
 									work without user accounts, this link contains your encoded name. Only share this
 									link with people you trust.
@@ -268,11 +268,11 @@ export function AskBirthdayModal({ open, onOpenChange }: AskBirthdayModalProps) 
 								autoComplete="off"
 							/>
 							{importError && (
-								<p className="text-destructive text-sm font-medium" role="alert">
+								<p className="text-sm font-medium text-destructive" role="alert">
 									{importError}
 								</p>
 							)}
-							<p className="text-muted-foreground text-xs">
+							<p className="text-xs text-muted-foreground">
 								Paste the response link you received to seamlessly import their birthday directly
 								into this device.
 							</p>

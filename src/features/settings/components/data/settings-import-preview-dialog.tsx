@@ -297,27 +297,27 @@ export function SettingsImportPreviewDialog({
 
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
-			<DialogContent className="border-border/50 bg-background flex max-h-[90vh] flex-col overflow-hidden rounded-2xl p-0 shadow-2xl sm:max-w-md">
+			<DialogContent className="flex max-h-[90vh] flex-col overflow-hidden rounded-2xl border-border/50 bg-background p-0 shadow-2xl sm:max-w-md">
 				<div className="shrink-0 p-6 pb-4">
 					<DialogHeader>
-						<DialogTitle className="text-foreground font-sans text-2xl font-bold tracking-wide">
+						<DialogTitle className="font-sans text-2xl font-bold tracking-wide text-foreground">
 							Import Settings
 						</DialogTitle>
-						<DialogDescription className="text-muted-foreground mt-1">
+						<DialogDescription className="mt-1 text-muted-foreground">
 							Review settings before syncing.
 						</DialogDescription>
 					</DialogHeader>
 
-					<div className="bg-muted/50 mt-4 flex flex-col gap-1.5 rounded-lg p-3 text-sm">
+					<div className="mt-4 flex flex-col gap-1.5 rounded-lg bg-muted/50 p-3 text-sm">
 						<div className="flex items-center justify-between">
-							<span className="text-muted-foreground font-medium">Settings detected</span>
+							<span className="font-medium text-muted-foreground">Settings detected</span>
 							<span className="font-semibold">{allChanges.length}</span>
 						</div>
-						<div className="text-primary flex items-center justify-between">
+						<div className="flex items-center justify-between text-primary">
 							<span className="font-medium">Will be updated</span>
 							<span className="font-bold">{changedSettings.length}</span>
 						</div>
-						<div className="text-muted-foreground flex items-center justify-between">
+						<div className="flex items-center justify-between text-muted-foreground">
 							<span>Already up to date</span>
 							<span>{unchangedSettings.length}</span>
 						</div>
@@ -331,7 +331,7 @@ export function SettingsImportPreviewDialog({
 					>
 						{changedSettings.length > 0 && (
 							<div className="mb-6">
-								<h3 className="text-muted-foreground mb-3 border-b pb-1 text-sm font-semibold tracking-wider uppercase">
+								<h3 className="mb-3 border-b pb-1 text-sm font-semibold tracking-wider text-muted-foreground uppercase">
 									Changes to import
 								</h3>
 								<div className="flex flex-col gap-5">
@@ -341,12 +341,12 @@ export function SettingsImportPreviewDialog({
 
 										return (
 											<div key={category.name} className="flex flex-col gap-2">
-												<h4 className="text-foreground text-xs font-semibold">{category.name}</h4>
+												<h4 className="text-xs font-semibold text-foreground">{category.name}</h4>
 												<div className="flex flex-col gap-2">
 													{catChanges.map((change) => (
 														<div
 															key={change.id}
-															className="bg-primary/5 border-primary/10 flex items-center justify-between gap-2 rounded-md border p-2"
+															className="flex items-center justify-between gap-2 rounded-md border border-primary/10 bg-primary/5 p-2"
 														>
 															<span
 																className="truncate text-sm font-medium sm:whitespace-normal"
@@ -356,14 +356,14 @@ export function SettingsImportPreviewDialog({
 															</span>
 															<div className="flex shrink-0 items-center gap-1.5 text-xs">
 																<span
-																	className="text-muted-foreground max-w-20 truncate text-right sm:max-w-25"
+																	className="max-w-20 truncate text-right text-muted-foreground sm:max-w-25"
 																	title={change.currentValue}
 																>
 																	{change.currentValue}
 																</span>
-																<ArrowRightIcon className="text-primary h-3.5 w-3.5 shrink-0" />
+																<ArrowRightIcon className="h-3.5 w-3.5 shrink-0 text-primary" />
 																<span
-																	className="text-primary max-w-20 truncate text-right font-semibold sm:max-w-25"
+																	className="max-w-20 truncate text-right font-semibold text-primary sm:max-w-25"
 																	title={change.importedValue}
 																>
 																	{change.importedValue}
@@ -381,10 +381,10 @@ export function SettingsImportPreviewDialog({
 
 						{unchangedSettings.length > 0 && (
 							<div className="mb-4">
-								<h3 className="text-muted-foreground mb-2 border-b pb-1 text-xs font-semibold tracking-wider uppercase">
+								<h3 className="mb-2 border-b pb-1 text-xs font-semibold tracking-wider text-muted-foreground uppercase">
 									Already up to date
 								</h3>
-								<div className="text-muted-foreground/80 pl-1 text-sm">
+								<div className="pl-1 text-sm text-muted-foreground/80">
 									{unchangedSettings.length} setting{unchangedSettings.length === 1 ? "" : "s"}{" "}
 									match perfectly.
 								</div>
@@ -393,7 +393,7 @@ export function SettingsImportPreviewDialog({
 					</div>
 				</div>
 
-				<DialogFooter className="border-border/50 bg-background shrink-0 border-t p-6 pt-4">
+				<DialogFooter className="shrink-0 border-t border-border/50 bg-background p-6 pt-4">
 					<Button variant="ghost" onClick={() => onOpenChange(false)}>
 						Cancel
 					</Button>

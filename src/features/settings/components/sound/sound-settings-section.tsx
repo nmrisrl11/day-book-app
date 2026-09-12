@@ -61,8 +61,8 @@ export function SoundSettingsSection() {
 
 	return (
 		<div className="flex flex-col gap-6">
-			<div className="bg-card flex flex-col rounded-xl border">
-				<div className="bg-muted/30 flex flex-col gap-1.5 rounded-t-xl border-b p-4">
+			<div className="flex flex-col rounded-xl border bg-card">
+				<div className="flex flex-col gap-1.5 rounded-t-xl border-b bg-muted/30 p-4">
 					<div className="flex items-center justify-between gap-4">
 						<h3 className="text-base font-semibold">Sound Settings</h3>
 						<RestoreDefaultsButton
@@ -70,7 +70,7 @@ export function SoundSettingsSection() {
 							ariaLabel="Restore default sound settings"
 						/>
 					</div>
-					<p className="text-muted-foreground max-w-[85%] text-sm">
+					<p className="max-w-[85%] text-sm text-muted-foreground">
 						Manage audio feedback and sound styles used throughout the app.
 					</p>
 				</div>
@@ -89,7 +89,7 @@ export function SoundSettingsSection() {
 								/>
 							</div>
 						</div>
-						<p className="text-muted-foreground max-w-[85%] text-sm">
+						<p className="max-w-[85%] text-sm text-muted-foreground">
 							Play audio feedback for interactions like hovering over avatars or navigating back to
 							the dashboard.
 						</p>
@@ -100,7 +100,7 @@ export function SoundSettingsSection() {
 							<div className="space-y-3">
 								<div className="flex items-center justify-between">
 									<h3 className="text-sm font-semibold">Volume</h3>
-									<span className="text-muted-foreground text-sm">
+									<span className="text-sm text-muted-foreground">
 										{Math.round(localVolume * 100)}%
 									</span>
 								</div>
@@ -120,7 +120,7 @@ export function SoundSettingsSection() {
 							<div className="space-y-3">
 								<div className="mb-3 flex flex-col gap-1.5">
 									<h3 className="text-sm font-semibold">Sound Customization</h3>
-									<p className="text-muted-foreground text-sm">
+									<p className="text-sm text-muted-foreground">
 										Choose which sound plays for different types of interactions.
 									</p>
 								</div>

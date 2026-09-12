@@ -22,10 +22,10 @@ export function DisplaySettingsSection() {
 	};
 
 	return (
-		<div className="bg-card flex flex-col rounded-xl border">
-			<div className="bg-muted/30 rounded-t-xl border-b p-4">
+		<div className="flex flex-col rounded-xl border bg-card">
+			<div className="rounded-t-xl border-b bg-muted/30 p-4">
 				<h3 className="text-base font-semibold">Dashboard & Display</h3>
-				<p className="text-muted-foreground text-sm">
+				<p className="text-sm text-muted-foreground">
 					Manage how content and effects are displayed on your dashboard.
 				</p>
 			</div>
@@ -41,11 +41,11 @@ export function DisplaySettingsSection() {
 						/>
 					</div>
 					<div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-						<p className="text-muted-foreground text-sm sm:max-w-[85%]">
+						<p className="text-sm text-muted-foreground sm:max-w-[85%]">
 							Choose how many upcoming birthdays to show on the dashboard.
 						</p>
 						<div className="flex shrink-0 items-center">
-							<div className="bg-muted flex items-center rounded-lg border p-1 shadow-sm">
+							<div className="flex items-center rounded-lg border bg-muted p-1 shadow-sm">
 								<Button
 									variant="ghost"
 									size="icon"
@@ -91,7 +91,7 @@ export function DisplaySettingsSection() {
 							/>
 						</div>
 					</div>
-					<p className="text-muted-foreground max-w-[85%] text-sm">
+					<p className="max-w-[85%] text-sm text-muted-foreground">
 						Play confetti and other visual effects. Turn this off if you prefer reduced motion.
 					</p>
 				</div>
@@ -109,7 +109,7 @@ export function DisplaySettingsSection() {
 							/>
 						</div>
 					</div>
-					<p className="text-muted-foreground max-w-[85%] text-sm">
+					<p className="max-w-[85%] text-sm text-muted-foreground">
 						Show a floating toolbar on the dashboard for quick access to avatar and greeting
 						customization.
 					</p>

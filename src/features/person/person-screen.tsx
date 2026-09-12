@@ -66,7 +66,7 @@ export function PersonScreen() {
 					<Button
 						variant="ghost"
 						size="sm"
-						className="text-muted-foreground hover:text-foreground -ml-2 h-9 px-2"
+						className="-ml-2 h-9 px-2 text-muted-foreground hover:text-foreground"
 						onClick={handleBack}
 					>
 						<ChevronLeftIcon className="mr-1 h-4 w-4" />

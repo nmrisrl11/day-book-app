@@ -37,7 +37,7 @@ export function ManageBirthdaysSkeleton() {
 					{Array.from({ length: 6 }, (_, i) => (
 						<div
 							key={i}
-							className="bg-card flex items-center justify-between rounded-xl border p-3 shadow-sm sm:p-4"
+							className="flex items-center justify-between rounded-xl border bg-card p-3 shadow-sm sm:p-4"
 						>
 							<div className="flex min-w-0 flex-1 items-center gap-2 sm:gap-4">
 								<Skeleton className="mr-1 h-4 w-4 shrink-0 rounded" />

@@ -66,7 +66,7 @@ export function InvitationsDataManagement() {
 						}
 					/>
 				</div>
-				<p className="text-muted-foreground text-sm">
+				<p className="text-sm text-muted-foreground">
 					Backup or restore your generated invitation links
 				</p>
 			</div>

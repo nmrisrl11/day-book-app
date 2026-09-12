@@ -26,7 +26,7 @@ export function GlobalSettingsManagement() {
 			<div className="flex flex-col gap-4 border-b py-4 sm:flex-row sm:items-center sm:justify-between">
 				<div className="flex flex-col gap-1 pr-4">
 					<h4 className="text-sm font-semibold">Reset Configurations</h4>
-					<p className="text-muted-foreground text-sm">
+					<p className="text-sm text-muted-foreground">
 						Permanently reset all your configurations to their defaults.
 					</p>
 				</div>
@@ -52,7 +52,7 @@ export function GlobalSettingsManagement() {
 						description={
 							<p>
 								Are you sure you want to reset{" "}
-								<span className="text-foreground font-semibold">ALL</span> settings to their
+								<span className="font-semibold text-foreground">ALL</span> settings to their
 								defaults? This includes your theme, sound preferences, custom greetings, and display
 								options. This action cannot be undone.
 							</p>

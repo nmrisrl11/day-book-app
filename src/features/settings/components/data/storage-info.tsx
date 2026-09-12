@@ -89,7 +89,7 @@ export function StorageInfo() {
 						</span>
 					)}
 				</div>
-				<p className="text-muted-foreground text-sm">
+				<p className="text-sm text-muted-foreground">
 					{storageUsage !== null ? formatBytes(storageUsage) : "Calculating..."} used
 					{storageQuota ? ` of ${formatBytes(storageQuota)} limit` : ""}
 				</p>

@@ -91,7 +91,7 @@ export function SettingsDataManagement() {
 							}
 						/>
 					</div>
-					<p className="text-muted-foreground text-sm">Backup or restore your app configurations</p>
+					<p className="text-sm text-muted-foreground">Backup or restore your app configurations</p>
 				</div>
 				<div className="mt-2 grid w-full grid-cols-2 gap-2 sm:mt-0 sm:flex sm:w-auto sm:items-center">
 					<Button
