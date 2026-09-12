@@ -2,6 +2,7 @@ import { useState } from "react";
 
 export function useDragScroll() {
 	const [isDragging, setIsDragging] = useState(false);
+	const [hasDragged, setHasDragged] = useState(false);
 	const [startX, setStartX] = useState(0);
 	const [scrollLeft, setScrollLeft] = useState(0);
 
@@ -13,6 +14,7 @@ export function useDragScroll() {
 		const container = getScrollContainer(e.currentTarget);
 		if (!container) return;
 		setIsDragging(true);
+		setHasDragged(false);
 		setStartX(e.pageX - container.offsetLeft);
 		setScrollLeft(container.scrollLeft);
 	};
@@ -32,11 +34,15 @@ export function useDragScroll() {
 		e.preventDefault();
 		const x = e.pageX - container.offsetLeft;
 		const walk = (x - startX) * 2;
+		if (Math.abs(walk) > 10) {
+			setHasDragged(true);
+		}
 		container.scrollLeft = scrollLeft - walk;
 	};
 
 	return {
 		isDragging,
+		hasDragged,
 		handlers: {
 			onMouseDown,
 			onMouseLeave,

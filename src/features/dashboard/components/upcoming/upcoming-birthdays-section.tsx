@@ -1,7 +1,8 @@
 import { useDragScroll } from "@/hooks/use-drag-scroll";
-import type { Birthday } from "@/types/birthday";
-import { UpcomingBirthdayCard } from "./upcoming-birthday-card";
 import { cn } from "@/lib/utils";
+import type { Birthday } from "@/types/birthday";
+import { useNavigate } from "react-router-dom";
+import { UpcomingBirthdayCard } from "./upcoming-birthday-card";
 
 interface UpcomingBirthdaysSectionProps {
 	upcomingBirthdays: Birthday[];
@@ -12,7 +13,8 @@ export function UpcomingBirthdaysSection({
 	upcomingBirthdays,
 	currentDate,
 }: UpcomingBirthdaysSectionProps) {
-	const { isDragging, handlers } = useDragScroll();
+	const { isDragging, hasDragged, handlers } = useDragScroll();
+	const navigate = useNavigate();
 
 	if (upcomingBirthdays.length === 0) return null;
 
@@ -37,11 +39,20 @@ export function UpcomingBirthdaysSection({
 						{...handlers}
 					>
 						{displayedBirthdays.map((celebrant) => (
-							<UpcomingBirthdayCard
+							<div
 								key={celebrant.id}
-								celebrant={celebrant}
-								currentDate={currentDate}
-							/>
+								onClick={(e) => {
+									if (hasDragged) {
+										e.preventDefault();
+										e.stopPropagation();
+										return;
+									}
+									navigate(`/person/${celebrant.id}`);
+								}}
+								className="cursor-pointer transition-transform hover:scale-[1.02] active:scale-[0.98]"
+							>
+								<UpcomingBirthdayCard celebrant={celebrant} currentDate={currentDate} />
+							</div>
 						))}
 					</div>
 				</div>
