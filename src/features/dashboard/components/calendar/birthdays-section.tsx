@@ -17,9 +17,14 @@ const BirthdayCalendar = lazy(() =>
 interface BirthdaysSectionProps {
 	birthdaysByMonth: Record<number, Birthday[]>;
 	currentDate: Date;
+	previewBirthdays?: Birthday[];
 }
 
-export function BirthdaysSection({ birthdaysByMonth, currentDate }: BirthdaysSectionProps) {
+export function BirthdaysSection({
+	birthdaysByMonth,
+	currentDate,
+	previewBirthdays,
+}: BirthdaysSectionProps) {
 	const [selectedMonthIndex, setSelectedMonthIndex] = useState<number | null>(null);
 
 	const handleClose = () => setSelectedMonthIndex(null);
@@ -71,7 +76,7 @@ export function BirthdaysSection({ birthdaysByMonth, currentDate }: BirthdaysSec
 
 				<TabsContent value="calendar" className="mt-6 px-2">
 					<Suspense fallback={<div className="h-100 w-full animate-pulse rounded-lg bg-muted" />}>
-						<BirthdayCalendar />
+						<BirthdayCalendar previewBirthdays={previewBirthdays} />
 					</Suspense>
 				</TabsContent>
 			</Tabs>

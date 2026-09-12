@@ -6,6 +6,7 @@ import { DashboardRouteFallback } from "./components/dashboard-route-fallback";
 import { InstallAppBanner } from "./components/install-app-banner";
 
 import { SEO } from "@/components/seo/seo";
+import { getDayBookDummyData } from "@/constants/dummy-data";
 import { BirthdaysSection } from "./components/calendar/birthdays-section";
 import { QuickActionToolbar } from "./components/quick-actions/quick-action-toolbar";
 import { HappyBirthdaySection } from "./components/today/happy-birthday-section";
@@ -27,23 +28,37 @@ export function Dashboard() {
 	if (isLoading) {
 		return <DashboardRouteFallback />;
 	}
-	if (birthdays.length === 0) {
+	if (birthdays.length === 0 && !previewMode) {
 		return (
 			<>
 				<SEO canonical="/" />
-				<DashboardEmptyState />
+				<DashboardEmptyState onStartPreview={() => setPreviewMode(true)} />
 			</>
 		);
 	}
 
 	let activeCelebrants = todayCelebrants;
+	let activeUpcomingBirthdays = upcomingBirthdays;
+	let activeBirthdaysByMonth = birthdaysByMonth;
+	let activeBirthdaysCount = birthdays.length;
+
 	if (previewMode) {
-		activeCelebrants =
-			upcomingBirthdays.length > 0
-				? [upcomingBirthdays[0]]
-				: birthdays.length > 0
-					? [birthdays[0]]
-					: [];
+		if (birthdays.length === 0) {
+			const dummyBirthday = getDayBookDummyData(currentDate);
+
+			activeCelebrants = [dummyBirthday];
+			activeUpcomingBirthdays = [];
+			activeBirthdaysByMonth = Array.from({ length: 12 }, () => []);
+			activeBirthdaysByMonth[currentDate.getMonth()] = [dummyBirthday];
+			activeBirthdaysCount = 1;
+		} else {
+			activeCelebrants =
+				upcomingBirthdays.length > 0
+					? [upcomingBirthdays[0]]
+					: birthdays.length > 0
+						? [birthdays[0]]
+						: [];
+		}
 	}
 
 	return (
@@ -61,15 +76,21 @@ export function Dashboard() {
 						hasDataToPreview={birthdays.length > 0}
 					/>
 					<UpcomingBirthdaysSection
-						upcomingBirthdays={upcomingBirthdays}
+						upcomingBirthdays={activeUpcomingBirthdays}
 						currentDate={currentDate}
 					/>
-					<BirthdaysSection birthdaysByMonth={birthdaysByMonth} currentDate={currentDate} />
+					<BirthdaysSection
+						birthdaysByMonth={activeBirthdaysByMonth}
+						currentDate={currentDate}
+						previewBirthdays={previewMode && birthdays.length === 0 ? activeCelebrants : undefined}
+					/>
 					<InstallAppBanner
-						birthdaysCount={birthdays.length}
+						birthdaysCount={activeBirthdaysCount}
 						onVisibilityChange={setIsInstallBannerVisible}
 					/>
-					{!isInstallBannerVisible && <BackupReminderBanner birthdaysCount={birthdays.length} />}
+					{!isInstallBannerVisible && (
+						<BackupReminderBanner birthdaysCount={activeBirthdaysCount} />
+					)}
 				</Suspense>
 				<QuickActionToolbar hasCelebrants={activeCelebrants.length > 0} />
 			</div>

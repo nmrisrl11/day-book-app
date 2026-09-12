@@ -1,9 +1,8 @@
 import { AnimatedLogo } from "@/components/icons/animated-logo";
 import { Button } from "@/components/ui/button";
 import { APP_INFO } from "@/constants/app-info";
-import { PlusIcon, UploadIcon } from "lucide-react";
+import { PlusIcon, SparklesIcon } from "lucide-react";
 import { lazy, Suspense, useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 const BirthdayFormModal = lazy(() =>
 	import("@/features/management/components/birthday-form-modal").then((m) => ({
@@ -11,13 +10,14 @@ const BirthdayFormModal = lazy(() =>
 	})),
 );
 
-export function DashboardEmptyState({ disabled }: { disabled?: boolean }) {
+export function DashboardEmptyState({
+	disabled,
+	onStartPreview,
+}: {
+	disabled?: boolean;
+	onStartPreview?: () => void;
+}) {
 	const [formModalOpen, setFormModalOpen] = useState(false);
-	const navigate = useNavigate();
-
-	const handleImportClick = () => {
-		navigate("/settings?tab=data");
-	};
 
 	return (
 		<div className="flex w-full flex-col items-center justify-center pt-24 pb-32">
@@ -37,27 +37,31 @@ export function DashboardEmptyState({ disabled }: { disabled?: boolean }) {
 				again.
 			</p>
 
-			<div className="flex w-full flex-col gap-4 px-4 sm:w-auto sm:flex-row">
-				<Button
-					size="lg"
-					className="w-full text-base sm:w-auto"
-					onClick={() => setFormModalOpen(true)}
-					disabled={disabled}
-				>
-					<PlusIcon className="mr-2 h-5 w-5" />
-					Add a Person
-				</Button>
+			<div className="flex w-full flex-col items-center gap-6 px-4">
+				<div className="flex w-full flex-col gap-4 sm:w-auto sm:flex-row">
+					<Button
+						size="lg"
+						className="w-full text-base sm:w-auto"
+						onClick={() => setFormModalOpen(true)}
+						disabled={disabled}
+					>
+						<PlusIcon className="mr-2 h-5 w-5" />
+						Add a Person
+					</Button>
 
-				<Button
-					size="lg"
-					variant="outline"
-					className="w-full text-base sm:w-auto"
-					onClick={handleImportClick}
-					disabled={disabled}
-				>
-					<UploadIcon className="mr-2 h-5 w-5" />
-					Import or Sync
-				</Button>
+					{onStartPreview && (
+						<Button
+							size="lg"
+							variant="outline"
+							className="w-full text-base sm:w-auto"
+							onClick={onStartPreview}
+							disabled={disabled}
+						>
+							<SparklesIcon className="mr-2 h-5 w-5" />
+							See It In Action
+						</Button>
+					)}
+				</div>
 			</div>
 
 			{formModalOpen && (

@@ -10,7 +10,16 @@ export function Footer() {
 	return (
 		<footer className="mt-auto flex w-full justify-center text-muted-foreground">
 			<div className="flex flex-col items-center justify-center gap-y-2">
-				<div className="flex items-center justify-center gap-x-2 text-[0.8rem] font-medium">
+				<div className="flex flex-wrap items-center justify-center gap-x-2 text-center text-[0.8rem] font-medium">
+					<Link
+						to="/settings?tab=data"
+						onClick={() => window.scrollTo(0, 0)}
+						className="-m-3 p-3 transition-colors hover:text-slate-800 dark:hover:text-slate-200"
+						title="Import or Sync Data"
+					>
+						Sync Data
+					</Link>
+					<span className="text-muted-foreground/30">•</span>
 					<Link
 						to="/install"
 						onClick={() => window.scrollTo(0, 0)}

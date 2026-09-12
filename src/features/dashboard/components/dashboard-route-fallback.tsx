@@ -12,5 +12,5 @@ export function DashboardRouteFallback() {
 		return <DashboardSkeleton />;
 	}
 
-	return <DashboardEmptyState disabled />;
+	return <DashboardEmptyState disabled onStartPreview={() => {}} />;
 }
