@@ -36,7 +36,15 @@ export function Dashboard() {
 		);
 	}
 
-	const activeCelebrants = previewMode && birthdays.length > 0 ? [birthdays[0]] : todayCelebrants;
+	let activeCelebrants = todayCelebrants;
+	if (previewMode) {
+		activeCelebrants =
+			upcomingBirthdays.length > 0
+				? [upcomingBirthdays[0]]
+				: birthdays.length > 0
+					? [birthdays[0]]
+					: [];
+	}
 
 	return (
 		<>
