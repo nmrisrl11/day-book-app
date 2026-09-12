@@ -20,8 +20,8 @@ export function UpcomingBirthdayCard({ celebrant, currentDate }: UpcomingBirthda
 	const isDesktop = useMediaQuery("(min-width: 768px)");
 
 	return (
-		<div className="border-border bg-card flex min-w-40 snap-center flex-col items-center rounded-3xl border p-6 shadow-sm md:min-w-45">
-			<div className="bg-background ring-border relative -mt-12 mb-4 rounded-full p-1 shadow-sm ring-1">
+		<div className="flex min-w-40 snap-center flex-col items-center rounded-3xl border border-border bg-card p-6 shadow-sm md:min-w-45">
+			<div className="relative -mt-12 mb-4 rounded-full bg-background p-1 shadow-sm ring-1 ring-border">
 				<UserAvatar
 					birthday={celebrant}
 					size={isDesktop ? 80 : 64}
@@ -30,10 +30,10 @@ export function UpcomingBirthdayCard({ celebrant, currentDate }: UpcomingBirthda
 			</div>
 
 			<div className="flex w-full flex-col items-center gap-1 text-center">
-				<h3 className="text-foreground line-clamp-1 text-lg leading-tight font-bold">
+				<h3 className="line-clamp-1 text-lg leading-tight font-bold text-foreground">
 					{celebrant.name}
 				</h3>
-				<span className="text-muted-foreground text-sm font-medium">{formattedDate}</span>
+				<span className="text-sm font-medium text-muted-foreground">{formattedDate}</span>
 
 				<div className="mt-1 flex flex-wrap justify-center gap-1">
 					{daysUntil === 0 ? (

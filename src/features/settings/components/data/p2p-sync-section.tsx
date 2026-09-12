@@ -187,7 +187,7 @@ export function P2PSyncSection() {
 							}
 						/>
 					</div>
-					<p className="text-muted-foreground text-sm">
+					<p className="text-sm text-muted-foreground">
 						Transfer data instantly over local network
 					</p>
 				</div>
@@ -215,12 +215,12 @@ export function P2PSyncSection() {
 
 			{/* HOST MODAL */}
 			<Dialog open={isHostModalOpen} onOpenChange={handleCloseHost}>
-				<DialogContent className="border-border/50 bg-background max-h-[90vh] rounded-2xl shadow-2xl sm:max-w-md">
+				<DialogContent className="max-h-[90vh] rounded-2xl border-border/50 bg-background shadow-2xl sm:max-w-md">
 					<DialogHeader>
 						<DialogTitle className="text-center font-sans text-2xl font-bold tracking-wide">
 							Send Data
 						</DialogTitle>
-						<DialogDescription className="text-muted-foreground text-center">
+						<DialogDescription className="text-center text-muted-foreground">
 							Enter this code on your other device to connect and receive your data.
 						</DialogDescription>
 					</DialogHeader>
@@ -228,11 +228,11 @@ export function P2PSyncSection() {
 					<div className="flex flex-col items-center justify-center gap-6 py-6">
 						{syncState === "hosting" ? (
 							<>
-								<div className="bg-muted flex h-24 w-full items-center justify-center rounded-xl font-mono text-4xl tracking-[0.25em]">
-									{peerId || <Loader2 className="text-muted-foreground animate-spin" />}
+								<div className="flex h-24 w-full items-center justify-center rounded-xl bg-muted font-mono text-4xl tracking-[0.25em]">
+									{peerId || <Loader2 className="animate-spin text-muted-foreground" />}
 								</div>
 								<div
-									className="text-muted-foreground flex items-center gap-2 text-sm"
+									className="flex items-center gap-2 text-sm text-muted-foreground"
 									aria-live="polite"
 								>
 									<Loader2 className="h-4 w-4 animate-spin" />
@@ -241,24 +241,24 @@ export function P2PSyncSection() {
 							</>
 						) : syncState === "connecting" ? (
 							<>
-								<div className="bg-primary/10 text-primary flex h-24 w-full items-center justify-center rounded-xl">
+								<div className="flex h-24 w-full items-center justify-center rounded-xl bg-primary/10 text-primary">
 									<Loader2 className="h-10 w-10 animate-spin" />
 								</div>
-								<div className="text-primary text-sm font-medium" aria-live="polite">
+								<div className="text-sm font-medium text-primary" aria-live="polite">
 									Waiting for other device to confirm...
 								</div>
 							</>
 						) : syncState === "transferring" ? (
 							<>
-								<div className="bg-primary/10 text-primary flex h-24 w-full items-center justify-center rounded-xl">
+								<div className="flex h-24 w-full items-center justify-center rounded-xl bg-primary/10 text-primary">
 									<Loader2 className="h-10 w-10 animate-spin" />
 								</div>
-								<div className="text-primary text-sm font-medium" aria-live="polite">
+								<div className="text-sm font-medium text-primary" aria-live="polite">
 									Transferring data...
 								</div>
 							</>
 						) : (
-							<div className="text-destructive text-sm" aria-live="polite">
+							<div className="text-sm text-destructive" aria-live="polite">
 								Connection ended or failed.
 							</div>
 						)}
@@ -268,12 +268,12 @@ export function P2PSyncSection() {
 
 			{/* CLIENT MODAL */}
 			<Dialog open={isClientModalOpen} onOpenChange={handleCloseClient}>
-				<DialogContent className="border-border/50 bg-background max-h-[90vh] rounded-2xl shadow-2xl sm:max-w-md">
+				<DialogContent className="max-h-[90vh] rounded-2xl border-border/50 bg-background shadow-2xl sm:max-w-md">
 					<DialogHeader>
 						<DialogTitle className="text-center font-sans text-2xl font-bold tracking-wide">
 							Receive Data
 						</DialogTitle>
-						<DialogDescription className="text-muted-foreground text-center">
+						<DialogDescription className="text-center text-muted-foreground">
 							Enter the 6-character code from your other device to securely merge data.
 						</DialogDescription>
 					</DialogHeader>
@@ -300,19 +300,19 @@ export function P2PSyncSection() {
 							</>
 						) : syncState === "connecting" ? (
 							<>
-								<div className="bg-primary/10 text-primary flex h-24 w-full items-center justify-center rounded-xl">
+								<div className="flex h-24 w-full items-center justify-center rounded-xl bg-primary/10 text-primary">
 									<Loader2 className="h-10 w-10 animate-spin" />
 								</div>
-								<div className="text-primary text-sm font-medium" aria-live="polite">
+								<div className="text-sm font-medium text-primary" aria-live="polite">
 									Connecting to host...
 								</div>
 							</>
 						) : syncState === "transferring" ? (
 							<>
-								<div className="bg-primary/10 text-primary flex h-24 w-full items-center justify-center rounded-xl">
+								<div className="flex h-24 w-full items-center justify-center rounded-xl bg-primary/10 text-primary">
 									<Loader2 className="h-10 w-10 animate-spin" />
 								</div>
-								<div className="text-primary text-sm font-medium" aria-live="polite">
+								<div className="text-sm font-medium text-primary" aria-live="polite">
 									Waiting for host to send data...
 								</div>
 							</>

@@ -26,10 +26,10 @@ export function NotFoundScreen() {
 				</motion.div>
 
 				<div className="space-y-3">
-					<h1 className="text-foreground text-3xl font-extrabold tracking-tight sm:text-4xl">
+					<h1 className="text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
 						Lost in time?
 					</h1>
-					<p className="text-muted-foreground mx-auto max-w-md text-lg">
+					<p className="mx-auto max-w-md text-lg text-muted-foreground">
 						It seems this page has gone missing. Don't worry, even the best memories get misplaced
 						sometimes.
 					</p>
@@ -43,35 +43,35 @@ export function NotFoundScreen() {
 					initial={{ opacity: 0, y: 10 }}
 					animate={{ opacity: 1, y: 0 }}
 					transition={{ delay: 0.2 }}
-					className="border-border w-full max-w-md border-t pt-8"
+					className="w-full max-w-md border-t border-border pt-8"
 				>
-					<p className="text-muted-foreground mb-4 text-sm font-medium">
+					<p className="mb-4 text-sm font-medium text-muted-foreground">
 						You might want to explore
 					</p>
 					<div className="grid grid-cols-1 gap-3 text-left sm:grid-cols-2">
 						<Link
 							to="/manage"
-							className="group bg-card focus-visible:ring-ring flex items-start gap-3 rounded-xl border p-4 transition-all hover:-translate-y-1 hover:shadow-md focus-visible:ring-2 focus-visible:outline-none"
+							className="group flex items-start gap-3 rounded-xl border bg-card p-4 transition-all hover:-translate-y-1 hover:shadow-md focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
 						>
-							<div className="bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground rounded-lg p-2 transition-colors">
+							<div className="rounded-lg bg-primary/10 p-2 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
 								<UsersIcon className="h-5 w-5" />
 							</div>
 							<div>
 								<h3 className="mb-1 leading-none font-semibold tracking-tight">Manage</h3>
-								<p className="text-muted-foreground text-xs">View your list</p>
+								<p className="text-xs text-muted-foreground">View your list</p>
 							</div>
 						</Link>
 
 						<Link
 							to="/settings"
-							className="group bg-card focus-visible:ring-ring flex items-start gap-3 rounded-xl border p-4 transition-all hover:-translate-y-1 hover:shadow-md focus-visible:ring-2 focus-visible:outline-none"
+							className="group flex items-start gap-3 rounded-xl border bg-card p-4 transition-all hover:-translate-y-1 hover:shadow-md focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
 						>
-							<div className="bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground rounded-lg p-2 transition-colors">
+							<div className="rounded-lg bg-primary/10 p-2 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
 								<SettingsIcon className="h-5 w-5" />
 							</div>
 							<div>
 								<h3 className="mb-1 leading-none font-semibold tracking-tight">Settings</h3>
-								<p className="text-muted-foreground text-xs">Personalize app</p>
+								<p className="text-xs text-muted-foreground">Personalize app</p>
 							</div>
 						</Link>
 					</div>

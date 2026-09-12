@@ -39,7 +39,7 @@ export function PageLayout({ children }: PageLayoutProps) {
 	const isDesktop = useMediaQuery("(min-width: 768px)");
 
 	return (
-		<div className="bg-background text-foreground relative flex min-h-dvh flex-col overflow-x-clip font-sans pb-[calc(5rem+env(safe-area-inset-bottom))] md:pb-0">
+		<div className="relative flex min-h-dvh flex-col overflow-x-clip bg-background pb-[calc(5rem+env(safe-area-inset-bottom))] font-sans text-foreground md:pb-0">
 			<a
 				href="#main-content"
 				className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:bg-background focus:p-4 focus:text-foreground"
@@ -49,10 +49,10 @@ export function PageLayout({ children }: PageLayoutProps) {
 			<header className="relative z-20 mx-auto flex w-full max-w-4xl items-center justify-between p-4 md:px-4 md:py-6">
 				<Link
 					to="/"
-					className="group focus-visible:ring-primary flex cursor-pointer items-center gap-2 rounded-md p-1 focus:outline-none focus-visible:ring-2"
+					className="group flex cursor-pointer items-center gap-2 rounded-md p-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
 					title="Go to Dashboard"
 				>
-					<Logo className="text-foreground h-12 w-auto drop-shadow-sm transition-transform duration-200 group-hover:scale-105" />
+					<Logo className="h-12 w-auto text-foreground drop-shadow-sm transition-transform duration-200 group-hover:scale-105" />
 				</Link>
 				<div className="flex items-center gap-2">
 					<Button
@@ -122,7 +122,7 @@ export function PageLayout({ children }: PageLayoutProps) {
 			</main>
 
 			{!isDesktop && (
-				<nav className="fixed bottom-0 left-0 right-0 z-50 flex items-center justify-around border-t bg-background/80 px-2 py-2 pb-[env(safe-area-inset-bottom,16px)] backdrop-blur-md">
+				<nav className="fixed right-0 bottom-0 left-0 z-50 flex items-center justify-around border-t bg-background/80 px-2 py-2 pb-[env(safe-area-inset-bottom,16px)] backdrop-blur-md">
 					{MOBILE_NAV_ITEMS.map((item) => {
 						const isActive =
 							location.pathname === item.path ||

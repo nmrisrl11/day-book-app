@@ -52,13 +52,13 @@ export function FloatingMessages({ enabled }: { enabled: boolean }) {
 			{messages.map((msg) => (
 				<div
 					key={msg.id}
-					className="animate-float-up absolute bottom-10 opacity-0"
+					className="absolute bottom-10 animate-float-up opacity-0"
 					style={{
 						left: `${msg.left}%`,
 						animationDelay: `${msg.delay}s`,
 					}}
 				>
-					<div className="bg-background/80 text-foreground border-border/50 rounded-full border px-4 py-2 text-sm font-bold whitespace-nowrap shadow-xl backdrop-blur-sm md:text-base">
+					<div className="rounded-full border border-border/50 bg-background/80 px-4 py-2 text-sm font-bold whitespace-nowrap text-foreground shadow-xl backdrop-blur-sm md:text-base">
 						{msg.text}
 					</div>
 				</div>

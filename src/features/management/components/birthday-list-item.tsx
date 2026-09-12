@@ -49,7 +49,7 @@ export const BirthdayListItem = memo(function BirthdayListItem({
 		<>
 			<div
 				className={cn(
-					"border-border bg-card flex items-center justify-between gap-2 rounded-xl border p-3 shadow-sm transition-colors sm:p-4",
+					"flex items-center justify-between gap-2 rounded-xl border border-border bg-card p-3 shadow-sm transition-colors sm:p-4",
 					selected && "border-primary/50 bg-primary/5",
 				)}
 			>
@@ -64,22 +64,22 @@ export const BirthdayListItem = memo(function BirthdayListItem({
 					)}
 					<Link
 						to={`/person/${birthday.id}`}
-						className="flex min-w-0 flex-1 items-center gap-2 sm:gap-4 hover:opacity-80 transition-opacity rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+						className="flex min-w-0 flex-1 items-center gap-2 rounded-md transition-opacity hover:opacity-80 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none sm:gap-4"
 						aria-label={`View ${birthday.name}'s profile`}
 					>
-						<div className="ring-border h-10 w-10 shrink-0 overflow-hidden rounded-full shadow-sm ring-1">
+						<div className="h-10 w-10 shrink-0 overflow-hidden rounded-full shadow-sm ring-1 ring-border">
 							<UserAvatar birthday={birthday} size={40} className="h-full w-full" />
 						</div>
 						<div className="flex min-w-0 flex-col">
-							<span className="text-foreground truncate font-semibold">
+							<span className="truncate font-semibold text-foreground">
 								{birthday.name}
 								{birthday.relationship && (
-									<span className="text-muted-foreground ml-2 text-xs font-normal tracking-wider uppercase">
+									<span className="ml-2 text-xs font-normal tracking-wider text-muted-foreground uppercase">
 										• {birthday.relationship}
 									</span>
 								)}
 							</span>
-							<span className="text-muted-foreground truncate text-xs sm:text-sm">
+							<span className="truncate text-xs text-muted-foreground sm:text-sm">
 								{displayDate}
 								{ageDisplay !== null && (
 									<>

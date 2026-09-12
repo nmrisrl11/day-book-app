@@ -41,7 +41,7 @@ export function BirthdayFilters({
 		<div className="flex flex-col gap-3 sm:flex-row sm:items-center">
 			<div className="relative flex-1">
 				<SearchIcon
-					className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2"
+					className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground"
 					aria-hidden="true"
 				/>
 				<Input
@@ -60,7 +60,7 @@ export function BirthdayFilters({
 					value={monthFilter}
 					onValueChange={(val) => setMonthFilter(val as (typeof MONTH_OPTIONS)[number])}
 				>
-					<SelectTrigger className="bg-background w-32.5" aria-label="Filter by month">
+					<SelectTrigger className="w-32.5 bg-background" aria-label="Filter by month">
 						<SelectValue placeholder="Month" />
 					</SelectTrigger>
 					<SelectContent position="popper">
@@ -73,7 +73,7 @@ export function BirthdayFilters({
 					</SelectContent>
 				</Select>
 				<Select value={relationshipFilter} onValueChange={(val) => setRelationshipFilter(val)}>
-					<SelectTrigger className="bg-background w-32.5" aria-label="Filter by relationship">
+					<SelectTrigger className="w-32.5 bg-background" aria-label="Filter by relationship">
 						<SelectValue placeholder="Relationship" />
 					</SelectTrigger>
 					<SelectContent position="popper">
@@ -89,7 +89,7 @@ export function BirthdayFilters({
 					value={sortOption}
 					onValueChange={(val) => setSortOption(val as (typeof SORT_OPTIONS)[number])}
 				>
-					<SelectTrigger className="bg-background w-40" aria-label="Sort birthdays">
+					<SelectTrigger className="w-40 bg-background" aria-label="Sort birthdays">
 						<SelectValue placeholder="Sort by" />
 					</SelectTrigger>
 					<SelectContent position="popper">
@@ -105,7 +105,7 @@ export function BirthdayFilters({
 					<Button
 						variant="ghost"
 						size="icon"
-						className="text-muted-foreground hover:bg-destructive/10 hover:text-destructive shrink-0"
+						className="shrink-0 text-muted-foreground hover:bg-destructive/10 hover:text-destructive"
 						onClick={handleClearFilters}
 						aria-label="Clear all filters"
 						title="Clear all filters"

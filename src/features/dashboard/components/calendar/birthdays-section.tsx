@@ -28,7 +28,7 @@ export function BirthdaysSection({ birthdaysByMonth, currentDate }: BirthdaysSec
 		<div className="flex w-full flex-col gap-6">
 			<Tabs defaultValue="list" className="w-full">
 				<div className="flex flex-col gap-4 px-2 sm:flex-row sm:items-center sm:justify-between">
-					<h2 className="text-foreground text-xl font-bold tracking-tight uppercase md:text-2xl">
+					<h2 className="text-xl font-bold tracking-tight text-foreground uppercase md:text-2xl">
 						Birthdays
 					</h2>
 					<TabsList className="grid w-full grid-cols-2 self-start sm:max-w-50 sm:self-auto">
@@ -70,7 +70,7 @@ export function BirthdaysSection({ birthdaysByMonth, currentDate }: BirthdaysSec
 				</TabsContent>
 
 				<TabsContent value="calendar" className="mt-6 px-2">
-					<Suspense fallback={<div className="bg-muted h-100 w-full animate-pulse rounded-lg" />}>
+					<Suspense fallback={<div className="h-100 w-full animate-pulse rounded-lg bg-muted" />}>
 						<BirthdayCalendar />
 					</Suspense>
 				</TabsContent>

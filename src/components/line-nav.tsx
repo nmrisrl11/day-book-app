@@ -50,14 +50,14 @@ function LineNavItemComponent({
 			>
 				<span
 					className={cn(
-						"group-hover:bg-foreground block h-px shrink-0 transition-all duration-300 ease-out",
-						isActive ? "bg-foreground w-10" : "bg-foreground/20 w-6",
+						"block h-px shrink-0 transition-all duration-300 ease-out group-hover:bg-foreground",
+						isActive ? "w-10 bg-foreground" : "w-6 bg-foreground/20",
 					)}
 				/>
 				<span
 					className={cn(
-						"group-hover:text-foreground text-sm whitespace-nowrap transition-colors duration-300 ease-out",
-						isActive ? "text-foreground font-medium" : "text-muted-foreground",
+						"text-sm whitespace-nowrap transition-colors duration-300 ease-out group-hover:text-foreground",
+						isActive ? "font-medium text-foreground" : "text-muted-foreground",
 					)}
 				>
 					{item.label}
@@ -77,14 +77,14 @@ function LineNavItemComponent({
 							>
 								<span
 									className={cn(
-										"group-hover:bg-foreground block h-px shrink-0 transition-all duration-300 ease-out",
-										isChildActive ? "bg-foreground w-8" : "bg-foreground/20 w-4",
+										"block h-px shrink-0 transition-all duration-300 ease-out group-hover:bg-foreground",
+										isChildActive ? "w-8 bg-foreground" : "w-4 bg-foreground/20",
 									)}
 								/>
 								<span
 									className={cn(
-										"group-hover:text-foreground text-sm whitespace-nowrap transition-colors duration-300 ease-out",
-										isChildActive ? "text-foreground font-medium" : "text-muted-foreground",
+										"text-sm whitespace-nowrap transition-colors duration-300 ease-out group-hover:text-foreground",
+										isChildActive ? "font-medium text-foreground" : "text-muted-foreground",
 									)}
 								>
 									{child.label}

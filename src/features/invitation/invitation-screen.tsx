@@ -78,10 +78,10 @@ export function InvitationScreen() {
 					</motion.div>
 
 					<div className="space-y-3">
-						<h1 className="text-foreground text-3xl font-extrabold tracking-tight sm:text-4xl">
+						<h1 className="text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
 							Link Expired
 						</h1>
-						<p className="text-muted-foreground mx-auto max-w-md text-lg">
+						<p className="mx-auto max-w-md text-lg text-muted-foreground">
 							This invitation is no longer valid. It may have expired or been corrupted. Ask your
 							friend for a new link!
 						</p>
@@ -135,7 +135,7 @@ export function InvitationScreen() {
 					transition={{ duration: 0.4, ease: "easeOut" }}
 					className="relative flex w-full flex-col items-center justify-center pt-10 pb-20"
 				>
-					<div className="bg-card shadow-primary/5 flex w-full max-w-md flex-col gap-6 rounded-2xl border p-6 shadow-xl sm:p-8">
+					<div className="flex w-full max-w-md flex-col gap-6 rounded-2xl border bg-card p-6 shadow-xl shadow-primary/5 sm:p-8">
 						<div className="flex flex-col items-center gap-2 text-center">
 							<AnimatedLogo
 								key="share"
@@ -157,8 +157,8 @@ export function InvitationScreen() {
 
 						<div className="flex w-full min-w-0 flex-col gap-5 pt-2">
 							<div className="flex w-full min-w-0 flex-col gap-3">
-								<div className="bg-muted relative flex w-full min-w-0 flex-col gap-1.5 overflow-hidden rounded-xl p-3.5 pr-12">
-									<Label className="text-muted-foreground shrink-0 text-[10px] font-bold uppercase tracking-wider">
+								<div className="relative flex w-full min-w-0 flex-col gap-1.5 overflow-hidden rounded-xl bg-muted p-3.5 pr-12">
+									<Label className="shrink-0 text-[10px] font-bold tracking-wider text-muted-foreground uppercase">
 										Response Link
 									</Label>
 									<p className="overflow-hidden text-sm font-medium text-ellipsis whitespace-nowrap">
@@ -198,8 +198,8 @@ export function InvitationScreen() {
 								)}
 							</div>
 
-							<div className="bg-primary/5 text-primary mt-1 rounded-lg p-3.5 text-xs leading-relaxed border border-primary/10">
-								<strong className="font-semibold block mb-1">Privacy Note</strong>
+							<div className="mt-1 rounded-lg border border-primary/10 bg-primary/5 p-3.5 text-xs leading-relaxed text-primary">
+								<strong className="mb-1 block font-semibold">Privacy Note</strong>
 								This is a local-first application. The link contains your encoded name and birthday
 								and expires in 12 hours. <strong>Do not post this link publicly.</strong> Only share
 								it privately with people you trust.
@@ -225,7 +225,7 @@ export function InvitationScreen() {
 				transition={{ duration: 0.4, ease: "easeOut" }}
 				className="relative flex w-full flex-col items-center justify-center pt-10 pb-20"
 			>
-				<div className="bg-card shadow-primary/5 flex w-full max-w-md flex-col gap-6 rounded-2xl border p-6 shadow-xl sm:p-8">
+				<div className="flex w-full max-w-md flex-col gap-6 rounded-2xl border bg-card p-6 shadow-xl shadow-primary/5 sm:p-8">
 					<div className="flex flex-col items-center gap-2 text-center">
 						<AnimatedLogo
 							key="invite"
@@ -259,7 +259,7 @@ export function InvitationScreen() {
 								maxLength={NAME_MAX_LENGTH}
 							/>
 							{errors.name && (
-								<p className="text-destructive text-sm font-medium" role="alert">
+								<p className="text-sm font-medium text-destructive" role="alert">
 									{errors.name.message}
 								</p>
 							)}
@@ -275,7 +275,7 @@ export function InvitationScreen() {
 								autoComplete="off"
 							/>
 							{errors.birthday && (
-								<p className="text-destructive text-sm font-medium" role="alert">
+								<p className="text-sm font-medium text-destructive" role="alert">
 									{errors.birthday.message}
 								</p>
 							)}
@@ -284,18 +284,18 @@ export function InvitationScreen() {
 						<div className="flex flex-col gap-2 pt-2">
 							<div className="flex items-center justify-between">
 								<Label htmlFor="giftIdea">Gift Ideas / Wish List (Optional)</Label>
-								<span className="text-muted-foreground text-xs">
+								<span className="text-xs text-muted-foreground">
 									{giftIdeas.length}/{GIFT_IDEA_MAX_COUNT}
 								</span>
 							</div>
-							<p className="text-muted-foreground text-xs">Share things you'd love to receive!</p>
+							<p className="text-xs text-muted-foreground">Share things you'd love to receive!</p>
 
 							{giftIdeas.length > 0 && (
 								<div className="mb-2 flex flex-wrap gap-2">
 									{giftIdeas.map((idea) => (
 										<div
 											key={idea}
-											className="bg-primary/10 text-primary flex h-auto max-w-full items-center gap-1.5 whitespace-normal wrap-break-word rounded-2xl px-3 py-1 text-left text-xs font-medium"
+											className="flex h-auto max-w-full items-center gap-1.5 rounded-2xl bg-primary/10 px-3 py-1 text-left text-xs font-medium wrap-break-word whitespace-normal text-primary"
 										>
 											<span className="min-w-0 flex-1 wrap-break-word">{idea}</span>
 											<button
@@ -308,7 +308,7 @@ export function InvitationScreen() {
 														{ shouldValidate: true },
 													);
 												}}
-												className="hover:bg-primary/20 rounded-full p-0.5"
+												className="rounded-full p-0.5 hover:bg-primary/20"
 												title={`Remove gift idea: ${idea}`}
 											>
 												<XIcon className="h-3 w-3" aria-hidden="true" />
@@ -369,7 +369,7 @@ export function InvitationScreen() {
 								</Button>
 							</div>
 							{errors.giftIdeas && (
-								<p className="text-destructive text-sm font-medium mt-1" role="alert">
+								<p className="mt-1 text-sm font-medium text-destructive" role="alert">
 									{errors.giftIdeas.message}
 								</p>
 							)}

@@ -16,7 +16,7 @@ export function MobileLineNav({ items, activeId }: MobileLineNavProps) {
 			{/* Floating Button */}
 			<button
 				onClick={() => setIsOpen(true)}
-				className="bg-card text-foreground border-border fixed top-1/2 right-4 z-50 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border shadow-md xl:hidden"
+				className="fixed top-1/2 right-4 z-50 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-border bg-card text-foreground shadow-md xl:hidden"
 				aria-label="Open Table of Contents"
 			>
 				<AlignJustifyIcon className="h-5 w-5" />
@@ -41,13 +41,13 @@ export function MobileLineNav({ items, activeId }: MobileLineNavProps) {
 							animate={{ x: 0, opacity: 1, y: "-50%" }}
 							exit={{ x: "100%", opacity: 0, y: "-50%" }}
 							transition={{ type: "spring", damping: 25, stiffness: 200 }}
-							className="bg-card border-border fixed top-1/2 right-4 z-101 flex max-h-[85vh] w-65 flex-col rounded-2xl border p-4 shadow-xl xl:hidden"
+							className="fixed top-1/2 right-4 z-101 flex max-h-[85vh] w-65 flex-col rounded-2xl border border-border bg-card p-4 shadow-xl xl:hidden"
 						>
 							<div className="mb-4 flex shrink-0 items-center justify-between px-2">
-								<h3 className="text-foreground font-semibold">On this page</h3>
+								<h3 className="font-semibold text-foreground">On this page</h3>
 								<button
 									onClick={() => setIsOpen(false)}
-									className="text-muted-foreground hover:bg-muted -m-1 rounded-md p-2"
+									className="-m-1 rounded-md p-2 text-muted-foreground hover:bg-muted"
 								>
 									<XIcon className="h-4 w-4" />
 								</button>

@@ -55,9 +55,9 @@ export function QuickActionGreeting({ hasCelebrants = true }: { hasCelebrants?: 
 	if (!hasCelebrants) {
 		return (
 			<div className="flex h-full min-h-35 w-full flex-col items-center justify-center gap-2 p-3 text-center md:min-w-62.5">
-				<PartyHat className="text-muted-foreground/30 h-8 w-8" />
-				<p className="text-muted-foreground text-xs font-medium">No birthdays today</p>
-				<p className="text-muted-foreground/70 text-[10px]">
+				<PartyHat className="h-8 w-8 text-muted-foreground/30" />
+				<p className="text-xs font-medium text-muted-foreground">No birthdays today</p>
+				<p className="text-[10px] text-muted-foreground/70">
 					Greeting customization will be available when someone is celebrating.
 				</p>
 			</div>
@@ -67,7 +67,7 @@ export function QuickActionGreeting({ hasCelebrants = true }: { hasCelebrants?: 
 	return (
 		<div className="flex w-full flex-col gap-3 p-3 md:min-w-62.5">
 			<div className="flex items-center justify-between">
-				<h4 className="text-muted-foreground text-[10px] font-semibold tracking-wider uppercase">
+				<h4 className="text-[10px] font-semibold tracking-wider text-muted-foreground uppercase">
 					Greeting
 				</h4>
 				<div className="flex items-center gap-1">
@@ -75,12 +75,12 @@ export function QuickActionGreeting({ hasCelebrants = true }: { hasCelebrants?: 
 					<Button
 						variant="ghost"
 						size="icon"
-						className="hover:bg-muted h-6 w-6 rounded-full"
+						className="h-6 w-6 rounded-full hover:bg-muted"
 						onClick={randomizeColors}
 						title="Randomize Colors"
 						aria-label="Randomize colors"
 					>
-						<DicesIcon className="text-muted-foreground h-3.5 w-3.5" />
+						<DicesIcon className="h-3.5 w-3.5 text-muted-foreground" />
 					</Button>
 				</div>
 			</div>

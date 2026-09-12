@@ -64,7 +64,7 @@ export function AboutScreen() {
 				<div className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-12 p-4 pt-4 pb-12 md:p-8">
 					{/* Back button */}
 					<div>
-						<Button variant="ghost" size="sm" asChild className="text-muted-foreground -ml-2">
+						<Button variant="ghost" size="sm" asChild className="-ml-2 text-muted-foreground">
 							<Link to="/">
 								<ArrowLeftIcon className="mr-2 h-4 w-4" />
 								Back to Dashboard
@@ -81,10 +81,10 @@ export function AboutScreen() {
 						<Badge variant="secondary" className="w-fit">
 							{APP_INFO.name} v{changelog[0]?.version}
 						</Badge>
-						<h1 className="text-foreground text-4xl font-bold tracking-tight sm:text-5xl">
+						<h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
 							{APP_INFO.tagline}
 						</h1>
-						<p className="text-muted-foreground mx-auto max-w-xl text-lg">
+						<p className="mx-auto max-w-xl text-lg text-muted-foreground">
 							Keep birthdays, relationships, and little memories together — privately and simply. A
 							calendar can remind you that someone has a birthday. {APP_INFO.name} helps you
 							remember the person.
@@ -93,7 +93,7 @@ export function AboutScreen() {
 
 					{/* Features Section */}
 					<section id="features" className="flex scroll-mt-24 flex-col gap-6">
-						<h2 className="text-foreground text-2xl font-semibold">Everything you need</h2>
+						<h2 className="text-2xl font-semibold text-foreground">Everything you need</h2>
 						<div className="grid gap-4 sm:grid-cols-2">
 							<FeatureCard
 								icon={<HeartIcon className="h-5 w-5" />}
@@ -129,20 +129,20 @@ export function AboutScreen() {
 					</section>
 
 					{/* Privacy Section */}
-					<section className="bg-card border-border flex flex-col gap-4 rounded-3xl border p-6 sm:p-8">
+					<section className="flex flex-col gap-4 rounded-3xl border border-border bg-card p-6 sm:p-8">
 						<div className="flex items-center gap-3">
-							<div className="bg-primary/10 text-primary flex h-10 w-10 shrink-0 items-center justify-center rounded-full">
+							<div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
 								<ShieldCheckIcon className="h-5 w-5" />
 							</div>
-							<h2 className="text-foreground text-2xl font-semibold">Your people, your data.</h2>
+							<h2 className="text-2xl font-semibold text-foreground">Your people, your data.</h2>
 						</div>
-						<p className="text-muted-foreground text-base leading-relaxed">
+						<p className="text-base leading-relaxed text-muted-foreground">
 							{APP_INFO.name} is designed around <strong>local-first storage</strong>. Your birthday
 							information stays on your device rather than being stored in a central database or
 							requiring an account. We do not sync your data to the cloud. You are in complete
 							control of your data through JSON imports, exports, and local network device syncing.
 						</p>
-						<p className="text-muted-foreground text-base leading-relaxed">
+						<p className="text-base leading-relaxed text-muted-foreground">
 							We use Vercel Analytics and Speed Insights for basic usage and performance tracking to
 							help improve the app. Your personal birthday records always remain private on your
 							device.
@@ -152,15 +152,15 @@ export function AboutScreen() {
 					{/* Open Source Section */}
 					<section
 						id="open-source"
-						className="bg-card border-border flex scroll-mt-24 flex-col gap-4 rounded-3xl border p-6 sm:p-8"
+						className="flex scroll-mt-24 flex-col gap-4 rounded-3xl border border-border bg-card p-6 sm:p-8"
 					>
 						<div className="flex items-center gap-3">
-							<div className="bg-primary/10 text-primary flex h-10 w-10 shrink-0 items-center justify-center rounded-full">
+							<div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
 								<GithubIcon className="h-5 w-5" />
 							</div>
-							<h2 className="text-foreground text-2xl font-semibold">Open Source</h2>
+							<h2 className="text-2xl font-semibold text-foreground">Open Source</h2>
 						</div>
-						<p className="text-muted-foreground text-base leading-relaxed">
+						<p className="text-base leading-relaxed text-muted-foreground">
 							{APP_INFO.name} is a completely open-source project. We believe in transparent,
 							local-first architecture where you own your data. Developers and privacy advocates are
 							highly encouraged to explore the codebase, understand how data is stored, and
@@ -181,15 +181,15 @@ export function AboutScreen() {
 					{/* Community Section */}
 					<section
 						id="community"
-						className="bg-card border-border flex scroll-mt-24 flex-col gap-4 rounded-3xl border p-6 sm:p-8"
+						className="flex scroll-mt-24 flex-col gap-4 rounded-3xl border border-border bg-card p-6 sm:p-8"
 					>
 						<div className="flex items-center gap-3">
-							<div className="bg-primary/10 text-primary flex h-10 w-10 shrink-0 items-center justify-center rounded-full">
+							<div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
 								<ThumbsUpIcon className="h-5 w-5" />
 							</div>
-							<h2 className="text-foreground text-2xl font-semibold">Support the Project</h2>
+							<h2 className="text-2xl font-semibold text-foreground">Support the Project</h2>
 						</div>
-						<p className="text-muted-foreground text-base leading-relaxed">
+						<p className="text-base leading-relaxed text-muted-foreground">
 							Love using {APP_INFO.name}? Help us grow by showing your support on App Builders PH!
 							Your upvotes and feedback help us reach more people and continue improving the app.
 						</p>
@@ -207,7 +207,7 @@ export function AboutScreen() {
 
 					{/* Changelog Section */}
 					<section id="whats-new" className="flex scroll-mt-24 flex-col gap-8">
-						<h2 className="text-foreground text-2xl font-semibold">What's New</h2>
+						<h2 className="text-2xl font-semibold text-foreground">What's New</h2>
 						<div className="flex flex-col gap-12">
 							{visibleReleases.map((release) => (
 								<div
@@ -217,23 +217,23 @@ export function AboutScreen() {
 								>
 									{/* Date & Version */}
 									<div className="flex flex-col gap-1 md:sticky md:top-24 md:w-32 md:shrink-0 md:self-start md:text-right">
-										<span className="text-foreground font-semibold">{release.date}</span>
-										<span className="text-muted-foreground text-sm">v{release.version}</span>
+										<span className="font-semibold text-foreground">{release.date}</span>
+										<span className="text-sm text-muted-foreground">v{release.version}</span>
 									</div>
 
 									{/* Timeline Items */}
 									<div className="flex flex-col gap-4">
-										<h3 className="text-foreground text-xl font-bold">{release.title}</h3>
+										<h3 className="text-xl font-bold text-foreground">{release.title}</h3>
 										{release.summary && (
-											<p className="text-muted-foreground mb-2 leading-relaxed">
+											<p className="mb-2 leading-relaxed text-muted-foreground">
 												{release.summary}
 											</p>
 										)}
 
-										<div className="border-border ml-2 flex flex-col gap-4 border-l pl-6 md:ml-0 md:pl-4">
+										<div className="ml-2 flex flex-col gap-4 border-l border-border pl-6 md:ml-0 md:pl-4">
 											{release.changes.map((change, idx) => (
 												<div key={idx} className="relative flex flex-col gap-1">
-													<div className="bg-border absolute top-2 left-[-28.5px] h-2 w-2 rounded-full md:left-[-20.5px]" />
+													<div className="absolute top-2 left-[-28.5px] h-2 w-2 rounded-full bg-border md:left-[-20.5px]" />
 													<div className="flex flex-wrap items-center gap-2">
 														<Badge
 															variant={
@@ -247,9 +247,9 @@ export function AboutScreen() {
 														>
 															{change.type}
 														</Badge>
-														<span className="text-foreground font-semibold">{change.title}</span>
+														<span className="font-semibold text-foreground">{change.title}</span>
 													</div>
-													<p className="text-muted-foreground text-sm leading-relaxed">
+													<p className="text-sm leading-relaxed text-muted-foreground">
 														{change.description}
 													</p>
 												</div>
@@ -272,7 +272,7 @@ export function AboutScreen() {
 
 				{/* Desktop Line Nav */}
 				<aside className="fixed top-1/2 right-4 hidden w-50 -translate-y-1/2 flex-col xl:flex 2xl:right-16 2xl:w-60">
-					<h3 className="text-foreground mb-2 shrink-0 px-3 font-semibold">On this page</h3>
+					<h3 className="mb-2 shrink-0 px-3 font-semibold text-foreground">On this page</h3>
 					<div className="custom-scrollbar max-h-[80vh] overflow-x-hidden overflow-y-auto pb-4">
 						<LineNav items={navItems} activeId={activeId} />
 					</div>
@@ -295,12 +295,12 @@ function FeatureCard({
 	description: string;
 }) {
 	return (
-		<div className="bg-card border-border flex flex-col gap-3 rounded-2xl border p-5">
-			<div className="bg-primary/10 text-primary flex h-10 w-10 items-center justify-center rounded-xl">
+		<div className="flex flex-col gap-3 rounded-2xl border border-border bg-card p-5">
+			<div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
 				{icon}
 			</div>
-			<h3 className="text-foreground font-semibold">{title}</h3>
-			<p className="text-muted-foreground text-sm leading-relaxed">{description}</p>
+			<h3 className="font-semibold text-foreground">{title}</h3>
+			<p className="text-sm leading-relaxed text-muted-foreground">{description}</p>
 		</div>
 	);
 }

@@ -24,7 +24,7 @@ export function UserAvatar({ birthday, size = 40, className }: UserAvatarProps) 
 			<img
 				src={birthday.avatar}
 				alt={`${birthday.name}'s avatar`}
-				className={cn("rounded-full object-cover shrink-0", className)}
+				className={cn("shrink-0 rounded-full object-cover", className)}
 				style={!className?.includes("w-") ? { width: size, height: size } : undefined}
 			/>
 		);
@@ -41,7 +41,7 @@ export function UserAvatar({ birthday, size = 40, className }: UserAvatarProps) 
 				style={!className?.includes("w-") ? { width: size, height: size } : undefined}
 				aria-hidden="true"
 			>
-				<Suspense fallback={<div className="bg-muted h-full w-full animate-pulse rounded-full" />}>
+				<Suspense fallback={<div className="h-full w-full animate-pulse rounded-full bg-muted" />}>
 					<BoringAvatar
 						size={size}
 						name={birthday.name}
@@ -63,7 +63,7 @@ export function UserAvatar({ birthday, size = 40, className }: UserAvatarProps) 
 			style={!className?.includes("w-") ? { width: size, height: size } : undefined}
 			aria-hidden="true"
 		>
-			<Suspense fallback={<div className="bg-muted h-full w-full animate-pulse rounded-full" />}>
+			<Suspense fallback={<div className="h-full w-full animate-pulse rounded-full bg-muted" />}>
 				<Avvvatars value={birthday.name} style={avatarSettings.avvvatarsStyle} size={size} />
 			</Suspense>
 		</div>

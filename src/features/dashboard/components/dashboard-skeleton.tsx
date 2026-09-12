@@ -22,7 +22,7 @@ export function DashboardSkeleton() {
 					{Array.from({ length: 5 }).map((_, i) => (
 						<div
 							key={i}
-							className="border-border bg-card flex min-w-40 flex-col items-center rounded-3xl border p-6 shadow-sm md:min-w-45"
+							className="flex min-w-40 flex-col items-center rounded-3xl border border-border bg-card p-6 shadow-sm md:min-w-45"
 						>
 							<div className="-mt-12 mb-4 p-1">
 								<Skeleton className="h-16 w-16 rounded-full border-4 md:h-20 md:w-20" />

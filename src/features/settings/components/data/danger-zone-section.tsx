@@ -21,7 +21,7 @@ export function DangerZoneSection({
 				>
 					<div className="flex flex-col gap-1 pr-4">
 						<h4 className="text-sm font-semibold">Delete All Birthdays</h4>
-						<p className="text-muted-foreground text-sm">
+						<p className="text-sm text-muted-foreground">
 							Permanently remove all birthdays. This action cannot be undone.
 						</p>
 					</div>
@@ -43,7 +43,7 @@ export function DangerZoneSection({
 				<div className="flex flex-col gap-4 py-4 sm:flex-row sm:items-center sm:justify-between">
 					<div className="flex flex-col gap-1 pr-4">
 						<h4 className="text-sm font-semibold">Delete All Invitations</h4>
-						<p className="text-muted-foreground text-sm">
+						<p className="text-sm text-muted-foreground">
 							Permanently remove all generated invitations. This action cannot be undone.
 						</p>
 					</div>

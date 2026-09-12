@@ -27,7 +27,7 @@ export function MonthCard({ monthName, monthIndex, birthdays, onClick }: MonthCa
 			<div className="flex items-center gap-2 pl-2">
 				<span
 					className={cn(
-						"group-hover:text-foreground font-bold tracking-widest text-neutral-700 uppercase transition-colors",
+						"font-bold tracking-widest text-neutral-700 uppercase transition-colors group-hover:text-foreground",
 						isCurrentMonth && "text-primary",
 					)}
 				>
@@ -35,7 +35,7 @@ export function MonthCard({ monthName, monthIndex, birthdays, onClick }: MonthCa
 				</span>
 				{isCurrentMonth && (
 					<div
-						className="ring-border flex h-6 w-6 items-center justify-center rounded-full bg-linear-to-br from-orange-300 to-red-500 text-white ring-2"
+						className="flex h-6 w-6 items-center justify-center rounded-full bg-linear-to-br from-orange-300 to-red-500 text-white ring-2 ring-border"
 						title="Current Month"
 					>
 						<CalendarHeartIcon className="h-3.5 w-3.5" />
@@ -44,25 +44,25 @@ export function MonthCard({ monthName, monthIndex, birthdays, onClick }: MonthCa
 				)}
 			</div>
 
-			<div className="border-border bg-muted/50 group-hover:bg-muted flex h-14 w-full items-center rounded-2xl border px-3 transition-all">
+			<div className="flex h-14 w-full items-center rounded-2xl border border-border bg-muted/50 px-3 transition-all group-hover:bg-muted">
 				{hasBirthdays ? (
 					<div className="flex -space-x-3">
 						{displayBirthdays.map((celebrant) => (
 							<div
 								key={celebrant.id}
-								className="bg-background ring-border z-10 h-8 w-8 rounded-full ring-2"
+								className="z-10 h-8 w-8 rounded-full bg-background ring-2 ring-border"
 							>
 								<UserAvatar birthday={celebrant} size={32} className="h-full w-full" />
 							</div>
 						))}
 						{remainingCount > 0 && (
-							<div className="bg-muted ring-border z-20 flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold ring-2">
+							<div className="z-20 flex h-8 w-8 items-center justify-center rounded-full bg-muted text-xs font-bold ring-2 ring-border">
 								+{remainingCount}
 							</div>
 						)}
 					</div>
 				) : (
-					<span className="text-muted-foreground px-1 text-sm font-medium italic">
+					<span className="px-1 text-sm font-medium text-muted-foreground italic">
 						No birthdays
 					</span>
 				)}

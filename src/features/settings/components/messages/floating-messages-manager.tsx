@@ -93,8 +93,8 @@ export function FloatingMessagesManager() {
 	};
 
 	return (
-		<div className="bg-card flex flex-col rounded-xl border">
-			<div className="bg-muted/30 flex flex-col gap-1.5 rounded-t-xl border-b p-4">
+		<div className="flex flex-col rounded-xl border bg-card">
+			<div className="flex flex-col gap-1.5 rounded-t-xl border-b bg-muted/30 p-4">
 				<div className="flex items-center justify-between gap-4">
 					<h3 className="text-base font-semibold">Floating Messages</h3>
 					<div className="flex shrink-0 items-center gap-2">
@@ -105,7 +105,7 @@ export function FloatingMessagesManager() {
 						<Button
 							variant="ghost"
 							size="sm"
-							className="text-destructive hover:bg-destructive/10 hover:text-destructive h-8 text-xs"
+							className="h-8 text-xs text-destructive hover:bg-destructive/10 hover:text-destructive"
 							onClick={handleClearAll}
 							disabled={fields.length === 0}
 							aria-label="Clear all floating messages"
@@ -116,7 +116,7 @@ export function FloatingMessagesManager() {
 						</Button>
 					</div>
 				</div>
-				<p className="text-muted-foreground max-w-[85%] text-sm">
+				<p className="max-w-[85%] text-sm text-muted-foreground">
 					Manage the messages that float across the screen when someone has a birthday. <br />(
 					<span className="font-bold">Tip:</span> You can use emojis with your system keyboard:{" "}
 					<Kbd>Win + .</Kbd> or <Kbd>Cmd + Ctrl + Space</Kbd>)
@@ -124,14 +124,14 @@ export function FloatingMessagesManager() {
 			</div>
 
 			<div className="flex flex-col gap-4 p-4">
-				<div className="bg-muted/30 min-h-32 content-center rounded-xl border border-dashed p-4">
+				<div className="min-h-32 content-center rounded-xl border border-dashed bg-muted/30 p-4">
 					<div className="flex flex-wrap gap-2">
 						{fields.map((field, index) => (
 							<div key={field.id} className="flex flex-col gap-1">
 								<div className="relative">
 									<Input
 										{...register(`messages.${index}.text`)}
-										className="bg-background peer field-sizing-content h-9 rounded-full pe-9 text-xs shadow-sm"
+										className="peer field-sizing-content h-9 rounded-full bg-background pe-9 text-xs shadow-sm"
 										placeholder="Enter a message"
 										minLength={FLOATING_MESSAGE_MIN_LENGTH}
 										maxLength={FLOATING_MESSAGE_MAX_LENGTH}
@@ -140,7 +140,7 @@ export function FloatingMessagesManager() {
 									<Button
 										size="icon"
 										variant="ghost"
-										className="hover:bg-destructive/20 hover:text-destructive absolute inset-y-0 inset-e-1 my-auto h-7 w-7 rounded-full"
+										className="absolute inset-y-0 inset-e-1 my-auto h-7 w-7 rounded-full hover:bg-destructive/20 hover:text-destructive"
 										onClick={() => remove(index)}
 										aria-label="Delete message"
 										title="Delete message"
@@ -149,14 +149,14 @@ export function FloatingMessagesManager() {
 									</Button>
 								</div>
 								{errors.messages?.[index]?.text && (
-									<span className="text-destructive max-w-55 pl-2 text-[10px]">
+									<span className="max-w-55 pl-2 text-[10px] text-destructive">
 										{errors.messages[index]?.text?.message}
 									</span>
 								)}
 							</div>
 						))}
 						{fields.length === 0 && (
-							<div className="text-muted-foreground w-full py-4 text-center text-sm italic">
+							<div className="w-full py-4 text-center text-sm text-muted-foreground italic">
 								No floating messages added.
 							</div>
 						)}
@@ -182,7 +182,7 @@ export function FloatingMessagesManager() {
 					)}
 
 					{errors.messages?.root && (
-						<p className="text-destructive text-sm font-medium" role="alert">
+						<p className="text-sm font-medium text-destructive" role="alert">
 							{errors.messages.root.message}
 						</p>
 					)}

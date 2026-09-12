@@ -55,17 +55,17 @@ export function NotificationSettingsSection() {
 
 	return (
 		<div className="flex flex-col gap-6">
-			<div className="bg-card flex flex-col rounded-xl border">
-				<div className="bg-muted/30 flex flex-col gap-1.5 rounded-t-xl border-b p-4">
+			<div className="flex flex-col rounded-xl border bg-card">
+				<div className="flex flex-col gap-1.5 rounded-t-xl border-b bg-muted/30 p-4">
 					<div className="flex items-center justify-between gap-4">
 						<h3 className="text-base font-semibold">Notification Settings</h3>
 					</div>
-					<p className="text-muted-foreground max-w-[85%] text-sm">
+					<p className="max-w-[85%] text-sm text-muted-foreground">
 						Manage how and when you want to be reminded about upcoming birthdays.
 					</p>
 				</div>
 
-				<div className="flex flex-col px-4 divide-y">
+				<div className="flex flex-col divide-y px-4">
 					<div className="flex flex-col gap-1 py-4">
 						<div className="flex items-center justify-between gap-4">
 							<Label className="text-sm font-semibold" htmlFor="notifications-enabled">
@@ -79,7 +79,7 @@ export function NotificationSettingsSection() {
 								/>
 							</div>
 						</div>
-						<p className="text-muted-foreground max-w-[85%] text-sm">
+						<p className="max-w-[85%] text-sm text-muted-foreground">
 							Show in-app birthday alerts when {APP_INFO.name} is open.
 						</p>
 					</div>
@@ -89,7 +89,7 @@ export function NotificationSettingsSection() {
 							<div className="space-y-3 py-4">
 								<div className="mb-3 flex flex-col gap-1.5">
 									<h3 className="text-sm font-semibold">Remind Me</h3>
-									<p className="text-muted-foreground text-sm">
+									<p className="text-sm text-muted-foreground">
 										Select when you want to receive birthday reminders.
 									</p>
 								</div>
@@ -106,7 +106,7 @@ export function NotificationSettingsSection() {
 											/>
 											<Label
 												htmlFor={`remind-${option.value}`}
-												className="font-normal cursor-pointer text-sm"
+												className="cursor-pointer text-sm font-normal"
 											>
 												{option.label}
 											</Label>
@@ -118,7 +118,7 @@ export function NotificationSettingsSection() {
 							<div className="space-y-3 py-4">
 								<div className="mb-3 flex flex-col gap-1.5">
 									<h3 className="text-sm font-semibold">System Notifications</h3>
-									<p className="text-muted-foreground text-sm">
+									<p className="text-sm text-muted-foreground">
 										Receive native desktop and mobile push notifications when {APP_INFO.name} is
 										open.
 									</p>
@@ -156,7 +156,7 @@ export function NotificationSettingsSection() {
 				</div>
 			</div>
 
-			<div className="bg-muted/50 flex items-start gap-3 rounded-lg p-4 text-sm text-muted-foreground">
+			<div className="flex items-start gap-3 rounded-lg bg-muted/50 p-4 text-sm text-muted-foreground">
 				<div className="mt-0.5 shrink-0">
 					<BellIcon size={20} />
 				</div>

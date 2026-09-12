@@ -24,7 +24,7 @@ export function DashboardEmptyState({ disabled }: { disabled?: boolean }) {
 			{/* Decorative background elements */}
 			<div className="absolute inset-0 -z-10 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] mask-[radial-gradient(ellipse_60%_60%_at_50%_50%,#000_70%,transparent_100%)] bg-size-[24px_24px]" />
 
-			<div className="animate-float-idle mb-6 flex justify-center drop-shadow-md motion-reduce:animate-none">
+			<div className="mb-6 flex animate-float-idle justify-center drop-shadow-md motion-reduce:animate-none">
 				<AnimatedLogo type="icon" className="h-24 w-24" iconClassName="h-full w-full" />
 			</div>
 
@@ -32,7 +32,7 @@ export function DashboardEmptyState({ disabled }: { disabled?: boolean }) {
 				Welcome to {APP_INFO.name}
 			</h1>
 
-			<p className="text-muted-foreground mb-8 max-w-md text-center text-lg">
+			<p className="mb-8 max-w-md text-center text-lg text-muted-foreground">
 				Your personal space to track family and friends' birthdays so you never miss a special day
 				again.
 			</p>

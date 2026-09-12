@@ -40,7 +40,7 @@ export function AvatarPreview({
 				<button
 					type="button"
 					aria-label="Change avatar"
-					className="group border-border hover:border-primary/50 focus-visible:ring-ring relative flex h-24 w-24 cursor-pointer items-center justify-center overflow-hidden rounded-full border-2 border-dashed transition-colors focus:outline-none focus-visible:ring-2"
+					className="group relative flex h-24 w-24 cursor-pointer items-center justify-center overflow-hidden rounded-full border-2 border-dashed border-border transition-colors hover:border-primary/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
 					onClick={onAvatarClick}
 				>
 					{avatar ? (
@@ -55,7 +55,7 @@ export function AvatarPreview({
 							<UserAvatar birthday={previewBirthday} size={96} className="h-full w-full" />
 						</div>
 					) : (
-						<div className="text-muted-foreground flex flex-col items-center justify-center">
+						<div className="flex flex-col items-center justify-center text-muted-foreground">
 							<CameraIcon className="h-8 w-8 opacity-50" aria-hidden="true" />
 						</div>
 					)}
@@ -73,7 +73,7 @@ export function AvatarPreview({
 						type="button"
 						variant="ghost"
 						size="sm"
-						className="text-destructive hover:text-destructive hover:bg-destructive/10 mt-2 h-7 text-xs"
+						className="mt-2 h-7 text-xs text-destructive hover:bg-destructive/10 hover:text-destructive"
 						onClick={onRemoveAvatar}
 					>
 						<Trash2Icon className="mr-1.5 h-3 w-3" aria-hidden="true" />
@@ -92,14 +92,14 @@ export function AvatarPreview({
 					type="button"
 					variant="ghost"
 					size="sm"
-					className="text-destructive hover:text-destructive hover:bg-destructive/10 mt-2 h-7 text-xs"
+					className="mt-2 h-7 text-xs text-destructive hover:bg-destructive/10 hover:text-destructive"
 					onClick={onRemoveAvatar}
 				>
 					<Trash2Icon className="mr-1.5 h-3 w-3" aria-hidden="true" />
 					Remove
 				</Button>
 			)}
-			<p className="text-muted-foreground mt-3 max-w-62.5 text-center text-xs">
+			<p className="mt-3 max-w-62.5 text-center text-xs text-muted-foreground">
 				{avatar
 					? "Custom profile image uploads are disabled. You can still remove your existing image."
 					: "Custom profile images are disabled. This generated avatar will be used instead."}

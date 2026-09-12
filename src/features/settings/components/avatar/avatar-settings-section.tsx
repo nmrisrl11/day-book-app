@@ -53,10 +53,10 @@ export function AvatarSettingsSection() {
 
 	return (
 		<div className="flex flex-col gap-6">
-			<div className="bg-card flex flex-col rounded-xl border">
-				<div className="bg-muted/30 rounded-t-xl border-b p-4">
+			<div className="flex flex-col rounded-xl border bg-card">
+				<div className="rounded-t-xl border-b bg-muted/30 p-4">
 					<h3 className="text-base font-semibold">Custom Avatars</h3>
-					<p className="text-muted-foreground text-sm">Manage custom photo uploads.</p>
+					<p className="text-sm text-muted-foreground">Manage custom photo uploads.</p>
 				</div>
 				<div className="flex flex-col px-4">
 					<div className="flex flex-col gap-1 py-4">
@@ -72,15 +72,15 @@ export function AvatarSettingsSection() {
 								/>
 							</div>
 						</div>
-						<p className="text-muted-foreground max-w-[85%] text-sm">
+						<p className="max-w-[85%] text-sm text-muted-foreground">
 							Enable custom image uploads. Images are stored locally in your browser.
 						</p>
 					</div>
 				</div>
 			</div>
 
-			<div className="bg-card flex flex-col rounded-xl border">
-				<div className="bg-muted/30 flex flex-col gap-1.5 rounded-t-xl border-b p-4">
+			<div className="flex flex-col rounded-xl border bg-card">
+				<div className="flex flex-col gap-1.5 rounded-t-xl border-b bg-muted/30 p-4">
 					<div className="flex items-center justify-between gap-4">
 						<h3 className="text-base font-semibold">Default Avatar Library</h3>
 						<RestoreDefaultsButton
@@ -88,7 +88,7 @@ export function AvatarSettingsSection() {
 							ariaLabel="Restore avatar defaults"
 						/>
 					</div>
-					<p className="text-muted-foreground max-w-[85%] text-sm">
+					<p className="max-w-[85%] text-sm text-muted-foreground">
 						Choose which library generates avatars when no custom image is available.
 					</p>
 				</div>
@@ -209,7 +209,7 @@ export function AvatarSettingsSection() {
 											(color, index) => (
 												<div
 													key={index}
-													className="ring-border relative h-10 w-10 overflow-hidden rounded-full shadow-sm ring-1 sm:h-7 sm:w-7"
+													className="relative h-10 w-10 overflow-hidden rounded-full shadow-sm ring-1 ring-border sm:h-7 sm:w-7"
 												>
 													<input
 														type="color"
@@ -239,10 +239,10 @@ export function AvatarSettingsSection() {
 					</div>
 
 					<div className="flex min-w-32 shrink-0 flex-col items-center justify-center gap-4 border-t pt-6 md:border-t-0 md:border-l md:pt-0 md:pl-6">
-						<p className="text-muted-foreground text-xs font-semibold tracking-wider uppercase">
+						<p className="text-xs font-semibold tracking-wider text-muted-foreground uppercase">
 							Preview
 						</p>
-						<div className="bg-muted ring-border rounded-full p-2 shadow-sm ring-1">
+						<div className="rounded-full bg-muted p-2 shadow-sm ring-1 ring-border">
 							<UserAvatar birthday={{ name: APP_INFO.name }} size={80} className="h-20 w-20" />
 						</div>
 					</div>

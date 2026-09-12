@@ -57,7 +57,7 @@ export function EventCalendar({
 		<div
 			className={cn(
 				className,
-				"bg-background flex flex-col",
+				"flex flex-col bg-background",
 				hasBorderX && "border-x",
 				hasBorderTop && "border-t",
 				hasBorderBottom && "border-b",

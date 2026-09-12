@@ -44,7 +44,7 @@ export function QuickActionAvatar() {
 	return (
 		<div className="flex w-full flex-col gap-3 p-3 md:min-w-50">
 			<div className="flex items-center justify-between">
-				<h4 className="text-muted-foreground text-[10px] font-semibold tracking-wider uppercase">
+				<h4 className="text-[10px] font-semibold tracking-wider text-muted-foreground uppercase">
 					Avatar
 				</h4>
 				<div className="flex items-center gap-1">
@@ -53,12 +53,12 @@ export function QuickActionAvatar() {
 						<Button
 							variant="ghost"
 							size="icon"
-							className="hover:bg-muted h-6 w-6 rounded-full"
+							className="h-6 w-6 rounded-full hover:bg-muted"
 							onClick={randomizeColors}
 							title="Randomize Colors"
 							aria-label="Randomize palette"
 						>
-							<DicesIcon className="text-muted-foreground h-3.5 w-3.5" />
+							<DicesIcon className="h-3.5 w-3.5 text-muted-foreground" />
 						</Button>
 					)}
 				</div>

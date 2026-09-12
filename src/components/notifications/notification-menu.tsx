@@ -51,7 +51,7 @@ export function NotificationMenu() {
 					{unreadCount > 0 && (
 						<Badge
 							variant="destructive"
-							className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center rounded-full p-0 text-[10px]"
+							className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full p-0 text-[10px]"
 						>
 							{unreadCount > 99 ? "99+" : unreadCount}
 						</Badge>
@@ -59,8 +59,8 @@ export function NotificationMenu() {
 				</Button>
 			</PopoverTrigger>
 			<PopoverContent className="w-80 p-0" align="center">
-				<div className="flex items-center justify-between px-4 py-3 border-b">
-					<h3 className="font-semibold text-sm">Notifications</h3>
+				<div className="flex items-center justify-between border-b px-4 py-3">
+					<h3 className="text-sm font-semibold">Notifications</h3>
 					<div className="flex items-center gap-1">
 						{unreadCount > 0 && (
 							<Button
@@ -86,7 +86,7 @@ export function NotificationMenu() {
 						)}
 					</div>
 				</div>
-				<div className="max-h-[60vh] overflow-y-auto custom-scrollbar">
+				<div className="custom-scrollbar max-h-[60vh] overflow-y-auto">
 					{!notifications || notifications.length === 0 ? (
 						<div className="p-4 text-center text-sm text-muted-foreground">
 							No new notifications
@@ -100,7 +100,7 @@ export function NotificationMenu() {
 									<button
 										key={n.id}
 										onClick={() => handleNotificationClick(n.id, n.personId)}
-										className={`flex items-start gap-2.5 p-3 text-left hover:bg-muted/50 transition-colors ${
+										className={`flex items-start gap-2.5 p-3 text-left transition-colors hover:bg-muted/50 ${
 											!n.read ? "bg-primary/5" : ""
 										}`}
 									>
@@ -109,7 +109,7 @@ export function NotificationMenu() {
 												<UserAvatar birthday={person} size={28} />
 											</div>
 										)}
-										<div className="flex flex-col min-w-0 flex-1 gap-0.5">
+										<div className="flex min-w-0 flex-1 flex-col gap-0.5">
 											<div className="flex items-start justify-between gap-2">
 												<p className={`text-[13px] leading-tight ${!n.read ? "font-medium" : ""}`}>
 													{n.message}

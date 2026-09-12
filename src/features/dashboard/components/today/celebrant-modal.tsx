@@ -72,12 +72,12 @@ export function CelebrantModal({ celebrant, isOpen, onClose, currentDate }: Cele
 	return (
 		<>
 			<Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-				<DialogContent className="border-border/40 bg-background/95 flex max-h-[90vh] flex-col overflow-hidden rounded-3xl p-0 shadow-2xl backdrop-blur-xl sm:max-w-md">
+				<DialogContent className="flex max-h-[90vh] flex-col overflow-hidden rounded-3xl border-border/40 bg-background/95 p-0 shadow-2xl backdrop-blur-xl sm:max-w-md">
 					<motion.div
 						variants={containerVariants}
 						initial="hidden"
 						animate="show"
-						className="custom-scrollbar flex flex-1 w-full flex-col items-center gap-5 overflow-y-auto overflow-x-hidden p-5 sm:p-6"
+						className="custom-scrollbar flex w-full flex-1 flex-col items-center gap-5 overflow-x-hidden overflow-y-auto p-5 sm:p-6"
 					>
 						<DialogHeader className="flex w-full flex-col items-center gap-3 text-center">
 							<motion.div variants={itemVariants} className="relative">
@@ -87,7 +87,7 @@ export function CelebrantModal({ celebrant, isOpen, onClose, currentDate }: Cele
 									<PartyHat className="h-full w-full" />
 								</div>
 
-								<div className="bg-background ring-border/50 relative z-10 rounded-full p-1.5 shadow-xl ring-1">
+								<div className="relative z-10 rounded-full bg-background p-1.5 shadow-xl ring-1 ring-border/50">
 									<UserAvatar
 										birthday={celebrant}
 										size={96}
@@ -97,37 +97,37 @@ export function CelebrantModal({ celebrant, isOpen, onClose, currentDate }: Cele
 							</motion.div>
 
 							<motion.div variants={itemVariants} className="flex flex-col items-center gap-1">
-								<DialogTitle className="text-foreground font-sans text-2xl font-extrabold tracking-tight sm:text-3xl">
+								<DialogTitle className="font-sans text-2xl font-extrabold tracking-tight text-foreground sm:text-3xl">
 									{celebrant.name}
 								</DialogTitle>
 							</motion.div>
 						</DialogHeader>
 
 						<motion.div variants={itemVariants} className="w-full">
-							<div className="bg-secondary/30 border-border/40 relative w-full rounded-2xl border p-4 shadow-sm">
+							<div className="relative w-full rounded-2xl border border-border/40 bg-secondary/30 p-4 shadow-sm">
 								<div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
 									<div className="flex flex-col items-center gap-1.5">
-										<span className="text-muted-foreground flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider">
+										<span className="flex items-center gap-1 text-[10px] font-bold tracking-wider text-muted-foreground uppercase">
 											<CalendarIcon className="h-3 w-3" /> Date
 										</span>
-										<span className="text-foreground text-sm font-semibold">{formattedDate}</span>
+										<span className="text-sm font-semibold text-foreground">{formattedDate}</span>
 									</div>
 
 									{ageDisplay !== null && (
 										<div className="flex flex-col items-center gap-1.5">
-											<span className="text-muted-foreground flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider">
+											<span className="flex items-center gap-1 text-[10px] font-bold tracking-wider text-muted-foreground uppercase">
 												<GiftIcon className="h-3 w-3" /> Age
 											</span>
-											<span className="text-foreground text-sm font-semibold">{ageDisplay}</span>
+											<span className="text-sm font-semibold text-foreground">{ageDisplay}</span>
 										</div>
 									)}
 
 									{celebrant.relationship && (
 										<div className="flex flex-col items-center gap-1.5">
-											<span className="text-muted-foreground flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider">
+											<span className="flex items-center gap-1 text-[10px] font-bold tracking-wider text-muted-foreground uppercase">
 												<UsersIcon className="h-3 w-3" /> Relationship
 											</span>
-											<span className="text-foreground text-sm font-semibold capitalize">
+											<span className="text-sm font-semibold text-foreground capitalize">
 												{celebrant.relationship}
 											</span>
 										</div>
@@ -137,11 +137,11 @@ export function CelebrantModal({ celebrant, isOpen, onClose, currentDate }: Cele
 						</motion.div>
 
 						<motion.div variants={itemVariants} className="w-full">
-							<div className="bg-primary/5 border-primary/20 relative w-full overflow-hidden rounded-2xl border p-4 text-center shadow-sm">
+							<div className="relative w-full overflow-hidden rounded-2xl border border-primary/20 bg-primary/5 p-4 text-center shadow-sm">
 								<div className="absolute inset-0 flex items-center justify-center opacity-[0.03]">
 									<QuoteIcon className="h-24 w-24" />
 								</div>
-								<p className="text-primary/80 relative z-10 text-sm leading-relaxed font-medium italic">
+								<p className="relative z-10 text-sm leading-relaxed font-medium text-primary/80 italic">
 									"{greeting}"
 								</p>
 							</div>
@@ -149,11 +149,11 @@ export function CelebrantModal({ celebrant, isOpen, onClose, currentDate }: Cele
 
 						{celebrant.giftIdeas && celebrant.giftIdeas.length > 0 && (
 							<motion.div variants={itemVariants} className="w-full">
-								<div className="bg-amber-500/5 border-amber-500/20 relative w-full overflow-hidden rounded-2xl border p-4 text-left shadow-sm">
+								<div className="relative w-full overflow-hidden rounded-2xl border border-amber-500/20 bg-amber-500/5 p-4 text-left shadow-sm">
 									<div className="absolute top-0 right-0 p-3 opacity-5">
 										<GiftIcon className="h-20 w-20" />
 									</div>
-									<h4 className="text-amber-800 dark:text-amber-400 mb-3 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider">
+									<h4 className="mb-3 flex items-center gap-1.5 text-xs font-bold tracking-wider text-amber-800 uppercase dark:text-amber-400">
 										<StarIcon className="h-3.5 w-3.5 fill-amber-500/50" />
 										Wishlist & Gift Ideas
 									</h4>
@@ -162,7 +162,7 @@ export function CelebrantModal({ celebrant, isOpen, onClose, currentDate }: Cele
 											<Badge
 												key={index}
 												variant="outline"
-												className="border-amber-500/30 shadow-black/5 bg-background/50 h-auto max-w-full whitespace-normal wrap-break-word text-left shadow-sm backdrop-blur-sm"
+												className="h-auto max-w-full border-amber-500/30 bg-background/50 text-left wrap-break-word whitespace-normal shadow-sm shadow-black/5 backdrop-blur-sm"
 											>
 												<span
 													className="h-1.5 w-1.5 shrink-0 rounded-full bg-amber-500/80"
@@ -178,11 +178,11 @@ export function CelebrantModal({ celebrant, isOpen, onClose, currentDate }: Cele
 
 						{celebrant.notes && celebrant.notes.length > 0 && (
 							<motion.div variants={itemVariants} className="w-full">
-								<div className="bg-blue-500/5 border-blue-500/20 relative w-full overflow-hidden rounded-2xl border p-4 text-left shadow-sm">
+								<div className="relative w-full overflow-hidden rounded-2xl border border-blue-500/20 bg-blue-500/5 p-4 text-left shadow-sm">
 									<div className="absolute top-0 right-0 p-3 opacity-5">
 										<StickyNoteIcon className="h-20 w-20" />
 									</div>
-									<h4 className="text-blue-800 dark:text-blue-400 mb-3 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider">
+									<h4 className="mb-3 flex items-center gap-1.5 text-xs font-bold tracking-wider text-blue-800 uppercase dark:text-blue-400">
 										<StickyNoteIcon className="h-3.5 w-3.5 fill-blue-500/50" />
 										Notes & Details
 									</h4>
@@ -191,7 +191,7 @@ export function CelebrantModal({ celebrant, isOpen, onClose, currentDate }: Cele
 											<Badge
 												key={index}
 												variant="outline"
-												className="border-blue-500/30 shadow-black/5 bg-background/50 h-auto max-w-full whitespace-normal wrap-break-word text-left shadow-sm backdrop-blur-sm"
+												className="h-auto max-w-full border-blue-500/30 bg-background/50 text-left wrap-break-word whitespace-normal shadow-sm shadow-black/5 backdrop-blur-sm"
 											>
 												<span
 													className="h-1.5 w-1.5 shrink-0 rounded-full bg-blue-500/80"
@@ -206,7 +206,7 @@ export function CelebrantModal({ celebrant, isOpen, onClose, currentDate }: Cele
 						)}
 					</motion.div>
 
-					<DialogFooter className="m-0 rounded-b-xl rounded-t-none border-t p-4 justify-center! flex-col!">
+					<DialogFooter className="m-0 flex-col! justify-center! rounded-t-none rounded-b-xl border-t p-4">
 						<Button
 							variant="outline"
 							onClick={() => {

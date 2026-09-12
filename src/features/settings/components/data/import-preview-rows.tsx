@@ -31,15 +31,15 @@ export const VirtualHeaderRow = memo(
 					height: `${virtualRow.size}px`,
 					transform: `translateY(${virtualRow.start}px)`,
 				}}
-				className="bg-background/95 z-10 flex items-center justify-between pt-2 pb-2"
+				className="z-10 flex items-center justify-between bg-background/95 pt-2 pb-2"
 			>
-				<h4 className="text-muted-foreground text-sm font-bold tracking-widest uppercase">
+				<h4 className="text-sm font-bold tracking-widest text-muted-foreground uppercase">
 					{item.month}
 				</h4>
 				<Button
 					variant="ghost"
 					size="sm"
-					className="text-primary h-auto p-0 text-xs hover:bg-transparent"
+					className="h-auto p-0 text-xs text-primary hover:bg-transparent"
 					onClick={() => toggleMonth(celebrantIds, allSelectedInMonth)}
 				>
 					{allSelectedInMonth ? "Deselect All" : "Select All"}
@@ -102,17 +102,17 @@ export const VirtualBirthdayRow = memo(
 
 					<input
 						type="checkbox"
-						className="text-primary focus:ring-primary accent-primary h-4 w-4 rounded border-gray-300 disabled:cursor-not-allowed disabled:opacity-50"
+						className="h-4 w-4 rounded border-gray-300 text-primary accent-primary focus:ring-primary disabled:cursor-not-allowed disabled:opacity-50"
 						checked={isSelected}
 						disabled={duplicate}
 						onChange={() => toggleSelection(b.id)}
 					/>
-					<div className="flex flex-1 flex-col overflow-hidden justify-center gap-0.5">
+					<div className="flex flex-1 flex-col justify-center gap-0.5 overflow-hidden">
 						<div className="flex items-center gap-2 truncate">
-							<span className="text-foreground shrink-0 truncate text-sm font-bold">{b.name}</span>
+							<span className="shrink-0 truncate text-sm font-bold text-foreground">{b.name}</span>
 
 							{details.length > 0 && (
-								<div className="text-muted-foreground flex items-center gap-1.5 truncate text-[10px] font-bold tracking-wider uppercase">
+								<div className="flex items-center gap-1.5 truncate text-[10px] font-bold tracking-wider text-muted-foreground uppercase">
 									{details.map((detail) => (
 										<React.Fragment key={detail}>
 											<span className="opacity-50">•</span>
@@ -123,7 +123,7 @@ export const VirtualBirthdayRow = memo(
 							)}
 						</div>
 
-						<span className="text-muted-foreground flex items-center gap-1.5 text-xs font-medium">
+						<span className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
 							<span>{formatBirthdayDisplay(b.birthday)}</span>
 							{(() => {
 								const ageDisplay = formatAgeDisplay(b.birthday, new Date());
@@ -140,7 +140,7 @@ export const VirtualBirthdayRow = memo(
 						</span>
 					</div>
 					{duplicate && (
-						<span className="text-muted-foreground bg-muted shrink-0 rounded-md px-2 py-1 text-[10px] font-bold tracking-wider uppercase">
+						<span className="shrink-0 rounded-md bg-muted px-2 py-1 text-[10px] font-bold tracking-wider text-muted-foreground uppercase">
 							Exists
 						</span>
 					)}

@@ -54,10 +54,10 @@ export function ResponseScreen() {
 					</motion.div>
 
 					<div className="space-y-3">
-						<h1 className="text-foreground text-3xl font-extrabold tracking-tight sm:text-4xl">
+						<h1 className="text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
 							Response Expired
 						</h1>
-						<p className="text-muted-foreground mx-auto max-w-md text-lg">
+						<p className="mx-auto max-w-md text-lg text-muted-foreground">
 							We couldn't read the birthday from this link. It might have expired or been corrupted.
 							Please ask for it to be sent again!
 						</p>
@@ -102,7 +102,7 @@ export function ResponseScreen() {
 					transition={{ duration: 0.4, ease: "easeOut" }}
 					className="relative flex w-full flex-col items-center justify-center pt-12 pb-32"
 				>
-					<div className="bg-card shadow-primary/5 flex w-full max-w-md flex-col items-center justify-center gap-6 rounded-2xl border p-8 text-center shadow-xl sm:p-10">
+					<div className="flex w-full max-w-md flex-col items-center justify-center gap-6 rounded-2xl border bg-card p-8 text-center shadow-xl shadow-primary/5 sm:p-10">
 						<motion.div
 							initial={{ scale: 0.8, opacity: 0 }}
 							animate={{ scale: 1, opacity: 1 }}
@@ -132,7 +132,7 @@ export function ResponseScreen() {
 								initial={{ opacity: 0, y: 10 }}
 								animate={{ opacity: 1, y: 0 }}
 								transition={{ delay: 0.3 }}
-								className="text-muted-foreground leading-relaxed"
+								className="leading-relaxed text-muted-foreground"
 							>
 								<strong>{response.n}</strong>'s special day has been securely saved to your{" "}
 								{APP_INFO.name}. We'll make sure you're ready when the time comes.
@@ -186,7 +186,7 @@ export function ResponseScreen() {
 				transition={{ duration: 0.4, ease: "easeOut" }}
 				className="relative flex w-full flex-col items-center justify-center pt-10 pb-20"
 			>
-				<div className="bg-card shadow-primary/5 flex w-full max-w-md flex-col gap-6 rounded-2xl border p-6 shadow-xl sm:p-8">
+				<div className="flex w-full max-w-md flex-col gap-6 rounded-2xl border bg-card p-6 shadow-xl shadow-primary/5 sm:p-8">
 					<div className="flex flex-col items-center gap-2 text-center">
 						<AnimatedLogo
 							key="response"
@@ -205,11 +205,11 @@ export function ResponseScreen() {
 
 					<div className="flex flex-col gap-5">
 						<div className="flex items-center gap-3">
-							<div className="bg-primary/10 text-primary flex h-10 w-10 shrink-0 items-center justify-center rounded-full">
+							<div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
 								<UserIcon className="h-5 w-5" />
 							</div>
 							<div className="flex flex-col">
-								<span className="text-muted-foreground text-xs font-semibold uppercase tracking-wider">
+								<span className="text-xs font-semibold tracking-wider text-muted-foreground uppercase">
 									Name
 								</span>
 								<span className="font-medium">{response.n}</span>
@@ -217,11 +217,11 @@ export function ResponseScreen() {
 						</div>
 
 						<div className="flex items-center gap-3">
-							<div className="bg-primary/10 text-primary flex h-10 w-10 shrink-0 items-center justify-center rounded-full">
+							<div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
 								<CalendarIcon className="h-5 w-5" />
 							</div>
 							<div className="flex flex-col">
-								<span className="text-muted-foreground text-xs font-semibold uppercase tracking-wider">
+								<span className="text-xs font-semibold tracking-wider text-muted-foreground uppercase">
 									Birthday
 								</span>
 								<span className="font-medium">{formattedDate}</span>
@@ -230,25 +230,25 @@ export function ResponseScreen() {
 
 						{response.g && response.g.length > 0 && (
 							<div className="flex items-start gap-3">
-								<div className="bg-amber-500/10 text-amber-700 dark:text-amber-400 flex h-10 w-10 shrink-0 items-center justify-center rounded-full">
+								<div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber-500/10 text-amber-700 dark:text-amber-400">
 									<GiftIcon className="h-5 w-5" />
 								</div>
-								<div className="flex flex-col min-w-0">
-									<span className="text-muted-foreground text-xs font-semibold uppercase tracking-wider">
+								<div className="flex min-w-0 flex-col">
+									<span className="text-xs font-semibold tracking-wider text-muted-foreground uppercase">
 										Gift Ideas
 									</span>
-									<div className="flex flex-wrap gap-1.5 mt-1.5">
+									<div className="mt-1.5 flex flex-wrap gap-1.5">
 										{response.g.map((idea, idx) => (
 											<Badge
 												key={idx}
 												variant="outline"
-												className="border-amber-500/30 shadow-black/5 h-auto max-w-full whitespace-normal wrap-break-word text-left bg-amber-50 dark:bg-amber-500/5 text-amber-900 dark:text-amber-200"
+												className="h-auto max-w-full border-amber-500/30 bg-amber-50 text-left wrap-break-word whitespace-normal text-amber-900 shadow-black/5 dark:bg-amber-500/5 dark:text-amber-200"
 											>
 												<span
-													className="h-1.5 w-1.5 shrink-0 rounded-full bg-amber-500/80 mr-1.5"
+													className="mr-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-amber-500/80"
 													aria-hidden="true"
 												/>
-												<span className="min-w-0 wrap-break-word font-medium">{idea}</span>
+												<span className="min-w-0 font-medium wrap-break-word">{idea}</span>
 											</Badge>
 										))}
 									</div>
@@ -280,7 +280,7 @@ export function ResponseScreen() {
 								setError("");
 							}}
 						>
-							<SelectTrigger id="relationship" className="w-full h-11!">
+							<SelectTrigger id="relationship" className="h-11! w-full">
 								<SelectValue placeholder="Select relationship" />
 							</SelectTrigger>
 							<SelectContent position="popper">
@@ -292,7 +292,7 @@ export function ResponseScreen() {
 							</SelectContent>
 						</Select>
 						{error && (
-							<p className="text-destructive text-sm font-medium mt-1" role="alert">
+							<p className="mt-1 text-sm font-medium text-destructive" role="alert">
 								{error}
 							</p>
 						)}

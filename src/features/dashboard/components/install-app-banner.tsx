@@ -114,11 +114,11 @@ export function InstallAppBanner({ birthdaysCount, onVisibilityChange }: Install
 	if (!shouldShow) return null;
 
 	return (
-		<div className="bg-background/95 ring-border fixed bottom-6 left-1/2 z-50 mb-[env(safe-area-inset-bottom)] flex w-[calc(100%-2rem)] max-w-2xl -translate-x-1/2 animate-in flex-col items-center gap-4 rounded-3xl border border-dashed px-6 py-5 text-center shadow-2xl backdrop-blur-md fade-in slide-in-from-bottom-8 sm:flex-row sm:text-left ring-1">
+		<div className="fixed bottom-6 left-1/2 z-50 mb-[env(safe-area-inset-bottom)] flex w-[calc(100%-2rem)] max-w-2xl -translate-x-1/2 animate-in flex-col items-center gap-4 rounded-3xl border border-dashed bg-background/95 px-6 py-5 text-center shadow-2xl ring-1 ring-border backdrop-blur-md fade-in slide-in-from-bottom-8 sm:flex-row sm:text-left">
 			<Button
 				variant="ghost"
 				size="icon"
-				className="text-muted-foreground hover:text-foreground absolute top-2 right-2 h-8 w-8 rounded-full"
+				className="absolute top-2 right-2 h-8 w-8 rounded-full text-muted-foreground hover:text-foreground"
 				onClick={handleDismiss}
 				aria-label="Dismiss install reminder"
 			>
@@ -131,7 +131,7 @@ export function InstallAppBanner({ birthdaysCount, onVisibilityChange }: Install
 
 			<div className="flex flex-1 flex-col gap-1">
 				<h3 className="text-base font-semibold tracking-tight">Get the Full Experience!</h3>
-				<p className="text-muted-foreground text-sm">
+				<p className="text-sm text-muted-foreground">
 					Install {APP_INFO.name} to your home screen for instant offline access and a seamless
 					app-like feel.
 				</p>

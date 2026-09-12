@@ -130,7 +130,7 @@ export function QuickActionToolbar({ hasCelebrants = false }: { hasCelebrants?: 
 					exit="exit"
 					transition={{ duration: 0.2 }}
 					className={cn(
-						"bg-background/90 hover:bg-muted/80 fixed z-40 flex h-10 w-6 cursor-pointer items-center justify-center border shadow-lg backdrop-blur-xl transition-colors",
+						"fixed z-40 flex h-10 w-6 cursor-pointer items-center justify-center border bg-background/90 shadow-lg backdrop-blur-xl transition-colors hover:bg-muted/80",
 						// Edge alignment based on corner
 						actualPosition === "top-left" && "top-20 left-0 rounded-r-md border-l-0 md:top-24",
 						actualPosition === "top-right" && "top-20 right-0 rounded-l-md border-r-0 md:top-24",
@@ -145,17 +145,17 @@ export function QuickActionToolbar({ hasCelebrants = false }: { hasCelebrants?: 
 					title="Open Quick Actions"
 					aria-label="Open Quick Actions"
 				>
-					<ChevronIcon className="text-muted-foreground h-4 w-4" />
+					<ChevronIcon className="h-4 w-4 text-muted-foreground" />
 					<span
 						className={cn(
 							"absolute flex h-2.5 w-2.5",
-							isLeft ? "-right-1 -top-1" : "-left-1 -top-1",
+							isLeft ? "-top-1 -right-1" : "-top-1 -left-1",
 						)}
 					>
 						{isPulsing && (
-							<span className="bg-primary absolute inline-flex h-full w-full animate-ping rounded-full opacity-75" />
+							<span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
 						)}
-						<span className="bg-primary relative inline-flex h-2.5 w-2.5 rounded-full" />
+						<span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-primary" />
 					</span>
 				</motion.button>
 			) : (
@@ -172,7 +172,7 @@ export function QuickActionToolbar({ hasCelebrants = false }: { hasCelebrants?: 
 					style={{ x, y }}
 					onDragEnd={handleDragEnd}
 					className={cn(
-						"bg-background/85 ring-border fixed z-40 flex overflow-hidden rounded-2xl shadow-xl ring-1 backdrop-blur-xl",
+						"fixed z-40 flex overflow-hidden rounded-2xl bg-background/85 shadow-xl ring-1 ring-border backdrop-blur-xl",
 						!isMobile && "cursor-grab",
 						positionClasses[actualPosition],
 						"w-full max-w-[95vw] flex-row md:w-auto",
@@ -181,10 +181,10 @@ export function QuickActionToolbar({ hasCelebrants = false }: { hasCelebrants?: 
 				>
 					{!isMobile && (
 						<div
-							className="bg-muted/30 flex shrink-0 items-center justify-center border-r p-1"
+							className="flex shrink-0 items-center justify-center border-r bg-muted/30 p-1"
 							title="Drag to dock"
 						>
-							<GripVerticalIcon className="text-muted-foreground pointer-events-none h-4 w-4" />
+							<GripVerticalIcon className="pointer-events-none h-4 w-4 text-muted-foreground" />
 						</div>
 					)}
 					<div
@@ -197,11 +197,11 @@ export function QuickActionToolbar({ hasCelebrants = false }: { hasCelebrants?: 
 						<QuickActionGreeting hasCelebrants={hasCelebrants} />
 					</div>
 
-					<div className="bg-muted/30 flex shrink-0 flex-col items-center justify-center border-l p-1.5">
+					<div className="flex shrink-0 flex-col items-center justify-center border-l bg-muted/30 p-1.5">
 						<Button
 							variant="ghost"
 							size="icon"
-							className="text-muted-foreground hover:bg-muted/80 h-7 w-7"
+							className="h-7 w-7 text-muted-foreground hover:bg-muted/80"
 							onClick={() => setIsOpen(false)}
 							title="Close Quick Actions"
 							aria-label="Close Quick Actions"

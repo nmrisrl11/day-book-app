@@ -29,7 +29,7 @@ export function InstallScreen() {
 				<div className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-12 p-4 pt-4 pb-12 md:p-8">
 					{/* Back button */}
 					<div>
-						<Button variant="ghost" size="sm" asChild className="text-muted-foreground -ml-2">
+						<Button variant="ghost" size="sm" asChild className="-ml-2 text-muted-foreground">
 							<Link to="/">
 								<ArrowLeftIcon className="mr-2 h-4 w-4" />
 								Back to Dashboard
@@ -43,10 +43,10 @@ export function InstallScreen() {
 						<Badge variant="secondary" className="w-fit">
 							Get the App
 						</Badge>
-						<h1 className="text-foreground text-4xl font-bold tracking-tight sm:text-5xl">
+						<h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
 							Install {APP_INFO.name}
 						</h1>
-						<p className="text-muted-foreground mx-auto max-w-xl text-lg">
+						<p className="mx-auto max-w-xl text-lg text-muted-foreground">
 							Enjoy a faster, full-screen experience that works offline. Install {APP_INFO.name}{" "}
 							directly to your home screen or desktop without using an app store.
 						</p>
@@ -54,11 +54,11 @@ export function InstallScreen() {
 						{/* Action Area */}
 						<div className="mt-4 flex w-full max-w-sm flex-col items-center gap-4">
 							{isInstalled ? (
-								<div className="bg-primary/10 border-primary/20 flex w-full flex-col items-center gap-3 rounded-2xl border p-6 text-center">
-									<CheckCircle2Icon className="text-primary h-12 w-12" />
+								<div className="flex w-full flex-col items-center gap-3 rounded-2xl border border-primary/20 bg-primary/10 p-6 text-center">
+									<CheckCircle2Icon className="h-12 w-12 text-primary" />
 									<div className="flex flex-col gap-1">
-										<h2 className="text-primary font-bold">App is Installed!</h2>
-										<p className="text-muted-foreground text-sm">
+										<h2 className="font-bold text-primary">App is Installed!</h2>
+										<p className="text-sm text-muted-foreground">
 											You are currently using the installed version of {APP_INFO.name}.
 										</p>
 									</div>
@@ -76,13 +76,13 @@ export function InstallScreen() {
 									Install App Now
 								</Button>
 							) : isIOS ? (
-								<div className="bg-card border-border flex w-full flex-col items-center gap-4 rounded-2xl border p-6 text-center shadow-sm">
-									<div className="bg-primary/10 text-primary flex h-12 w-12 items-center justify-center rounded-full">
+								<div className="flex w-full flex-col items-center gap-4 rounded-2xl border border-border bg-card p-6 text-center shadow-sm">
+									<div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
 										<ShareIcon className="h-6 w-6" />
 									</div>
 									<div className="flex flex-col gap-1">
-										<h2 className="text-foreground font-bold">iOS Installation</h2>
-										<p className="text-muted-foreground text-sm leading-relaxed">
+										<h2 className="font-bold text-foreground">iOS Installation</h2>
+										<p className="text-sm leading-relaxed text-muted-foreground">
 											To install on your iPhone or iPad, tap the{" "}
 											<strong className="text-foreground">Share</strong> icon in your browser menu,
 											then select <strong className="text-foreground">Add to Home Screen</strong>.
@@ -92,13 +92,13 @@ export function InstallScreen() {
 							) : isChecking ? (
 								<Skeleton className="h-14 w-full rounded-md" />
 							) : isDesktop ? (
-								<div className="bg-card border-border flex w-full flex-col items-center gap-4 rounded-2xl border p-6 text-center shadow-sm">
-									<div className="bg-primary/10 text-primary flex h-12 w-12 items-center justify-center rounded-full">
+								<div className="flex w-full flex-col items-center gap-4 rounded-2xl border border-border bg-card p-6 text-center shadow-sm">
+									<div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
 										<MonitorSmartphoneIcon className="h-6 w-6" />
 									</div>
 									<div className="flex flex-col gap-1">
-										<h2 className="text-foreground font-bold">Browser Installation</h2>
-										<p className="text-muted-foreground text-sm leading-relaxed">
+										<h2 className="font-bold text-foreground">Browser Installation</h2>
+										<p className="text-sm leading-relaxed text-muted-foreground">
 											You can install this app manually. Look for an <strong>install icon</strong>{" "}
 											in your address bar, or check your browser's menu for{" "}
 											<strong className="text-foreground">Install App</strong>.
@@ -106,12 +106,12 @@ export function InstallScreen() {
 									</div>
 								</div>
 							) : (
-								<div className="bg-muted border-border flex w-full flex-col items-center gap-2 rounded-2xl border p-6 text-center">
-									<div className="bg-primary/10 text-primary mb-1 flex h-10 w-10 items-center justify-center rounded-full">
+								<div className="flex w-full flex-col items-center gap-2 rounded-2xl border border-border bg-muted p-6 text-center">
+									<div className="mb-1 flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-primary">
 										<MonitorSmartphoneIcon className="h-5 w-5" />
 									</div>
-									<h2 className="text-foreground font-bold">Installation Unavailable</h2>
-									<p className="text-muted-foreground text-sm leading-relaxed">
+									<h2 className="font-bold text-foreground">Installation Unavailable</h2>
+									<p className="text-sm leading-relaxed text-muted-foreground">
 										The app might already be installed, or your browser doesn't support direct
 										installation.
 									</p>
@@ -122,7 +122,7 @@ export function InstallScreen() {
 
 					{/* Benefits Section */}
 					<section className="mt-4 flex flex-col gap-6">
-						<h2 className="text-foreground text-2xl font-semibold">Why install?</h2>
+						<h2 className="text-2xl font-semibold text-foreground">Why install?</h2>
 						<div className="grid gap-4 sm:grid-cols-3">
 							<FeatureCard
 								icon={<WifiOffIcon className="h-5 w-5" />}
@@ -157,12 +157,12 @@ function FeatureCard({
 	description: string;
 }) {
 	return (
-		<div className="bg-card border-border flex flex-col gap-3 rounded-2xl border p-5">
-			<div className="bg-primary/10 text-primary flex h-10 w-10 shrink-0 items-center justify-center rounded-xl">
+		<div className="flex flex-col gap-3 rounded-2xl border border-border bg-card p-5">
+			<div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
 				{icon}
 			</div>
-			<h3 className="text-foreground font-semibold">{title}</h3>
-			<p className="text-muted-foreground text-sm leading-relaxed">{description}</p>
+			<h3 className="font-semibold text-foreground">{title}</h3>
+			<p className="text-sm leading-relaxed text-muted-foreground">{description}</p>
 		</div>
 	);
 }

@@ -107,7 +107,7 @@ export const AnimatedLogo = forwardRef<AnimatedLogoRef, AnimatedLogoProps>(
 			<Wrapper
 				type={asButton ? "button" : undefined}
 				className={cn(
-					"group focus-visible:ring-ring relative inline-flex cursor-pointer items-center justify-center rounded-3xl transition-transform outline-none select-none [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none] focus-visible:ring-2",
+					"group relative inline-flex cursor-pointer items-center justify-center rounded-3xl transition-transform outline-none select-none [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none] focus-visible:ring-2 focus-visible:ring-ring",
 					className,
 				)}
 				onClick={() => startAnimation(false)}
@@ -127,23 +127,23 @@ export const AnimatedLogo = forwardRef<AnimatedLogoRef, AnimatedLogoProps>(
 					<div className="pointer-events-none absolute inset-0" aria-hidden="true">
 						{/* Particle 1: Top Right */}
 						<div
-							className="bg-primary animate-particle-out absolute top-[20%] left-[60%] h-1.5 w-1.5 rounded-full"
+							className="absolute top-[20%] left-[60%] h-1.5 w-1.5 animate-particle-out rounded-full bg-primary"
 							style={{ "--tx": "15px", "--ty": "-20px", animationDelay: "0ms" } as CSSProperties}
 						/>
 						{/* Particle 2: Top Left */}
 						<div
-							className="bg-primary animate-particle-out absolute top-[30%] left-[30%] h-1 w-1 rounded-full opacity-80"
+							className="absolute top-[30%] left-[30%] h-1 w-1 animate-particle-out rounded-full bg-primary opacity-80"
 							style={{ "--tx": "-20px", "--ty": "-15px", animationDelay: "50ms" } as CSSProperties}
 						/>
 						{/* Particle 3: Bottom Right */}
 						<div
-							className="bg-primary animate-particle-out absolute top-[70%] left-[70%] h-1 w-1 rounded-full opacity-60"
+							className="absolute top-[70%] left-[70%] h-1 w-1 animate-particle-out rounded-full bg-primary opacity-60"
 							style={{ "--tx": "20px", "--ty": "10px", animationDelay: "100ms" } as CSSProperties}
 							onAnimationEnd={() => setIsAnimating(false)}
 						/>
 						{/* Particle 4: Left */}
 						<div
-							className="bg-primary animate-particle-out absolute top-[60%] left-[20%] h-1.5 w-1.5 rounded-full opacity-90"
+							className="absolute top-[60%] left-[20%] h-1.5 w-1.5 animate-particle-out rounded-full bg-primary opacity-90"
 							style={{ "--tx": "-25px", "--ty": "5px", animationDelay: "20ms" } as CSSProperties}
 						/>
 					</div>
@@ -152,41 +152,41 @@ export const AnimatedLogo = forwardRef<AnimatedLogoRef, AnimatedLogoProps>(
 				{isAnimating && animationType === "confetti" && (
 					<div className="pointer-events-none absolute inset-0" aria-hidden="true">
 						<div
-							className="animate-particle-out absolute top-[20%] left-[50%]"
+							className="absolute top-[20%] left-[50%] animate-particle-out"
 							style={{ "--tx": "-25px", "--ty": "-30px", animationDelay: "0ms" } as CSSProperties}
 						>
-							<div className="bg-red-500 h-2 w-1.5 rounded-[1px] -rotate-12" />
+							<div className="h-2 w-1.5 -rotate-12 rounded-[1px] bg-red-500" />
 						</div>
 						<div
-							className="animate-particle-out absolute top-[30%] left-[60%]"
+							className="absolute top-[30%] left-[60%] animate-particle-out"
 							style={{ "--tx": "30px", "--ty": "-20px", animationDelay: "20ms" } as CSSProperties}
 						>
-							<div className="bg-blue-500 h-1.5 w-2 rounded-[1px] rotate-45" />
+							<div className="h-1.5 w-2 rotate-45 rounded-[1px] bg-blue-500" />
 						</div>
 						<div
-							className="animate-particle-out absolute top-[60%] left-[70%]"
+							className="absolute top-[60%] left-[70%] animate-particle-out"
 							style={{ "--tx": "25px", "--ty": "20px", animationDelay: "40ms" } as CSSProperties}
 						>
-							<div className="bg-yellow-500 h-2 w-1.5 rounded-[1px] rotate-75" />
+							<div className="h-2 w-1.5 rotate-75 rounded-[1px] bg-yellow-500" />
 						</div>
 						<div
-							className="animate-particle-out absolute top-[70%] left-[30%]"
+							className="absolute top-[70%] left-[30%] animate-particle-out"
 							style={{ "--tx": "-20px", "--ty": "25px", animationDelay: "60ms" } as CSSProperties}
 							onAnimationEnd={() => setIsAnimating(false)}
 						>
-							<div className="bg-green-500 h-1.5 w-2 rounded-[1px] rotate-12" />
+							<div className="h-1.5 w-2 rotate-12 rounded-[1px] bg-green-500" />
 						</div>
 						<div
-							className="animate-particle-out absolute top-[40%] left-[20%]"
+							className="absolute top-[40%] left-[20%] animate-particle-out"
 							style={{ "--tx": "-30px", "--ty": "5px", animationDelay: "10ms" } as CSSProperties}
 						>
-							<div className="bg-purple-500 h-2 w-1.5 rounded-[1px] -rotate-45" />
+							<div className="h-2 w-1.5 -rotate-45 rounded-[1px] bg-purple-500" />
 						</div>
 						<div
-							className="animate-particle-out absolute top-[20%] left-[30%]"
+							className="absolute top-[20%] left-[30%] animate-particle-out"
 							style={{ "--tx": "-15px", "--ty": "-20px", animationDelay: "30ms" } as CSSProperties}
 						>
-							<div className="bg-pink-500 h-1.5 w-1.5 rounded-full" />
+							<div className="h-1.5 w-1.5 rounded-full bg-pink-500" />
 						</div>
 					</div>
 				)}

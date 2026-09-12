@@ -45,12 +45,12 @@ export function HappyBirthdaySection({
 
 	if (!hasCelebrants && !isPreviewMode) {
 		return (
-			<div className="border-border/50 bg-muted/20 relative z-10 flex min-h-[40vh] w-full flex-col items-center justify-center overflow-hidden rounded-[2.5rem] border border-dashed py-16 text-center">
-				<PartyHat className="text-muted-foreground/30 mb-4 h-10 w-10 opacity-50" />
-				<h1 className="text-muted-foreground mb-2 text-2xl font-bold tracking-tight uppercase md:text-4xl">
+			<div className="relative z-10 flex min-h-[40vh] w-full flex-col items-center justify-center overflow-hidden rounded-[2.5rem] border border-dashed border-border/50 bg-muted/20 py-16 text-center">
+				<PartyHat className="mb-4 h-10 w-10 text-muted-foreground/30 opacity-50" />
+				<h1 className="mb-2 text-2xl font-bold tracking-tight text-muted-foreground uppercase md:text-4xl">
 					No Birthdays Today
 				</h1>
-				<p className="text-muted-foreground mb-6 max-w-sm px-4">
+				<p className="mb-6 max-w-sm px-4 text-muted-foreground">
 					Add more friends to your list, or preview what their special day will look like!
 				</p>
 				{hasDataToPreview && onStartPreview && (
@@ -67,17 +67,17 @@ export function HappyBirthdaySection({
 		<div className="relative z-10 flex min-h-[50vh] w-full flex-col items-center justify-center overflow-hidden rounded-[2.5rem] py-16 text-center">
 			{isPreviewMode && onClosePreview && (
 				<div className="absolute top-6 right-0 left-0 z-50 flex justify-center">
-					<div className="bg-background/80 animate-in fade-in slide-in-from-top-4 flex items-center gap-3 rounded-full border px-4 py-1.5 shadow-sm backdrop-blur-md duration-300">
-						<span className="text-muted-foreground flex items-center gap-1.5 text-xs font-semibold tracking-widest uppercase">
+					<div className="flex animate-in items-center gap-3 rounded-full border bg-background/80 px-4 py-1.5 shadow-sm backdrop-blur-md duration-300 fade-in slide-in-from-top-4">
+						<span className="flex items-center gap-1.5 text-xs font-semibold tracking-widest text-muted-foreground uppercase">
 							<SparklesIcon className="h-3.5 w-3.5" />
 							Preview Mode
 						</span>
-						<div className="bg-border h-4 w-px" />
+						<div className="h-4 w-px bg-border" />
 						<Button
 							variant="ghost"
 							size="sm"
 							onClick={onClosePreview}
-							className="hover:bg-destructive/10 hover:text-destructive h-7 rounded-full px-3 text-xs font-medium"
+							className="h-7 rounded-full px-3 text-xs font-medium hover:bg-destructive/10 hover:text-destructive"
 						>
 							Exit Demo
 						</Button>

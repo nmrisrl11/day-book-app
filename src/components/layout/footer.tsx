@@ -8,7 +8,7 @@ export function Footer() {
 	const { updateSettings } = useDayBookStore();
 
 	return (
-		<footer className="text-muted-foreground mt-auto flex w-full justify-center">
+		<footer className="mt-auto flex w-full justify-center text-muted-foreground">
 			<div className="flex flex-col items-center justify-center gap-y-2">
 				<div className="flex items-center justify-center gap-x-2 text-[0.8rem] font-medium">
 					<Link

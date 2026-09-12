@@ -123,7 +123,7 @@ export function BirthdaysDataManagement() {
 							}
 						/>
 					</div>
-					<p className="text-muted-foreground text-sm">Backup or restore your raw data</p>
+					<p className="text-sm text-muted-foreground">Backup or restore your raw data</p>
 				</div>
 				<div className="mt-2 grid w-full grid-cols-2 gap-2 sm:mt-0 sm:flex sm:w-auto sm:items-center">
 					<Button
@@ -178,7 +178,7 @@ export function BirthdaysDataManagement() {
 							}
 						/>
 					</div>
-					<p className="text-muted-foreground text-sm">Sync with your favorite calendar apps</p>
+					<p className="text-sm text-muted-foreground">Sync with your favorite calendar apps</p>
 				</div>
 				<div className="mt-2 grid w-full grid-cols-2 gap-2 sm:mt-0 sm:flex sm:w-auto sm:items-center">
 					<Button
