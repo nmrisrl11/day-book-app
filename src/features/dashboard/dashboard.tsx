@@ -79,7 +79,11 @@ export function Dashboard() {
 						upcomingBirthdays={activeUpcomingBirthdays}
 						currentDate={currentDate}
 					/>
-					<BirthdaysSection birthdaysByMonth={activeBirthdaysByMonth} currentDate={currentDate} />
+					<BirthdaysSection
+						birthdaysByMonth={activeBirthdaysByMonth}
+						currentDate={currentDate}
+						previewBirthdays={previewMode && birthdays.length === 0 ? activeCelebrants : undefined}
+					/>
 					<InstallAppBanner
 						birthdaysCount={activeBirthdaysCount}
 						onVisibilityChange={setIsInstallBannerVisible}

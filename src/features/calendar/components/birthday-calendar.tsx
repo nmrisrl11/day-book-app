@@ -16,8 +16,8 @@ const BirthdayDateCelebrantsDialog = lazy(() =>
 	})),
 );
 
-export function BirthdayCalendar() {
-	const { events, currentDate, setViewRange } = useBirthdayCalendar();
+export function BirthdayCalendar({ previewBirthdays }: { previewBirthdays?: Birthday[] }) {
+	const { events, currentDate, setViewRange } = useBirthdayCalendar(previewBirthdays);
 	const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 	const [selectedCelebrants, setSelectedCelebrants] = useState<Birthday[]>([]);
 	const [isDialogOpen, setIsDialogOpen] = useState(false);

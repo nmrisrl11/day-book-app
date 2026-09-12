@@ -14,6 +14,8 @@
 
 - Fixed a visual mismatch in the Dashboard's initial loading skeleton where the "See It In Action" button was missing, causing the layout to jump when fully loaded.
 
+- Fixed an issue where the "See It In Action" preview data was not propagating to the FullCalendar tab, resulting in an empty calendar during preview mode.
+
 - Made Upcoming Birthday cards clickable, routing to the person's profile, while ensuring this interaction doesn't conflict with the scroll-drag behavior.
 
 - Fixed an issue where the screen would briefly flash white before loading the dark theme (FOUC).

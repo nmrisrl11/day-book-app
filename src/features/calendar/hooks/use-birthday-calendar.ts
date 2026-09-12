@@ -1,9 +1,13 @@
 import { useBirthdayData } from "@/hooks/use-birthday-data";
+import type { Birthday } from "@/types/birthday";
 import { useMemo, useState } from "react";
 import { generateBirthdayEvents } from "../utils/birthday-calendar-events";
 
-export function useBirthdayCalendar() {
-	const { birthdays, isLoading, currentDate } = useBirthdayData();
+export function useBirthdayCalendar(previewBirthdays?: Birthday[]) {
+	const data = useBirthdayData();
+	const birthdays = previewBirthdays ?? data.birthdays;
+	const isLoading = previewBirthdays ? false : data.isLoading;
+	const currentDate = data.currentDate;
 
 	// Default to current year, but will update when calendar changes view
 	const [viewRange, setViewRange] = useState<{ start: Date; end: Date }>({
