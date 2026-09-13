@@ -5,7 +5,7 @@ import { UserAvatar } from "@/components/user-avatar";
 import { db } from "@/lib/db";
 import { formatDistanceToNow } from "date-fns";
 import { useLiveQuery } from "dexie-react-hooks";
-import { BellIcon, BroomSparklesIcon, ListChecksIcon } from "lucide-react";
+import { BellIcon, BroomSparklesIcon, ListChecksIcon, RocketIcon } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -23,10 +23,14 @@ export function NotificationMenu() {
 
 	const [isOpen, setIsOpen] = useState(false);
 
-	const handleNotificationClick = async (id: string, personId: string) => {
-		await db.notifications.update(id, { read: true });
+	const handleNotificationClick = async (n: { id: string; personId: string; type: string }) => {
+		await db.notifications.update(n.id, { read: true });
 		setIsOpen(false);
-		navigate(`/person/${personId}`);
+		if (n.type === "system") {
+			navigate("/about#whats-new");
+		} else {
+			navigate(`/person/${n.personId}`);
+		}
 	};
 
 	const markAllAsRead = async () => {
@@ -99,16 +103,20 @@ export function NotificationMenu() {
 								return (
 									<button
 										key={n.id}
-										onClick={() => handleNotificationClick(n.id, n.personId)}
+										onClick={() => handleNotificationClick(n)}
 										className={`flex items-start gap-2.5 p-3 text-left transition-colors hover:bg-muted/50 ${
 											!n.read ? "bg-primary/5" : ""
 										}`}
 									>
-										{person && (
+										{n.type === "system" ? (
+											<div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+												<RocketIcon className="h-4 w-4" />
+											</div>
+										) : person ? (
 											<div className="mt-0.5 shrink-0">
 												<UserAvatar birthday={person} size={28} />
 											</div>
-										)}
+										) : null}
 										<div className="flex min-w-0 flex-1 flex-col gap-0.5">
 											<div className="flex items-start justify-between gap-2">
 												<p className={`text-[13px] leading-tight ${!n.read ? "font-medium" : ""}`}>

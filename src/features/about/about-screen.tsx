@@ -19,8 +19,8 @@ import {
 	ThumbsUpIcon,
 	WifiIcon,
 } from "lucide-react";
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 
 export function AboutScreen() {
 	const [visibleCount, setVisibleCount] = useState(3);
@@ -52,6 +52,22 @@ export function AboutScreen() {
 	];
 
 	const activeId = useActiveSection(trackedIds);
+	const location = useLocation();
+
+	useEffect(() => {
+		if (location.hash) {
+			const id = location.hash.replace("#", "");
+			// Add a slight delay to ensure the DOM is fully painted
+			setTimeout(() => {
+				const element = document.getElementById(id);
+				if (element) {
+					element.scrollIntoView({ behavior: "smooth" });
+				}
+			}, 100);
+		} else {
+			window.scrollTo({ top: 0, behavior: "smooth" });
+		}
+	}, [location.hash]);
 
 	return (
 		<>

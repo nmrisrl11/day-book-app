@@ -17,7 +17,7 @@ export interface InvitationRecord {
 export interface NotificationRecord {
 	id: string;
 	personId: string;
-	type: "upcoming" | "today";
+	type: "upcoming" | "today" | "system";
 	message: string;
 	read: boolean;
 	cleared?: boolean;

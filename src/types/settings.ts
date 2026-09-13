@@ -79,4 +79,5 @@ export interface Settings {
 	lastBackupReminderDismissedAt?: string;
 	lastInstallPromptDismissedAt?: string;
 	notificationSettings?: NotificationSettings;
+	lastSeenVersion?: string;
 }

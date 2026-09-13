@@ -41,7 +41,19 @@ export function P2PSyncSection() {
 					const birthdays = await BirthdayRepository.getAll();
 					const invitations = await InvitationRepository.getAll();
 					const settings = useDayBookStore.getState().settings;
-					const payload = { birthdays, invitations, settings };
+					// Strip device-specific state before sending
+					const {
+						lastSeenVersion: _lastSeenVersion,
+						onboardingStatus: _onboardingStatus,
+						onboardingStep: _onboardingStep,
+						quickActionsIsOpen: _quickActionsIsOpen,
+						lastBackupDate: _lastBackupDate,
+						lastBackupReminderDismissedAt: _lastBackupReminderDismissedAt,
+						lastInstallPromptDismissedAt: _lastInstallPromptDismissedAt,
+						...settingsToExport
+					} = settings;
+
+					const payload = { birthdays, invitations, settings: settingsToExport };
 					const blob = new Blob([JSON.stringify(payload)], { type: "application/json" });
 					send(blob);
 				} catch (err) {
@@ -133,6 +145,7 @@ export function P2PSyncSection() {
 					lastBackupDate: _lastBackupDate,
 					lastBackupReminderDismissedAt: _lastBackupReminderDismissedAt,
 					lastInstallPromptDismissedAt: _lastInstallPromptDismissedAt,
+					lastSeenVersion: _lastSeenVersion,
 					...safeSettingsToImport
 				} = parsedSettings;
 				useDayBookStore.getState().updateSettings(safeSettingsToImport);
