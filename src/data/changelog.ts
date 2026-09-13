@@ -16,6 +16,45 @@ export interface ChangelogRelease {
 
 export const changelog: ChangelogRelease[] = [
 	{
+		version: "2.0.0",
+		date: "2026-09-14",
+		title: "Your Profile, App Updates & Previews",
+		summary:
+			"We've added a dedicated 'Me' profile to keep track of your own special day, a smart update system to notify you of new features, and a fun way for new users to preview the app in action.",
+		changes: [
+			{
+				type: "added",
+				title: "Your Personal Profile",
+				description:
+					"You can now add yourself to DayBook! We added a special 'Me' relationship type. Once added, your avatar will elegantly appear in the top navigation bar for quick access.",
+			},
+			{
+				type: "added",
+				title: "Smart Update Notifications",
+				description:
+					"Never miss a new feature! The app will now gently notify you when a new version is available, complete with native notifications and a direct link to see what's new.",
+			},
+			{
+				type: "added",
+				title: "See It In Action",
+				description:
+					"Brand new to DayBook? We've redesigned the empty dashboard with a 'See It In Action' button, letting you instantly preview the full experience with a dynamic mascot profile.",
+			},
+			{
+				type: "improved",
+				title: "Smoother Navigation & Layouts",
+				description:
+					"We decluttered the empty dashboard and moved Sync Data to the footer for universal access. Plus, upcoming birthday cards are now directly clickable, taking you straight to the person's profile.",
+			},
+			{
+				type: "fixed",
+				title: "Ironclad Sync & Polish",
+				description:
+					"Fixed several edge cases where local settings could accidentally transfer during device sync, eliminated brief screen flashes when opening the app, and ensured notifications trigger perfectly.",
+			},
+		],
+	},
+	{
 		version: "1.9.0",
 		date: "2026-09-02",
 		title: "Instant Search & Push Notifications",
