@@ -2,6 +2,10 @@
 
 ## Added
 
+- Added an intelligent in-app update notification system that detects new app versions and alerts users via the Notification Menu, complete with native OS push notifications.
+
+- Clicking on an update notification now seamlessly routes users directly to the "What's New" section on the About page.
+
 - Added a "See It In Action" button to the Dashboard empty state, allowing new users to preview the full DayBook experience using a dynamic DayBook mascot profile.
 
 ## Improved
@@ -11,6 +15,10 @@
 - Enhanced the "See It In Action" preview in the Dashboard to prioritize showing the next upcoming birthday rather than a random existing one.
 
 ## Fixed
+
+- Prevented device-specific settings (such as the last seen app version and onboarding status) from inadvertently syncing across devices during P2P sync or JSON exports, ensuring local settings remain local.
+
+- Fixed an issue where OS push notifications for updates and birthday reminders would fail to trigger in development environments due to missing service worker registrations.
 
 - Fixed a visual mismatch in the Dashboard's initial loading skeleton where the "See It In Action" button was missing, causing the layout to jump when fully loaded.
 

@@ -36,6 +36,7 @@ export const defaultSettings: Settings = {
 		enabled: true,
 		remindDaysBefore: [0, 1], // Default: on the day, and 1 day before
 	},
+	lastSeenVersion: undefined,
 };
 
 interface DayBookState {

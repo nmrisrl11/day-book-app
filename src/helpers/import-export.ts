@@ -174,7 +174,18 @@ export function parseImportedInvitations(fileText: string | undefined): Invitati
 }
 
 export function exportSettings(settings: SettingsState) {
-	const dataStr = JSON.stringify(settings, null, 2);
+	// Strip device-specific settings before exporting
+	const {
+		lastSeenVersion: _lastSeenVersion,
+		onboardingStatus: _onboardingStatus,
+		onboardingStep: _onboardingStep,
+		lastBackupDate: _lastBackupDate,
+		lastBackupReminderDismissedAt: _lastBackupReminderDismissedAt,
+		lastInstallPromptDismissedAt: _lastInstallPromptDismissedAt,
+		...settingsToExport
+	} = settings;
+
+	const dataStr = JSON.stringify(settingsToExport, null, 2);
 	const blob = new Blob([dataStr], { type: "application/json" });
 	const url = URL.createObjectURL(blob);
 

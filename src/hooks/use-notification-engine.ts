@@ -1,4 +1,5 @@
 import { APP_INFO } from "@/constants/app-info";
+import { changelog } from "@/data/changelog";
 import { calculateDaysUntilBirthday } from "@/helpers/birthday-utils";
 import { db, type NotificationRecord } from "@/lib/db";
 import { useDayBookStore } from "@/store/day-book-store";
@@ -6,12 +7,80 @@ import { format } from "date-fns";
 import { useEffect } from "react";
 import { useCurrentDate } from "./use-current-date";
 
+async function showOSNotification(title: string, options: NotificationOptions) {
+	if (!("Notification" in window) || Notification.permission !== "granted") return;
+
+	if ("serviceWorker" in navigator) {
+		try {
+			const registration = await navigator.serviceWorker.getRegistration();
+			if (registration && registration.active) {
+				await registration.showNotification(title, options);
+				return;
+			}
+		} catch (err) {
+			console.error("Service Worker notification error", err);
+		}
+	}
+
+	// Fallback for development or when SW is not active
+	const notif = new Notification(title, options);
+	notif.onclick = () => {
+		window.focus();
+		notif.close();
+	};
+}
+
 export function useNotificationEngine() {
 	const currentDate = useCurrentDate();
-	const settings = useDayBookStore((state) => state.settings.notificationSettings);
+	const notificationSettings = useDayBookStore((state) => state.settings.notificationSettings);
+	const globalSettings = useDayBookStore((state) => state.settings);
+	const updateSettings = useDayBookStore((state) => state.updateSettings);
 
 	useEffect(() => {
-		if (!settings?.enabled || !Array.isArray(settings.remindDaysBefore)) return;
+		// --- System Update Check ---
+		const currentVersion = changelog[0]?.version;
+		if (currentVersion) {
+			if (globalSettings.onboardingStatus === "not_started") {
+				// Fresh install: just silently update the version
+				if (globalSettings.lastSeenVersion !== currentVersion) {
+					updateSettings({ lastSeenVersion: currentVersion });
+				}
+			} else if (globalSettings.lastSeenVersion !== currentVersion) {
+				// Existing user updated: add notification and update version
+				updateSettings({ lastSeenVersion: currentVersion });
+
+				const todayStr = format(currentDate, "yyyy-MM-dd");
+				const notifId = `notif-system-update-${currentVersion}`;
+				const message = `Update v${currentVersion} Released! Click to see what's new.`;
+
+				const newNotification: NotificationRecord = {
+					id: notifId,
+					personId: "system",
+					type: "system",
+					message,
+					read: false,
+					createdAt: Date.now(),
+					date: todayStr,
+				};
+
+				db.notifications
+					.add(newNotification)
+					.then(() => {
+						showOSNotification(`${APP_INFO.name} Update \uD83D\uDE80`, {
+							body: message,
+							icon: "/web-app-manifest-192x192.png",
+							data: { url: `${window.location.origin}/about#whats-new` },
+						});
+					})
+					.catch(() => {
+						// Ignore duplicate insert errors
+					});
+			}
+		}
+
+		// --- Birthday Reminders Check ---
+		if (!notificationSettings?.enabled || !Array.isArray(notificationSettings.remindDaysBefore))
+			return;
 
 		const checkBirthdays = async () => {
 			const birthdays = await db.birthdays.toArray();
@@ -20,7 +89,7 @@ export function useNotificationEngine() {
 			for (const b of birthdays) {
 				const daysUntil = calculateDaysUntilBirthday(b.birthday, currentDate);
 
-				if (settings.remindDaysBefore.includes(daysUntil)) {
+				if (notificationSettings.remindDaysBefore.includes(daysUntil)) {
 					const notifId = `notif-${b.id}-${todayStr}-${daysUntil}`;
 
 					let message = "";
@@ -48,30 +117,11 @@ export function useNotificationEngine() {
 						await db.notifications.add(newNotification);
 
 						// Trigger system notification if permitted and successfully added to DB
-						if ("Notification" in window && Notification.permission === "granted") {
-							const notificationData = {
-								body: message,
-								icon: "/web-app-manifest-192x192.png",
-								data: { url: `${window.location.origin}/person/${b.id}` },
-							};
-
-							if ("serviceWorker" in navigator) {
-								const registration = await navigator.serviceWorker.ready;
-								registration.showNotification(
-									`${APP_INFO.name} Reminder \uD83C\uDF82`,
-									notificationData,
-								);
-							} else {
-								const notif = new Notification(
-									`${APP_INFO.name} Reminder \uD83C\uDF82`,
-									notificationData,
-								);
-								notif.onclick = () => {
-									window.focus();
-									notif.close();
-								};
-							}
-						}
+						showOSNotification(`${APP_INFO.name} Reminder \uD83C\uDF82`, {
+							body: message,
+							icon: "/web-app-manifest-192x192.png",
+							data: { url: `${window.location.origin}/person/${b.id}` },
+						});
 					} catch {
 						// ConstraintError: Notification with this deterministic ID already exists.
 						// Safely ignore to prevent duplicate notifications.
@@ -81,5 +131,12 @@ export function useNotificationEngine() {
 		};
 
 		checkBirthdays();
-	}, [currentDate, settings]);
+	}, [
+		currentDate,
+		notificationSettings?.enabled,
+		notificationSettings?.remindDaysBefore,
+		globalSettings.onboardingStatus,
+		globalSettings.lastSeenVersion,
+		updateSettings,
+	]);
 }

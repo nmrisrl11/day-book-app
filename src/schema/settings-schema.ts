@@ -96,6 +96,7 @@ export const SettingsSchema = z
 			})
 			.strict()
 			.optional(),
+		lastSeenVersion: z.string().optional(),
 	})
 	.strict()
 	.superRefine((data, ctx) => {
