@@ -116,12 +116,22 @@ export function P2PSyncSection() {
 				const parsedSettings = parseImportedSettings(JSON.stringify(payload.settings));
 				const parsedInvitations = parseImportedInvitations(JSON.stringify(payload.invitations));
 
+				// Check for existing "Me" profile
+				const existingBirthdays = await BirthdayRepository.getAll();
+				const existingMeId = existingBirthdays.find((b) => b.relationship === "Me")?.id;
+
 				// Upsert Birthdays and Invitations
 				await db.transaction("rw", db.birthdays, db.invitations, async () => {
 					for (const b of parsedBirthdays) {
+						let relationship = b.relationship;
+						if (relationship === "Me" && existingMeId && b.id !== existingMeId) {
+							relationship = "Other";
+						}
+
 						const [, monthStr, dayStr] = b.birthday.split("-");
 						await db.birthdays.put({
 							...b,
+							relationship,
 							month: parseInt(monthStr, 10),
 							day: parseInt(dayStr, 10),
 						});
