@@ -179,6 +179,7 @@ export function exportSettings(settings: SettingsState) {
 		lastSeenVersion: _lastSeenVersion,
 		onboardingStatus: _onboardingStatus,
 		onboardingStep: _onboardingStep,
+		quickActionsIsOpen: _quickActionsIsOpen,
 		lastBackupDate: _lastBackupDate,
 		lastBackupReminderDismissedAt: _lastBackupReminderDismissedAt,
 		lastInstallPromptDismissedAt: _lastInstallPromptDismissedAt,

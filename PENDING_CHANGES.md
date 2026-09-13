@@ -2,7 +2,7 @@
 
 ## Added
 
-- Added an intelligent in-app update notification system that detects new app versions and alerts users via the Notification Menu, complete with native OS push notifications.
+- Added an intelligent in-app update notification system that detects new app versions and alerts users via the Notification Menu, complete with native OS notifications.
 
 - Clicking on an update notification now seamlessly routes users directly to the "What's New" section on the About page.
 
@@ -18,7 +18,7 @@
 
 - Prevented device-specific settings (such as the last seen app version and onboarding status) from inadvertently syncing across devices during P2P sync or JSON exports, ensuring local settings remain local.
 
-- Fixed an issue where OS push notifications for updates and birthday reminders would fail to trigger in development environments due to missing service worker registrations.
+- Fixed an issue where OS notifications for updates and birthday reminders would fail to trigger in development environments due to missing service worker registrations.
 
 - Fixed a visual mismatch in the Dashboard's initial loading skeleton where the "See It In Action" button was missing, causing the layout to jump when fully loaded.
 

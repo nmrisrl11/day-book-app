@@ -25,6 +25,9 @@ async function showOSNotification(title: string, options: NotificationOptions) {
 	// Fallback for development or when SW is not active
 	const notif = new Notification(title, options);
 	notif.onclick = () => {
+		if (options.data?.url) {
+			window.location.href = options.data.url;
+		}
 		window.focus();
 		notif.close();
 	};
@@ -46,9 +49,6 @@ export function useNotificationEngine() {
 					updateSettings({ lastSeenVersion: currentVersion });
 				}
 			} else if (globalSettings.lastSeenVersion !== currentVersion) {
-				// Existing user updated: add notification and update version
-				updateSettings({ lastSeenVersion: currentVersion });
-
 				const todayStr = format(currentDate, "yyyy-MM-dd");
 				const notifId = `notif-system-update-${currentVersion}`;
 				const message = `Update v${currentVersion} Released! Click to see what's new.`;
@@ -66,14 +66,22 @@ export function useNotificationEngine() {
 				db.notifications
 					.add(newNotification)
 					.then(() => {
+						// Existing user updated: add notification and update version
+						updateSettings({ lastSeenVersion: currentVersion });
 						showOSNotification(`${APP_INFO.name} Update \uD83D\uDE80`, {
 							body: message,
 							icon: "/web-app-manifest-192x192.png",
 							data: { url: `${window.location.origin}/about#whats-new` },
 						});
 					})
-					.catch(() => {
-						// Ignore duplicate insert errors
+					.catch((err) => {
+						if (err.name === "ConstraintError") {
+							// Ignore duplicate insert errors, but still update the version flag
+							// in case the DB insert succeeded previously but settings failed to save.
+							updateSettings({ lastSeenVersion: currentVersion });
+						} else {
+							console.error("Failed to add update notification:", err);
+						}
 					});
 			}
 		}
