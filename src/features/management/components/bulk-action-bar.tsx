@@ -35,21 +35,34 @@ export function BulkActionBar({
 			<Select
 				onValueChange={async (val) => {
 					const count = selectedIds.size;
-					await Promise.all(
-						Array.from(selectedIds).map((id) =>
-							BirthdayRepository.update(id, { relationship: val as Birthday["relationship"] }),
-						),
-					);
-					setSelectedIds(new Set());
-					gooeyToast.success("People updated", {
-						description: `${count} ${count === 1 ? "person is" : "people are"} now marked as ${val}.`,
-						showTimestamp: false,
-						classNames: {
-							content: "items-center text-center",
-							title: "text-center w-full",
-							description: "text-center justify-center flex w-full",
-						},
-					});
+					try {
+						await Promise.all(
+							Array.from(selectedIds).map((id) =>
+								BirthdayRepository.update(id, { relationship: val as Birthday["relationship"] }),
+							),
+						);
+						setSelectedIds(new Set());
+						gooeyToast.success("People updated", {
+							description: `${count} ${count === 1 ? "person is" : "people are"} now marked as ${val}.`,
+							showTimestamp: false,
+							classNames: {
+								content: "items-center text-center",
+								title: "text-center w-full",
+								description: "text-center justify-center flex w-full",
+							},
+						});
+					} catch (error) {
+						gooeyToast.error("Update failed", {
+							id: "bulk-update-error",
+							description: error instanceof Error ? error.message : "Failed to update people.",
+							showTimestamp: false,
+							classNames: {
+								content: "items-center text-center",
+								title: "text-center w-full",
+								description: "text-center justify-center flex w-full",
+							},
+						});
+					}
 				}}
 			>
 				<SelectTrigger className="h-8 w-35 border-none bg-transparent px-2 shadow-none focus:ring-0 sm:w-40">

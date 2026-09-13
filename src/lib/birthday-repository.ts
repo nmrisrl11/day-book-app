@@ -21,13 +21,28 @@ export const BirthdayRepository = {
 	},
 
 	async save(birthday: Birthday): Promise<void> {
-		const record = this.toRecord(birthday);
-		await db.birthdays.put(record);
+		await db.transaction("rw", db.birthdays, async () => {
+			if (birthday.relationship === "Me") {
+				const existingMe = await db.birthdays.where("relationship").equals("Me").first();
+				if (existingMe && existingMe.id !== birthday.id) {
+					throw new Error("A 'Me' profile already exists. You can only have one 'Me' profile.");
+				}
+			}
+			const record = this.toRecord(birthday);
+			await db.birthdays.put(record);
+		});
 		await this.updateHasDataHint();
 	},
 
 	async update(id: string, updates: Partial<Birthday>): Promise<void> {
 		await db.transaction("rw", db.birthdays, db.notifications, async () => {
+			if (updates.relationship === "Me") {
+				const existingMe = await db.birthdays.where("relationship").equals("Me").first();
+				if (existingMe && existingMe.id !== id) {
+					throw new Error("A 'Me' profile already exists. You can only have one 'Me' profile.");
+				}
+			}
+
 			const oldRecord = await db.birthdays.get(id);
 
 			if (updates.birthday) {
@@ -79,8 +94,30 @@ export const BirthdayRepository = {
 	},
 
 	async bulkSave(birthdays: Birthday[]): Promise<void> {
-		const records = birthdays.map((b) => this.toRecord(b));
-		await db.birthdays.bulkPut(records);
+		await db.transaction("rw", db.birthdays, async () => {
+			let meCountInBatch = 0;
+			let currentMeId: string | undefined = undefined;
+
+			for (const b of birthdays) {
+				if (b.relationship === "Me") {
+					meCountInBatch++;
+					if (!currentMeId) {
+						const existingMe = await db.birthdays.where("relationship").equals("Me").first();
+						currentMeId = existingMe?.id;
+					}
+					if (currentMeId && currentMeId !== b.id) {
+						throw new Error("A 'Me' profile already exists. You can only have one 'Me' profile.");
+					}
+					currentMeId = b.id;
+				}
+			}
+			if (meCountInBatch > 1) {
+				throw new Error("Cannot save multiple 'Me' profiles at once.");
+			}
+
+			const records = birthdays.map((b) => this.toRecord(b));
+			await db.birthdays.bulkPut(records);
+		});
 		await this.updateHasDataHint();
 	},
 
