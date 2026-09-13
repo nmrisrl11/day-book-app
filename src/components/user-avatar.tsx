@@ -18,6 +18,8 @@ export function UserAvatar({ birthday, size = 40, className }: UserAvatarProps) 
 	const avatarSettings =
 		useDayBookStore((state) => state.settings.avatarSettings) || AVATAR_SETTINGS;
 
+	const hasTailwindWidth = /(^|\s)w-/.test(className || "");
+
 	// Custom uploaded image (Always show if it exists, even if uploads are disabled)
 	if (birthday.avatar) {
 		return (
@@ -25,7 +27,7 @@ export function UserAvatar({ birthday, size = 40, className }: UserAvatarProps) 
 				src={birthday.avatar}
 				alt={`${birthday.name}'s avatar`}
 				className={cn("shrink-0 rounded-full object-cover", className)}
-				style={!className?.includes("w-") ? { width: size, height: size } : undefined}
+				style={!hasTailwindWidth ? { width: size, height: size } : undefined}
 			/>
 		);
 	}
@@ -38,7 +40,7 @@ export function UserAvatar({ birthday, size = 40, className }: UserAvatarProps) 
 					"flex shrink-0 items-center justify-center overflow-hidden rounded-full [&>svg]:h-full! [&>svg]:w-full!",
 					className,
 				)}
-				style={!className?.includes("w-") ? { width: size, height: size } : undefined}
+				style={!hasTailwindWidth ? { width: size, height: size } : undefined}
 				aria-hidden="true"
 			>
 				<Suspense fallback={<div className="h-full w-full animate-pulse rounded-full bg-muted" />}>
@@ -60,7 +62,7 @@ export function UserAvatar({ birthday, size = 40, className }: UserAvatarProps) 
 				"flex shrink-0 items-center justify-center [&>svg]:h-full! [&>svg]:w-full!",
 				className,
 			)}
-			style={!className?.includes("w-") ? { width: size, height: size } : undefined}
+			style={!hasTailwindWidth ? { width: size, height: size } : undefined}
 			aria-hidden="true"
 		>
 			<Suspense fallback={<div className="h-full w-full animate-pulse rounded-full bg-muted" />}>

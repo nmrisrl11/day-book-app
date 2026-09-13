@@ -33,6 +33,7 @@ import type { Birthday } from "@/types/birthday";
 import { RELATIONSHIP_OPTIONS } from "@/types/birthday";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { play } from "cuelume";
+import { useLiveQuery } from "dexie-react-hooks";
 import { PlusIcon, XIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
@@ -158,6 +159,19 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 		allowCustomUploads: true,
 	};
 
+	const birthdays = useLiveQuery(() => BirthdayRepository.getAll(), []) ?? [];
+	const hasMeRelationship = birthdays.some((b) => b.relationship === "Me");
+
+	// If a "Me" relationship exists, and we are not currently editing that specific "Me" profile, hide it.
+	const availableRelationships = RELATIONSHIP_OPTIONS.filter((option) => {
+		if (option === "Me") {
+			if (hasMeRelationship && birthday?.relationship !== "Me") {
+				return false;
+			}
+		}
+		return true;
+	});
+
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
 			<DialogContent className="flex max-h-[90vh] flex-col gap-0 p-0 sm:max-w-sm">
@@ -236,7 +250,7 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 										<SelectValue placeholder="Select relationship" />
 									</SelectTrigger>
 									<SelectContent position="popper">
-										{RELATIONSHIP_OPTIONS.map((option) => (
+										{availableRelationships.map((option) => (
 											<SelectItem key={option} value={option}>
 												{option}
 											</SelectItem>

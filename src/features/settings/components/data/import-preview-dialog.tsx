@@ -138,6 +138,15 @@ export function ImportPreviewDialog({
 		const toImport = foundBirthdays.filter((b) => selectedIds.has(b.id) && !isDuplicate(b));
 
 		if (toImport.length > 0) {
+			const dbHasMe = existingBirthdays.some((b) => b.relationship === "Me");
+			if (dbHasMe) {
+				for (let i = 0; i < toImport.length; i++) {
+					if (toImport[i].relationship === "Me") {
+						toImport[i] = { ...toImport[i], relationship: "Other" };
+					}
+				}
+			}
+
 			await BirthdayRepository.bulkSave(toImport);
 
 			// Wait, the number of records actually existing in the file that were ALREADY in the app is:

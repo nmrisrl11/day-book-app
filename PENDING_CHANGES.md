@@ -2,6 +2,10 @@
 
 ## Added
 
+- Added special handling for the "Me" relationship type, ensuring only a single "Me" profile can exist, and gracefully falling back duplicates to "Other" during data imports and P2P sync.
+
+- The "Me" profile avatar now appears in the main navigation header (top-right) for quick access.
+
 - Added an intelligent in-app update notification system that detects new app versions and alerts users via the Notification Menu, complete with native OS notifications.
 
 - Clicking on an update notification now seamlessly routes users directly to the "What's New" section on the About page.
