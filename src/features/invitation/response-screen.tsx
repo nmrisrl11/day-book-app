@@ -81,15 +81,23 @@ export function ResponseScreen() {
 			return;
 		}
 
-		await BirthdayRepository.save({
-			id: crypto.randomUUID(),
-			name: response.n,
-			birthday: response.b,
-			relationship: relationship,
-			notes: [],
-			giftIdeas: response.g || [],
-		});
-		setAdded(true);
+		try {
+			await BirthdayRepository.save({
+				id: crypto.randomUUID(),
+				name: response.n,
+				birthday: response.b,
+				relationship: relationship,
+				notes: [],
+				giftIdeas: response.g || [],
+			});
+			setAdded(true);
+		} catch (error) {
+			if (error instanceof Error) {
+				setError(error.message);
+			} else {
+				setError("Failed to add birthday");
+			}
+		}
 	};
 
 	if (added) {

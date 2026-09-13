@@ -34,6 +34,7 @@ import { RELATIONSHIP_OPTIONS } from "@/types/birthday";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { play } from "cuelume";
 import { useLiveQuery } from "dexie-react-hooks";
+import { gooeyToast } from "goey-toast";
 import { PlusIcon, XIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
@@ -135,18 +136,32 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 	const soundSettings = useDayBookStore((state) => state.settings.soundSettings);
 
 	const onSubmit = async (data: BirthdayFormData) => {
-		const finalData = { ...data, avatar: data.avatar || undefined };
-		if (birthday) {
-			await BirthdayRepository.update(birthday.id, { ...birthday, ...finalData });
-		} else {
-			await BirthdayRepository.save({ ...finalData, id: crypto.randomUUID() } as Birthday);
-		}
+		try {
+			const finalData = { ...data, avatar: data.avatar || undefined };
+			if (birthday) {
+				await BirthdayRepository.update(birthday.id, { ...birthday, ...finalData });
+			} else {
+				await BirthdayRepository.save({ ...finalData, id: crypto.randomUUID() } as Birthday);
+			}
 
-		if (soundSettings?.enabled) {
-			play(soundSettings.mappings.success, { volume: soundSettings.volume });
-		}
+			if (soundSettings?.enabled) {
+				play(soundSettings.mappings.success, { volume: soundSettings.volume });
+			}
 
-		onOpenChange(false);
+			onOpenChange(false);
+		} catch (error) {
+			onError();
+			gooeyToast.error("Save failed", {
+				id: "save-person-error",
+				description: error instanceof Error ? error.message : "Failed to save person.",
+				showTimestamp: false,
+				classNames: {
+					content: "items-center text-center",
+					title: "text-center w-full",
+					description: "text-center justify-center flex w-full",
+				},
+			});
+		}
 	};
 
 	const onError = () => {
