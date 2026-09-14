@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import {
 	Select,
 	SelectContent,
+	SelectGroup,
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
@@ -70,8 +71,10 @@ export function QuickActionAvatar() {
 						<SelectValue />
 					</SelectTrigger>
 					<SelectContent position="popper">
-						<SelectItem value="avvvatars">Avvvatars</SelectItem>
-						<SelectItem value="boring-avatars">Boring Avatars</SelectItem>
+						<SelectGroup>
+							<SelectItem value="avvvatars">Avvvatars</SelectItem>
+							<SelectItem value="boring-avatars">Boring Avatars</SelectItem>
+						</SelectGroup>
 					</SelectContent>
 				</Select>
 
@@ -81,8 +84,10 @@ export function QuickActionAvatar() {
 							<SelectValue />
 						</SelectTrigger>
 						<SelectContent position="popper">
-							<SelectItem value="shape">Shape</SelectItem>
-							<SelectItem value="character">Character</SelectItem>
+							<SelectGroup>
+								<SelectItem value="shape">Shape</SelectItem>
+								<SelectItem value="character">Character</SelectItem>
+							</SelectGroup>
 						</SelectContent>
 					</Select>
 				)}
@@ -96,12 +101,14 @@ export function QuickActionAvatar() {
 							<SelectValue />
 						</SelectTrigger>
 						<SelectContent position="popper">
-							<SelectItem value="marble">Marble</SelectItem>
-							<SelectItem value="beam">Beam</SelectItem>
-							<SelectItem value="pixel">Pixel</SelectItem>
-							<SelectItem value="sunset">Sunset</SelectItem>
-							<SelectItem value="ring">Ring</SelectItem>
-							<SelectItem value="bauhaus">Bauhaus</SelectItem>
+							<SelectGroup>
+								<SelectItem value="marble">Marble</SelectItem>
+								<SelectItem value="beam">Beam</SelectItem>
+								<SelectItem value="pixel">Pixel</SelectItem>
+								<SelectItem value="sunset">Sunset</SelectItem>
+								<SelectItem value="ring">Ring</SelectItem>
+								<SelectItem value="bauhaus">Bauhaus</SelectItem>
+							</SelectGroup>
 						</SelectContent>
 					</Select>
 				)}

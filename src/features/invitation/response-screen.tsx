@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import {
 	Select,
 	SelectContent,
+	SelectGroup,
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
@@ -73,6 +74,11 @@ export function ResponseScreen() {
 
 	const isDuplicate = birthdays.some(
 		(b) => b.name.toLowerCase().trim() === response.n.toLowerCase().trim(),
+	);
+
+	const hasMeProfile = birthdays.some((b) => b.relationship === "Me");
+	const availableRelationships = RELATIONSHIP_OPTIONS.filter(
+		(option) => option !== "Me" || !hasMeProfile,
 	);
 
 	const handleAdd = async () => {
@@ -292,11 +298,13 @@ export function ResponseScreen() {
 								<SelectValue placeholder="Select relationship" />
 							</SelectTrigger>
 							<SelectContent position="popper">
-								{RELATIONSHIP_OPTIONS.map((option) => (
-									<SelectItem key={option} value={option}>
-										{option}
-									</SelectItem>
-								))}
+								<SelectGroup>
+									{availableRelationships.map((option) => (
+										<SelectItem key={option} value={option}>
+											{option}
+										</SelectItem>
+									))}
+								</SelectGroup>
 							</SelectContent>
 						</Select>
 						{error && (

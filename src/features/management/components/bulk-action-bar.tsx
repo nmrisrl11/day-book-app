@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import {
 	Select,
 	SelectContent,
+	SelectGroup,
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
@@ -69,11 +70,13 @@ export function BulkActionBar({
 					<SelectValue placeholder="Set Relationship" />
 				</SelectTrigger>
 				<SelectContent position="popper" side="top">
-					{RELATIONSHIP_OPTIONS.map((option) => (
-						<SelectItem key={option} value={option}>
-							{option}
-						</SelectItem>
-					))}
+					<SelectGroup>
+						{RELATIONSHIP_OPTIONS.map((option) => (
+							<SelectItem key={option} value={option}>
+								{option}
+							</SelectItem>
+						))}
+					</SelectGroup>
 				</SelectContent>
 			</Select>
 

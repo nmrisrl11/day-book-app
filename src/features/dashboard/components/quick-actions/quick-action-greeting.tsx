@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import {
 	Select,
 	SelectContent,
+	SelectGroup,
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
@@ -98,12 +99,14 @@ export function QuickActionGreeting({ hasCelebrants = true }: { hasCelebrants?: 
 							<SelectValue placeholder="Select greeting" />
 						</SelectTrigger>
 						<SelectContent position="popper">
-							{MAIN_GREETINGS.map((text) => (
-								<SelectItem key={text} value={text}>
-									{text}
-								</SelectItem>
-							))}
-							<SelectItem value="custom">Custom...</SelectItem>
+							<SelectGroup>
+								{MAIN_GREETINGS.map((text) => (
+									<SelectItem key={text} value={text}>
+										{text}
+									</SelectItem>
+								))}
+								<SelectItem value="custom">Custom...</SelectItem>
+							</SelectGroup>
 						</SelectContent>
 					</Select>
 
@@ -115,11 +118,13 @@ export function QuickActionGreeting({ hasCelebrants = true }: { hasCelebrants?: 
 							<SelectValue placeholder="Font" />
 						</SelectTrigger>
 						<SelectContent position="popper">
-							{MAIN_GREETING_FONTS.map((font) => (
-								<SelectItem key={font.value} value={font.value}>
-									<span style={{ fontFamily: font.value }}>{font.label}</span>
-								</SelectItem>
-							))}
+							<SelectGroup>
+								{MAIN_GREETING_FONTS.map((font) => (
+									<SelectItem key={font.value} value={font.value}>
+										<span style={{ fontFamily: font.value }}>{font.label}</span>
+									</SelectItem>
+								))}
+							</SelectGroup>
 						</SelectContent>
 					</Select>
 				</div>
@@ -132,8 +137,10 @@ export function QuickActionGreeting({ hasCelebrants = true }: { hasCelebrants?: 
 						<SelectValue />
 					</SelectTrigger>
 					<SelectContent position="popper">
-						<SelectItem value="solid">Solid</SelectItem>
-						<SelectItem value="gradient">Gradient</SelectItem>
+						<SelectGroup>
+							<SelectItem value="solid">Solid</SelectItem>
+							<SelectItem value="gradient">Gradient</SelectItem>
+						</SelectGroup>
 					</SelectContent>
 				</Select>
 

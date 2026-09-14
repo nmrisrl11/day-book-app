@@ -12,6 +12,7 @@ import { Label } from "@/components/ui/label";
 import {
 	Select,
 	SelectContent,
+	SelectGroup,
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
@@ -203,9 +204,11 @@ export function AskBirthdayModal({ open, onOpenChange }: AskBirthdayModalProps) 
 													<SelectValue placeholder="Select duration" />
 												</SelectTrigger>
 												<SelectContent position="popper">
-													<SelectItem value="24h">24 Hours</SelectItem>
-													<SelectItem value="7d">7 Days</SelectItem>
-													<SelectItem value="never">No expiration</SelectItem>
+													<SelectGroup>
+														<SelectItem value="24h">24 Hours</SelectItem>
+														<SelectItem value="7d">7 Days</SelectItem>
+														<SelectItem value="never">No expiration</SelectItem>
+													</SelectGroup>
 												</SelectContent>
 											</Select>
 										)}

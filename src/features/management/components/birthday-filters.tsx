@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input";
 import {
 	Select,
 	SelectContent,
+	SelectGroup,
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
@@ -64,12 +65,14 @@ export function BirthdayFilters({
 						<SelectValue placeholder="Month" />
 					</SelectTrigger>
 					<SelectContent position="popper">
-						<SelectItem value="all">All Months</SelectItem>
-						{FULL_MONTHS.map((month, index) => (
-							<SelectItem key={month} value={(index + 1).toString()}>
-								{month}
-							</SelectItem>
-						))}
+						<SelectGroup>
+							<SelectItem value="all">All Months</SelectItem>
+							{FULL_MONTHS.map((month, index) => (
+								<SelectItem key={month} value={(index + 1).toString()}>
+									{month}
+								</SelectItem>
+							))}
+						</SelectGroup>
 					</SelectContent>
 				</Select>
 				<Select value={relationshipFilter} onValueChange={(val) => setRelationshipFilter(val)}>
@@ -77,12 +80,14 @@ export function BirthdayFilters({
 						<SelectValue placeholder="Relationship" />
 					</SelectTrigger>
 					<SelectContent position="popper">
-						<SelectItem value="all">All People</SelectItem>
-						{RELATIONSHIP_OPTIONS.map((option) => (
-							<SelectItem key={option} value={option}>
-								{option}
-							</SelectItem>
-						))}
+						<SelectGroup>
+							<SelectItem value="all">All People</SelectItem>
+							{RELATIONSHIP_OPTIONS.map((option) => (
+								<SelectItem key={option} value={option}>
+									{option}
+								</SelectItem>
+							))}
+						</SelectGroup>
 					</SelectContent>
 				</Select>
 				<Select
@@ -93,11 +98,13 @@ export function BirthdayFilters({
 						<SelectValue placeholder="Sort by" />
 					</SelectTrigger>
 					<SelectContent position="popper">
-						<SelectItem value="upcoming">Upcoming First</SelectItem>
-						<SelectItem value="name-asc">Name (A-Z)</SelectItem>
-						<SelectItem value="name-desc">Name (Z-A)</SelectItem>
-						<SelectItem value="date-asc">Oldest to Youngest</SelectItem>
-						<SelectItem value="date-desc">Youngest to Oldest</SelectItem>
+						<SelectGroup>
+							<SelectItem value="upcoming">Upcoming First</SelectItem>
+							<SelectItem value="name-asc">Name (A-Z)</SelectItem>
+							<SelectItem value="name-desc">Name (Z-A)</SelectItem>
+							<SelectItem value="date-asc">Oldest to Youngest</SelectItem>
+							<SelectItem value="date-desc">Youngest to Oldest</SelectItem>
+						</SelectGroup>
 					</SelectContent>
 				</Select>
 
