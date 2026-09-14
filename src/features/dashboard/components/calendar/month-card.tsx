@@ -1,4 +1,5 @@
 import { UserAvatar } from "@/components/user-avatar";
+import { useElementSize } from "@/hooks/use-element-size";
 import { cn } from "@/lib/utils";
 import type { Birthday } from "@/types/birthday";
 import { CalendarHeartIcon } from "lucide-react";
@@ -14,8 +15,28 @@ export function MonthCard({ monthName, monthIndex, birthdays, onClick }: MonthCa
 	const hasBirthdays = birthdays.length > 0;
 	const isCurrentMonth = new Date().getMonth() === monthIndex;
 
-	// Show up to 3 avatars, plus a counter for the rest
-	const displayLimit = 3;
+	const [ref, { width }] = useElementSize<HTMLDivElement>();
+
+	let displayLimit = 3; // Default limit
+	if (width > 0) {
+		// Item width is 32px (w-8). Overlap is -12px (-space-x-3).
+		// So each item takes 20px after the first one which takes 32px.
+		// Equation for max items N: 32 + (N - 1) * 20 <= width
+		// => N <= (width - 32) / 20 + 1
+		const maxItems = Math.floor((width - 32) / 20) + 1;
+
+		if (maxItems >= 1) {
+			if (birthdays.length <= maxItems) {
+				displayLimit = maxItems; // all avatars fit
+			} else {
+				// we need 1 slot for the remaining count indicator (+N)
+				displayLimit = Math.max(0, maxItems - 1);
+			}
+		} else {
+			displayLimit = 0; // container too small
+		}
+	}
+
 	const displayBirthdays = birthdays.slice(0, displayLimit);
 	const remainingCount = Math.max(0, birthdays.length - displayLimit);
 
@@ -44,7 +65,10 @@ export function MonthCard({ monthName, monthIndex, birthdays, onClick }: MonthCa
 				)}
 			</div>
 
-			<div className="flex h-14 w-full items-center rounded-2xl border border-border bg-muted/50 px-3 transition-all group-hover:bg-muted">
+			<div
+				ref={ref}
+				className="flex h-14 w-full items-center rounded-2xl border border-border bg-muted/50 px-3 transition-all group-hover:bg-muted"
+			>
 				{hasBirthdays ? (
 					<div className="flex -space-x-3">
 						{displayBirthdays.map((celebrant) => (

@@ -3,6 +3,7 @@ import { Label } from "@/components/ui/label";
 import {
 	Select,
 	SelectContent,
+	SelectGroup,
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
@@ -139,18 +140,22 @@ export function SoundSettingsSection() {
 													<SelectValue placeholder="Select sound" />
 												</SelectTrigger>
 												<SelectContent position="popper">
-													{sounds.map((sound) => (
-														<SelectItem
-															key={sound}
-															value={sound}
-															onPointerEnter={() => handlePreviewSound(sound)}
-														>
-															<div className="flex items-center gap-2">
-																<div className={cn("h-2 w-2 rounded-full", SOUND_COLORS[sound])} />
-																<span className="capitalize">{sound}</span>
-															</div>
-														</SelectItem>
-													))}
+													<SelectGroup>
+														{sounds.map((sound) => (
+															<SelectItem
+																key={sound}
+																value={sound}
+																onPointerEnter={() => handlePreviewSound(sound)}
+															>
+																<div className="flex items-center gap-2">
+																	<div
+																		className={cn("h-2 w-2 rounded-full", SOUND_COLORS[sound])}
+																	/>
+																	<span className="capitalize">{sound}</span>
+																</div>
+															</SelectItem>
+														))}
+													</SelectGroup>
 												</SelectContent>
 											</Select>
 										</div>

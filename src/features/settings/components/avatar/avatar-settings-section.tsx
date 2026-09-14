@@ -4,6 +4,7 @@ import { Label } from "@/components/ui/label";
 import {
 	Select,
 	SelectContent,
+	SelectGroup,
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
@@ -100,8 +101,10 @@ export function AvatarSettingsSection() {
 									<SelectValue />
 								</SelectTrigger>
 								<SelectContent position="popper">
-									<SelectItem value="avvvatars">Avvvatars</SelectItem>
-									<SelectItem value="boring-avatars">Boring Avatars</SelectItem>
+									<SelectGroup>
+										<SelectItem value="avvvatars">Avvvatars</SelectItem>
+										<SelectItem value="boring-avatars">Boring Avatars</SelectItem>
+									</SelectGroup>
 								</SelectContent>
 							</Select>
 						</div>
@@ -119,22 +122,24 @@ export function AvatarSettingsSection() {
 										<SelectValue />
 									</SelectTrigger>
 									<SelectContent position="popper">
-										<SelectItem value="shape">
-											<div className="flex items-center gap-3">
-												<div className="h-6 w-6">
-													<Avvvatars value={APP_INFO.name} style="shape" size={24} />
+										<SelectGroup>
+											<SelectItem value="shape">
+												<div className="flex items-center gap-3">
+													<div className="h-6 w-6">
+														<Avvvatars value={APP_INFO.name} style="shape" size={24} />
+													</div>
+													<span>Shape</span>
 												</div>
-												<span>Shape</span>
-											</div>
-										</SelectItem>
-										<SelectItem value="character">
-											<div className="flex items-center gap-3">
-												<div className="h-6 w-6">
-													<Avvvatars value={APP_INFO.name} style="character" size={24} />
+											</SelectItem>
+											<SelectItem value="character">
+												<div className="flex items-center gap-3">
+													<div className="h-6 w-6">
+														<Avvvatars value={APP_INFO.name} style="character" size={24} />
+													</div>
+													<span>Character</span>
 												</div>
-												<span>Character</span>
-											</div>
-										</SelectItem>
+											</SelectItem>
+										</SelectGroup>
 									</SelectContent>
 								</Select>
 							</div>
@@ -154,30 +159,34 @@ export function AvatarSettingsSection() {
 											<SelectValue />
 										</SelectTrigger>
 										<SelectContent position="popper">
-											{(
-												[
-													"marble",
-													"beam",
-													"pixel",
-													"sunset",
-													"ring",
-													"bauhaus",
-												] as BoringAvatarsVariant[]
-											).map((variant) => (
-												<SelectItem key={variant} value={variant}>
-													<div className="flex items-center gap-3">
-														<div className="flex items-center justify-center overflow-hidden rounded-full [&>svg]:h-full! [&>svg]:w-full!">
-															<BoringAvatar
-																size={24}
-																name={APP_INFO.name}
-																variant={variant}
-																colors={avatarSettings.boringAvatarsColors || BORING_AVATARS_COLORS}
-															/>
+											<SelectGroup>
+												{(
+													[
+														"marble",
+														"beam",
+														"pixel",
+														"sunset",
+														"ring",
+														"bauhaus",
+													] as BoringAvatarsVariant[]
+												).map((variant) => (
+													<SelectItem key={variant} value={variant}>
+														<div className="flex items-center gap-3">
+															<div className="flex items-center justify-center overflow-hidden rounded-full [&>svg]:h-full! [&>svg]:w-full!">
+																<BoringAvatar
+																	size={24}
+																	name={APP_INFO.name}
+																	variant={variant}
+																	colors={
+																		avatarSettings.boringAvatarsColors || BORING_AVATARS_COLORS
+																	}
+																/>
+															</div>
+															<span className="capitalize">{variant}</span>
 														</div>
-														<span className="capitalize">{variant}</span>
-													</div>
-												</SelectItem>
-											))}
+													</SelectItem>
+												))}
+											</SelectGroup>
 										</SelectContent>
 									</Select>
 								</div>

@@ -12,6 +12,7 @@ import { Label } from "@/components/ui/label";
 import {
 	Select,
 	SelectContent,
+	SelectGroup,
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
@@ -265,11 +266,13 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 										<SelectValue placeholder="Select relationship" />
 									</SelectTrigger>
 									<SelectContent position="popper">
-										{availableRelationships.map((option) => (
-											<SelectItem key={option} value={option}>
-												{option}
-											</SelectItem>
-										))}
+										<SelectGroup>
+											{availableRelationships.map((option) => (
+												<SelectItem key={option} value={option}>
+													{option}
+												</SelectItem>
+											))}
+										</SelectGroup>
 									</SelectContent>
 								</Select>
 							)}

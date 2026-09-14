@@ -6,6 +6,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {
 	Select,
 	SelectContent,
+	SelectGroup,
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
@@ -175,12 +176,14 @@ export function MainGreetingSection() {
 									<SelectValue placeholder="Select a greeting" />
 								</SelectTrigger>
 								<SelectContent position="popper">
-									{MAIN_GREETINGS.map((text) => (
-										<SelectItem key={text} value={text}>
-											{text}
-										</SelectItem>
-									))}
-									<SelectItem value="custom">Custom...</SelectItem>
+									<SelectGroup>
+										{MAIN_GREETINGS.map((text) => (
+											<SelectItem key={text} value={text}>
+												{text}
+											</SelectItem>
+										))}
+										<SelectItem value="custom">Custom...</SelectItem>
+									</SelectGroup>
 								</SelectContent>
 							</Select>
 
@@ -216,11 +219,13 @@ export function MainGreetingSection() {
 									<SelectValue placeholder="Select a font" />
 								</SelectTrigger>
 								<SelectContent position="popper">
-									{MAIN_GREETING_FONTS.map((font) => (
-										<SelectItem key={font.value} value={font.value}>
-											<span style={{ fontFamily: font.value }}>{font.label}</span>
-										</SelectItem>
-									))}
+									<SelectGroup>
+										{MAIN_GREETING_FONTS.map((font) => (
+											<SelectItem key={font.value} value={font.value}>
+												<span style={{ fontFamily: font.value }}>{font.label}</span>
+											</SelectItem>
+										))}
+									</SelectGroup>
 								</SelectContent>
 							</Select>
 						</div>
@@ -349,15 +354,17 @@ export function MainGreetingSection() {
 												<SelectValue placeholder="Direction" />
 											</SelectTrigger>
 											<SelectContent position="popper">
-												<SelectItem value="to right">To Right</SelectItem>
-												<SelectItem value="to left">To Left</SelectItem>
-												<SelectItem value="to bottom">To Bottom</SelectItem>
-												<SelectItem value="to top">To Top</SelectItem>
-												<SelectItem value="to bottom right">To Bottom Right</SelectItem>
-												<SelectItem value="to bottom left">To Bottom Left</SelectItem>
-												<SelectItem value="to top right">To Top Right</SelectItem>
-												<SelectItem value="to top left">To Top Left</SelectItem>
-												<SelectItem value="random">Randomize on Load</SelectItem>
+												<SelectGroup>
+													<SelectItem value="to right">To Right</SelectItem>
+													<SelectItem value="to left">To Left</SelectItem>
+													<SelectItem value="to bottom">To Bottom</SelectItem>
+													<SelectItem value="to top">To Top</SelectItem>
+													<SelectItem value="to bottom right">To Bottom Right</SelectItem>
+													<SelectItem value="to bottom left">To Bottom Left</SelectItem>
+													<SelectItem value="to top right">To Top Right</SelectItem>
+													<SelectItem value="to top left">To Top Left</SelectItem>
+													<SelectItem value="random">Randomize on Load</SelectItem>
+												</SelectGroup>
 											</SelectContent>
 										</Select>
 									</div>

@@ -9,6 +9,7 @@ import { UserAvatar } from "@/components/user-avatar";
 import { formatAgeDisplay } from "@/helpers/birthday-utils";
 import type { Birthday } from "@/types/birthday";
 import { format } from "date-fns";
+import { Link } from "react-router-dom";
 
 interface BirthdayDateCelebrantsDialogProps {
 	date: Date | null;
@@ -47,8 +48,13 @@ export function BirthdayDateCelebrantsDialog({
 							{celebrants.map((celebrant) => {
 								const ageDisplay = formatAgeDisplay(celebrant.birthday, currentDate);
 								return (
-									<div key={celebrant.id} className="flex items-center gap-4">
-										<div className="rounded-full bg-muted p-1 ring-1 ring-border">
+									<Link
+										key={celebrant.id}
+										to={`/person/${celebrant.id}`}
+										onClick={onClose}
+										className="group -mx-2 flex items-center gap-4 rounded-xl p-2 transition-colors hover:bg-black/5 dark:hover:bg-white/10"
+									>
+										<div className="rounded-full bg-muted p-1 ring-1 ring-border transition-colors group-hover:bg-background">
 											<UserAvatar birthday={celebrant} size={48} className="h-12 w-12" />
 										</div>
 										<div className="flex flex-col">
@@ -73,7 +79,7 @@ export function BirthdayDateCelebrantsDialog({
 												)}
 											</div>
 										</div>
-									</div>
+									</Link>
 								);
 							})}
 						</div>
