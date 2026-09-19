@@ -6,7 +6,7 @@ import { formatAgeDisplay } from "@/helpers/birthday-utils";
 import { cn } from "@/lib/utils";
 import type { Birthday } from "@/types/birthday";
 import { CalendarIcon, Edit2Icon, MoreVerticalIcon, Trash2Icon } from "lucide-react";
-import { memo, useMemo } from "react";
+import { memo, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 
 interface BirthdayListItemProps {
@@ -30,6 +30,8 @@ export const BirthdayListItem = memo(function BirthdayListItem({
 	onSelectChange,
 	currentDate,
 }: BirthdayListItemProps) {
+	const [isActionsOpen, setIsActionsOpen] = useState(false);
+
 	// Parse the birthday string to display it nicely
 	const [year, month, day] = birthday.birthday.split("-");
 	const displayDate = new Date(Number(year), Number(month) - 1, Number(day)).toLocaleDateString(
@@ -127,7 +129,7 @@ export const BirthdayListItem = memo(function BirthdayListItem({
 
 				{/* Mobile Actions */}
 				<div className="flex shrink-0 items-center sm:hidden">
-					<Popover>
+					<Popover open={isActionsOpen} onOpenChange={setIsActionsOpen}>
 						<PopoverTrigger asChild>
 							<Button variant="ghost" size="icon" aria-label="More actions">
 								<MoreVerticalIcon className="h-4 w-4" aria-hidden="true" />
@@ -139,7 +141,10 @@ export const BirthdayListItem = memo(function BirthdayListItem({
 									variant="ghost"
 									size="sm"
 									className="h-9 justify-start px-2 font-normal"
-									onClick={() => onExport(birthday)}
+									onClick={() => {
+										setIsActionsOpen(false);
+										onExport(birthday);
+									}}
 								>
 									<CalendarIcon className="mr-2 h-4 w-4" aria-hidden="true" />
 									Export
@@ -148,7 +153,10 @@ export const BirthdayListItem = memo(function BirthdayListItem({
 									variant="ghost"
 									size="sm"
 									className="h-9 justify-start px-2 font-normal"
-									onClick={() => onEdit(birthday)}
+									onClick={() => {
+										setIsActionsOpen(false);
+										onEdit(birthday);
+									}}
 								>
 									<Edit2Icon className="mr-2 h-4 w-4" aria-hidden="true" />
 									Edit
@@ -157,7 +165,10 @@ export const BirthdayListItem = memo(function BirthdayListItem({
 									variant="ghost"
 									size="sm"
 									className="h-9 justify-start px-2 font-normal text-destructive hover:bg-destructive/10 hover:text-destructive"
-									onClick={() => onDelete(birthday)}
+									onClick={() => {
+										setIsActionsOpen(false);
+										onDelete(birthday);
+									}}
 								>
 									<Trash2Icon className="mr-2 h-4 w-4" aria-hidden="true" />
 									Delete

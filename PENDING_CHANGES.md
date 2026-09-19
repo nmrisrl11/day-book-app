@@ -11,4 +11,6 @@
 
 ## Fixed
 
+- Management Screen: Fixed an issue where the mobile "More Options" dropdown menu remained open after clicking an action button by switching to a controlled state.
+- Person Profile: Fixed a minor visual jump when navigating between profiles by switching the scroll-to-top logic to a synchronous layout effect.
 - Codebase: Refactored the `Footer` component to use a mapped array for cleaner and more maintainable navigation items.
