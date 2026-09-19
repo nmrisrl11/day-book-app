@@ -1,10 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { UserAvatar } from "@/components/user-avatar";
 import { formatAgeDisplay } from "@/helpers/birthday-utils";
 import { cn } from "@/lib/utils";
 import type { Birthday } from "@/types/birthday";
-import { CalendarIcon, Edit2Icon, Trash2Icon } from "lucide-react";
+import { CalendarIcon, Edit2Icon, MoreVerticalIcon, Trash2Icon } from "lucide-react";
 import { memo, useMemo } from "react";
 import { Link } from "react-router-dom";
 
@@ -92,7 +93,8 @@ export const BirthdayListItem = memo(function BirthdayListItem({
 					</Link>
 				</div>
 
-				<div className="flex shrink-0 items-center gap-0 sm:gap-1">
+				{/* Desktop Actions */}
+				<div className="hidden shrink-0 items-center gap-1 sm:flex">
 					<Button
 						variant="ghost"
 						size="icon"
@@ -121,6 +123,48 @@ export const BirthdayListItem = memo(function BirthdayListItem({
 					>
 						<Trash2Icon className="h-4 w-4" aria-hidden="true" />
 					</Button>
+				</div>
+
+				{/* Mobile Actions */}
+				<div className="flex shrink-0 items-center sm:hidden">
+					<Popover>
+						<PopoverTrigger asChild>
+							<Button variant="ghost" size="icon" aria-label="More actions">
+								<MoreVerticalIcon className="h-4 w-4" aria-hidden="true" />
+							</Button>
+						</PopoverTrigger>
+						<PopoverContent className="w-40 p-1" align="end">
+							<div className="flex flex-col">
+								<Button
+									variant="ghost"
+									size="sm"
+									className="h-9 justify-start px-2 font-normal"
+									onClick={() => onExport(birthday)}
+								>
+									<CalendarIcon className="mr-2 h-4 w-4" aria-hidden="true" />
+									Export
+								</Button>
+								<Button
+									variant="ghost"
+									size="sm"
+									className="h-9 justify-start px-2 font-normal"
+									onClick={() => onEdit(birthday)}
+								>
+									<Edit2Icon className="mr-2 h-4 w-4" aria-hidden="true" />
+									Edit
+								</Button>
+								<Button
+									variant="ghost"
+									size="sm"
+									className="h-9 justify-start px-2 font-normal text-destructive hover:bg-destructive/10 hover:text-destructive"
+									onClick={() => onDelete(birthday)}
+								>
+									<Trash2Icon className="mr-2 h-4 w-4" aria-hidden="true" />
+									Delete
+								</Button>
+							</div>
+						</PopoverContent>
+					</Popover>
 				</div>
 			</div>
 		</>

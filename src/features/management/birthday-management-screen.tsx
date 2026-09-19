@@ -157,7 +157,8 @@ export function BirthdayManagementScreen() {
 									</Label>
 								</div>
 								<div className="text-sm text-muted-foreground">
-									{filteredAndSortedBirthdays.length} items
+									{filteredAndSortedBirthdays.length}{" "}
+									{filteredAndSortedBirthdays.length === 1 ? "person" : "people"}
 								</div>
 							</div>
 						)}
@@ -231,7 +232,7 @@ export function BirthdayManagementScreen() {
 											</SelectGroup>
 										</SelectContent>
 									</Select>
-									<span>items</span>
+									<span>people</span>
 								</div>
 
 								{itemsPerPage !== "all" && totalPages > 1 && (
