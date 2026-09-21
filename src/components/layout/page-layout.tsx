@@ -2,8 +2,7 @@ import { Logo } from "@/components/icons/logos/logo";
 import { NotificationMenu } from "@/components/notifications/notification-menu";
 import { Button } from "@/components/ui/button";
 import { UserAvatar } from "@/components/user-avatar";
-import { useBirthdayData } from "@/hooks";
-import { useMediaQuery } from "@/hooks";
+import { useBirthdayData, useMediaQuery } from "@/hooks";
 import { useSearchStore } from "@/store/search-store";
 import { BookUserIcon, HomeIcon, LinkIcon, SearchIcon, SettingsIcon } from "lucide-react";
 import React from "react";
@@ -42,6 +41,12 @@ export function PageLayout({ children }: PageLayoutProps) {
 
 	const { meProfile } = useBirthdayData();
 
+	const handleScrollToTop = (e: React.MouseEvent) => {
+		if (e.button === 0 && !e.metaKey && !e.ctrlKey && !e.shiftKey && !e.altKey) {
+			window.scrollTo(0, 0);
+		}
+	};
+
 	return (
 		<div className="relative flex min-h-dvh flex-col overflow-x-clip bg-background pb-[calc(5rem+env(safe-area-inset-bottom))] font-sans text-foreground md:pb-0">
 			<a
@@ -53,6 +58,7 @@ export function PageLayout({ children }: PageLayoutProps) {
 			<header className="relative z-20 mx-auto flex w-full max-w-4xl items-center justify-between p-4 md:px-4 md:py-6">
 				<Link
 					to="/"
+					onClick={handleScrollToTop}
 					className="group flex cursor-pointer items-center gap-2 rounded-md p-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
 					title="Go to Dashboard"
 				>
@@ -87,6 +93,7 @@ export function PageLayout({ children }: PageLayoutProps) {
 									>
 										<Link
 											to={item.path}
+											onClick={handleScrollToTop}
 											title={item.name}
 											aria-label={item.name}
 											aria-current={isActive ? "page" : undefined}
@@ -106,6 +113,7 @@ export function PageLayout({ children }: PageLayoutProps) {
 								>
 									<Link
 										to={item.path}
+										onClick={handleScrollToTop}
 										title={item.name}
 										aria-current={isActive ? "page" : undefined}
 									>
@@ -118,6 +126,7 @@ export function PageLayout({ children }: PageLayoutProps) {
 					{meProfile && (
 						<Link
 							to={`/person/${meProfile.id}`}
+							onClick={handleScrollToTop}
 							className="ml-1 flex items-center justify-center rounded-full ring-offset-background transition-colors hover:opacity-80 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none"
 							title="My Profile"
 						>
@@ -150,6 +159,7 @@ export function PageLayout({ children }: PageLayoutProps) {
 							<Link
 								key={item.path}
 								to={item.path}
+								onClick={handleScrollToTop}
 								title={item.name}
 								aria-label={item.name}
 								aria-current={isActive ? "page" : undefined}

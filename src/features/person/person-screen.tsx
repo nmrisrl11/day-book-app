@@ -5,7 +5,7 @@ import { useCurrentDate } from "@/hooks";
 import { BirthdayRepository } from "@/lib/birthday-repository";
 import { useLiveQuery } from "dexie-react-hooks";
 import { ChevronLeftIcon } from "lucide-react";
-import { Suspense, lazy, useLayoutEffect, useState } from "react";
+import { Suspense, lazy, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { PersonGiftsSection } from "./components/person-gifts-section";
 import { PersonHeader } from "./components/person-header";
@@ -28,10 +28,6 @@ export function PersonScreen() {
 	const { id } = useParams<{ id: string }>();
 	const navigate = useNavigate();
 	const currentDate = useCurrentDate();
-
-	useLayoutEffect(() => {
-		window.scrollTo(0, 0);
-	}, [id]);
 
 	const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 	const [isExportModalOpen, setIsExportModalOpen] = useState(false);

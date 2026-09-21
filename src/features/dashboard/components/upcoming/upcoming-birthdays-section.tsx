@@ -47,6 +47,7 @@ export function UpcomingBirthdaysSection({
 										e.stopPropagation();
 										return;
 									}
+									window.scrollTo(0, 0);
 									navigate(`/person/${celebrant.id}`);
 								}}
 								className="cursor-pointer transition-transform hover:scale-[1.02] active:scale-[0.98]"

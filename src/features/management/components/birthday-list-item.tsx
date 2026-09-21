@@ -67,6 +67,7 @@ export const BirthdayListItem = memo(function BirthdayListItem({
 					)}
 					<Link
 						to={`/person/${birthday.id}`}
+						onClick={() => window.scrollTo(0, 0)}
 						className="flex min-w-0 flex-1 items-center gap-2 rounded-md transition-opacity hover:opacity-80 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none sm:gap-4"
 						aria-label={`View ${birthday.name}'s profile`}
 					>
