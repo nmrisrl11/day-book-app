@@ -16,6 +16,33 @@ export interface ChangelogRelease {
 
 export const changelog: ChangelogRelease[] = [
 	{
+		version: "2.0.1",
+		date: "2026-09-21",
+		title: "Refined Layouts & Navigation Polish",
+		summary:
+			"This update brings a wave of visual polish and smoother navigation to your experience, ensuring the app looks and feels better than ever on all screen sizes.",
+		changes: [
+			{
+				type: "improved",
+				title: "Beautifully Refined Layouts",
+				description:
+					"We've polished the typography and layout on the dashboard. Floating messages now distribute elegantly across the screen, and the calendar adapts perfectly to your device.",
+			},
+			{
+				type: "improved",
+				title: "Smoother Navigation & Menus",
+				description:
+					"Profiles now instantly scroll to the top when opened. We've also cleaned up the mobile menus with a new 'More Options' dropdown and ensured banners never overlap your navigation.",
+			},
+			{
+				type: "fixed",
+				title: "Ironclad Polish",
+				description:
+					"Squashed visual bugs related to modal sizes on small devices, tightened up floating message boundaries, and enhanced our internal engine for better reliability and performance.",
+			},
+		],
+	},
+	{
 		version: "2.0.0",
 		date: "2026-09-14",
 		title: "Your Profile, App Updates & Previews",
