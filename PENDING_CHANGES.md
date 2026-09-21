@@ -20,4 +20,4 @@
 - UI: Fixed mobile overlap issues with the bottom navigation bar by applying dynamic viewport height (`dvh`) and CSS offsets for toast notifications and banners.
 - UI: Fixed modal and drawer overflow issues on small devices by enforcing a maximum height constraint (`max-h-[90dvh]`).
 - Dashboard: Fixed an issue where floating messages would get clipped on screen edges by tightening positioning logic.
-- UI/CSS: Coordinated the mobile and desktop bottom positioning across the Sonner toaster, dashboard banners, and the Bulk Action Bar by using dynamic CSS `:has` selectors, ensuring their action buttons remain unobscured when the toast stack is active.
+- UI/CSS: Coordinated the mobile and desktop bottom positioning across the Sonner toaster, dashboard banners, and the Bulk Action Bar by using dynamic CSS `:has` selectors, configuring the toaster to display a maximum of one toast at a time, and increasing dynamic clearance offsets to ensure action buttons and persistent notices remain unobscured.

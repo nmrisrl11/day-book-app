@@ -234,8 +234,8 @@
 
 /* Dynamically push the banner up to clear the toast stack when a toast appears */
 body:has([data-sonner-toast]) {
-	--banner-mobile-offset: calc(var(--toast-mobile-offset) + 4.5rem);
-	--banner-desktop-offset: 6.5rem; /* Clear default 32px toast offset + ~72px toast height */
+	--banner-mobile-offset: calc(var(--toast-mobile-offset) + 5.5rem);
+	--banner-desktop-offset: 8.5rem; /* Clear default 32px toast offset + tall toast content */
 }
 
 [data-sonner-toaster] {
