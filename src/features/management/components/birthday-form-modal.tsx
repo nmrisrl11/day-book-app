@@ -17,7 +17,9 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
+import { getAvailableRelationshipOptions } from "@/helpers/birthday-utils";
 import { compressImageToWebP } from "@/helpers/image-utils";
+import { useBirthdayData } from "@/hooks/use-birthday-data";
 import { BirthdayRepository } from "@/lib/birthday-repository";
 import type { BirthdayFormData, BirthdayFormInput } from "@/schema/birthday-schema";
 import { birthdaySchema } from "@/schema/birthday-schema";
@@ -34,7 +36,6 @@ import type { Birthday } from "@/types/birthday";
 import { RELATIONSHIP_OPTIONS } from "@/types/birthday";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { play } from "cuelume";
-import { useLiveQuery } from "dexie-react-hooks";
 import { gooeyToast } from "goey-toast";
 import { PlusIcon, XIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
@@ -175,22 +176,18 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 		allowCustomUploads: true,
 	};
 
-	const birthdays = useLiveQuery(() => BirthdayRepository.getAll(), []) ?? [];
-	const hasMeRelationship = birthdays.some((b) => b.relationship === "Me");
+	const { hasMeProfile } = useBirthdayData();
 
 	// If a "Me" relationship exists, and we are not currently editing that specific "Me" profile, hide it.
-	const availableRelationships = RELATIONSHIP_OPTIONS.filter((option) => {
-		if (option === "Me") {
-			if (hasMeRelationship && birthday?.relationship !== "Me") {
-				return false;
-			}
-		}
-		return true;
+	const availableRelationships = getAvailableRelationshipOptions({
+		hasMeProfile,
+		currentRelationship: birthday?.relationship,
+		options: RELATIONSHIP_OPTIONS,
 	});
 
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
-			<DialogContent className="flex max-h-[90vh] flex-col gap-0 p-0 sm:max-w-sm">
+			<DialogContent className="flex max-h-[90dvh] flex-col gap-0 p-0 sm:max-w-sm">
 				<DialogHeader className="border-b p-4 pb-2">
 					<DialogTitle>{birthday ? "Edit Person" : "Add Person"}</DialogTitle>
 					<DialogDescription>
@@ -201,7 +198,7 @@ export function BirthdayFormModal({ open, onOpenChange, birthday }: BirthdayForm
 				<form
 					id="birthday-form"
 					onSubmit={(e) => void handleSubmit(onSubmit, onError)(e)}
-					className="custom-scrollbar flex flex-1 flex-col gap-4 overflow-y-auto p-4"
+					className="custom-scrollbar flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto p-4"
 				>
 					<div className="mb-2 flex flex-col items-center justify-center">
 						<AvatarPreview

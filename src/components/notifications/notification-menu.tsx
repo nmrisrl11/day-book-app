@@ -90,7 +90,7 @@ export function NotificationMenu() {
 						)}
 					</div>
 				</div>
-				<div className="custom-scrollbar max-h-[60vh] overflow-y-auto">
+				<div className="custom-scrollbar max-h-[60dvh] overflow-y-auto">
 					{!notifications || notifications.length === 0 ? (
 						<div className="p-4 text-center text-sm text-muted-foreground">
 							No new notifications

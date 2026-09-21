@@ -52,7 +52,7 @@ export function MonthlyBirthdayModal({
 					</DialogDescription>
 				</DialogHeader>
 
-				<div className="custom-scrollbar max-h-[60vh] overflow-y-auto pr-4">
+				<div className="custom-scrollbar max-h-[60dvh] overflow-y-auto pr-4">
 					{birthdays.length === 0 ? (
 						<div className="py-12 text-center text-muted-foreground italic">
 							No birthdays to celebrate in {monthName}.

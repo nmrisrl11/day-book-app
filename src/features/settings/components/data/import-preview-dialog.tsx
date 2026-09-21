@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { APP_INFO } from "@/constants/app-info";
 import { FULL_MONTHS } from "@/constants/months";
+import { sanitizeBirthdaysForMeConstraint } from "@/helpers/birthday-utils";
 import { BirthdayRepository } from "@/lib/birthday-repository";
 import { db } from "@/lib/db";
 import type { Birthday } from "@/types/birthday";
@@ -135,17 +136,13 @@ export function ImportPreviewDialog({
 	}, []);
 
 	const handleImport = async () => {
-		const toImport = foundBirthdays.filter((b) => selectedIds.has(b.id) && !isDuplicate(b));
+		const selectedBirthdays = foundBirthdays.filter(
+			(b) => selectedIds.has(b.id) && !isDuplicate(b),
+		);
 
-		if (toImport.length > 0) {
-			const dbHasMe = existingBirthdays.some((b) => b.relationship === "Me");
-			if (dbHasMe) {
-				for (let i = 0; i < toImport.length; i++) {
-					if (toImport[i].relationship === "Me") {
-						toImport[i] = { ...toImport[i], relationship: "Other" };
-					}
-				}
-			}
+		if (selectedBirthdays.length > 0) {
+			const existingMeId = existingBirthdays.find((b) => b.relationship === "Me")?.id;
+			const toImport = sanitizeBirthdaysForMeConstraint(selectedBirthdays, existingMeId);
 
 			await BirthdayRepository.bulkSave(toImport);
 
@@ -278,7 +275,7 @@ export function ImportPreviewDialog({
 
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
-			<DialogContent className="max-h-[90vh] rounded-2xl border-border/50 bg-background shadow-2xl sm:max-w-md">
+			<DialogContent className="max-h-[90dvh] rounded-2xl border-border/50 bg-background shadow-2xl sm:max-w-md">
 				<DialogHeader className="shrink-0 p-0 pb-4">
 					<DialogTitle className="font-sans text-2xl font-bold tracking-wide text-foreground">
 						Import from {sourceText}
@@ -302,7 +299,7 @@ export function ImportPreviewDialog({
 					)}
 				</DialogHeader>
 
-				<div className="relative flex-1 overflow-hidden">
+				<div className="relative min-h-0 flex-1 overflow-hidden">
 					{foundBirthdays.length === 0 ? (
 						<div className="px-6 py-12 text-center text-muted-foreground italic">
 							No birthdays found in the selected file.
@@ -311,7 +308,7 @@ export function ImportPreviewDialog({
 						<div
 							ref={parentRef}
 							className="custom-scrollbar h-full w-full overflow-y-auto pr-4"
-							style={{ maxHeight: "50vh" }}
+							style={{ maxHeight: "50dvh" }}
 						>
 							{/* Sticky Header Container */}
 							{activeStickyIndex !== null && (

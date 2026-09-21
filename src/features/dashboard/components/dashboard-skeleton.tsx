@@ -4,7 +4,7 @@ export function DashboardSkeleton() {
 	return (
 		<div className="flex w-full flex-col items-center gap-16">
 			{/* Hero / Happy Birthday Section */}
-			<div className="relative z-10 flex min-h-[50vh] w-full flex-col items-center justify-center overflow-hidden rounded-[2.5rem] py-16 text-center">
+			<div className="relative z-10 flex min-h-[50dvh] w-full flex-col items-center justify-center overflow-hidden rounded-[2.5rem] py-16 text-center">
 				<Skeleton className="mb-8 h-16 w-80 rounded-xl sm:w-120 md:mb-12" />
 
 				<div className="flex flex-col items-center gap-4 p-6">

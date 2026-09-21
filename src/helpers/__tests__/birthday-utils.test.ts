@@ -1,15 +1,17 @@
-import { describe, it, expect } from "vitest";
+import type { Birthday } from "@/types/birthday";
+import { describe, expect, it } from "vitest";
 import {
-	parseBirthday,
-	getUpcomingBirthdays,
-	getTodayCelebrants,
-	getBirthdaysByMonth,
-	formatBirthdayDisplay,
-	formatAgeDisplay,
 	calculateAge,
 	calculateDaysUntilBirthday,
+	formatAgeDisplay,
+	formatBirthdayDisplay,
+	getAvailableRelationshipOptions,
+	getBirthdaysByMonth,
+	getTodayCelebrants,
+	getUpcomingBirthdays,
+	parseBirthday,
+	sanitizeBirthdaysForMeConstraint,
 } from "../birthday-utils";
-import type { Birthday } from "@/types/birthday";
 
 describe("birthday-utils", () => {
 	// Use local time noon so we avoid UTC-to-local timezone shifting across tests
@@ -152,6 +154,74 @@ describe("birthday-utils", () => {
 			// May 15 2024 to Jan 1 2025
 			const days = calculateDaysUntilBirthday("1990-01-01", mockDate);
 			expect(days).toBeGreaterThan(200); // Rough check
+		});
+	});
+
+	describe("getAvailableRelationshipOptions", () => {
+		const mockOptions = ["Me", "Friend", "Family"];
+		it("should exclude 'Me' if hasMeProfile is true and it's not the current Me profile", () => {
+			const options = getAvailableRelationshipOptions({ hasMeProfile: true, options: mockOptions });
+			expect(options.includes("Me")).toBe(false);
+		});
+
+		it("should include 'Me' if hasMeProfile is true but currentRelationship is 'Me'", () => {
+			const options = getAvailableRelationshipOptions({
+				hasMeProfile: true,
+				currentRelationship: "Me",
+				options: mockOptions,
+			});
+			expect(options.includes("Me")).toBe(true);
+		});
+
+		it("should include 'Me' if hasMeProfile is false", () => {
+			const options = getAvailableRelationshipOptions({
+				hasMeProfile: false,
+				options: mockOptions,
+			});
+			expect(options.includes("Me")).toBe(true);
+		});
+
+		it("should exclude 'Me' if isBulkMode is true regardless of hasMeProfile", () => {
+			const options = getAvailableRelationshipOptions({
+				hasMeProfile: false,
+				isBulkMode: true,
+				options: mockOptions,
+			});
+			expect(options.includes("Me")).toBe(false);
+		});
+	});
+
+	describe("sanitizeBirthdaysForMeConstraint", () => {
+		it("should downgrade second 'Me' to 'Other' if multiple 'Me' exist in items", () => {
+			const items = [
+				{ id: "1", relationship: "Me" },
+				{ id: "2", relationship: "Me" },
+			];
+			const result = sanitizeBirthdaysForMeConstraint(items, null);
+			expect(result[0].relationship).toBe("Me");
+			expect(result[1].relationship).toBe("Other");
+		});
+
+		it("should downgrade all 'Me' to 'Other' if existingMeId is provided and no items match it", () => {
+			const items = [{ id: "1", relationship: "Me" }];
+			const result = sanitizeBirthdaysForMeConstraint(items, "existing-id");
+			expect(result[0].relationship).toBe("Other");
+		});
+
+		it("should preserve 'Me' if its id matches existingMeId", () => {
+			const items = [{ id: "1", relationship: "Me" }];
+			const result = sanitizeBirthdaysForMeConstraint(items, "1");
+			expect(result[0].relationship).toBe("Me");
+		});
+
+		it("should downgrade a second 'Me' even if the first matched existingMeId", () => {
+			const items = [
+				{ id: "1", relationship: "Me" },
+				{ id: "2", relationship: "Me" },
+			];
+			const result = sanitizeBirthdaysForMeConstraint(items, "1");
+			expect(result[0].relationship).toBe("Me");
+			expect(result[1].relationship).toBe("Other");
 		});
 	});
 });

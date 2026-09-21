@@ -164,3 +164,44 @@ export function calculateDaysUntilBirthday(dateString: string, currentDate: Date
 	);
 	return differenceInDays(nextOccurrence, todayMidnight);
 }
+
+export function getAvailableRelationshipOptions({
+	hasMeProfile,
+	currentRelationship,
+	isBulkMode = false,
+	options,
+}: {
+	hasMeProfile: boolean;
+	currentRelationship?: string;
+	isBulkMode?: boolean;
+	options: readonly string[];
+}): string[] {
+	return options.filter((option) => {
+		if (option === "Me") {
+			if (isBulkMode) return false;
+			if (hasMeProfile && currentRelationship !== "Me") return false;
+		}
+		return true;
+	});
+}
+
+export function sanitizeBirthdaysForMeConstraint<T extends { id: string; relationship?: string }>(
+	items: T[],
+	existingMeId: string | null | undefined,
+): T[] {
+	let importHasMe = false;
+	return items.map((item) => {
+		if (item.relationship === "Me") {
+			if (existingMeId && item.id === existingMeId) {
+				importHasMe = true;
+				return item;
+			}
+
+			if (existingMeId || importHasMe) {
+				return { ...item, relationship: "Other" };
+			}
+			importHasMe = true;
+		}
+		return item;
+	});
+}

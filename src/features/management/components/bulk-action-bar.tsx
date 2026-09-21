@@ -7,6 +7,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
+import { getAvailableRelationshipOptions } from "@/helpers/birthday-utils";
 import { BirthdayRepository } from "@/lib/birthday-repository";
 import { RELATIONSHIP_OPTIONS, type Birthday } from "@/types/birthday";
 import { gooeyToast } from "goey-toast";
@@ -16,12 +17,14 @@ export interface BulkActionBarProps {
 	selectedIds: Set<string>;
 	setSelectedIds: (ids: Set<string>) => void;
 	handleBulkDelete: () => void;
+	hasMeRelationship?: boolean;
 }
 
 export function BulkActionBar({
 	selectedIds,
 	setSelectedIds,
 	handleBulkDelete,
+	hasMeRelationship,
 }: BulkActionBarProps) {
 	if (selectedIds.size === 0) return null;
 
@@ -71,7 +74,11 @@ export function BulkActionBar({
 				</SelectTrigger>
 				<SelectContent position="popper" side="top">
 					<SelectGroup>
-						{RELATIONSHIP_OPTIONS.map((option) => (
+						{getAvailableRelationshipOptions({
+							hasMeProfile: !!hasMeRelationship,
+							isBulkMode: selectedIds.size > 1,
+							options: RELATIONSHIP_OPTIONS,
+						}).map((option) => (
 							<SelectItem key={option} value={option}>
 								{option}
 							</SelectItem>

@@ -26,6 +26,9 @@ export function useBirthdayData() {
 
 	const birthdaysByMonth = getBirthdaysByMonth(birthdays);
 
+	const meProfile = birthdays.find((b) => b.relationship === "Me");
+	const hasMeProfile = !!meProfile;
+
 	return {
 		todayCelebrants,
 		upcomingBirthdays,
@@ -33,5 +36,7 @@ export function useBirthdayData() {
 		currentDate,
 		isLoading,
 		birthdays,
+		meProfile,
+		hasMeProfile,
 	};
 }

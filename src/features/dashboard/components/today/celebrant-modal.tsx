@@ -72,12 +72,12 @@ export function CelebrantModal({ celebrant, isOpen, onClose, currentDate }: Cele
 	return (
 		<>
 			<Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-				<DialogContent className="flex max-h-[90vh] flex-col overflow-hidden rounded-3xl border-border/40 bg-background/95 p-0 shadow-2xl backdrop-blur-xl sm:max-w-md">
+				<DialogContent className="flex max-h-[85dvh] flex-col overflow-hidden rounded-3xl border-border/40 bg-background/95 p-0 shadow-2xl backdrop-blur-xl sm:max-w-md">
 					<motion.div
 						variants={containerVariants}
 						initial="hidden"
 						animate="show"
-						className="custom-scrollbar flex w-full flex-1 flex-col items-center gap-5 overflow-x-hidden overflow-y-auto p-5 sm:p-6"
+						className="custom-scrollbar flex min-h-0 w-full flex-1 flex-col items-center gap-5 overflow-x-hidden overflow-y-auto p-5 sm:p-6"
 					>
 						<DialogHeader className="flex w-full flex-col items-center gap-3 text-center">
 							<motion.div variants={itemVariants} className="relative">

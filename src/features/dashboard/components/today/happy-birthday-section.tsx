@@ -45,7 +45,7 @@ export function HappyBirthdaySection({
 
 	if (!hasCelebrants && !isPreviewMode) {
 		return (
-			<div className="relative z-10 flex min-h-[40vh] w-full flex-col items-center justify-center overflow-hidden rounded-[2.5rem] border border-dashed border-border/50 bg-muted/20 py-16 text-center">
+			<div className="relative z-10 flex min-h-[40dvh] w-full flex-col items-center justify-center overflow-hidden rounded-[2.5rem] border border-dashed border-border/50 bg-muted/20 py-16 text-center">
 				<PartyHat className="mb-4 h-10 w-10 text-muted-foreground/30 opacity-50" />
 				<h1 className="mb-2 text-2xl font-bold tracking-tight text-muted-foreground uppercase md:text-4xl">
 					No Birthdays Today
@@ -64,7 +64,7 @@ export function HappyBirthdaySection({
 	}
 
 	return (
-		<div className="relative z-10 flex min-h-[50vh] w-full flex-col items-center justify-center overflow-hidden rounded-[2.5rem] py-16 text-center">
+		<div className="relative z-10 flex min-h-[50dvh] w-full flex-col items-center justify-center overflow-hidden rounded-[2.5rem] py-16 text-center">
 			{isPreviewMode && onClosePreview && (
 				<div className="absolute top-6 right-0 left-0 z-50 flex justify-center">
 					<div className="flex animate-in items-center gap-3 rounded-full border bg-background/80 px-4 py-1.5 shadow-sm backdrop-blur-md duration-300 fade-in slide-in-from-top-4">
