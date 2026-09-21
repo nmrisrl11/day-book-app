@@ -171,7 +171,7 @@ export function InvitationManagementScreen() {
 							<div className="text-sm text-muted-foreground">{sortedInvitations.length} items</div>
 						</div>
 
-						<div ref={parentRef} className="custom-scrollbar max-h-[55vh] overflow-y-auto pr-4">
+						<div ref={parentRef} className="custom-scrollbar max-h-[55dvh] overflow-y-auto pr-4">
 							<div
 								style={{
 									height: `${rowVirtualizer.getTotalSize()}px`,

@@ -1,11 +1,12 @@
 import { DEFAULT_FLOATING_MESSAGE } from "@/constants/floating-messages";
 import { useDayBookStore } from "@/store/day-book-store";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface FloatingMessage {
 	id: number;
 	text: string;
-	left: number; // percentage
+	side: "left" | "right";
+	position: number; // percentage
 	delay: number;
 }
 
@@ -23,14 +24,16 @@ export function FloatingMessages({ enabled }: { enabled: boolean }) {
 
 		const interval = setInterval(() => {
 			const text = floatingMessages[Math.floor(Math.random() * floatingMessages.length)];
-			// Keep messages within the center 60% to avoid edge overflow on mobile
-			const left = 15 + Math.random() * 55;
+			// Anchor randomly to left or right to prevent long text from overflowing the edge
+			const isLeft = Math.random() > 0.5;
+			const position = 5 + Math.random() * 35; // 5% to 40% from either edge
 			const delay = Math.random() * 0.5;
 
 			const newMessage: FloatingMessage = {
 				id: messageId.current++,
 				text,
-				left,
+				side: isLeft ? "left" : "right",
+				position,
 				delay,
 			};
 
@@ -54,7 +57,7 @@ export function FloatingMessages({ enabled }: { enabled: boolean }) {
 					key={msg.id}
 					className="absolute bottom-10 animate-float-up opacity-0"
 					style={{
-						left: `${msg.left}%`,
+						[msg.side]: `${msg.position}%`,
 						animationDelay: `${msg.delay}s`,
 					}}
 				>

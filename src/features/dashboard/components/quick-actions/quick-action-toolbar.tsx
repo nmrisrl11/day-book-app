@@ -190,7 +190,7 @@ export function QuickActionToolbar({ hasCelebrants = false }: { hasCelebrants?: 
 					<div
 						className={cn(
 							"flex flex-1 flex-row divide-x overflow-y-auto",
-							isMobile && "max-h-[60vh] flex-col divide-x-0 divide-y",
+							isMobile && "max-h-[60dvh] flex-col divide-x-0 divide-y",
 						)}
 					>
 						<QuickActionAvatar />

@@ -297,7 +297,7 @@ export function SettingsImportPreviewDialog({
 
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
-			<DialogContent className="flex max-h-[90vh] flex-col overflow-hidden rounded-2xl border-border/50 bg-background p-0 shadow-2xl sm:max-w-md">
+			<DialogContent className="flex max-h-[90dvh] flex-col overflow-hidden rounded-2xl border-border/50 bg-background p-0 shadow-2xl sm:max-w-md">
 				<div className="shrink-0 p-6 pb-4">
 					<DialogHeader>
 						<DialogTitle className="font-sans text-2xl font-bold tracking-wide text-foreground">
@@ -324,10 +324,10 @@ export function SettingsImportPreviewDialog({
 					</div>
 				</div>
 
-				<div className="relative flex-1 overflow-hidden">
+				<div className="relative min-h-0 flex-1 overflow-hidden">
 					<div
 						className="custom-scrollbar h-full overflow-y-auto px-6 pb-2"
-						style={{ maxHeight: "50vh" }}
+						style={{ maxHeight: "50dvh" }}
 					>
 						{changedSettings.length > 0 && (
 							<div className="mb-6">

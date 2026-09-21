@@ -2,10 +2,9 @@ import { Logo } from "@/components/icons/logos/logo";
 import { NotificationMenu } from "@/components/notifications/notification-menu";
 import { Button } from "@/components/ui/button";
 import { UserAvatar } from "@/components/user-avatar";
+import { useBirthdayData } from "@/hooks/use-birthday-data";
 import { useMediaQuery } from "@/hooks/use-media-query";
-import { BirthdayRepository } from "@/lib/birthday-repository";
 import { useSearchStore } from "@/store/search-store";
-import { useLiveQuery } from "dexie-react-hooks";
 import { BookUserIcon, HomeIcon, LinkIcon, SearchIcon, SettingsIcon } from "lucide-react";
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
@@ -41,8 +40,7 @@ export function PageLayout({ children }: PageLayoutProps) {
 	const toggleSearch = useSearchStore((state) => state.toggle);
 	const isDesktop = useMediaQuery("(min-width: 768px)");
 
-	const birthdays = useLiveQuery(() => BirthdayRepository.getAll(), []) ?? [];
-	const meProfile = birthdays.find((b) => b.relationship === "Me");
+	const { meProfile } = useBirthdayData();
 
 	return (
 		<div className="relative flex min-h-dvh flex-col overflow-x-clip bg-background pb-[calc(5rem+env(safe-area-inset-bottom))] font-sans text-foreground md:pb-0">

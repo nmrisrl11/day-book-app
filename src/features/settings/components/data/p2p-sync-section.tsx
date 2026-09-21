@@ -8,6 +8,7 @@ import {
 	DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import { sanitizeBirthdaysForMeConstraint } from "@/helpers/birthday-utils";
 import {
 	parseImportedBirthdays,
 	parseImportedInvitations,
@@ -119,22 +120,15 @@ export function P2PSyncSection() {
 				// Upsert Birthdays and Invitations
 				await db.transaction("rw", db.birthdays, db.invitations, async () => {
 					const existingMe = await db.birthdays.where("relationship").equals("Me").first();
-					let currentMeId = existingMe?.id;
+					const sanitizedBirthdays = sanitizeBirthdaysForMeConstraint(
+						parsedBirthdays,
+						existingMe?.id,
+					);
 
-					for (const b of parsedBirthdays) {
-						let relationship = b.relationship;
-						if (relationship === "Me") {
-							if (currentMeId && b.id !== currentMeId) {
-								relationship = "Other";
-							} else {
-								currentMeId = b.id;
-							}
-						}
-
+					for (const b of sanitizedBirthdays) {
 						const [, monthStr, dayStr] = b.birthday.split("-");
 						await db.birthdays.put({
 							...b,
-							relationship,
 							month: parseInt(monthStr, 10),
 							day: parseInt(dayStr, 10),
 						});
@@ -241,7 +235,7 @@ export function P2PSyncSection() {
 
 			{/* HOST MODAL */}
 			<Dialog open={isHostModalOpen} onOpenChange={handleCloseHost}>
-				<DialogContent className="max-h-[90vh] rounded-2xl border-border/50 bg-background shadow-2xl sm:max-w-md">
+				<DialogContent className="max-h-[90dvh] rounded-2xl border-border/50 bg-background shadow-2xl sm:max-w-md">
 					<DialogHeader>
 						<DialogTitle className="text-center font-sans text-2xl font-bold tracking-wide">
 							Send Data
@@ -294,7 +288,7 @@ export function P2PSyncSection() {
 
 			{/* CLIENT MODAL */}
 			<Dialog open={isClientModalOpen} onOpenChange={handleCloseClient}>
-				<DialogContent className="max-h-[90vh] rounded-2xl border-border/50 bg-background shadow-2xl sm:max-w-md">
+				<DialogContent className="max-h-[90dvh] rounded-2xl border-border/50 bg-background shadow-2xl sm:max-w-md">
 					<DialogHeader>
 						<DialogTitle className="text-center font-sans text-2xl font-bold tracking-wide">
 							Receive Data

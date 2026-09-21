@@ -41,7 +41,7 @@ export function MobileLineNav({ items, activeId }: MobileLineNavProps) {
 							animate={{ x: 0, opacity: 1, y: "-50%" }}
 							exit={{ x: "100%", opacity: 0, y: "-50%" }}
 							transition={{ type: "spring", damping: 25, stiffness: 200 }}
-							className="fixed top-1/2 right-4 z-101 flex max-h-[85vh] w-65 flex-col rounded-2xl border border-border bg-card p-4 shadow-xl xl:hidden"
+							className="fixed top-1/2 right-4 z-101 flex max-h-[60dvh] w-65 flex-col rounded-2xl border border-border bg-card p-4 shadow-xl xl:hidden"
 						>
 							<div className="mb-4 flex shrink-0 items-center justify-between px-2">
 								<h3 className="font-semibold text-foreground">On this page</h3>
@@ -53,7 +53,7 @@ export function MobileLineNav({ items, activeId }: MobileLineNavProps) {
 								</button>
 							</div>
 
-							<div className="no-scrollbar flex-1 overflow-x-hidden overflow-y-auto">
+							<div className="no-scrollbar min-h-0 flex-1 overflow-x-hidden overflow-y-auto">
 								<LineNav items={items} activeId={activeId} onItemClick={() => setIsOpen(false)} />
 							</div>
 						</motion.div>

@@ -12,11 +12,11 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import { APP_INFO } from "@/constants/app-info";
+import { getAvailableRelationshipOptions } from "@/helpers/birthday-utils";
 import { parseResponseToken } from "@/helpers/invitation-token";
+import { useBirthdayData } from "@/hooks/use-birthday-data";
 import { BirthdayRepository } from "@/lib/birthday-repository";
-import { db } from "@/lib/db";
 import { RELATIONSHIP_OPTIONS, type Relationship } from "@/types/birthday";
-import { useLiveQuery } from "dexie-react-hooks";
 import { AlertTriangleIcon, CalendarIcon, GiftIcon, HomeIcon, UserIcon } from "lucide-react";
 import { motion } from "motion/react";
 import { useQueryState } from "nuqs";
@@ -29,7 +29,7 @@ export function ResponseScreen() {
 	const [relationship, setRelationship] = useState<Relationship | "">("");
 	const [error, setError] = useState("");
 
-	const birthdays = useLiveQuery(() => db.birthdays.toArray(), []) ?? [];
+	const { birthdays, hasMeProfile } = useBirthdayData();
 
 	const response = token ? parseResponseToken(token) : null;
 
@@ -37,7 +37,7 @@ export function ResponseScreen() {
 		return (
 			<>
 				<SEO title="Response Expired" canonical="/invite/response" robots="noindex" />
-				<main className="flex min-h-[75vh] flex-col items-center justify-center space-y-8 p-6 text-center">
+				<main className="flex min-h-[75dvh] flex-col items-center justify-center space-y-8 p-6 text-center">
 					<motion.div
 						initial={{ scale: 0.8, opacity: 0 }}
 						animate={{ scale: 1, opacity: 1 }}
@@ -76,10 +76,10 @@ export function ResponseScreen() {
 		(b) => b.name.toLowerCase().trim() === response.n.toLowerCase().trim(),
 	);
 
-	const hasMeProfile = birthdays.some((b) => b.relationship === "Me");
-	const availableRelationships = RELATIONSHIP_OPTIONS.filter(
-		(option) => option !== "Me" || !hasMeProfile,
-	);
+	const availableRelationships = getAvailableRelationshipOptions({
+		hasMeProfile,
+		options: RELATIONSHIP_OPTIONS,
+	});
 
 	const handleAdd = async () => {
 		if (!relationship) {

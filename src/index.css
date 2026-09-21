@@ -224,6 +224,10 @@
 	}
 }
 
+[data-sonner-toaster] {
+	--mobile-offset-bottom: calc(env(safe-area-inset-bottom, 16px) + 5rem) !important;
+}
+
 [data-sonner-toaster],
 .gooey-wrapper {
 	font-family: var(--font-sans) !important;

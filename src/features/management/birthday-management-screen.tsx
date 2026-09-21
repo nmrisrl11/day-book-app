@@ -21,6 +21,7 @@ import { ManageEmptyState } from "./components/manage-empty-state";
 import { ManageRouteFallback } from "./components/manage-route-fallback";
 
 import { SEO } from "@/components/seo/seo";
+import { useBirthdayData } from "@/hooks/use-birthday-data";
 import { PER_PAGE_OPTIONS, useBirthdayManagement } from "./hooks/use-birthday-management";
 import { useModalManager } from "./hooks/use-modal-manager";
 
@@ -42,6 +43,7 @@ const AskBirthdayModal = lazy(() =>
 );
 
 export function BirthdayManagementScreen() {
+	const { hasMeProfile } = useBirthdayData();
 	const {
 		birthdays,
 		localSearch,
@@ -163,7 +165,7 @@ export function BirthdayManagementScreen() {
 							</div>
 						)}
 
-						<div ref={parentRef} className="custom-scrollbar max-h-[55vh] overflow-y-auto pr-4">
+						<div ref={parentRef} className="custom-scrollbar max-h-[55dvh] overflow-y-auto pr-4">
 							{filteredAndSortedBirthdays.length === 0 ? (
 								<div className="py-12 text-center text-muted-foreground italic">
 									No birthdays found matching your criteria.
@@ -395,6 +397,7 @@ export function BirthdayManagementScreen() {
 					selectedIds={selectedIds}
 					setSelectedIds={setSelectedIds}
 					handleBulkDelete={modalManager.handleBulkDelete}
+					hasMeRelationship={hasMeProfile}
 				/>
 			</div>
 		</>

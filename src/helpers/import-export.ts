@@ -105,23 +105,11 @@ export function parseImportedBirthdays(fileText: string, currentDate: Date): Bir
 				};
 			}) as Birthday[];
 
-		// Sanitize to ensure max 1 "Me" relationship in the imported array
-		let hasMe = false;
-		const sanitizedBirthdays = validBirthdays.map((b) => {
-			if (b.relationship === "Me") {
-				if (hasMe) {
-					return { ...b, relationship: "Other" };
-				}
-				hasMe = true;
-			}
-			return b;
-		});
-
-		if (sanitizedBirthdays.length === 0 && parsed.length > 0) {
+		if (validBirthdays.length === 0 && parsed.length > 0) {
 			throw new Error("No valid birthday records found in the imported file.");
 		}
 
-		return sanitizedBirthdays;
+		return validBirthdays;
 	} catch (error) {
 		throw new Error(error instanceof Error ? error.message : "Invalid JSON file.");
 	}

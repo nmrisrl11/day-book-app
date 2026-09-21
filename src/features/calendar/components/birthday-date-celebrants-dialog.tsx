@@ -42,7 +42,7 @@ export function BirthdayDateCelebrantsDialog({
 					</DialogDescription>
 				</DialogHeader>
 
-				<div className="custom-scrollbar max-h-[60vh] overflow-y-auto pr-4">
+				<div className="custom-scrollbar max-h-[60dvh] overflow-y-auto pr-4">
 					<div className="flex flex-col gap-6">
 						<div className="flex flex-col gap-4 p-3">
 							{celebrants.map((celebrant) => {
