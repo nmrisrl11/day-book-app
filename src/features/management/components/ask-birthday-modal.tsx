@@ -18,7 +18,7 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { generateInvitationToken, parseResponseToken } from "@/helpers/invitation-token";
+import { generateInvitationToken, parseResponseToken } from "@/helpers";
 import { InvitationRepository } from "@/lib/invitation-repository";
 import { birthdaySchema } from "@/schema/birthday-schema";
 import { NAME_MAX_LENGTH, NAME_MIN_LENGTH } from "@/schema/validation-constants";

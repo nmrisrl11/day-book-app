@@ -1,6 +1,6 @@
 import { PartyHat } from "@/components/icons/party-hat";
-import { MAIN_GREETINGS } from "@/constants/main-greeting";
-import { useConfetti } from "@/hooks/use-confetti";
+import { MAIN_GREETINGS } from "@/constants";
+import { useConfetti } from "@/hooks";
 import { cn } from "@/lib/utils";
 import { defaultSettings, useDayBookStore } from "@/store/day-book-store";
 import type { Birthday } from "@/types/birthday";

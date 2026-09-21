@@ -17,9 +17,9 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import { getAvailableRelationshipOptions } from "@/helpers/birthday-utils";
-import { compressImageToWebP } from "@/helpers/image-utils";
-import { useBirthdayData } from "@/hooks/use-birthday-data";
+import { getAvailableRelationshipOptions } from "@/helpers";
+import { compressImageToWebP } from "@/helpers";
+import { useBirthdayData } from "@/hooks";
 import { BirthdayRepository } from "@/lib/birthday-repository";
 import type { BirthdayFormData, BirthdayFormInput } from "@/schema/birthday-schema";
 import { birthdaySchema } from "@/schema/birthday-schema";

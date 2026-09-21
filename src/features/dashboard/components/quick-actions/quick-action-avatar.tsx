@@ -7,8 +7,8 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import { AVATAR_SETTINGS, BORING_AVATARS_COLORS } from "@/constants/avatar-settings";
-import { getRandomPalette } from "@/helpers/color-palettes";
+import { AVATAR_SETTINGS, BORING_AVATARS_COLORS } from "@/constants";
+import { getRandomPalette } from "@/helpers";
 import { defaultSettings, useDayBookStore } from "@/store/day-book-store";
 import type { AvatarLibrary, AvvvatarsStyle, BoringAvatarsVariant } from "@/types/settings";
 import { DicesIcon } from "lucide-react";

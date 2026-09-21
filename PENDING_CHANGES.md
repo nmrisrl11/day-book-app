@@ -9,6 +9,7 @@
 - Management Screen: Improved UI copywriting by replacing generic "items" with relationship-centric terminology ("person" / "people").
 - Management Screen: Replaced individual action buttons with a cleaner "More Options" dropdown menu (3 dots) on smaller screens to reduce visual noise and improve readability.
 - Codebase: Centralized and abstracted the "Me" relationship constraint logic to ensure uniform enforcement across UI dropdowns, file imports, and P2P sync.
+- Codebase: Introduced barrel files (`index.ts`) for `constants`, `helpers`, and `hooks` to clean up consumer imports and establish proper public APIs for these layers.
 - Testing: Added comprehensive unit tests for the newly abstracted "Me" relationship constraint helpers to ensure edge cases in imports and UI selections are strictly covered.
 
 ## Fixed

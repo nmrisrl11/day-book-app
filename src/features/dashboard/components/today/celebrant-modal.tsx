@@ -9,9 +9,9 @@ import {
 	DialogTitle,
 } from "@/components/ui/dialog";
 import { UserAvatar } from "@/components/user-avatar";
-import { GREETINGS } from "@/constants/greetings";
+import { GREETINGS } from "@/constants";
 import { CalendarExportDialog } from "@/features/calendar/components/calendar-export-dialog";
-import { formatAgeDisplay, formatBirthdayDisplay } from "@/helpers/birthday-utils";
+import { formatAgeDisplay, formatBirthdayDisplay } from "@/helpers";
 import { useDayBookStore } from "@/store/day-book-store";
 import { type Birthday } from "@/types/birthday";
 import {

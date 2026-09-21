@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { UserAvatar } from "@/components/user-avatar";
-import { APP_INFO } from "@/constants/app-info";
+import { APP_INFO } from "@/constants";
 import type { BirthdayFormInput } from "@/schema/birthday-schema";
 import type { Birthday } from "@/types/birthday";
 import { CameraIcon, Trash2Icon } from "lucide-react";

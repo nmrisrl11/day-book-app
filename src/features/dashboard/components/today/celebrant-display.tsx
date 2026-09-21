@@ -1,6 +1,6 @@
 import { PartyHat } from "@/components/icons/party-hat";
 import { UserAvatar } from "@/components/user-avatar";
-import { useMediaQuery } from "@/hooks/use-media-query";
+import { useMediaQuery } from "@/hooks";
 import type { Birthday } from "@/types/birthday";
 import { CakeIcon, SparklesIcon, StarIcon } from "lucide-react";
 

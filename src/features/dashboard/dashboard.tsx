@@ -1,4 +1,4 @@
-import { useBirthdayData } from "@/hooks/use-birthday-data";
+import { useBirthdayData } from "@/hooks";
 import { Suspense, useState } from "react";
 import { BackupReminderBanner } from "./components/backup-reminder-banner";
 import { DashboardEmptyState } from "./components/dashboard-empty-state";
@@ -6,7 +6,7 @@ import { DashboardRouteFallback } from "./components/dashboard-route-fallback";
 import { InstallAppBanner } from "./components/install-app-banner";
 
 import { SEO } from "@/components/seo/seo";
-import { getDayBookDummyData } from "@/constants/dummy-data";
+import { getDayBookDummyData } from "@/constants";
 import { BirthdaysSection } from "./components/calendar/birthdays-section";
 import { QuickActionToolbar } from "./components/quick-actions/quick-action-toolbar";
 import { HappyBirthdaySection } from "./components/today/happy-birthday-section";

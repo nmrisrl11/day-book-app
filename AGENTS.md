@@ -42,7 +42,7 @@ While originally conceived as a "birthday tracker," the product is evolving into
 - **`src/components/`**: Global, reusable UI components (e.g., `user-avatar`, `icons/animated-logo`, layouts).
 - **`src/components/ui/`**: **STRICTLY** for shadcn/ui and external un-opinionated primitives (like `@animate-ui`). Do not put business components here.
 - **`src/store/`**: Global state management (Zustand).
-- **`src/hooks/`**, **`src/helpers/`**, **`src/constants/`**, **`src/types/`**, **`src/schema/`**: Standard shared utilities.
+- **`src/hooks/`**, **`src/helpers/`**, **`src/constants/`**, **`src/types/`**, **`src/schema/`**: Standard shared utilities. (Note: `constants`, `helpers`, and `hooks` expose their public APIs via barrel files; always import from the directory root rather than deep-linking to individual files to avoid circular dependencies).
 - **`api/`**: Vercel Serverless/Edge functions (currently only for Redis-backed visitor tracking).
 
 ## 3. Core Architectural Patterns

@@ -1,10 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { UserAvatar } from "@/components/user-avatar";
-import {
-	calculateDaysUntilBirthday,
-	formatAgeDisplay,
-	formatBirthdayDisplay,
-} from "@/helpers/birthday-utils";
+import { calculateDaysUntilBirthday, formatAgeDisplay, formatBirthdayDisplay } from "@/helpers";
 import type { Birthday } from "@/types/birthday";
 import { CalendarIcon, CalendarPlusIcon, Edit2Icon, GiftIcon, UsersIcon } from "lucide-react";
 

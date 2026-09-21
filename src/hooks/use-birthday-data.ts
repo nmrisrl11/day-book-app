@@ -1,9 +1,5 @@
-import {
-	getBirthdaysByMonth,
-	getTodayCelebrants,
-	getUpcomingBirthdays,
-} from "@/helpers/birthday-utils";
-import { useCurrentDate } from "@/hooks/use-current-date";
+import { getBirthdaysByMonth, getTodayCelebrants, getUpcomingBirthdays } from "@/helpers";
+import { useCurrentDate } from "@/hooks";
 import { useDayBookStore } from "@/store/day-book-store";
 
 import { BirthdayRepository } from "@/lib/birthday-repository";

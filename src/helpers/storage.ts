@@ -1,4 +1,4 @@
-import { STORAGE_KEYS } from "@/constants/storage-keys";
+import { STORAGE_KEYS } from "@/constants";
 
 export const getHasDataHint = () => {
 	return localStorage.getItem(STORAGE_KEYS.HAS_DATA) === "true";

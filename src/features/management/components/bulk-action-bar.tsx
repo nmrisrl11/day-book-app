@@ -7,7 +7,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import { getAvailableRelationshipOptions } from "@/helpers/birthday-utils";
+import { getAvailableRelationshipOptions } from "@/helpers";
 import { BirthdayRepository } from "@/lib/birthday-repository";
 import { RELATIONSHIP_OPTIONS, type Birthday } from "@/types/birthday";
 import { gooeyToast } from "goey-toast";

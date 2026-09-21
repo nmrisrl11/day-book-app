@@ -8,7 +8,7 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { FULL_MONTHS } from "@/constants/months";
+import { FULL_MONTHS } from "@/constants";
 import { cn } from "@/lib/utils";
 import { CalendarController } from "@fullcalendar/react";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";

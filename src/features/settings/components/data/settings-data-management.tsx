@@ -1,7 +1,7 @@
 import { InfoTooltip } from "@/components/info-tooltip";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { exportSettings, parseImportedSettings } from "@/helpers/import-export";
+import { exportSettings, parseImportedSettings } from "@/helpers";
 import { useDayBookStore } from "@/store/day-book-store";
 import type { Settings } from "@/types/settings";
 import { gooeyToast } from "goey-toast";

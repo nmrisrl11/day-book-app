@@ -1,4 +1,4 @@
-import { getHasDataHint } from "@/helpers/storage";
+import { getHasDataHint } from "@/helpers";
 import { DashboardEmptyState } from "./dashboard-empty-state";
 import { DashboardSkeleton } from "./dashboard-skeleton";
 

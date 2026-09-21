@@ -21,7 +21,7 @@ import { ManageEmptyState } from "./components/manage-empty-state";
 import { ManageRouteFallback } from "./components/manage-route-fallback";
 
 import { SEO } from "@/components/seo/seo";
-import { useBirthdayData } from "@/hooks/use-birthday-data";
+import { useBirthdayData } from "@/hooks";
 import { PER_PAGE_OPTIONS, useBirthdayManagement } from "./hooks/use-birthday-management";
 import { useModalManager } from "./hooks/use-modal-manager";
 

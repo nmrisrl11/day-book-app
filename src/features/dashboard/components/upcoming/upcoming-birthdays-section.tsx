@@ -1,4 +1,4 @@
-import { useDragScroll } from "@/hooks/use-drag-scroll";
+import { useDragScroll } from "@/hooks";
 import { cn } from "@/lib/utils";
 import type { Birthday } from "@/types/birthday";
 import { useNavigate } from "react-router-dom";

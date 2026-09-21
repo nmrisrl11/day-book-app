@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { getHasDataHint } from "@/helpers/storage";
+import { getHasDataHint } from "@/helpers";
 import { LinkIcon, PlusIcon } from "lucide-react";
 import { ManageBirthdaysSkeleton } from "./manage-birthdays-skeleton";
 import { ManageEmptyState } from "./manage-empty-state";

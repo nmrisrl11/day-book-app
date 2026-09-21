@@ -1,5 +1,5 @@
 import { AnimatedLogo } from "@/components/icons/animated-logo";
-import { APP_INFO } from "@/constants/app-info";
+import { APP_INFO } from "@/constants";
 import { useDayBookStore } from "@/store/day-book-store";
 import { useEffect, useState } from "react";
 import type { EventData, Step } from "react-joyride";

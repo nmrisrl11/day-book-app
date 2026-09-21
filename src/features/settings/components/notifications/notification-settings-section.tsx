@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { APP_INFO } from "@/constants/app-info";
+import { APP_INFO } from "@/constants";
 import { useDayBookStore } from "@/store/day-book-store";
 import { AlertCircleIcon, BellIcon, BellRingIcon } from "lucide-react";
 import { useEffect, useState } from "react";

@@ -7,9 +7,9 @@ import {
 	DialogHeader,
 	DialogTitle,
 } from "@/components/ui/dialog";
-import { APP_INFO } from "@/constants/app-info";
-import { FULL_MONTHS } from "@/constants/months";
-import { sanitizeBirthdaysForMeConstraint } from "@/helpers/birthday-utils";
+import { APP_INFO } from "@/constants";
+import { FULL_MONTHS } from "@/constants";
+import { sanitizeBirthdaysForMeConstraint } from "@/helpers";
 import { BirthdayRepository } from "@/lib/birthday-repository";
 import { db } from "@/lib/db";
 import type { Birthday } from "@/types/birthday";

@@ -11,8 +11,8 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import { MAIN_GREETINGS, MAIN_GREETING_FONTS } from "@/constants/main-greeting";
-import { getRandomPalette } from "@/helpers/color-palettes";
+import { MAIN_GREETINGS, MAIN_GREETING_FONTS } from "@/constants";
+import { getRandomPalette } from "@/helpers";
 import { cn } from "@/lib/utils";
 import { CUSTOM_GREETING_MAX_LENGTH } from "@/schema/validation-constants";
 import { defaultSettings, useDayBookStore } from "@/store/day-book-store";

@@ -1,5 +1,5 @@
 import { UserAvatar } from "@/components/user-avatar";
-import { useElementSize } from "@/hooks/use-element-size";
+import { useElementSize } from "@/hooks";
 import { cn } from "@/lib/utils";
 import type { Birthday } from "@/types/birthday";
 import { CalendarHeartIcon } from "lucide-react";

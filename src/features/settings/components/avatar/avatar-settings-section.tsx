@@ -11,9 +11,9 @@ import {
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { UserAvatar } from "@/components/user-avatar";
-import { APP_INFO } from "@/constants/app-info";
-import { AVATAR_SETTINGS, BORING_AVATARS_COLORS } from "@/constants/avatar-settings";
-import { getRandomPalette } from "@/helpers/color-palettes";
+import { APP_INFO } from "@/constants";
+import { AVATAR_SETTINGS, BORING_AVATARS_COLORS } from "@/constants";
+import { getRandomPalette } from "@/helpers";
 import { useDayBookStore } from "@/store/day-book-store";
 import type { AvatarLibrary, AvvvatarsStyle, BoringAvatarsVariant } from "@/types/settings";
 import Avvvatars from "avvvatars-react";

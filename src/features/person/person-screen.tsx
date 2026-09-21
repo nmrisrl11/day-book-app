@@ -1,7 +1,7 @@
 import { SEO } from "@/components/seo/seo";
 import { Button } from "@/components/ui/button";
 import { NotFoundScreen } from "@/features/not-found/not-found-screen";
-import { useCurrentDate } from "@/hooks/use-current-date";
+import { useCurrentDate } from "@/hooks";
 import { BirthdayRepository } from "@/lib/birthday-repository";
 import { useLiveQuery } from "dexie-react-hooks";
 import { ChevronLeftIcon } from "lucide-react";

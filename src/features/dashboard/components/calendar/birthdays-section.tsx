@@ -1,5 +1,5 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { FULL_MONTHS, MONTHS } from "@/constants/months";
+import { FULL_MONTHS, MONTHS } from "@/constants";
 import type { Birthday } from "@/types/birthday";
 import { CalendarIcon, ListIcon } from "lucide-react";
 import { lazy, Suspense, useState } from "react";

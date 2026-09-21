@@ -1,4 +1,4 @@
-import { DEFAULT_FLOATING_MESSAGE } from "@/constants/floating-messages";
+import { DEFAULT_FLOATING_MESSAGE } from "@/constants";
 import { useDayBookStore } from "@/store/day-book-store";
 import { useEffect, useRef, useState } from "react";
 

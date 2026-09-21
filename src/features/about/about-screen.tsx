@@ -5,9 +5,9 @@ import { MobileLineNav } from "@/components/mobile-line-nav";
 import { SEO } from "@/components/seo/seo";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { APP_INFO } from "@/constants/app-info";
+import { APP_INFO } from "@/constants";
 import { changelog } from "@/data/changelog";
-import { useActiveSection } from "@/hooks/use-active-section";
+import { useActiveSection } from "@/hooks";
 import {
 	ArrowLeftIcon,
 	CalendarIcon,

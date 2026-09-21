@@ -1,4 +1,4 @@
-import { APP_INFO } from "@/constants/app-info";
+import { APP_INFO } from "@/constants";
 import type { Birthday } from "@/types/birthday";
 import { describe, expect, it } from "vitest";
 import { generateGoogleCalendarUrl, generateIcsContent } from "../calendar-export";

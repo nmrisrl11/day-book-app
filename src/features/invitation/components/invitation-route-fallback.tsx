@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { getHasInvitationsHint } from "@/helpers/storage";
+import { getHasInvitationsHint } from "@/helpers";
 import { LinkIcon } from "lucide-react";
 import { InvitationEmptyState } from "./invitation-empty-state";
 import { InvitationManagementSkeleton } from "./invitation-management-skeleton";

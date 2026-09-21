@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { UserAvatar } from "@/components/user-avatar";
-import { formatAgeDisplay } from "@/helpers/birthday-utils";
+import { formatAgeDisplay } from "@/helpers";
 import { cn } from "@/lib/utils";
 import type { Birthday } from "@/types/birthday";
 import { CalendarIcon, Edit2Icon, MoreVerticalIcon, Trash2Icon } from "lucide-react";
