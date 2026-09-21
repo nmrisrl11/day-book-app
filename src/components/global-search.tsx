@@ -110,7 +110,12 @@ export function GlobalSearch() {
 								<CommandItem
 									key={birthday.id}
 									value={`person ${birthday.name} ${birthday.id}`}
-									onSelect={() => runCommand(() => navigate(`/person/${birthday.id}`))}
+									onSelect={() =>
+										runCommand(() => {
+											window.scrollTo(0, 0);
+											navigate(`/person/${birthday.id}`);
+										})
+									}
 								>
 									<UserAvatar birthday={birthday} size={24} className="mr-2 h-6 w-6" />
 									<span>{birthday.name}</span>

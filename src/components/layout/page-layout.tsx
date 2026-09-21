@@ -2,8 +2,7 @@ import { Logo } from "@/components/icons/logos/logo";
 import { NotificationMenu } from "@/components/notifications/notification-menu";
 import { Button } from "@/components/ui/button";
 import { UserAvatar } from "@/components/user-avatar";
-import { useBirthdayData } from "@/hooks";
-import { useMediaQuery } from "@/hooks";
+import { useBirthdayData, useMediaQuery } from "@/hooks";
 import { useSearchStore } from "@/store/search-store";
 import { BookUserIcon, HomeIcon, LinkIcon, SearchIcon, SettingsIcon } from "lucide-react";
 import React from "react";
@@ -118,6 +117,7 @@ export function PageLayout({ children }: PageLayoutProps) {
 					{meProfile && (
 						<Link
 							to={`/person/${meProfile.id}`}
+							onClick={() => window.scrollTo(0, 0)}
 							className="ml-1 flex items-center justify-center rounded-full ring-offset-background transition-colors hover:opacity-80 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none"
 							title="My Profile"
 						>

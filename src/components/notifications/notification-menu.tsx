@@ -29,6 +29,7 @@ export function NotificationMenu() {
 		if (n.type === "system") {
 			navigate("/about#whats-new");
 		} else {
+			window.scrollTo(0, 0);
 			navigate(`/person/${n.personId}`);
 		}
 	};

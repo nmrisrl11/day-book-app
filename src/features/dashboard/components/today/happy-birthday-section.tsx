@@ -63,6 +63,8 @@ export function HappyBirthdaySection({
 		);
 	}
 
+	const isCompact = celebrants.length >= 3;
+
 	return (
 		<div className="relative z-10 flex min-h-[50dvh] w-full flex-col items-center justify-center overflow-hidden rounded-[2.5rem] py-16 text-center">
 			{isPreviewMode && onClosePreview && (
@@ -90,18 +92,18 @@ export function HappyBirthdaySection({
 			{/* Floating Messages */}
 			<FloatingMessages enabled={hasCelebrants} />
 
-			<div className="relative mb-8 md:mb-12">
-				<div className="absolute -top-6 -left-4 -rotate-12 md:-top-10 md:-left-12">
+			<div className="relative mx-auto mb-8 inline-block max-w-[95%] md:mb-12 md:max-w-4xl">
+				<div className="absolute -top-6 -left-2 z-10 -rotate-12 md:-top-10 md:-left-8">
 					<PartyHat className="h-10 w-10 md:h-14 md:w-14" />
 				</div>
 
-				<div className="absolute top-2 -right-4 rotate-12 opacity-70 md:-right-10">
+				<div className="absolute -right-2 bottom-6 z-10 rotate-12 opacity-70 md:-right-6 md:bottom-8">
 					<StarIcon className="h-6 w-6 fill-yellow-400 text-yellow-400 md:h-8 md:w-8" />
 				</div>
 
 				<h1
 					className={cn(
-						"max-w-full px-4 pb-4 text-5xl leading-normal font-extrabold tracking-tight break-all drop-shadow-sm md:text-7xl",
+						"max-w-full px-4 pb-4 text-4xl leading-tight font-extrabold tracking-tight wrap-break-word drop-shadow-sm sm:text-5xl sm:leading-normal md:text-7xl",
 						greetingSettings.type === "gradient" ? "bg-clip-text text-transparent" : "",
 					)}
 					style={{
@@ -123,8 +125,9 @@ export function HappyBirthdaySection({
 
 			<div
 				className={cn(
-					"relative z-10 flex w-full flex-wrap items-center justify-center gap-8 md:gap-12",
+					"relative z-10 flex w-full flex-wrap items-center justify-center",
 					celebrants.length === 1 && "mx-auto max-w-md",
+					isCompact ? "gap-4 sm:gap-6 md:gap-8" : "gap-8 md:gap-12",
 				)}
 			>
 				{celebrants.map((celebrant) => (
@@ -132,6 +135,7 @@ export function HappyBirthdaySection({
 						key={celebrant.id}
 						celebrant={celebrant}
 						onClick={setSelectedCelebrant}
+						isCompact={isCompact}
 					/>
 				))}
 			</div>

@@ -211,6 +211,7 @@ export function CelebrantModal({ celebrant, isOpen, onClose, currentDate }: Cele
 							variant="outline"
 							onClick={() => {
 								onClose();
+								window.scrollTo(0, 0);
 								navigate(`/person/${celebrant.id}`);
 							}}
 						>

@@ -6,7 +6,8 @@ interface FloatingMessage {
 	id: number;
 	text: string;
 	side: "left" | "right";
-	position: number; // percentage
+	positionX: number; // percentage
+	positionY: number; // percentage
 	delay: number;
 }
 
@@ -26,14 +27,16 @@ export function FloatingMessages({ enabled }: { enabled: boolean }) {
 			const text = floatingMessages[Math.floor(Math.random() * floatingMessages.length)];
 			// Anchor randomly to left or right to prevent long text from overflowing the edge
 			const isLeft = Math.random() > 0.5;
-			const position = 5 + Math.random() * 35; // 5% to 40% from either edge
+			const positionX = 5 + Math.random() * 35; // 5% to 40% from either edge
+			const positionY = 10 + Math.random() * 55; // 10% to 65% from bottom
 			const delay = Math.random() * 0.5;
 
 			const newMessage: FloatingMessage = {
 				id: messageId.current++,
 				text,
 				side: isLeft ? "left" : "right",
-				position,
+				positionX,
+				positionY,
 				delay,
 			};
 
@@ -55,9 +58,10 @@ export function FloatingMessages({ enabled }: { enabled: boolean }) {
 			{messages.map((msg) => (
 				<div
 					key={msg.id}
-					className="absolute bottom-10 animate-float-up opacity-0"
+					className="absolute animate-float-up opacity-0"
 					style={{
-						[msg.side]: `${msg.position}%`,
+						[msg.side]: `${msg.positionX}%`,
+						bottom: `${msg.positionY}%`,
 						animationDelay: `${msg.delay}s`,
 					}}
 				>

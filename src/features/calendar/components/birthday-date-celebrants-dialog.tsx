@@ -51,7 +51,10 @@ export function BirthdayDateCelebrantsDialog({
 									<Link
 										key={celebrant.id}
 										to={`/person/${celebrant.id}`}
-										onClick={onClose}
+										onClick={() => {
+											onClose();
+											window.scrollTo(0, 0);
+										}}
 										className="group -mx-2 flex items-center gap-4 rounded-xl p-2 transition-colors hover:bg-black/5 dark:hover:bg-white/10"
 									>
 										<div className="rounded-full bg-muted p-1 ring-1 ring-border transition-colors group-hover:bg-background">
