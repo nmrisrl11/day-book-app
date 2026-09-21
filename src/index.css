@@ -227,7 +227,15 @@
 :root {
 	--mobile-nav-height: 5rem;
 	--toast-mobile-offset: calc(env(safe-area-inset-bottom, 16px) + var(--mobile-nav-height));
+	/* Default banner offsets when no toasts are present */
+	--banner-mobile-offset: calc(env(safe-area-inset-bottom, 16px) + var(--mobile-nav-height) + 1rem);
+	--banner-desktop-offset: 1.5rem; /* Equivalent to bottom-6 */
+}
+
+/* Dynamically push the banner up to clear the toast stack when a toast appears */
+body:has([data-sonner-toast]) {
 	--banner-mobile-offset: calc(var(--toast-mobile-offset) + 4.5rem);
+	--banner-desktop-offset: 6.5rem; /* Clear default 32px toast offset + ~72px toast height */
 }
 
 [data-sonner-toaster] {
