@@ -98,7 +98,7 @@ export function BackupReminderBanner({ birthdaysCount }: BackupReminderBannerPro
 	if (!shouldShow) return null;
 
 	return (
-		<div className="fixed bottom-24 left-1/2 z-50 mb-[env(safe-area-inset-bottom)] flex w-[calc(100%-2rem)] max-w-2xl -translate-x-1/2 animate-in flex-col items-center gap-4 rounded-3xl border border-dashed bg-background/95 px-6 py-5 text-center shadow-2xl ring-1 ring-border backdrop-blur-md fade-in slide-in-from-bottom-8 sm:flex-row sm:text-left md:bottom-6">
+		<div className="fixed bottom-(--banner-mobile-offset) left-1/2 z-50 flex w-[calc(100%-2rem)] max-w-2xl -translate-x-1/2 animate-in flex-col items-center gap-4 rounded-3xl border border-dashed bg-background/95 px-6 py-5 text-center shadow-2xl ring-1 ring-border backdrop-blur-md fade-in slide-in-from-bottom-8 sm:flex-row sm:text-left md:bottom-6">
 			<Button
 				variant="ghost"
 				size="icon"

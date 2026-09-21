@@ -224,8 +224,14 @@
 	}
 }
 
+:root {
+	--mobile-nav-height: 5rem;
+	--toast-mobile-offset: calc(env(safe-area-inset-bottom, 16px) + var(--mobile-nav-height));
+	--banner-mobile-offset: calc(var(--toast-mobile-offset) + 4.5rem);
+}
+
 [data-sonner-toaster] {
-	--mobile-offset-bottom: calc(env(safe-area-inset-bottom, 16px) + 5rem) !important;
+	--mobile-offset-bottom: var(--toast-mobile-offset) !important;
 }
 
 [data-sonner-toaster],
