@@ -29,7 +29,7 @@ export function BulkActionBar({
 	if (selectedIds.size === 0) return null;
 
 	return (
-		<div className="fixed bottom-6 left-1/2 z-50 no-scrollbar flex w-max max-w-[calc(100%-2rem)] -translate-x-1/2 animate-in items-center gap-2 overflow-x-auto rounded-full border bg-popover px-4 py-2 text-popover-foreground shadow-lg fade-in slide-in-from-bottom-4 sm:gap-3">
+		<div className="fixed bottom-[var(--banner-mobile-offset)] left-1/2 z-50 no-scrollbar flex w-max max-w-[calc(100%-2rem)] -translate-x-1/2 animate-in items-center gap-2 overflow-x-auto rounded-full border bg-popover px-4 py-2 text-popover-foreground shadow-lg transition-all duration-300 ease-in-out fade-in slide-in-from-bottom-4 sm:gap-3 md:bottom-[var(--banner-desktop-offset)]">
 			<div className="text-sm font-medium whitespace-nowrap">
 				{selectedIds.size} {selectedIds.size === 1 ? "selected" : "selected"}
 			</div>

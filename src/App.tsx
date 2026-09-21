@@ -249,6 +249,7 @@ function App() {
 				closeOnEscape={false}
 				showTimestamp={false}
 				closeButton="top-right"
+				visibleToasts={1}
 			/>
 		</>
 	);
