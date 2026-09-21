@@ -1,6 +1,6 @@
 import { AnimateIcon } from "@/components/ui/animate-icon";
 import { BotIcon } from "@/components/ui/animated-icons/bot-icon";
-import { APP_INFO } from "@/constants/app-info";
+import { APP_INFO } from "@/constants";
 import { useDayBookStore } from "@/store/day-book-store";
 import { Fragment } from "react";
 import { Link } from "react-router-dom";

@@ -1,4 +1,4 @@
-import { setHasInvitationsHint } from "@/helpers/storage";
+import { setHasInvitationsHint } from "@/helpers";
 import { db, type InvitationRecord } from "./db";
 
 export const InvitationRepository = {

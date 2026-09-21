@@ -6,7 +6,7 @@ import {
 	DialogTitle,
 } from "@/components/ui/dialog";
 import { UserAvatar } from "@/components/user-avatar";
-import { formatAgeDisplay } from "@/helpers/birthday-utils";
+import { formatAgeDisplay } from "@/helpers";
 import type { Birthday } from "@/types/birthday";
 import { format } from "date-fns";
 import { Link } from "react-router-dom";

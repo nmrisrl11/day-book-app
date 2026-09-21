@@ -1,4 +1,4 @@
-import { STORAGE_KEYS } from "@/constants/storage-keys";
+import { STORAGE_KEYS } from "@/constants";
 import type { Birthday } from "@/types/birthday";
 import { db, type BirthdayRecord } from "./db";
 

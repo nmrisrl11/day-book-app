@@ -1,6 +1,6 @@
-import { APP_INFO } from "@/constants/app-info";
+import { APP_INFO } from "@/constants";
 import { changelog } from "@/data/changelog";
-import { calculateDaysUntilBirthday } from "@/helpers/birthday-utils";
+import { calculateDaysUntilBirthday } from "@/helpers";
 import { db, type NotificationRecord } from "@/lib/db";
 import { useDayBookStore } from "@/store/day-book-store";
 import { format } from "date-fns";

@@ -11,10 +11,10 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import { APP_INFO } from "@/constants/app-info";
-import { getAvailableRelationshipOptions } from "@/helpers/birthday-utils";
-import { parseResponseToken } from "@/helpers/invitation-token";
-import { useBirthdayData } from "@/hooks/use-birthday-data";
+import { APP_INFO } from "@/constants";
+import { getAvailableRelationshipOptions } from "@/helpers";
+import { parseResponseToken } from "@/helpers";
+import { useBirthdayData } from "@/hooks";
 import { BirthdayRepository } from "@/lib/birthday-repository";
 import { RELATIONSHIP_OPTIONS, type Relationship } from "@/types/birthday";
 import { AlertTriangleIcon, CalendarIcon, GiftIcon, HomeIcon, UserIcon } from "lucide-react";

@@ -1,6 +1,6 @@
 import { AnimatedLogo } from "@/components/icons/animated-logo";
 import { Button } from "@/components/ui/button";
-import { APP_INFO } from "@/constants/app-info";
+import { APP_INFO } from "@/constants";
 import { PlusIcon, SparklesIcon } from "lucide-react";
 import { lazy, Suspense, useState } from "react";
 

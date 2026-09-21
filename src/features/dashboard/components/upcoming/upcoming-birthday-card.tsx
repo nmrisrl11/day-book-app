@@ -1,11 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { UserAvatar } from "@/components/user-avatar";
-import {
-	calculateAge,
-	calculateDaysUntilBirthday,
-	formatBirthdayDisplay,
-} from "@/helpers/birthday-utils";
-import { useMediaQuery } from "@/hooks/use-media-query";
+import { calculateAge, calculateDaysUntilBirthday, formatBirthdayDisplay } from "@/helpers";
+import { useMediaQuery } from "@/hooks";
 import type { Birthday } from "@/types/birthday";
 
 interface UpcomingBirthdayCardProps {

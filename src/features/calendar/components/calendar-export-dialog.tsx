@@ -6,13 +6,9 @@ import {
 	DialogHeader,
 	DialogTitle,
 } from "@/components/ui/dialog";
-import {
-	downloadIcsFile,
-	generateGoogleCalendarUrl,
-	generateIcsContent,
-} from "@/helpers/calendar-export";
+import { downloadIcsFile, generateGoogleCalendarUrl, generateIcsContent } from "@/helpers";
 import type { Birthday } from "@/types/birthday";
-import { APP_INFO } from "@/constants/app-info";
+import { APP_INFO } from "@/constants";
 import { CalendarIcon, DownloadIcon, ShareIcon } from "lucide-react";
 
 interface CalendarExportDialogProps {

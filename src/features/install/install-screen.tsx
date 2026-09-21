@@ -3,8 +3,8 @@ import { SEO } from "@/components/seo/seo";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { APP_INFO } from "@/constants/app-info";
-import { useInstallApp } from "@/hooks/use-install-app";
+import { APP_INFO } from "@/constants";
+import { useInstallApp } from "@/hooks";
 import {
 	ArrowLeftIcon,
 	CheckCircle2Icon,

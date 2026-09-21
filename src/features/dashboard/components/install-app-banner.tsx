@@ -1,7 +1,7 @@
 import { AnimatedLogo } from "@/components/icons/animated-logo";
 import { Button } from "@/components/ui/button";
-import { APP_INFO } from "@/constants/app-info";
-import { useInstallApp } from "@/hooks/use-install-app";
+import { APP_INFO } from "@/constants";
+import { useInstallApp } from "@/hooks";
 import { useDayBookStore } from "@/store/day-book-store";
 import { addDays, isAfter, parseISO } from "date-fns";
 import { DownloadIcon, XIcon } from "lucide-react";

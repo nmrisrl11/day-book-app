@@ -1,4 +1,4 @@
-import { AVATAR_SETTINGS, BORING_AVATARS_COLORS } from "@/constants/avatar-settings";
+import { AVATAR_SETTINGS, BORING_AVATARS_COLORS } from "@/constants";
 import { cn } from "@/lib/utils";
 import { useDayBookStore } from "@/store/day-book-store";
 import type { Birthday } from "@/types/birthday";

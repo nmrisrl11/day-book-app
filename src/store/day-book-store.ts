@@ -1,9 +1,12 @@
-import { AVATAR_SETTINGS } from "@/constants/avatar-settings";
-import { FLOATING_MESSAGES } from "@/constants/floating-messages";
-import { GREETINGS } from "@/constants/greetings";
-import { GREETING_TEXT_SETTINGS } from "@/constants/main-greeting";
-import { SOUND_SETTINGS } from "@/constants/sounds-settings";
-import { STORAGE_KEYS, migrateStorageKeys } from "@/constants/storage-keys";
+import {
+	AVATAR_SETTINGS,
+	FLOATING_MESSAGES,
+	GREETINGS,
+	GREETING_TEXT_SETTINGS,
+	SOUND_SETTINGS,
+	STORAGE_KEYS,
+	migrateStorageKeys,
+} from "@/constants";
 import type { Settings } from "@/types/settings";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";

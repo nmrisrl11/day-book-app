@@ -3,8 +3,8 @@ import { SEO } from "@/components/seo/seo";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { APP_INFO } from "@/constants/app-info";
-import { generateResponseToken, parseInvitationToken } from "@/helpers/invitation-token";
+import { APP_INFO } from "@/constants";
+import { generateResponseToken, parseInvitationToken } from "@/helpers";
 import { cn } from "@/lib/utils";
 import {
 	inviteeSchema,

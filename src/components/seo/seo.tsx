@@ -1,5 +1,5 @@
-import { APP_INFO } from "@/constants/app-info";
-import { SEO_CONFIG } from "@/constants/seo";
+import { APP_INFO } from "@/constants";
+import { SEO_CONFIG } from "@/constants";
 import { Helmet } from "react-helmet-async";
 
 export type SEOProps = {

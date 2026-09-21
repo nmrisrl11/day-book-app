@@ -1,4 +1,4 @@
-import { useBirthdayData } from "@/hooks/use-birthday-data";
+import { useBirthdayData } from "@/hooks";
 import type { Birthday } from "@/types/birthday";
 import { useMemo, useState } from "react";
 import { generateBirthdayEvents } from "../utils/birthday-calendar-events";

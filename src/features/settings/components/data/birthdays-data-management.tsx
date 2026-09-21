@@ -1,11 +1,11 @@
 import { InfoTooltip } from "@/components/info-tooltip";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { APP_INFO } from "@/constants/app-info";
+import { APP_INFO } from "@/constants";
 import { CalendarExportDialog } from "@/features/calendar/components/calendar-export-dialog";
-import { parseIcsForBirthdays } from "@/helpers/calendar-import";
-import { exportBirthdays, parseImportedBirthdays } from "@/helpers/import-export";
-import { useCurrentDate } from "@/hooks/use-current-date";
+import { parseIcsForBirthdays } from "@/helpers";
+import { exportBirthdays, parseImportedBirthdays } from "@/helpers";
+import { useCurrentDate } from "@/hooks";
 import { db } from "@/lib/db";
 import type { Birthday } from "@/types/birthday";
 import { useDayBookStore } from "@/store/day-book-store";

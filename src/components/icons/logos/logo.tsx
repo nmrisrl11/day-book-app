@@ -1,4 +1,4 @@
-import { APP_INFO } from "@/constants/app-info";
+import { APP_INFO } from "@/constants";
 import { cn } from "@/lib/utils";
 import React from "react";
 

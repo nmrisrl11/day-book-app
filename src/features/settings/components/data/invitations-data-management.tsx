@@ -1,7 +1,7 @@
 import { InfoTooltip } from "@/components/info-tooltip";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { exportInvitations, parseImportedInvitations } from "@/helpers/import-export";
+import { exportInvitations, parseImportedInvitations } from "@/helpers";
 import type { InvitationRecord } from "@/lib/db";
 import { InvitationRepository } from "@/lib/invitation-repository";
 import { gooeyToast } from "goey-toast";

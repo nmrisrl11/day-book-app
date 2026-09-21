@@ -1,4 +1,4 @@
-import { APP_INFO } from "@/constants/app-info";
+import { APP_INFO } from "@/constants";
 import { gooeyToast } from "goey-toast";
 import { useEffect } from "react";
 import { useRegisterSW } from "virtual:pwa-register/react";

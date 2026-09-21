@@ -8,14 +8,10 @@ import {
 	DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { sanitizeBirthdaysForMeConstraint } from "@/helpers/birthday-utils";
-import {
-	parseImportedBirthdays,
-	parseImportedInvitations,
-	parseImportedSettings,
-} from "@/helpers/import-export";
-import { useCurrentDate } from "@/hooks/use-current-date";
-import { useP2PSync } from "@/hooks/use-p2p-sync";
+import { sanitizeBirthdaysForMeConstraint } from "@/helpers";
+import { parseImportedBirthdays, parseImportedInvitations, parseImportedSettings } from "@/helpers";
+import { useCurrentDate } from "@/hooks";
+import { useP2PSync } from "@/hooks";
 import { BirthdayRepository } from "@/lib/birthday-repository";
 import { db } from "@/lib/db";
 import { InvitationRepository } from "@/lib/invitation-repository";

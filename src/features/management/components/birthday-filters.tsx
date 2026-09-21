@@ -8,7 +8,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import { FULL_MONTHS } from "@/constants/months";
+import { FULL_MONTHS } from "@/constants";
 import { RELATIONSHIP_OPTIONS } from "@/types/birthday";
 import { FilterXIcon, SearchIcon } from "lucide-react";
 import { MONTH_OPTIONS, SORT_OPTIONS } from "../hooks/use-birthday-management";

@@ -1,6 +1,6 @@
 import { PartyHat } from "@/components/icons/party-hat";
 import { Button } from "@/components/ui/button";
-import { formatAgeDisplay, formatBirthdayDisplay } from "@/helpers/birthday-utils";
+import { formatAgeDisplay, formatBirthdayDisplay } from "@/helpers";
 import { cn } from "@/lib/utils";
 import type { Birthday } from "@/types/birthday";
 import type { VirtualItem as TanstackVirtualItem } from "@tanstack/react-virtual";

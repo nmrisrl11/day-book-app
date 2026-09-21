@@ -1,4 +1,4 @@
-import { useCurrentDate } from "@/hooks/use-current-date";
+import { useCurrentDate } from "@/hooks";
 import { parseAsInteger, parseAsString, parseAsStringLiteral, useQueryState } from "nuqs";
 import { useEffect, useMemo, useRef, useState } from "react";
 

@@ -1,4 +1,4 @@
-import { APP_INFO } from "@/constants/app-info";
+import { APP_INFO } from "@/constants";
 import { cn } from "@/lib/utils";
 import { useDayBookStore } from "@/store/day-book-store";
 import { play } from "cuelume";

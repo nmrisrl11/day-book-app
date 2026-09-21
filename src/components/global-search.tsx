@@ -6,7 +6,7 @@ import {
 	CommandItem,
 	CommandList,
 } from "@/components/ui/command";
-import { useBirthdayData } from "@/hooks/use-birthday-data";
+import { useBirthdayData } from "@/hooks";
 import { useSearchStore } from "@/store/search-store";
 import {
 	BellIcon,
